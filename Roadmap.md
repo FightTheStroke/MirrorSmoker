@@ -1,68 +1,68 @@
 # Roadmap
 
-Questo documento traccia il piano per implementare e iterare su Mirror Smoker.
+This document outlines the plan to implement and iterate on Mirror Smoker.
 
 ## Milestone 1 — Foundations
 - [x] SwiftData models: Cigarette, Tag, UserProfile, Product
 - [x] CloudKit SwiftData configuration
-- [x] Tagging UI (TagPicker) con create/select e palette colori
-- [x] Mostra i tag nella lista di oggi come chip colorati
-- [x] Swipe right (leading) su una riga per aggiungere/modificare tag
-- [x] Eliminazione entry con swipe left (trailing)
-- [x] Realtime sync (iOS ↔︎ watchOS) per add/delete e tag upsert via ConnectivityManager
+- [x] Tagging UI (TagPicker) with create/select and color palette
+- [x] Show tags in today’s list as colored chips
+- [x] Swipe right (leading) on a row to add/edit tags
+- [x] Delete entry with swipe left (trailing)
+- [x] Realtime sync (iOS ↔︎ watchOS) for add/delete and tag upsert via ConnectivityManager
 - [x] Advanced Analytics (weekday/hour/tag)
-- [x] Localizzazione EN/IT (chiavi iniziali; da espandere)
+- [x] Localization EN/IT (initial keys; to expand)
 - [x] App Intents (AddCigaretteIntent)
-- [x] Widget (conteggio odierno + pulsante aggiungi)
+- [x] Widget (today’s count + add button)
 - [x] Watch app target (wire existing WatchContentView)
 
-Note:
-- Sincronizzazione tag: ConnectivityManager esegue upsert all’arrivo di CigaretteDTO, risolvendo/creando tag per nome e assegnando le relazioni.
-- La creazione di Tag persiste immediatamente via SwiftData ed è riflessa da @Query in ContentView.
-- WidgetStore gestisce snapshot (today count + last time) e inbox per quick add.
+Notes:
+- Tag synchronization: ConnectivityManager performs upsert when a CigaretteDTO arrives, resolving/creating tags by name and assigning relationships.
+- Tag creation is immediately persisted via SwiftData and reflected by @Query in ContentView.
+- WidgetStore manages snapshots (today count + last time) and an inbox for quick add.
 
-Open tasks residui su M1:
-- [ ] Espandere localizzazione per nuove stringhe UI (TagPicker: “Create New Tag”, “Select Tags”, “Add Tag”, “Cancel”, “Done”; AdvancedAnalytics; WatchContentView)
-- [ ] Verifica end-to-end della sync bidirezionale con tag su device reali (iOS ↔︎ watchOS)
+Remaining open tasks for M1:
+- [ ] Expand localization for new UI strings (TagPicker: “Create New Tag”, “Select Tags”, “Add Tag”, “Cancel”, “Done”; AdvancedAnalytics; WatchContentView)
+- [ ] End-to-end verification of bidirectional sync with tags on real devices (iOS ↔︎ watchOS)
 
 ## Milestone 2 — Profile & Catalog
 - [ ] ProfileView (birthdate, sex, preferred products)
-- [ ] ProductPicker con dataset curato; elementi custom
-- [ ] Asset immagini per prodotti comuni
-- [ ] Sign in with Apple (binding profilo)
+- [ ] ProductPicker with curated dataset; custom items
+- [ ] Image assets for common products
+- [ ] Sign in with Apple (profile binding)
 
 ## Milestone 3 — Siri & Shortcuts Enhancements
-- [ ] Frasi più naturali (EN/IT) e parametri per tag
-- [ ] Shortcut donations su azioni chiave
-- [ ] Intent per aggiunta rapida con tag multipli e nota
+- [ ] More natural phrases (EN/IT) and parameters for tags
+- [ ] Shortcut donations on key actions
+- [ ] Intent for quick add with multiple tags and a note
 
 ## Milestone 4 — Gamification & Insights
-- [ ] Motivation Engine: dataset iniziale (messaggi/scenari)
-- [ ] Motivation Engine: logica base di selezione messaggi
-- [ ] Streaks, trend, obiettivi di riduzione
-- [ ] Raccomandazioni e reminder basati sui tag
+- [ ] Motivation Engine: initial dataset (messages/scenarios)
+- [ ] Motivation Engine: basic message selection logic
+- [ ] Streaks, trends, reduction goals
+- [ ] Recommendations and reminders based on tags
 
 ## Milestone 5 — Widget & Watch Improvements
-- [ ] Widget: parametri/azioni con tag dal widget
-- [ ] Widget: ottimizzazioni snapshot/timeline su cambi dati
-- [ ] watchOS: complication (facoltativo)
-- [ ] watchOS: quick stats e micro-interazioni aggiuntive
+- [ ] Widget: parameters/actions with tags from the widget
+- [ ] Widget: snapshot/timeline optimizations on data changes
+- [ ] watchOS: complication (optional)
+- [ ] watchOS: quick stats and additional micro-interactions
 
 ## Milestone 6 — Polish & QA
-- [ ] Accessibility pass (VoiceOver, Dynamic Type, colori)
-- [ ] Performance tuning (query, rendering liste, Charts)
-- [ ] Test (Swift Testing): unit e UI smoke tests
-- [ ] Store metadata (se distribuzione prevista)
+- [ ] Accessibility pass (VoiceOver, Dynamic Type, colors)
+- [ ] Performance tuning (queries, list rendering, Charts)
+- [ ] Tests (Swift Testing): unit and UI smoke tests
+- [ ] Store metadata (if distribution is planned)
 
-## Test & Quality (trasversale)
-- [ ] Test ConnectivityManager: upsert/merge con tag (Swift Testing)
-- [ ] Test WidgetStore: snapshot/inbox e round-trip con ContentView
-- [ ] Test TagPicker: creazione tag, selezione/deselezione, persistenza
-- [ ] Test AdvancedAnalytics: aggregazioni orarie/settimanali/tag
+## Tests & Quality (cross-cutting)
+- [ ] Test ConnectivityManager: upsert/merge with tags (Swift Testing)
+- [ ] Test WidgetStore: snapshot/inbox and round-trip with ContentView
+- [ ] Test TagPicker: create/select/deselect, persistence
+- [ ] Test AdvancedAnalytics: hourly/weekly/tag aggregations
 
 Open Tasks / Next Steps
-- [ ] Verificare la sincronizzazione realtime bidirezionale inclusi i tag su iOS e watchOS (device fisici)
-- [ ] Espandere le chiavi di localizzazione per le nuove stringhe UI (es. “Aggiungi tag”, “Select Tags”, “Create New Tag”, “Advanced Analytics”, Watch strings)
-- [ ] Aggiungere test per la logica di upsert/merge di ConnectivityManager con tag usando Swift Testing
-- [ ] Valutare complication su watchOS e intent/widget con parametri tag
-- [ ] Pianificare Sign in with Apple e binding profilo (Milestone 2)
+- [ ] Verify real-time bidirectional sync including tags on iOS and watchOS (physical devices)
+- [ ] Expand localization keys for new UI strings (e.g., “Add Tag”, “Select Tags”, “Create New Tag”, “Advanced Analytics”, Watch strings)
+- [ ] Add tests for ConnectivityManager upsert/merge logic with tags using Swift Testing
+- [ ] Evaluate watchOS complication and intent/widget with tag parameters
+- [ ] Plan Sign in with Apple and profile binding (Milestone 2)

@@ -1,16 +1,24 @@
 //
 //  MirrorSmokerTests.swift
-//  Mirror Smoker Tests
+//  MirrorSmokerTests
 //
-//  Created by Roberto D’Angelo on 31/08/25.
+//  Created by Roberto D'Angelo on 27/08/24.
 //
 
-import Testing
+import XCTest
 
-struct MirrorSmokerTests {
-
-    @Test func example() async throws {
-        // Write your test here and use APIs like `#expect(...)` to check expected conditions.
+final class MirrorSmokerTests: XCTestCase {
+    
+    override func setUpWithError() throws {
+        // No setup needed for now
     }
-
+    
+    override func tearDownWithError() throws {
+        // No teardown needed for now
+    }
+    
+    func testExample() throws {
+        // Simple test to verify the test framework works
+        XCTAssertTrue(true)
+    }
 }

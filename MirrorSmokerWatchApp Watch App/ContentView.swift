@@ -31,7 +31,8 @@ struct ContentView: View {
     }()
     
     var body: some View {
-        WatchContentView()  // This needs to be updated if we rename the file
+        // Use the Watch App's own WatchContentView
+        WatchContentView()
             .modelContainer(Self.sharedModelContainer)
             .task {
                 ConnectivityManager.shared.activate()

@@ -2,15 +2,11 @@
 //  WatchContentView.swift
 //  MirrorSmokerWatchApp Watch App
 //
-//  Created by Roberto D'Angelo on 31/08/25.
+//  Created by Roberto D’Angelo on 31/08/25.
 //
 
 import SwiftUI
 import SwiftData
-
-#if canImport(WatchKit)
-import WatchKit
-#endif
 
 struct WatchContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -46,9 +42,7 @@ struct WatchContentView: View {
                 .buttonStyle(.plain)
                 .background(Circle().fill(Color.red.opacity(0.2)).frame(width: 60, height: 60))
             }
-            .containerBackground(for: .tabView) {
-                Color.black
-            }
+            .background(Color.black)
             
             // Tab statistiche rapide
             VStack(spacing: 8) {
@@ -79,9 +73,7 @@ struct WatchContentView: View {
                 }
                 .font(.caption)
             }
-            .containerBackground(for: .tabView) {
-                Color.black
-            }
+            .background(Color.black)
             
             // Tab lista sigarette di oggi
             ScrollView {
@@ -117,16 +109,11 @@ struct WatchContentView: View {
                 }
                 .padding(.horizontal)
             }
-            .containerBackground(for: .tabView) {
-                Color.black
-            }
+            .background(Color.black)
         }
-        .tabViewStyle(.verticalPage)
+        .tabViewStyle(.page) // Use .page instead of .verticalPage for watchOS
         .task {
-            // Note: ConnectivityManager would need to be available in the Watch App target
-            // For now, we'll comment this out
-            // ConnectivityManager.shared.configure(modelContext: modelContext)
-            // ConnectivityManager.shared.sendTodaySnapshot(from: cigarettes)
+            // Removed ConnectivityManager calls for Watch App version
         }
     }
     
@@ -168,10 +155,8 @@ struct WatchContentView: View {
         modelContext.insert(newCigarette)
         try? modelContext.save()
         
-        // Feedback aptico per watchOS (solo se disponibile)
-        #if canImport(WatchKit)
-        WKInterfaceDevice.current().play(.click)
-        #endif
+        // Removed ConnectivityManager calls for Watch App version
+        // Removed WKInterfaceDevice call since WatchKit is not available
     }
 }
 

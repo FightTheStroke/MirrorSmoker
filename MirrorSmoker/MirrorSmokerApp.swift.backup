@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct MirrorSmokerApp: App {
-    // ModelContainer condiviso
+    // ModelContainer condiviso (CloudKit abilitato)
     private static let sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Cigarette.self,
@@ -18,26 +18,15 @@ struct MirrorSmokerApp: App {
             UserProfile.self,
             Product.self
         ])
-        
-        // Use a named configuration for persistent storage without CloudKit
-        // Using a new store name to avoid conflicts with existing corrupted store
         let configuration = ModelConfiguration(
             schema: schema,
-            storeName: "MirrorSmokerStore_v2",
-            isStoredInMemoryOnly: false
+            isStoredInMemoryOnly: false,
+            cloudKitDatabase: .automatic
         )
-        
         do {
             return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
-            print("Failed to create ModelContainer: \(error)")
-            // Fallback to in-memory container
-            let fallbackConfig = ModelConfiguration(isStoredInMemoryOnly: true)
-            do {
-                return try ModelContainer(for: schema, configurations: [fallbackConfig])
-            } catch {
-                fatalError("Could not create fallback ModelContainer: \(error)")
-            }
+            fatalError("Could not create ModelContainer: \(error)")
         }
     }()
     

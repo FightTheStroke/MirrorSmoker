@@ -117,6 +117,20 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A9330D9E2E64DE2D006B3231 /* Exceptions for "MirrorSmoker" folder in "MirrorSmoker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A966D91A2E64784D00911CEE /* MirrorSmoker */;
+		};
+		A9330DA02E64DE41006B3231 /* Exceptions for "MirrorSmokerWatchApp Watch App" folder in "MirrorSmokerWatchApp Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"MirrorSmokerWatchApp-Watch-App-Info.plist",
+			);
+			target = A9FAF6BC2E64A8A5000D17C0 /* MirrorSmokerWatchApp Watch App */;
+		};
 		A9C848D22E64B5D100BD744F /* Exceptions for "MirrorSmoker" folder in "MirrorSmokerWatchApp Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -127,7 +141,6 @@
 				"Models/Tag+Extensions.swift",
 				Models/UserProfile.swift,
 				Views/Common/ConnectivityManager.swift,
-				Views/Common/WatchContentView.swift,
 			);
 			target = A9FAF6BC2E64A8A5000D17C0 /* MirrorSmokerWatchApp Watch App */;
 		};
@@ -153,6 +166,7 @@
 		A966D91D2E64784D00911CEE /* MirrorSmoker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				A9330D9E2E64DE2D006B3231 /* Exceptions for "MirrorSmoker" folder in "MirrorSmoker" target */,
 				A9C848D22E64B5D100BD744F /* Exceptions for "MirrorSmoker" folder in "MirrorSmokerWatchApp Watch App" target */,
 				A9C84AA02E64BCB200BD744F /* Exceptions for "MirrorSmoker" folder in "mirrorsmokerwidgetExtension" target */,
 			);
@@ -179,6 +193,9 @@
 		};
 		A9FAF6BE2E64A8A5000D17C0 /* MirrorSmokerWatchApp Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A9330DA02E64DE41006B3231 /* Exceptions for "MirrorSmokerWatchApp Watch App" folder in "MirrorSmokerWatchApp Watch App" target */,
+			);
 			path = "MirrorSmokerWatchApp Watch App";
 			sourceTree = "<group>";
 		};
@@ -805,6 +822,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MirrorSmoker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Mirror Smoker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -853,6 +871,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MirrorSmoker/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Mirror Smoker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -994,7 +1013,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = mirrorsmokerwidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = mirrorsmokerwidget/mirrorsmokerwidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
@@ -1027,7 +1046,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = mirrorsmokerwidgetExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = mirrorsmokerwidget/mirrorsmokerwidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
@@ -1067,6 +1086,7 @@
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MirrorSmokerWatchApp-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerWatchApp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
@@ -1102,6 +1122,7 @@
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MirrorSmokerWatchApp-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerWatchApp;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";

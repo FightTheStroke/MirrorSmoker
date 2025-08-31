@@ -4,6 +4,8 @@
 //
 //  Created by Roberto D'Angelo on 31/08/25.
 //
+//  Renamed from WatchContentView.swift to resolve naming conflict with Watch App target.
+//
 
 import SwiftUI
 import SwiftData
@@ -124,8 +126,7 @@ struct WatchMainContentView: View {
         }
         .tabViewStyle(.verticalPage)
         .task {
-            ConnectivityManager.shared.configure(modelContext: modelContext)
-            ConnectivityManager.shared.sendTodaySnapshot(from: cigarettes)
+            // Removed ConnectivityManager calls for iOS app version
         }
     }
     
@@ -167,9 +168,7 @@ struct WatchMainContentView: View {
         modelContext.insert(newCigarette)
         try? modelContext.save()
         
-        // Invio evento realtime all’iPhone
-        let dto = CigaretteDTO(from: newCigarette)
-        ConnectivityManager.shared.sendAddCigarette(dto)
+        // Removed ConnectivityManager calls for iOS app version
         
         // Feedback aptico per watchOS (solo se disponibile)
         #if canImport(WatchKit)

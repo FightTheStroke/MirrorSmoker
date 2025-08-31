@@ -103,7 +103,7 @@ struct DayDetailView: View {
                     LazyVStack(spacing: 8) {
                         ForEach(sortedCigarettes) { cigarette in
                             HStack {
-                                Image(systemName: "smoke")
+                                Image(systemName: "lungs.fill")
                                     .foregroundColor(.red)
                                 
                                 VStack(alignment: .leading, spacing: 2) {

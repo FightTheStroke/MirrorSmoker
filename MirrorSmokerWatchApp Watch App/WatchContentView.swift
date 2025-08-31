@@ -1,6 +1,6 @@
 //
 //  WatchContentView.swift
-//  Mirror Smoker
+//  MirrorSmokerWatchApp Watch App
 //
 //  Created by Roberto D'Angelo on 31/08/25.
 //
@@ -8,7 +8,10 @@
 import SwiftUI
 import SwiftData
 
-#if os(watchOS)
+#if canImport(WatchKit)
+import WatchKit
+#endif
+
 struct WatchContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Cigarette.timestamp, order: .reverse) private var cigarettes: [Cigarette]
@@ -99,7 +102,7 @@ struct WatchContentView: View {
                     } else {
                         ForEach(todayCigarettes.prefix(10)) { cigarette in
                             HStack {
-                                Image(systemName: "smoke")
+                                Image(systemName: "lungs.fill")
                                     .foregroundColor(.red)
                                     .font(.caption)
                                 
@@ -119,6 +122,12 @@ struct WatchContentView: View {
             }
         }
         .tabViewStyle(.verticalPage)
+        .task {
+            // Note: ConnectivityManager would need to be available in the Watch App target
+            // For now, we'll comment this out
+            // ConnectivityManager.shared.configure(modelContext: modelContext)
+            // ConnectivityManager.shared.sendTodaySnapshot(from: cigarettes)
+        }
     }
     
     private var yesterdayCount: Int {
@@ -154,13 +163,15 @@ struct WatchContentView: View {
     }
     
     private func addCigarette() {
-        withAnimation {
-            let newCigarette = Cigarette()
-            modelContext.insert(newCigarette)
-        }
+        let newCigarette = Cigarette()
+        newCigarette.id = UUID()
+        modelContext.insert(newCigarette)
+        try? modelContext.save()
         
-        // Feedback aptico per watchOS
+        // Feedback aptico per watchOS (solo se disponibile)
+        #if canImport(WatchKit)
         WKInterfaceDevice.current().play(.click)
+        #endif
     }
 }
 
@@ -168,4 +179,3 @@ struct WatchContentView: View {
     WatchContentView()
         .modelContainer(for: Cigarette.self, inMemory: true)
 }
-#endif

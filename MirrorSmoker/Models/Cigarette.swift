@@ -2,35 +2,23 @@
 //  Cigarette.swift
 //  Mirror Smoker
 //
-//  Created by Roberto D'Angelo on 31/08/25.
+//  Created by Roberto D'Angelo on 27/08/24.
 //
 
 import Foundation
 import SwiftData
 
 @Model
-final class Cigarette: Identifiable {
-    var id: UUID = UUID()
+final class Cigarette {
+    @Attribute(.unique) var id: UUID
     var timestamp: Date
     var note: String
-    
-    // Many-to-many relationship with Tag
     var tags: [Tag]
     
-    // Optional relationship with Product
-    var product: Product?
-    
-    // Custom convenience init
-    init(timestamp: Date = Date(), note: String = "", tags: [Tag] = [], product: Product? = nil) {
-        self.id = UUID()
+    init(id: UUID = UUID(), timestamp: Date = Date(), note: String = "", tags: [Tag] = []) {
+        self.id = id
         self.timestamp = timestamp
         self.note = note
         self.tags = tags
-        self.product = product
-    }
-    
-    // Computed property per ottenere solo la data (senza orario)
-    var dayOnly: Date {
-        Calendar.current.startOfDay(for: timestamp)
     }
 }

@@ -1,9 +1,13 @@
-// Color+Hex.swift
+//
+//  Hex.swift
+//  Mirror Smoker
+//
+//  Created by Roberto D'Angelo on 27/08/24.
+//
+
 import SwiftUI
 
 extension Color {
-    // Non-conflicting helper to parse a hex string into a Color.
-    // Prefer using Color.init(hex:) from ColorExtensions.swift where available.
     static func fromHex(_ hex: String) -> Color? {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0
@@ -19,12 +23,12 @@ extension Color {
         default:
             return nil
         }
-
+        
         return Color(
             .sRGB,
             red: Double(r) / 255,
             green: Double(g) / 255,
-            blue:  Double(b) / 255,
+            blue: Double(b) / 255,
             opacity: Double(a) / 255
         )
     }

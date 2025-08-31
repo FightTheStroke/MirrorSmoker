@@ -9,10 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct TodayCigarettesList: View {
-    // Add the required parameters
-    let todayCigarettes: [Cigarette] = []
-    let onDelete: (Cigarette) -> Void = { _ in }
-    let onAddTags: (Cigarette) -> Void = { _ in }
+    // Make parameters optional with default values
+    var todayCigarettes: [Cigarette] = []
+    var onDelete: (Cigarette) -> Void = { _ in }
+    var onAddTags: (Cigarette) -> Void = { _ in }
     
     var body: some View {
         VStack(spacing: 16) {

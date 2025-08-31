@@ -1,6 +1,6 @@
 # Mirror Smoker
 
-A privacy-first, super simple, open-source cigarette tracking app for iOS and watchOS built with SwiftUI and SwiftData, aimining to help people reduce their cigarette consumption, ane eventually quit smoking. It supports iCloud sync, widgets, Siri/App Shortcuts, tagging, and advanced analytics to help you understand patterns and reduce consumption.
+A privacy-first, super simple, open-source cigarette tracking app for iOS and watchOS built with SwiftUI and SwiftData, aiming to help people reduce their cigarette consumption, and eventually quit smoking. It supports iCloud sync, widgets, Siri/App Shortcuts, tagging, and advanced analytics to help you understand patterns and reduce consumption.
 
 - iOS 17+ and watchOS 10+
 - SwiftUI + SwiftData (CloudKit)
@@ -48,4 +48,3 @@ Please see CONTRIBUTING.md and CODE_OF_CONDUCT.md. We welcome issues and PRs.
 ## License
 
 MIT © www.fightthestroke.org — contact: roberdan@fightthestroke.org
-

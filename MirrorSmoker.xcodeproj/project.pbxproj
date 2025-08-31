@@ -127,7 +127,6 @@
 				"Models/Tag+Extensions.swift",
 				Models/UserProfile.swift,
 				Views/Common/ConnectivityManager.swift,
-				Views/Common/WatchContentView.swift,
 			);
 			target = A9FAF6BC2E64A8A5000D17C0 /* MirrorSmokerWatchApp Watch App */;
 		};

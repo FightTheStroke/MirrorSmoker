@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DailyStatsHeader: View {
-    // Add the required parameters with default values
+    // Make parameters optional with default values
     var todayCount: Int = 0
     var onQuickAdd: () -> Void = {}
     var onAddWithTags: () -> Void = {}

@@ -30,9 +30,16 @@ struct ContentView: View {
                             onAddTags: { _ in }
                         )
                         
-                        HistorySection()
+                        HistorySection(
+                            dailyStats: [],
+                            cigarettes: []
+                        )
                         
-                        QuickStatsFooter()
+                        QuickStatsFooter(
+                            weeklyCount: 0,
+                            monthlyCount: 0,
+                            allTimeCount: 0
+                        )
                     }
                     .padding(.horizontal)
                 }
@@ -54,7 +61,7 @@ struct ContentView: View {
             
             // Tab statistiche avanzate
             NavigationView {
-                StatisticsView()
+                StatisticsView(cigarettes: [])
                     .navigationTitle("Statistics")
             }
             .tabItem {

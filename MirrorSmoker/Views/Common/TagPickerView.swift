@@ -2,100 +2,62 @@
 //  TagPickerView.swift
 //  Mirror Smoker
 //
-//  Created by Roberto D'Angelo on 31/08/25.
+//  Created by Roberto D'Angelo on 27/08/24.
 //
 
 import SwiftUI
 import SwiftData
 
 struct TagPickerView: View {
-    @Binding var selected: Set<Tag.ID>
-    let existingTags: [Tag]
-    let onConfirm: ([Tag]) -> Void
-    
-    @Environment(\.dismiss) private var dismiss
+    @Binding var selectedTags: [Tag]
     @Environment(\.modelContext) private var modelContext
-    @State private var newTagName = ""
-    @State private var newTagColor = "#FF0000"
+    @Query private var allTags: [Tag]
     
-    private let colors = [
-        "#FF0000", "#FF6B00", "#FFD700", "#32CD32",
-        "#00CED1", "#1E90FF", "#9370DB", "#FF69B4"
-    ]
+    @State private var showingCreateTag = false
+    @State private var newTagName = ""
+    @State private var newTagColor = "#007AFF"
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                // Create new tag section
-                VStack(spacing: 12) {
-                    Text("Create New Tag")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    HStack(spacing: 12) {
-                        TextField("Tag name", text: $newTagName)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
+            VStack {
+                if allTags.isEmpty {
+                    VStack(spacing: 16) {
+                        Image(systemName: "tag")
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
                         
-                        // Anteprima del colore scelto dalla palette
-                        Circle()
-                            .fill(Color(hex: newTagColor) ?? .red)
-                            .frame(width: 28, height: 28)
-                            .overlay(
-                                Circle().stroke(Color.primary.opacity(0.2), lineWidth: 1)
-                            )
-                            .accessibilityLabel("Selected color")
+                        Text("No tags yet")
+                            .font(.headline)
+                        
+                        Text("Create your first tag to categorize your cigarettes")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.center)
                     }
-                    
-                    // Color palette
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 8), spacing: 8) {
-                        ForEach(colors, id: \.self) { colorHex in
-                            Circle()
-                                .fill(Color(hex: colorHex) ?? .red)
-                                .frame(width: 30, height: 30)
-                                .overlay(
-                                    Circle()
-                                        .stroke(newTagColor == colorHex ? Color.primary : Color.clear, lineWidth: 2)
-                                )
-                                .onTapGesture {
-                                    newTagColor = colorHex
-                                }
-                                .accessibilityLabel(colorHex)
-                        }
-                    }
-                    
-                    Button("Add Tag") {
-                        addNewTag()
-                    }
-                    .buttonStyle(.borderedProminent)
-                    .disabled(newTagName.isEmpty)
-                }
-                .padding()
-                .background(Color(.systemGray6))
-                
-                // Existing tags selection
-                List {
-                    Section("Select Tags") {
-                        ForEach(existingTags) { tag in
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                } else {
+                    List {
+                        ForEach(allTags) { tag in
                             HStack {
                                 Circle()
-                                    .fill(tag.swiftUIColor)
-                                    .frame(width: 20, height: 20)
+                                    .fill(tag.color)
+                                    .frame(width: 12, height: 12)
                                 
                                 Text(tag.name)
                                 
                                 Spacer()
                                 
-                                if selected.contains(tag.id) {
-                                    Image(systemName: "checkmark.circle.fill")
+                                if selectedTags.contains(where: { $0.id == tag.id }) {
+                                    Image(systemName: "checkmark")
                                         .foregroundColor(.blue)
                                 }
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                if selected.contains(tag.id) {
-                                    selected.remove(tag.id)
+                                if let index = selectedTags.firstIndex(where: { $0.id == tag.id }) {
+                                    selectedTags.remove(at: index)
                                 } else {
-                                    selected.insert(tag.id)
+                                    selectedTags.append(tag)
                                 }
                             }
                         }
@@ -103,46 +65,98 @@ struct TagPickerView: View {
                 }
             }
             .navigationTitle("Select Tags")
-            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
-                        dismiss()
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        // Dismiss the view
                     }
                 }
                 
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
-                        let chosenTags = existingTags.filter { selected.contains($0.id) }
-                        onConfirm(chosenTags)
-                        dismiss()
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Create") {
+                        showingCreateTag = true
                     }
+                }
+            }
+            .sheet(isPresented: $showingCreateTag) {
+                CreateTagView(
+                    tagName: $newTagName,
+                    tagColor: $newTagColor,
+                    isPresented: $showingCreateTag,
+                    onSave: saveNewTag
+                )
+            }
+            .onAppear {
+                // Create sample tags if none exist
+                if allTags.isEmpty {
+                    createSampleTags()
                 }
             }
         }
     }
     
-    private func addNewTag() {
-        guard !newTagName.isEmpty else { return }
-        // Crea e salva nel ModelContext; @Query in ContentView aggiornerà allTags automaticamente
-        let newTag = Tag(name: newTagName, color: newTagColor)
+    private func saveNewTag() {
+        let newTag = Tag(name: newTagName, colorHex: newTagColor)
         modelContext.insert(newTag)
         try? modelContext.save()
-        // Seleziona automaticamente il nuovo tag
-        selected.insert(newTag.id)
+        
         // Reset form
         newTagName = ""
-        newTagColor = "#FF0000"
+        newTagColor = "#007AFF"
+    }
+    
+    private func createSampleTags() {
+        let sampleTags = [
+            Tag(name: "Work", colorHex: "#FF0000"),
+            Tag(name: "Social", colorHex: "#00FF00")
+        ]
+        
+        for tag in sampleTags {
+            modelContext.insert(tag)
+        }
+        
+        try? modelContext.save()
+    }
+}
+
+struct CreateTagView: View {
+    @Binding var tagName: String
+    @Binding var tagColor: String
+    @Binding var isPresented: Bool
+    var onSave: () -> Void
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section(header: Text("Tag Details")) {
+                    TextField("Tag Name", text: $tagName)
+                    
+                    ColorPicker("Color", selection: .init(
+                        get: { Color.fromHex(tagColor) ?? .blue },
+                        set: { tagColor = $0.toHex() }
+                    ))
+                }
+            }
+            .navigationTitle("Create Tag")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        isPresented = false
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        onSave()
+                        isPresented = false
+                    }
+                    .disabled(tagName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    TagPickerView(
-        selected: .constant([]),
-        existingTags: [
-            Tag(name: "Work", color: "#FF0000"),
-            Tag(name: "Social", color: "#00FF00")
-        ],
-        onConfirm: { _ in }
-    )
+    TagPickerView(selectedTags: .constant([]))
 }

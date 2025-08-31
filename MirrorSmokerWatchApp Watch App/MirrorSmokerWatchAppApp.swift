@@ -11,7 +11,8 @@ import SwiftUI
 struct MirrorSmokerWatchApp_Watch_AppApp: App {
     var body: some Scene {
         WindowGroup {
-            WatchContentView()  // This needs to be updated if we rename the file
+            // Use the Watch App's own WatchContentView
+            WatchContentView()
         }
     }
 }

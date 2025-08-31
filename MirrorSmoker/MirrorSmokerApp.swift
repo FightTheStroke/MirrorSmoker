@@ -10,9 +10,6 @@ import SwiftData
 
 @main
 struct MirrorSmokerApp: App {
-    // Remove the invalid AppDelegate attribute and UserManager
-    @State private var showSettings = false
-    
     // ModelContainer condiviso (CloudKit abilitato)
     private static let sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -36,10 +33,8 @@ struct MirrorSmokerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                // Remove environmentObject since UserManager doesn't exist
                 .modelContainer(Self.sharedModelContainer)
                 .onAppear {
-                    // FirebaseApp.configure() - Removed Firebase
                     WidgetStore.shared.configure(modelContext: Self.sharedModelContainer.mainContext)
                 }
                 .task {

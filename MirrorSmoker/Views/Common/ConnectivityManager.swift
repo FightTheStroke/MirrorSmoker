@@ -87,7 +87,8 @@ struct CigaretteDTO: Codable {
         self.id = cigarette.id
         self.timestamp = cigarette.timestamp
         self.note = cigarette.note
-        self.tagNames = cigarette.tags.map { $0.name }
+        // Safely unwrap optional tags and map to tag names
+        self.tagNames = cigarette.tags?.map { $0.name } ?? []
     }
     
     func toDictionary() -> [String: Any] {

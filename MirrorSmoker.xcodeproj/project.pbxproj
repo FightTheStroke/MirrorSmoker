@@ -124,13 +124,6 @@
 			);
 			target = A966D91A2E64784D00911CEE /* MirrorSmoker */;
 		};
-		A9330DA02E64DE41006B3231 /* Exceptions for "MirrorSmokerWatchApp Watch App" folder in "MirrorSmokerWatchApp Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"MirrorSmokerWatchApp-Watch-App-Info.plist",
-			);
-			target = A9FAF6BC2E64A8A5000D17C0 /* MirrorSmokerWatchApp Watch App */;
-		};
 		A9C848D22E64B5D100BD744F /* Exceptions for "MirrorSmoker" folder in "MirrorSmokerWatchApp Watch App" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -193,9 +186,6 @@
 		};
 		A9FAF6BE2E64A8A5000D17C0 /* MirrorSmokerWatchApp Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				A9330DA02E64DE41006B3231 /* Exceptions for "MirrorSmokerWatchApp Watch App" folder in "MirrorSmokerWatchApp Watch App" target */,
-			);
 			path = "MirrorSmokerWatchApp Watch App";
 			sourceTree = "<group>";
 		};

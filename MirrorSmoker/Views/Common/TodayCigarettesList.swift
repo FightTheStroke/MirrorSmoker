@@ -25,7 +25,7 @@ struct TodayCigarettesList: View {
             
             if todayCigarettes.isEmpty {
                 VStack(spacing: 8) {
-                    Image(systemName: "lungs.slash")
+                    Image(systemName: "lungs.fill")
                         .font(.largeTitle)
                         .foregroundColor(.secondary)
                     
@@ -47,9 +47,10 @@ struct TodayCigarettesList: View {
                             Text(cigarette.timestamp, format: .dateTime.hour().minute())
                                 .font(.subheadline)
                             
-                            if !cigarette.tags.isEmpty {
+                            // Safely unwrap optional tags
+                            if let tags = cigarette.tags, !tags.isEmpty {
                                 HStack {
-                                    ForEach(cigarette.tags.prefix(3)) { tag in
+                                    ForEach(tags.prefix(3)) { tag in
                                         Text(tag.name)
                                             .font(.caption2)
                                             .padding(.horizontal, 6)
@@ -59,8 +60,8 @@ struct TodayCigarettesList: View {
                                             .cornerRadius(4)
                                     }
                                     
-                                    if cigarette.tags.count > 3 {
-                                        Text("+\(cigarette.tags.count - 3)")
+                                    if tags.count > 3 {
+                                        Text("+\(tags.count - 3)")
                                             .font(.caption2)
                                             .padding(.horizontal, 6)
                                             .padding(.vertical, 2)

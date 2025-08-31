@@ -22,8 +22,7 @@ struct WeeklyChart: View {
                         // Barra
                         Rectangle()
                             .fill(count > 15 ? Color.red : count > 10 ? Color.orange : Color.green)
-                            .frame(height: max(CGFloat(count) * 8, 4))
-                            .frame(maxHeight: 120)
+                            .frame(height: max(min(CGFloat(count) * 8, 120), count > 0 ? 4 : 2))
                             .cornerRadius(2)
                         
                         // Giorno

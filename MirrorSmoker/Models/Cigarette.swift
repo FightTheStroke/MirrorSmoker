@@ -10,9 +10,9 @@ import SwiftData
 
 @Model
 final class Cigarette {
-    @Attribute(.unique) var id: UUID
-    var timestamp: Date
-    var note: String
+    var id: UUID = UUID()
+    var timestamp: Date = Date()
+    var note: String = ""
     var tags: [Tag]?
     
     init(id: UUID = UUID(), timestamp: Date = Date(), note: String = "", tags: [Tag]? = nil) {

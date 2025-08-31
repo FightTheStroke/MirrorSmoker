@@ -10,16 +10,16 @@ import SwiftData
 
 @Model
 final class UserProfile {
-    @Attribute(.unique) var id: UUID
-    var name: String
-    var email: String
-    var username: String
-    var dailyGoal: Int
-    var weeklyGoal: Int
-    var monthlyGoal: Int
-    var notificationsEnabled: Bool
-    var themePreference: String
-    var lastUpdated: Date
+    var id: UUID = UUID()
+    var name: String = ""
+    var email: String = ""
+    var username: String = ""
+    var dailyGoal: Int = 20
+    var weeklyGoal: Int = 140
+    var monthlyGoal: Int = 600
+    var notificationsEnabled: Bool = true
+    var themePreference: String = "light"
+    var lastUpdated: Date = Date()
     
     init(
         id: UUID = UUID(),

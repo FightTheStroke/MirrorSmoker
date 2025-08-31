@@ -120,8 +120,11 @@ struct AdvancedAnalyticsView: View {
         var tagCounts: [String: Int] = [:]
         
         for cigarette in cigarettes {
-            for tag in cigarette.tags {
-                tagCounts[tag.name, default: 0] += 1
+            // Safely unwrap optional tags
+            if let tags = cigarette.tags {
+                for tag in tags {
+                    tagCounts[tag.name, default: 0] += 1
+                }
             }
         }
         

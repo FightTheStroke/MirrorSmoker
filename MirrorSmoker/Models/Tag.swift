@@ -10,9 +10,9 @@ import SwiftData
 
 @Model
 final class Tag {
-    @Attribute(.unique) var id: UUID
-    var name: String
-    var colorHex: String
+    var id: UUID = UUID()
+    var name: String = ""
+    var colorHex: String = "#007AFF"
     var cigarettes: [Cigarette]?
     
     init(id: UUID = UUID(), name: String = "", colorHex: String = "#007AFF", cigarettes: [Cigarette]? = nil) {

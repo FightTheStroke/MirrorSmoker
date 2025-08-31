@@ -43,7 +43,8 @@ struct WeeklyStatsView: View {
     }
     
     private var maxDailyCount: Int {
-        weeklyData.flatMap { $0.daily }.max() ?? 1
+        let maxCount = weeklyData.flatMap { $0.daily }.max() ?? 0
+        return max(maxCount, 1) // Ensure it's never 0 to prevent division by zero
     }
     
     var body: some View {
@@ -113,7 +114,7 @@ struct WeeklyStatsView: View {
                                     VStack(spacing: 4) {
                                         Rectangle()
                                             .fill(barColor(for: count))
-                                            .frame(height: max(CGFloat(count) * 60.0 / CGFloat(maxDailyCount), count > 0 ? 4 : 2))
+                                            .frame(height: max(min(CGFloat(count) * 60.0 / CGFloat(maxDailyCount), 60), count > 0 ? 4 : 2))
                                             .cornerRadius(2)
                                         
                                         Text(dayDate, format: .dateTime.weekday(.abbreviated))

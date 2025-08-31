@@ -76,8 +76,7 @@ struct DayDetailView: View {
                                 VStack(spacing: 2) {
                                     Rectangle()
                                         .fill(count > 0 ? (count > 3 ? Color.red : count > 1 ? Color.orange : Color.blue) : Color.gray.opacity(0.3))
-                                        .frame(height: max(CGFloat(count) * 15, count > 0 ? 8 : 4))
-                                        .frame(maxHeight: 80)
+                                        .frame(height: max(min(CGFloat(count) * 15, 80), count > 0 ? 8 : 4))
                                         .cornerRadius(1)
                                     
                                     if hour % 4 == 0 {

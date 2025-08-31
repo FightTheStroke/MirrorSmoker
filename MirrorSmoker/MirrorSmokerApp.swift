@@ -19,12 +19,11 @@ struct MirrorSmokerApp: App {
             Product.self
         ])
         
-        // Use a named configuration for persistent storage without CloudKit
-        // Using a new store name to avoid conflicts with existing corrupted store
+        // Configuration for local storage only (no CloudKit)
         let configuration = ModelConfiguration(
             schema: schema,
-            storeName: "MirrorSmokerStore_v2",
-            isStoredInMemoryOnly: false
+            isStoredInMemoryOnly: false,
+            cloudKitDatabase: .none
         )
         
         do {
@@ -32,7 +31,11 @@ struct MirrorSmokerApp: App {
         } catch {
             print("Failed to create ModelContainer: \(error)")
             // Fallback to in-memory container
-            let fallbackConfig = ModelConfiguration(isStoredInMemoryOnly: true)
+            let fallbackConfig = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: true,
+                cloudKitDatabase: .none
+            )
             do {
                 return try ModelContainer(for: schema, configurations: [fallbackConfig])
             } catch {

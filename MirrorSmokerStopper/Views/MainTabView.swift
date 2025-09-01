@@ -1,26 +1,38 @@
 import SwiftUI
 
 struct MainTabView: View {
+    @State private var selectedTab = 0
+    
     var body: some View {
-        TabView {
-            ContentView()
-                .tabItem {
-                    Image(systemName: "house.fill")
-                    Text(NSLocalizedString("tab.home", comment: ""))
-                }
+        TabView(selection: $selectedTab) {
+            NavigationStack {
+                ContentView()
+                    .navigationBarHidden(true)
+            }
+            .tabItem {
+                Image(systemName: selectedTab == 0 ? "house.fill" : "house")
+                Text(NSLocalizedString("tab.home", comment: ""))
+            }
+            .tag(0)
             
-            EnhancedStatisticsView()
-                .tabItem {
-                    Image(systemName: "chart.bar.fill")
-                    Text(NSLocalizedString("tab.stats", comment: ""))
-                }
+            NavigationStack {
+                EnhancedStatisticsView()
+            }
+            .tabItem {
+                Image(systemName: selectedTab == 1 ? "chart.bar.fill" : "chart.bar")
+                Text(NSLocalizedString("tab.stats", comment: ""))
+            }
+            .tag(1)
             
-            SettingsView()
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text(NSLocalizedString("tab.settings", comment: ""))
-                }
+            NavigationStack {
+                SettingsView()
+            }
+            .tabItem {
+                Image(systemName: selectedTab == 2 ? "gear" : "gear")
+                Text(NSLocalizedString("tab.settings", comment: ""))
+            }
+            .tag(2)
         }
-        .accentColor(DS.Colors.primary)
+        .tint(DS.Colors.primary)
     }
 }

@@ -14,6 +14,7 @@ struct EnhancedStatisticsView: View {
     @Query private var allTags: [Tag]
     
     @State private var selectedTimeFrame: TimeFrame = .today
+    @State private var showingDetailedView = false
     
     enum TimeFrame: String, CaseIterable {
         case today, yesterday, thisWeek, lastWeek, thisMonth
@@ -32,19 +33,28 @@ struct EnhancedStatisticsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: DS.Space.lg) {
-                // Titolo grande coerente con Apple style
-                HStack {
-                    Text(NSLocalizedString("statistics.title", comment: ""))
-                        .font(DS.Text.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.top, 6)
-                    Spacer()
-                }
-
-                // Selettore periodo
+                // Header with insights
                 DSCard {
-                    VStack(spacing: DS.Space.sm) {
-                        DSSectionHeader(NSLocalizedString("statistics.analyze.period", comment: ""))
+                    VStack(spacing: DS.Space.lg) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                Text(NSLocalizedString("statistics.title", comment: ""))
+                                    .font(DS.Text.title2)
+                                    .fontWeight(.bold)
+                                
+                                Text(selectedTimeFrame.localizedDescription)
+                                    .font(DS.Text.caption)
+                                    .foregroundStyle(DS.Colors.textSecondary)
+                            }
+                            
+                            Spacer()
+                            
+                            if weeklyTrend != 0 {
+                                TrendIndicator(trend: weeklyTrend, label: NSLocalizedString("statistics.vs.last.week", comment: ""))
+                            }
+                        }
+                        
+                        // Time frame picker
                         Picker("Time Frame", selection: $selectedTimeFrame) {
                             ForEach(TimeFrame.allCases, id: \.self) { frame in
                                 Text(frame.localizedDescription).tag(frame)
@@ -54,55 +64,90 @@ struct EnhancedStatisticsView: View {
                     }
                 }
 
-                // Griglia statistiche rapide
+                // Key metrics with circular progress
                 DSCard {
-                    VStack(spacing: DS.Space.sm) {
-                        DSSectionHeader(NSLocalizedString("quick.stats", comment: ""))
-                        LazyVGrid(columns: [
-                            GridItem(.flexible()),
-                            GridItem(.flexible())
-                        ], spacing: DS.Space.md) {
-                            DSStatCard(
-                                title: NSLocalizedString("statistics.total", comment: ""),
-                                value: "\(filteredCigarettes.count)",
-                                subtitle: NSLocalizedString("cigarettes", comment: ""),
+                    VStack(spacing: DS.Space.lg) {
+                        DSSectionHeader(NSLocalizedString("statistics.overview.today", comment: ""))
+                        
+                        HStack(spacing: DS.Space.xl) {
+                            CircularProgressView(
+                                progress: todayProgress,
                                 color: DS.Colors.primary,
-                                icon: "chart.bar.fill"
+                                label: NSLocalizedString("statistics.progress.today", comment: ""),
+                                value: "\(todaysCount)"
                             )
                             
-                            DSStatCard(
-                                title: NSLocalizedString("statistics.average", comment: ""),
-                                value: String(format: "%.1f", averagePerPeriod),
-                                subtitle: averageUnit,
-                                color: DS.Colors.warning,
-                                icon: "chart.line.uptrend.xyaxis"
-                            )
-                            
-                            DSStatCard(
-                                title: NSLocalizedString("statistics.peak.hour", comment: ""),
-                                value: peakHour,
-                                subtitle: NSLocalizedString("statistics.most.active", comment: ""),
-                                color: DS.Colors.danger,
-                                icon: "clock.fill"
-                            )
-                            
-                            DSStatCard(
-                                title: NSLocalizedString("statistics.most.used.tag", comment: ""),
-                                value: mostUsedTag.isEmpty ? NSLocalizedString("statistics.none", comment: "") : mostUsedTag,
-                                subtitle: NSLocalizedString("statistics.category", comment: ""),
+                            CircularProgressView(
+                                progress: weekProgress,
                                 color: DS.Colors.success,
-                                icon: "tag.fill"
+                                label: NSLocalizedString("statistics.week.goal", comment: ""),
+                                value: "\(Int(weekProgress * 100))%"
+                            )
+                            
+                            CircularProgressView(
+                                progress: averageProgress,
+                                color: DS.Colors.warning,
+                                label: NSLocalizedString("statistics.vs.average", comment: ""),
+                                value: String(format: "%.0f%%", averageProgress * 100)
                             )
                         }
                     }
                 }
 
-                // Grafico settimanale, solo per vista settimanale
+                // Enhanced statistics grid
+                DSCard {
+                    VStack(spacing: DS.Space.lg) {
+                        DSSectionHeader(NSLocalizedString("quick.stats", comment: ""))
+                        
+                        LazyVGrid(columns: [
+                            GridItem(.flexible()),
+                            GridItem(.flexible())
+                        ], spacing: DS.Space.md) {
+                            DSHealthCard(
+                                title: NSLocalizedString("statistics.total", comment: ""),
+                                value: "\(filteredCigarettes.count)",
+                                subtitle: NSLocalizedString("cigarettes", comment: ""),
+                                icon: "chart.bar.fill",
+                                color: DS.Colors.primary,
+                                trend: getTrendForTotal()
+                            )
+                            
+                            DSHealthCard(
+                                title: NSLocalizedString("statistics.average", comment: ""),
+                                value: String(format: "%.1f", averagePerPeriod),
+                                subtitle: averageUnit,
+                                icon: "chart.line.uptrend.xyaxis",
+                                color: DS.Colors.warning,
+                                trend: getTrendForAverage()
+                            )
+                            
+                            DSHealthCard(
+                                title: NSLocalizedString("statistics.peak.hour", comment: ""),
+                                value: peakHour,
+                                subtitle: NSLocalizedString("statistics.most.active", comment: ""),
+                                icon: "clock.fill",
+                                color: DS.Colors.danger,
+                                trend: nil
+                            )
+                            
+                            DSHealthCard(
+                                title: NSLocalizedString("statistics.most.used.tag", comment: ""),
+                                value: mostUsedTag.isEmpty ? NSLocalizedString("statistics.none", comment: "") : mostUsedTag,
+                                subtitle: NSLocalizedString("statistics.category", comment: ""),
+                                icon: "tag.fill",
+                                color: DS.Colors.info,
+                                trend: nil
+                            )
+                        }
+                    }
+                }
+
+                // Enhanced weekly chart
                 if selectedTimeFrame == .thisWeek || selectedTimeFrame == .lastWeek {
                     DSCard {
-                        VStack(spacing: DS.Space.sm) {
+                        VStack(spacing: DS.Space.lg) {
                             DSSectionHeader(NSLocalizedString("weekly.chart.title", comment: ""))
-                            WeeklyChart(weeklyStats: weeklyChartData)
+                            EnhancedWeeklyChart(data: weeklyChartData)
                         }
                     }
                 }
@@ -301,6 +346,83 @@ struct EnhancedStatisticsView: View {
             cigarette.tags?.isEmpty == false
         }.count
     }
+    
+    // MARK: - New Progress Properties
+    
+    private var todaysCount: Int {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
+        
+        return cigarettes.filter { cigarette in
+            cigarette.timestamp >= today && cigarette.timestamp < tomorrow
+        }.count
+    }
+    
+    private var todayProgress: Double {
+        let count = Double(todaysCount)
+        let maxExpected = 20.0 // Adjust based on user profile or average
+        return min(1.0, count / maxExpected)
+    }
+    
+    private var weekProgress: Double {
+        let weeklyGoal = 50.0 // This should come from user settings
+        let currentWeekCount = Double(thisWeekCount)
+        return min(1.0, currentWeekCount / weeklyGoal)
+    }
+    
+    private var thisWeekCount: Int {
+        let calendar = Calendar.current
+        let now = Date()
+        let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: now)?.start ?? now
+        let endOfWeek = calendar.date(byAdding: .weekOfYear, value: 1, to: startOfWeek)!
+        
+        return cigarettes.filter { $0.timestamp >= startOfWeek && $0.timestamp < endOfWeek }.count
+    }
+    
+    private var averageProgress: Double {
+        guard !cigarettes.isEmpty else { return 0.0 }
+        
+        let totalDays = 30.0 // Calculate over last 30 days
+        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
+        let recentCigarettes = cigarettes.filter { $0.timestamp >= thirtyDaysAgo }
+        
+        let dailyAverage = Double(recentCigarettes.count) / totalDays
+        let todayCount = Double(todaysCount)
+        
+        guard dailyAverage > 0 else { return todayCount > 0 ? 1.0 : 0.0 }
+        return min(2.0, todayCount / dailyAverage) / 2.0
+    }
+    
+    private var weeklyTrend: Double {
+        let thisWeek = Double(thisWeekCount)
+        let lastWeek = Double(lastWeekCount)
+        
+        guard lastWeek > 0 else { return 0.0 }
+        return (thisWeek - lastWeek) / lastWeek
+    }
+    
+    private var lastWeekCount: Int {
+        let calendar = Calendar.current
+        let now = Date()
+        let lastWeek = calendar.date(byAdding: .weekOfYear, value: -1, to: now) ?? now
+        let startOfLastWeek = calendar.dateInterval(of: .weekOfYear, for: lastWeek)?.start ?? lastWeek
+        let endOfLastWeek = calendar.date(byAdding: .weekOfYear, value: 1, to: startOfLastWeek)!
+        
+        return cigarettes.filter { $0.timestamp >= startOfLastWeek && $0.timestamp < endOfLastWeek }.count
+    }
+    
+    private func getTrendForTotal() -> DSHealthCard.TrendDirection? {
+        let trend = weeklyTrend
+        if trend > 0.1 { return .up }
+        if trend < -0.1 { return .down }
+        return .stable
+    }
+    
+    private func getTrendForAverage() -> DSHealthCard.TrendDirection? {
+        return getTrendForTotal()
+    }
+    
     // MARK: - Helper Functions
     private func formatTimeInterval(_ interval: TimeInterval) -> String {
         let hours = Int(interval) / 3600

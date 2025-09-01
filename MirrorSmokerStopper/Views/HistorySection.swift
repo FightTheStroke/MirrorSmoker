@@ -13,6 +13,8 @@ struct HistorySection: View {
     var dailyStats: [(date: Date, count: Int)] = []
     var cigarettes: [Cigarette] = []
     
+
+    
     var body: some View {
         DSCard {
             VStack(spacing: DS.Space.md) {
@@ -31,7 +33,7 @@ struct HistorySection: View {
                     .padding(.vertical, DS.Space.lg)
                 } else {
                     VStack(spacing: DS.Space.sm) {
-                        ForEach(dailyStats.prefix(7), id: \.date) { stat in
+                        ForEach(Array(dailyStats.prefix(7).enumerated()), id: \.offset) { index, stat in
                             HStack(spacing: DS.Space.md) {
                                 VStack(alignment: .leading, spacing: DS.Space.xs) {
                                     Text(stat.date, format: .dateTime.weekday(.wide))

@@ -160,3 +160,39 @@
 "weekly.stats.less" = "less";
 "weekly.stats.more" = "more";
 "weekly.stats.title" = "Weekly Statistics";
+
+// Smoking types
+"smoking.type.cigarettes" = "Cigarettes";
+"smoking.type.electronic" = "E-Cigarettes";
+"smoking.type.tobacco" = "Tobacco";
+
+// New Statistics UI
+"statistics.overview.today" = "Today's Overview";
+"statistics.weekly.total" = "Weekly Total";
+"statistics.daily.average" = "Daily Avg";
+"statistics.vs.last.week" = "vs last week";
+"statistics.vs.average" = "vs Average";
+"statistics.week.goal" = "Week Goal";
+"statistics.trend.up" = "Increase";
+"statistics.trend.down" = "Decrease";
+"statistics.trend.stable" = "Stable";
+"statistics.progress.today" = "Today";
+"statistics.progress.week" = "Week";
+"statistics.progress.average" = "Average";
+
+// Greetings
+"greeting.morning" = "Good Morning";
+"greeting.afternoon" = "Good Afternoon";
+"greeting.evening" = "Good Evening";
+"greeting.night" = "Good Evening";
+
+// Dashboard
+"todays.cigarettes" = "Today's Cigarettes";
+"view.all" = "View All";
+"all.time" = "all time";
+"last.one" = "Last one";
+"just.now" = "Just now";
+"time.ago.hours" = "%dh %dm ago";
+"time.ago.minutes" = "%dm ago";
+"trend.from.last.week" = "from last week";
+"trend.same.as.last.week" = "same as last week";

@@ -16,11 +16,11 @@ enum SmokingType: String, CaseIterable, Codable {
     var displayName: String {
         switch self {
         case .cigarettes:
-            return "Sigarette"
+            return NSLocalizedString("smoking.type.cigarettes", comment: "")
         case .electronic:
-            return "Sigarette Elettroniche"
+            return NSLocalizedString("smoking.type.electronic", comment: "")
         case .tobacco:
-            return "Tabacco"
+            return NSLocalizedString("smoking.type.tobacco", comment: "")
         }
     }
     

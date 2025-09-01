@@ -25,7 +25,7 @@ struct WeeklyChart: View {
                     
                     // Giorno
                     Text(dayLabel(date))
-                        .font(DS.Text.small)
+                        .font(DS.Text.caption2)
                         .foregroundColor(DS.Colors.textSecondary)
                     
                     // Valore

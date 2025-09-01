@@ -333,7 +333,8 @@ struct CleanTagAnalysisRow: View {
                 .fontWeight(.medium)
             Spacer()
             Text("\(item.count)").font(DS.Text.caption).fontWeight(.semibold)
-            Text("\(item.percentage, specifier: \"%.0f\")%").font(DS.Text.caption)
+            Text("\(item.percentage, specifier: "%.0f")%")
+                .fontWeight(.semibold)
         }
         .padding(.vertical, DS.Space.xs)
     }

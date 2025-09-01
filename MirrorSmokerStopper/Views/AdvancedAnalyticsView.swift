@@ -41,7 +41,7 @@ struct AdvancedAnalyticsView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
-                        // Ação de fechar
+                        // Close action
                     }) {
                         Image(systemName: "xmark.circle.fill")
                     }

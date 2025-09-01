@@ -54,7 +54,7 @@ struct HistorySection: View {
                                         .foregroundStyle(colorForCount(stat.count))
                                     
                                     Text(stat.count == 1 ? NSLocalizedString("cigarette.singular", comment: "") : NSLocalizedString("cigarettes", comment: ""))
-                                        .font(DS.Text.small)
+                                        .font(DS.Text.caption)
                                         .foregroundStyle(DS.Colors.textSecondary)
                                 }
                             }

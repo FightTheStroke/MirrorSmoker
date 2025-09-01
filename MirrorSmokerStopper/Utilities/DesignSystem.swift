@@ -60,6 +60,7 @@ struct DS {
         static let caption = Font.caption
         static let caption2 = Font.caption2
         static let footnote = Font.footnote
+        static let small = Font.caption
     }
     
     // MARK: - Spacing

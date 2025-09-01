@@ -120,4 +120,12 @@
 "tags.name.title" = "Tag-Name";
 "tags.name.footer" = "Wähle einen beschreibenden Namen für deinen Tag";
 "tags.color.custom" = "Benutzerdefinierte Farbe";
-"tags
+"tags.color" = "Farbe";
+"tags.create" = "Erstellen";
+"history.title" = "Verlauf";
+"added.from.widget" = "Vom Widget hinzugefügt";
+"today.cigarettes.list.empty" = "Heute keine Zigaretten geraucht! 🎉";
+"history.recent.title" = "Neueste Verlauf";
+"weekly.chart.title" = "Wochenübersicht";
+"weekly.stats.last.4.weeks" = "Letzte 4 Wochen";
+"weekly.stats.total.4.weeks" = "G

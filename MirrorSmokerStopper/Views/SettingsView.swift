@@ -322,18 +322,18 @@ struct SettingsView: View {
             
             // Debug Panel
             #if DEBUG
-            Section {
-                Button(NSLocalizedString("debug.toggle.panel", comment: "")) {
-                    showDebugPanel.toggle()
-                }
-                .foregroundColor(.secondary)
-                
-                if showDebugPanel {
-                    DebugPanelView()
-                }
-            } header: {
-                Text(NSLocalizedString("settings.debug", comment: ""))
-            }
+//            Section {
+//                Button(NSLocalizedString("debug.toggle.panel", comment: "")) {
+//                    showDebugPanel.toggle()
+//                }
+//                .foregroundColor(.secondary)
+//                
+//                if showDebugPanel {
+//                    DebugPanelView()
+//                }
+//            } header: {
+//                Text(NSLocalizedString("settings.debug", comment: ""))
+//            }
             #endif
         }
         .navigationTitle(NSLocalizedString("settings.title", comment: ""))

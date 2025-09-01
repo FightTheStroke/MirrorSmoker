@@ -91,106 +91,92 @@ struct ContentView: View {
     }
     
     var body: some View {
-        NavigationStack {
-            ZStack(alignment: .bottom) {
-                ScrollView {
-                    VStack(spacing: 20) {
-                        DailyStatsHeader(
-                            todayCount: todayCount,
-                            onQuickAdd: {
-                                addCigarette()
-                            },
-                            onAddWithTags: {
-                                showingTagPicker = true
-                            }
-                        )
-                        
-                        TodayCigarettesList(
-                            todayCigarettes: todaysCigarettes,
-                            onDelete: { cigarette in
-                                deleteCigarette(cigarette)
-                            },
-                            onAddTags: { cigarette in
-                                lastAddedCigarette = cigarette
-                                showingTagPicker = true
-                            }
-                        )
-                        
-                        QuickStatsFooter(
-                            weeklyCount: weeklyCount,
-                            monthlyCount: monthlyCount,
-                            allTimeCount: allTimeCount
-                        )
-                        
-                        HistorySection(
-                            dailyStats: weeklyStats,
-                            cigarettes: allCigarettes
-                        )
-                    }
-                    .padding()
-                }
-                .background(Color(.systemGroupedBackground))
-                .navigationTitle(NSLocalizedString("app.title", comment: ""))
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarLeading) {
-                        Button(action: { showingSettings = true }) {
-                            Image(systemName: "gear")
-                        }
-                    }
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: { showingHistory = true }) {
-                            Image(systemName: "calendar")
-                        }
-                    }
-                }
-                .sheet(isPresented: $showingSettings) {
-                    SettingsView()
-                }
-                .sheet(isPresented: $showingHistory) {
-                    HistoryView()
-                }
-                .sheet(isPresented: $showingTagPicker) {
-                    NavigationView {
-                        TagPickerView(selectedTags: $selectedTags)
-                            .navigationTitle(NSLocalizedString("select.tags", comment: ""))
-                            .navigationBarTitleDisplayMode(.inline)
-                            .toolbar {
-                                ToolbarItem(placement: .navigationBarTrailing) {
-                                    Button(NSLocalizedString("done", comment: "")) {
-                                        if let cigarette = lastAddedCigarette {
-                                            updateCigaretteTags(cigarette, tags: selectedTags)
-                                        } else {
-                                            addCigaretteWithTags(selectedTags)
-                                        }
-                                        showingTagPicker = false
-                                        selectedTags.removeAll()
-                                        lastAddedCigarette = nil
-                                    }
-                                    .fontWeight(.semibold)
-                                }
-                                ToolbarItem(placement: .navigationBarLeading) {
-                                    Button(NSLocalizedString("cancel", comment: "")) {
-                                        showingTagPicker = false
-                                        selectedTags.removeAll()
-                                        lastAddedCigarette = nil
-                                    }
-                                }
-                            }
-                    }
-                }
-                
-                FloatingActionButton {
-                    addCigarette()
-                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                    impact.impactOccurred()
+        ZStack(alignment: .bottom) {
+            ScrollView {
+                VStack(spacing: 20) {
+                    // Spostiamo le statistiche rapide in CIMA
+                    QuickStatsFooter(
+                        weeklyCount: weeklyCount,
+                        monthlyCount: monthlyCount,
+                        allTimeCount: allTimeCount
+                    )
                     
-                    if askForTagAfterAdding {
-                        lastAddedCigarette = todaysCigarettes.first
-                        showingTagPicker = true
-                    }
+                    DailyStatsHeader(
+                        todayCount: todayCount,
+                        onQuickAdd: {
+                            addCigarette()
+                        },
+                        onAddWithTags: {
+                            showingTagPicker = true
+                        }
+                    )
+                    
+                    TodayCigarettesList(
+                        todayCigarettes: todaysCigarettes,
+                        onDelete: { cigarette in
+                            deleteCigarette(cigarette)
+                        },
+                        onAddTags: { cigarette in
+                            lastAddedCigarette = cigarette
+                            showingTagPicker = true
+                        }
+                    )
+                    
+                    HistorySection(
+                        dailyStats: weeklyStats,
+                        cigarettes: allCigarettes
+                    )
                 }
-                .padding(.bottom, 30)
+                .padding()
             }
+            .background(Color(.systemGroupedBackground))
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
+            }
+            .sheet(isPresented: $showingHistory) {
+                HistoryView()
+            }
+            .sheet(isPresented: $showingTagPicker) {
+                NavigationView {
+                    TagPickerView(selectedTags: $selectedTags)
+                        .navigationTitle(NSLocalizedString("select.tags", comment: ""))
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarTrailing) {
+                                Button(NSLocalizedString("done", comment: "")) {
+                                    if let cigarette = lastAddedCigarette {
+                                        updateCigaretteTags(cigarette, tags: selectedTags)
+                                    } else {
+                                        addCigaretteWithTags(selectedTags)
+                                    }
+                                    showingTagPicker = false
+                                    selectedTags.removeAll()
+                                    lastAddedCigarette = nil
+                                }
+                                .fontWeight(.semibold)
+                            }
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                Button(NSLocalizedString("cancel", comment: "")) {
+                                    showingTagPicker = false
+                                    selectedTags.removeAll()
+                                    lastAddedCigarette = nil
+                                }
+                            }
+                        }
+                }
+            }
+            
+            FloatingActionButton {
+                addCigarette()
+                let impact = UIImpactFeedbackGenerator(style: .medium)
+                impact.impactOccurred()
+                
+                if askForTagAfterAdding {
+                    lastAddedCigarette = todaysCigarettes.first
+                    showingTagPicker = true
+                }
+            }
+            .padding(.bottom, 30)
         }
 //        .onAppear {
 //            syncWidgetData()

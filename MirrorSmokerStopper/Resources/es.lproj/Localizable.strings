@@ -15,8 +15,6 @@
 "placeholder.optional.note" = "Nota opcional";
 "button.add" = "Añadir";
 "button.cancel" = "Cancelar";
-
-// Settings
 "settings.title" = "Ajustes";
 "settings.profile" = "Perfil Personal";
 "settings.profile.footer" = "Esta información ayuda a personalizar las estadísticas y recomendaciones";
@@ -56,8 +54,6 @@
 "debug.widget.state" = "Depurar Estado del Widget";
 "debug.force.sync" = "Forzar Sincronización del Widget";
 "debug.reset.data" = "Restablecer Datos del Widget";
-
-// ContentView
 "app.title" = "Mirror Smoker";
 "app.subtitle" = "Sigue y reflexiona sobre tus hábitos de fumar";
 "quick.stats" = "Estadísticas Rápidas";
@@ -69,13 +65,9 @@
 "todays.cigarettes" = "Cigarrillos de Hoy";
 "empty.state.title" = "¡Genial! Ningún cigarrillo hoy";
 "empty.state.subtitle" = "¡Sigue así! Usa el botón + para registrar uno si es necesario.";
-
-// Tab Bar
 "tab.home" = "Inicio";
 "tab.stats" = "Estadísticas";
 "tab.settings" = "Ajustes";
-
-// Statistics
 "statistics.title" = "Estadísticas";
 "statistics.analyze.period" = "Analizar Período";
 "statistics.today" = "Hoy";
@@ -106,8 +98,6 @@
 "statistics.afternoon" = "Tarde";
 "statistics.evening" = "Noche";
 "statistics.night" = "Madrugada";
-
-// Tags
 "tags.none.title" = "Aún no hay etiquetas";
 "tags.none.subtitle" = "Crea tu primera etiqueta para categorizar tus cigarrillos";
 "tags.create.first" = "Crear Primera Etiqueta";
@@ -122,3 +112,41 @@
 "tags.color.custom" = "Color Personalizado";
 "tags.color.footer" = "Toca un color para seleccionarlo o usa el selector de color personalizado";
 "tags.preview" = "Vista Previa de la Etiqueta";
+"tags.preview.title" = "Vista Previa";
+"tags.create.title" = "Crear Etiqueta";
+"tags.label" = "Etiquetas";
+"tags.color" = "Color";
+"tags.create" = "Crear";
+"today.cigarettes.list.empty" = "¡No fumaste cigarrillos hoy! 🎉";
+"done" = "Hecho";
+"cancel" = "Cancelar";
+"confirm" = "Confirmar";
+"delete" = "Eliminar";
+"edit" = "Editar";
+"save" = "Guardar";
+"ok" = "OK";
+"close" = "Cerrar";
+"daily.stats.quick.add" = "Añadir Rápido";
+"select.tags" = "Seleccionar Etiquetas";
+"history.title" = "Historial";
+"added.from.widget" = "Añadido desde widget";
+"history.recent.title" = "Historial Reciente";
+"history.no.history" = "No hay historial disponible";
+"weekly.chart.title" = "Vista Semanal";
+"weekly.stats.last.4.weeks" = "Últimas 4 Semanas";
+"weekly.stats.total.4.weeks" = "Total 4 Semanas";
+"weekly.stats.average.weekly" = "Promedio Semanal";
+"weekly.stats.per.week" = "por semana";
+"weekly.stats.total.cigarettes" = "Total: %d cigarrillos";
+"weekly.stats.average.format" = "Prom: %d/día";
+"weekly.stats.this.week" = "Esta Semana";
+"weekly.stats.last.week" = "Semana Pasada";
+"weekly.stats.trend.analysis" = "Análisis de Tendencia";
+"weekly.stats.no.change" = "Sin Cambios";
+"weekly.stats.improvement" = "Mejora";
+"weekly.stats.worsening" = "Empeoramiento";
+"weekly.stats.same.as.last.week" = "Igual que la semana pasada";
+"weekly.stats.difference.format" = "%d %@ que la semana pasada";
+"weekly.stats.less" = "menos";
+"weekly.stats.more" = "más";
+"weekly.stats.title" = "Estadísticas Semanales";

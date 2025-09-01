@@ -125,13 +125,23 @@
 "tags.preview.title" = "Aperçu";
 "tags.create.title" = "Créer une Étiquette";
 "tags.label" = "Étiquettes";
-
-// Common
-"done" = "Terminé";
-"cancel" = "Annuler";
-"confirm" = "Confirmer";
-"delete" = "Supprimer";
-"edit" = "Modifier";
-"save" = "Enregistrer";
-"ok" = "OK";
-"close" = "Fermer";
+"tags.color" = "Couleur";
+"tags.create" = "Créer";
+"history.recent.title" = "Historique Récent";
+"weekly.chart.title" = "Vue Hebdomadaire";
+"weekly.stats.last.4.weeks" = "4 Dernières Semaines";
+"weekly.stats.total.4.weeks" = "Total 4 Semaines";
+"weekly.stats.average.weekly" = "Moyenne Hebdomadaire";
+"weekly.stats.per.week" = "par semaine";
+"weekly.stats.total.cigarettes" = "Total: %d cigarettes";
+"weekly.stats.average.format" = "Moy: %d/jour";
+"weekly.stats.this.week" = "Cette Semaine";
+"weekly.stats.last.week" = "Semaine Dernière";
+"weekly.stats.trend.analysis" = "Analyse de Tendance";
+"weekly.stats.no.change" = "Aucun Changement";
+"weekly.stats.improvement" = "Amélioration";
+"weekly.stats.worsening" = "Détérioration";
+"weekly.stats.same.as.last.week" = "Même que la semaine dernière";
+"weekly.stats.difference.format" = "%d %@ que la semaine dernière";
+"weekly.stats.less" = "de moins";
+"weekly.stats.more" = "de plus";

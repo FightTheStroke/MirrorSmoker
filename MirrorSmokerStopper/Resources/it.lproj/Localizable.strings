@@ -118,4 +118,49 @@
 "tags.delete.message" = "Sei sicuro di voler eliminare '%@'? Questa azione non può essere annullata.";
 "tags.name.placeholder" = "Nome Tag";
 "tags.name.title" = "Nome Tag";
-"tags.name.footer" = "Scegli un nome descrittivo per il tuo
+"tags.name.footer" = "Scegli un nome descrittivo per il tuo tag";
+"tags.color.custom" = "Colore Personalizzato";
+"tags.color.footer" = "Tocca un colore per selezionarlo, o usa il selettore colore personalizzato";
+"tags.preview" = "Anteprima Tag";
+"tags.preview.title" = "Anteprima";
+"tags.create.title" = "Crea Tag";
+"tags.label" = "Tag";
+"tags.color" = "Colore";
+"tags.create" = "Crea";
+"today.cigarettes.list.empty" = "Nessuna sigaretta fumata oggi! 🎉";
+
+// Common
+"done" = "Fine";
+"cancel" = "Annulla";
+"confirm" = "Conferma";
+"delete" = "Elimina";
+"edit" = "Modifica";
+"save" = "Salva";
+"ok" = "OK";
+"close" = "Chiudi";
+
+// History and Missing Keys
+"daily.stats.quick.add" = "Aggiungi Veloce";
+"select.tags" = "Seleziona Tag";
+"history.title" = "Cronologia";
+"added.from.widget" = "Aggiunto da widget";
+"history.recent.title" = "Cronologia Recente";
+"history.no.history" = "Nessuna cronologia disponibile";
+"weekly.chart.title" = "Panoramica Settimanale";
+"weekly.stats.last.4.weeks" = "Ultime 4 Settimane";
+"weekly.stats.total.4.weeks" = "Totale 4 Settimane";
+"weekly.stats.average.weekly" = "Media Settimanale";
+"weekly.stats.per.week" = "a settimana";
+"weekly.stats.total.cigarettes" = "Totale: %d sigarette";
+"weekly.stats.average.format" = "Media: %d/giorno";
+"weekly.stats.this.week" = "Questa Settimana";
+"weekly.stats.last.week" = "Settimana Scorsa";
+"weekly.stats.trend.analysis" = "Analisi Tendenza";
+"weekly.stats.no.change" = "Nessun Cambiamento";
+"weekly.stats.improvement" = "Miglioramento";
+"weekly.stats.worsening" = "Peggioramento";
+"weekly.stats.same.as.last.week" = "Stesso della settimana scorsa";
+"weekly.stats.difference.format" = "%d %@ della settimana scorsa";
+"weekly.stats.less" = "in meno";
+"weekly.stats.more" = "in più";
+"weekly.stats.title" = "Statistiche Settimanali";

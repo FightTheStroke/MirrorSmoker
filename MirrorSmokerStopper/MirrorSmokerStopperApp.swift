@@ -47,7 +47,7 @@ struct MirrorSmokerStopperApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainTabView()
                 .modelContainer(Self.sharedModelContainer)
 //                .onAppear {
 //                    WidgetStore.shared.configure(modelContext: Self.sharedModelContainer.mainContext)

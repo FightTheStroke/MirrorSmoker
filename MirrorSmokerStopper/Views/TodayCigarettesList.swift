@@ -15,7 +15,7 @@ struct TodayCigarettesList: View {
     var onAddTags: (Cigarette) -> Void = { _ in }
     
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 12) {
             HStack {
                 Text(NSLocalizedString("todays.cigarettes", comment: ""))
                     .font(.headline)
@@ -38,64 +38,69 @@ struct TodayCigarettesList: View {
                 .background(Color(.systemGray6))
                 .cornerRadius(12)
             } else {
-                ForEach(todayCigarettes, id: \.id) { cigarette in
-                    HStack {
-                        Image(systemName: "lungs.fill")
-                            .foregroundColor(.red)
-                        
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(cigarette.timestamp, format: .dateTime.hour().minute())
-                                .font(.subheadline)
+                VStack(spacing: 8) {
+                    ForEach(todayCigarettes, id: \.id) { cigarette in
+                        HStack(spacing: 12) {
+                            Image(systemName: "lungs.fill")
+                                .foregroundColor(.red)
                             
-                            // Safely unwrap optional tags
-                            if let tags = cigarette.tags, !tags.isEmpty {
-                                HStack {
-                                    ForEach(tags.prefix(3)) { tag in
-                                        Text(tag.name)
-                                            .font(.caption2)
-                                            .padding(.horizontal, 6)
-                                            .padding(.vertical, 2)
-                                            .background(Color.blue)
-                                            .foregroundColor(.white)
-                                            .cornerRadius(4)
-                                    }
-                                    
-                                    if tags.count > 3 {
-                                        Text("+\(tags.count - 3)")
-                                            .font(.caption2)
-                                            .padding(.horizontal, 6)
-                                            .padding(.vertical, 2)
-                                            .background(Color.gray)
-                                            .foregroundColor(.white)
-                                            .cornerRadius(4)
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(cigarette.timestamp, format: .dateTime.hour().minute())
+                                    .font(.subheadline)
+                                    .fontWeight(.medium)
+                                
+                                // Safely unwrap optional tags with proper colors
+                                if let tags = cigarette.tags, !tags.isEmpty {
+                                    HStack(spacing: 4) {
+                                        ForEach(tags.prefix(3)) { tag in
+                                            Text(tag.name)
+                                                .font(.caption2)
+                                                .padding(.horizontal, 6)
+                                                .padding(.vertical, 2)
+                                                .background(tag.color)
+                                                .foregroundColor(.white)
+                                                .cornerRadius(4)
+                                        }
+                                        
+                                        if tags.count > 3 {
+                                            Text("+\(tags.count - 3)")
+                                                .font(.caption2)
+                                                .padding(.horizontal, 6)
+                                                .padding(.vertical, 2)
+                                                .background(Color.gray)
+                                                .foregroundColor(.white)
+                                                .cornerRadius(4)
+                                        }
                                     }
                                 }
                             }
-                        }
-                        
-                        Spacer()
-                        
-                        HStack(spacing: 8) {
-                            Button(action: {
-                                onAddTags(cigarette)
-                            }) {
-                                Image(systemName: "tag")
-                                    .foregroundColor(.blue)
-                            }
                             
-                            Button(action: {
-                                onDelete(cigarette)
-                            }) {
-                                Image(systemName: "trash")
-                                    .foregroundColor(.red)
+                            Spacer()
+                            
+                            HStack(spacing: 8) {
+                                Button(action: {
+                                    onAddTags(cigarette)
+                                }) {
+                                    Image(systemName: "tag")
+                                        .foregroundColor(.blue)
+                                        .font(.system(size: 16))
+                                }
+                                
+                                Button(action: {
+                                    onDelete(cigarette)
+                                }) {
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.red)
+                                        .font(.system(size: 16))
+                                }
                             }
                         }
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 12)
+                        .background(Color(.systemBackground))
+                        .cornerRadius(8)
+                        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
                     }
-                    .padding(.vertical, 8)
-                    .padding(.horizontal, 12)
-                    .background(Color(.systemBackground))
-                    .cornerRadius(8)
-                    .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
                 }
             }
         }

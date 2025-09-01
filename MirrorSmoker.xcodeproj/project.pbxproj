@@ -7,12 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A9C848182E64AFBC00BD744F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A9C848142E64AFBC00BD744F /* LICENSE */; };
-		A9C848192E64AFBC00BD744F /* Roadmap.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848162E64AFBC00BD744F /* Roadmap.md */; };
-		A9C8481A2E64AFBC00BD744F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848152E64AFBC00BD744F /* README.md */; };
-		A9C8481B2E64AFBC00BD744F /* SECURITY.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848172E64AFBC00BD744F /* SECURITY.md */; };
-		A9C8481C2E64AFBC00BD744F /* CODE_OF_CONDUCT.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848122E64AFBC00BD744F /* CODE_OF_CONDUCT.md */; };
-		A9C8481D2E64AFBC00BD744F /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848132E64AFBC00BD744F /* CONTRIBUTING.md */; };
 		A9C8481E2E64AFBC00BD744F /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A9C848142E64AFBC00BD744F /* LICENSE */; };
 		A9C8481F2E64AFBC00BD744F /* Roadmap.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848162E64AFBC00BD744F /* Roadmap.md */; };
 		A9C848202E64AFBC00BD744F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848152E64AFBC00BD744F /* README.md */; };
@@ -20,7 +14,6 @@
 		A9C848222E64AFBC00BD744F /* CODE_OF_CONDUCT.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848122E64AFBC00BD744F /* CODE_OF_CONDUCT.md */; };
 		A9C848232E64AFBC00BD744F /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848132E64AFBC00BD744F /* CONTRIBUTING.md */; };
 		A9C848782E64B07900BD744F /* PROJECT_STRUCTURE.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848772E64B07900BD744F /* PROJECT_STRUCTURE.md */; };
-		A9C848792E64B07900BD744F /* PROJECT_STRUCTURE.md in Resources */ = {isa = PBXBuildFile; fileRef = A9C848772E64B07900BD744F /* PROJECT_STRUCTURE.md */; };
 		A9C84A122E64BADC00BD744F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9C84A112E64BADC00BD744F /* WidgetKit.framework */; };
 		A9C84A142E64BADC00BD744F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9C84A132E64BADC00BD744F /* SwiftUI.framework */; };
 		A9C84A252E64BADE00BD744F /* mirrorsmokerwidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A9C84A0F2E64BADC00BD744F /* mirrorsmokerwidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -151,6 +144,13 @@
 			);
 			target = A9C84A0E2E64BADC00BD744F /* mirrorsmokerwidgetExtension */;
 		};
+		A9D248DA2E65D1C500AA884B /* Exceptions for "MirrorSmokerWatchApp Watch App" folder in "MirrorSmokerWatchApp Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				ContentView.swift,
+			);
+			target = A9FAF6BC2E64A8A5000D17C0 /* MirrorSmokerWatchApp Watch App */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -184,6 +184,9 @@
 		};
 		A9FAF6BE2E64A8A5000D17C0 /* MirrorSmokerWatchApp Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A9D248DA2E65D1C500AA884B /* Exceptions for "MirrorSmokerWatchApp Watch App" folder in "MirrorSmokerWatchApp Watch App" target */,
+			);
 			path = "MirrorSmokerWatchApp Watch App";
 			sourceTree = "<group>";
 		};
@@ -570,13 +573,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A9C848182E64AFBC00BD744F /* LICENSE in Resources */,
-				A9C848192E64AFBC00BD744F /* Roadmap.md in Resources */,
-				A9C848792E64B07900BD744F /* PROJECT_STRUCTURE.md in Resources */,
-				A9C8481A2E64AFBC00BD744F /* README.md in Resources */,
-				A9C8481B2E64AFBC00BD744F /* SECURITY.md in Resources */,
-				A9C8481C2E64AFBC00BD744F /* CODE_OF_CONDUCT.md in Resources */,
-				A9C8481D2E64AFBC00BD744F /* CONTRIBUTING.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -685,6 +681,7 @@
 		A966D93C2E64785100911CEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -739,7 +736,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -748,6 +745,7 @@
 		A966D93D2E64785100911CEE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -795,7 +793,7 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -837,7 +835,7 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "ios iossimulator watchos watchsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
@@ -886,7 +884,7 @@
 				REGISTER_APP_GROUPS = YES;
 				SDKROOT = auto;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTED_PLATFORMS = "ios iossimulator watchos watchsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;

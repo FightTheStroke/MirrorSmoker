@@ -76,18 +76,20 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         }
     }
     
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        // Handle received user info
+    }
+    
+    #if os(iOS)
     func sessionDidBecomeInactive(_ session: WCSession) {
-        print("WCSession became inactive")
+
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
-        print("WCSession deactivated")
-        // Re-activate if needed
-        DispatchQueue.global(qos: .utility).async {
-            session.activate()
-        }
+
     }
-    
+    #endif
+
     // MARK: - Message Sending
     
     func sendAddCigarette(_ dto: CigaretteDTO) {

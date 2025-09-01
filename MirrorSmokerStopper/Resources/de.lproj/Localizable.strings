@@ -120,18 +120,4 @@
 "tags.name.title" = "Tag-Name";
 "tags.name.footer" = "Wähle einen beschreibenden Namen für deinen Tag";
 "tags.color.custom" = "Benutzerdefinierte Farbe";
-"tags.color.footer" = "Tippe auf eine Farbe, um sie auszuwählen, oder verwende die benutzerdefinierte Farbauswahl";
-"tags.preview" = "Tag-Vorschau";
-"tags.preview.title" = "Vorschau";
-"tags.create.title" = "Tag erstellen";
-"tags.label" = "Tags";
-
-// Common
-"done" = "Fertig";
-"cancel" = "Abbrechen";
-"confirm" = "Bestätigen";
-"delete" = "Löschen";
-"edit" = "Bearbeiten";
-"save" = "Speichern";
-"ok" = "OK";
-"close" = "Schließen";
+"tags

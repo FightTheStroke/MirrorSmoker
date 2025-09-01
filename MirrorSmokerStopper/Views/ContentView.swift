@@ -192,16 +192,16 @@ struct ContentView: View {
                 .padding(.bottom, 30)
             }
         }
-        .onAppear {
-            syncWidgetData()
-            processPendingWidgetCigarettes()
-        }
-        .onChange(of: todayCount) { _, newValue in
-            syncWidgetData()
-        }
-        .onChange(of: lastCigaretteTime) { _, newValue in
-            syncWidgetData()
-        }
+//        .onAppear {
+//            syncWidgetData()
+//            processPendingWidgetCigarettes()
+//        }
+//        .onChange(of: todayCount) { _, newValue in
+//            syncWidgetData()
+//        }
+//        .onChange(of: lastCigaretteTime) { _, newValue in
+//            syncWidgetData()
+//        }
     }
     
     // MARK: - Private Methods
@@ -217,7 +217,8 @@ struct ContentView: View {
         
         do {
             try modelContext.save()
-            syncWidgetData()
+            // TODO: Implement widget sync
+            // syncWidgetData()
         } catch {
             print("Error saving cigarette: \(error)")
         }
@@ -242,48 +243,10 @@ struct ContentView: View {
         
         do {
             try modelContext.save()
-            syncWidgetData()
+            // TODO: Implement widget sync
+            // syncWidgetData()
         } catch {
             print("Error deleting cigarette: \(error)")
-        }
-    }
-    
-    private func syncWidgetData() {
-        WidgetStore.shared.updateWidgetData(
-            todayCount: todayCount,
-            lastCigaretteTime: lastCigaretteTime
-        )
-    }
-    
-    private func processPendingWidgetCigarettes() {
-        Task {
-            await WidgetStore.shared.processPendingCigarettes(modelContext: modelContext)
-            
-            // Process any pending cigarettes from the widget
-            guard let pendingTimestamps = WidgetStore.shared.safeDefaults.array(forKey: WidgetStore.shared.pendingCigarettesKey) as? [Double],
-                  !pendingTimestamps.isEmpty else {
-                return
-            }
-            
-            // Add cigarettes from widget interactions
-            await MainActor.run {
-                for timestamp in pendingTimestamps {
-                    let cigarette = Cigarette(
-                        timestamp: Date(timeIntervalSince1970: timestamp),
-                        note: NSLocalizedString("added.from.widget", comment: "")
-                    )
-                    
-                    modelContext.insert(cigarette)
-                }
-                
-                do {
-                    try modelContext.save()
-                    WidgetStore.shared.clearPendingData()
-                    syncWidgetData()
-                } catch {
-                    print("Error processing pending cigarettes: \(error)")
-                }
-            }
         }
     }
 }

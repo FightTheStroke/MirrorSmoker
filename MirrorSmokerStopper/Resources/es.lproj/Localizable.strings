@@ -122,16 +122,3 @@
 "tags.color.custom" = "Color Personalizado";
 "tags.color.footer" = "Toca un color para seleccionarlo o usa el selector de color personalizado";
 "tags.preview" = "Vista Previa de la Etiqueta";
-"tags.preview.title" = "Vista Previa";
-"tags.create.title" = "Crear Etiqueta";
-"tags.label" = "Etiquetas";
-
-// Common
-"done" = "Hecho";
-"cancel" = "Cancelar";
-"confirm" = "Confirmar";
-"delete" = "Eliminar";
-"edit" = "Editar";
-"save" = "Guardar";
-"ok" = "OK";
-"close" = "Cerrar";

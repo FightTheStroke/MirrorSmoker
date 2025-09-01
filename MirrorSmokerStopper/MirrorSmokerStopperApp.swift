@@ -49,19 +49,19 @@ struct MirrorSmokerStopperApp: App {
         WindowGroup {
             ContentView()
                 .modelContainer(Self.sharedModelContainer)
-                .onAppear {
-                    WidgetStore.shared.configure(modelContext: Self.sharedModelContainer.mainContext)
-                    
-                    Task {
-                        try? await Task.sleep(nanoseconds: 100_000_000)
-                        await WidgetStore.shared.performInitialSync(modelContext: Self.sharedModelContainer.mainContext)
-                    }
-                }
-                .task {
-                    if WidgetStore.shared.needsRefresh() {
-                        WidgetStore.shared.syncWithWidget(modelContext: Self.sharedModelContainer.mainContext)
-                    }
-                }
+//                .onAppear {
+//                    WidgetStore.shared.configure(modelContext: Self.sharedModelContainer.mainContext)
+//                    
+//                    Task {
+//                        try? await Task.sleep(nanoseconds: 100_000_000)
+//                        await WidgetStore.shared.performInitialSync(modelContext: Self.sharedModelContainer.mainContext)
+//                    }
+//                }
+//                .task {
+//                    if WidgetStore.shared.needsRefresh() {
+//                        WidgetStore.shared.syncWithWidget(modelContext: Self.sharedModelContainer.mainContext)
+//                    }
+//                }
         }
     }
 }

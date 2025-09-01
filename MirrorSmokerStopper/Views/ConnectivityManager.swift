@@ -26,10 +26,7 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         // TODO: Re-enable once Watch connectivity is stable
         return
         
-        guard WCSession.isSupported() else {
-            print("WCSession not supported on this device")
-            return
-        }
+        guard WCSession.isSupported() else { return }
         
         // Only activate if we haven't already
         guard !isActivated else { return }

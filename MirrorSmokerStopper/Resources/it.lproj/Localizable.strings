@@ -118,20 +118,4 @@
 "tags.delete.message" = "Sei sicuro di voler eliminare '%@'? Questa azione non può essere annullata.";
 "tags.name.placeholder" = "Nome Tag";
 "tags.name.title" = "Nome Tag";
-"tags.name.footer" = "Scegli un nome descrittivo per il tuo tag";
-"tags.color.custom" = "Colore Personalizzato";
-"tags.color.footer" = "Tocca un colore per selezionarlo, o usa il selettore colore personalizzato";
-"tags.preview" = "Anteprima Tag";
-"tags.preview.title" = "Anteprima";
-"tags.create.title" = "Crea Tag";
-"tags.label" = "Tag";
-
-// Common
-"done" = "Fine";
-"cancel" = "Annulla";
-"confirm" = "Conferma";
-"delete" = "Elimina";
-"edit" = "Modifica";
-"save" = "Salva";
-"ok" = "OK";
-"close" = "Chiudi";
+"tags.name.footer" = "Scegli un nome descrittivo per il tuo

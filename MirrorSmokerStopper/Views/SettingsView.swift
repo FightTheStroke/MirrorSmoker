@@ -545,32 +545,32 @@ struct HealthInsightsView: View {
 struct DebugPanelView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Button(NSLocalizedString("debug.widget.state", comment: "")) {
-                let data = WidgetStore.readSnapshot()
-                let pending = WidgetStore.shared.getPendingCount()
-                let usingAppGroup = WidgetStore.shared.userDefaults != nil
-                print("🔧 Widget Debug:")
-                print("  Using App Group: \(usingAppGroup)")
-                print("  Count: \(data.todayCount)")
-                print("  Last Time: \(data.lastCigaretteTime)")
-                print("  Pending: \(pending)")
-            }
-            .font(.caption)
-            .foregroundColor(.blue)
+//            Button(NSLocalizedString("debug.widget.state", comment: "")) {
+////                let data = WidgetStore.readSnapshot()
+////                let pending = WidgetStore.shared.getPendingCount()
+////                let usingAppGroup = WidgetStore.shared.userDefaults != nil
+//                print("🔧 Widget Debug:")
+//                print("  Using App Group: \(usingAppGroup)")
+//                print("  Count: \(data.todayCount)")
+//                print("  Last Time: \(data.lastCigaretteTime)")
+//                print("  Pending: \(pending)")
+//            }
+//            .font(.caption)
+//            .foregroundColor(.blue)
+//            
+//            Button(NSLocalizedString("debug.force.sync", comment: "")) {
+//                DispatchQueue.main.async {
+//                    WidgetCenter.shared.reloadAllTimelines()
+//                }
+//            }
+//            .font(.caption)
+//            .foregroundColor(.green)
             
-            Button(NSLocalizedString("debug.force.sync", comment: "")) {
-                DispatchQueue.main.async {
-                    WidgetCenter.shared.reloadAllTimelines()
-                }
-            }
-            .font(.caption)
-            .foregroundColor(.green)
-            
-            Button(NSLocalizedString("debug.reset.data", comment: "")) {
-                WidgetStore.shared.resetWidgetData()
-            }
-            .font(.caption)
-            .foregroundColor(.red)
+//            Button(NSLocalizedString("debug.reset.data", comment: "")) {
+//                WidgetStore.shared.resetWidgetData()
+//            }
+//            .font(.caption)
+//            .foregroundColor(.red)
         }
         .padding(.vertical, 4)
     }

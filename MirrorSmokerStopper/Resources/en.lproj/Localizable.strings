@@ -135,3 +135,9 @@
 "save" = "Save";
 "ok" = "OK";
 "close" = "Close";
+
+// Missing keys
+"daily.stats.quick.add" = "Quick Add";
+"select.tags" = "Select Tags";
+"history.title" = "History";
+"added.from.widget" = "Added from widget";

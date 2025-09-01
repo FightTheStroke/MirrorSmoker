@@ -14,9 +14,6 @@
 		A9F5E5062E65FBB4004181D9 /* Roadmap.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E5012E65FBB4004181D9 /* Roadmap.md */; };
 		A9F5E5072E65FBB4004181D9 /* SECURITY.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E5022E65FBB4004181D9 /* SECURITY.md */; };
 		A9F5E5092E65FBB4004181D9 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E4FE2E65FBB4004181D9 /* CONTRIBUTING.md */; };
-		A9F5E5AF2E660034004181D9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F5E5742E65FEFD004181D9 /* WidgetKit.framework */; };
-		A9F5E5B02E660034004181D9 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F5E5762E65FEFD004181D9 /* SwiftUI.framework */; };
-		A9F5E5C12E660035004181D9 /* MirrorSmokerStopper WidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A9F5E5AE2E660034004181D9 /* MirrorSmokerStopper WidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,13 +52,6 @@
 			remoteGlobalIDString = A9F5E4C52E65FBA5004181D9;
 			remoteInfo = "MirrorSmokerStopper Watch App";
 		};
-		A9F5E5BF2E660035004181D9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A9F5E49B2E65FBA3004181D9 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A9F5E5AD2E660034004181D9;
-			remoteInfo = "MirrorSmokerStopper WidgetExtension";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -82,7 +72,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				A9F5E5C12E660035004181D9 /* MirrorSmokerStopper WidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -104,7 +93,6 @@
 		A9F5E5022E65FBB4004181D9 /* SECURITY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SECURITY.md; sourceTree = "<group>"; };
 		A9F5E5742E65FEFD004181D9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A9F5E5762E65FEFD004181D9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
-		A9F5E5AE2E660034004181D9 /* MirrorSmokerStopper WidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "MirrorSmokerStopper WidgetExtension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -126,13 +114,6 @@
 				Models/UserProfile.swift,
 			);
 			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
-		};
-		A9F5E5D72E660146004181D9 /* Exceptions for "MirrorSmokerStopper Widget" folder in "MirrorSmokerStopper" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				WidgetStore.swift,
-			);
-			target = A9F5E4A22E65FBA4004181D9 /* MirrorSmokerStopper */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -169,14 +150,6 @@
 		A9F5E4E22E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = "MirrorSmokerStopper Watch AppUITests";
-			sourceTree = "<group>";
-		};
-		A9F5E5B12E660034004181D9 /* MirrorSmokerStopper Widget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				A9F5E5D72E660146004181D9 /* Exceptions for "MirrorSmokerStopper Widget" folder in "MirrorSmokerStopper" target */,
-			);
-			path = "MirrorSmokerStopper Widget";
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -224,15 +197,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A9F5E5AB2E660034004181D9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A9F5E5B02E660034004181D9 /* SwiftUI.framework in Frameworks */,
-				A9F5E5AF2E660034004181D9 /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -245,7 +209,6 @@
 				A9F5E4CA2E65FBA5004181D9 /* MirrorSmokerStopper Watch App */,
 				A9F5E4D82E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests */,
 				A9F5E4E22E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */,
-				A9F5E5B12E660034004181D9 /* MirrorSmokerStopper Widget */,
 				A9F5E5732E65FEFD004181D9 /* Frameworks */,
 				A9F5E4A42E65FBA4004181D9 /* Products */,
 				A9F5E4FD2E65FBB4004181D9 /* CODE_OF_CONDUCT.md */,
@@ -266,7 +229,6 @@
 				A9F5E4C62E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app */,
 				A9F5E4D52E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests.xctest */,
 				A9F5E4DF2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests.xctest */,
-				A9F5E5AE2E660034004181D9 /* MirrorSmokerStopper WidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -297,7 +259,6 @@
 			);
 			dependencies = (
 				A9F5E4C92E65FBA5004181D9 /* PBXTargetDependency */,
-				A9F5E5C02E660035004181D9 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A9F5E4A52E65FBA4004181D9 /* MirrorSmokerStopper */,
@@ -423,28 +384,6 @@
 			productReference = A9F5E4DF2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		A9F5E5AD2E660034004181D9 /* MirrorSmokerStopper WidgetExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A9F5E5C32E660035004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper WidgetExtension" */;
-			buildPhases = (
-				A9F5E5AA2E660034004181D9 /* Sources */,
-				A9F5E5AB2E660034004181D9 /* Frameworks */,
-				A9F5E5AC2E660034004181D9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				A9F5E5B12E660034004181D9 /* MirrorSmokerStopper Widget */,
-			);
-			name = "MirrorSmokerStopper WidgetExtension";
-			packageProductDependencies = (
-			);
-			productName = "MirrorSmokerStopper WidgetExtension";
-			productReference = A9F5E5AE2E660034004181D9 /* MirrorSmokerStopper WidgetExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -477,9 +416,6 @@
 						CreatedOnToolsVersion = 16.4;
 						TestTargetID = A9F5E4C52E65FBA5004181D9;
 					};
-					A9F5E5AD2E660034004181D9 = {
-						CreatedOnToolsVersion = 16.4;
-					};
 				};
 			};
 			buildConfigurationList = A9F5E49E2E65FBA3004181D9 /* Build configuration list for PBXProject "MirrorSmokerStopper" */;
@@ -506,7 +442,6 @@
 				A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */,
 				A9F5E4D42E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests */,
 				A9F5E4DE2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */,
-				A9F5E5AD2E660034004181D9 /* MirrorSmokerStopper WidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -560,13 +495,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A9F5E5AC2E660034004181D9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -612,13 +540,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A9F5E5AA2E660034004181D9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -646,11 +567,6 @@
 			isa = PBXTargetDependency;
 			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
 			targetProxy = A9F5E4E02E65FBA6004181D9 /* PBXContainerItemProxy */;
-		};
-		A9F5E5C02E660035004181D9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A9F5E5AD2E660034004181D9 /* MirrorSmokerStopper WidgetExtension */;
-			targetProxy = A9F5E5BF2E660035004181D9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -782,6 +698,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWatch;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MirrorSmokerStopper Watch App/MirrorSmokerStopper Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
@@ -811,6 +728,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWatch;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MirrorSmokerStopper Watch App/MirrorSmokerStopper Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
@@ -1073,65 +991,6 @@
 			};
 			name = Release;
 		};
-		A9F5E5C42E660035004181D9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 93T3LG4NPG;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "MirrorSmokerStopper Widget";
-				INFOPLIST_KEY_NSExtensionPointIdentifier = "com.apple.widgetkit-extension";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper.MirrorSmokerStopper-Widget";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		A9F5E5C52E660035004181D9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 93T3LG4NPG;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "MirrorSmokerStopper Widget";
-				INFOPLIST_KEY_NSExtensionPointIdentifier = "com.apple.widgetkit-extension";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper.MirrorSmokerStopper-Widget";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1194,15 +1053,6 @@
 			buildConfigurations = (
 				A9F5E4FA2E65FBA6004181D9 /* Debug */,
 				A9F5E4FB2E65FBA6004181D9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A9F5E5C32E660035004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper WidgetExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A9F5E5C42E660035004181D9 /* Debug */,
-				A9F5E5C52E660035004181D9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -7,22 +7,55 @@
 		<key>MirrorSmokerStopper Watch App.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
-		</dict>
-		<key>MirrorSmokerStopper WidgetExtension.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
 			<integer>1</integer>
 		</dict>
 		<key>MirrorSmokerStopper.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 		<key>MirrorStokerStopper WidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>A9F5E4A22E65FBA4004181D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9F5E4AF2E65FBA5004181D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9F5E4B92E65FBA5004181D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9F5E4C52E65FBA5004181D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9F5E4D42E65FBA6004181D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9F5E4DE2E65FBA6004181D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A9F5E5AD2E660034004181D9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

@@ -1,112 +1,84 @@
-//
-//  TodayCigarettesList.swift
-//  Mirror Smoker
-//
-//  Created by Roberto D'Angelo on 27/08/24.
-//
-
 import SwiftUI
 import SwiftData
 
 struct TodayCigarettesList: View {
-    // Make parameters optional with default values
     var todayCigarettes: [Cigarette] = []
     var onDelete: (Cigarette) -> Void = { _ in }
     var onAddTags: (Cigarette) -> Void = { _ in }
     
     var body: some View {
-        VStack(spacing: 12) {
-            HStack {
-                Text(NSLocalizedString("todays.cigarettes", comment: ""))
-                    .font(.headline)
-                
-                Spacer()
-            }
-            
-            if todayCigarettes.isEmpty {
-                VStack(spacing: 8) {
-                    Image(systemName: "lungs.fill")
-                        .font(.largeTitle)
-                        .foregroundColor(.secondary)
-                    
-                    Text(NSLocalizedString("today.cigarettes.list.empty", comment: ""))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(12)
-            } else {
-                VStack(spacing: 8) {
-                    ForEach(todayCigarettes, id: \.id) { cigarette in
-                        HStack(spacing: 12) {
-                            Image(systemName: "lungs.fill")
-                                .foregroundColor(.red)
-                            
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(cigarette.timestamp, format: .dateTime.hour().minute())
-                                    .font(.subheadline)
-                                    .fontWeight(.medium)
+        DSCard {
+            VStack(spacing: DS.Space.md) {
+                DSSectionHeader(NSLocalizedString("todays.cigarettes", comment: ""))
+                if todayCigarettes.isEmpty {
+                    VStack(spacing: DS.Space.md) {
+                        Image(systemName: "lungs.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(DS.Colors.success)
+                        Text(NSLocalizedString("today.cigarettes.list.empty", comment: ""))
+                            .font(DS.Text.body)
+                            .foregroundColor(DS.Colors.textSecondary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.vertical, DS.Space.lg)
+                } else {
+                    VStack(spacing: DS.Space.sm) {
+                        ForEach(todayCigarettes, id: \.id) { cigarette in
+                            HStack(spacing: DS.Space.md) {
+                                Image(systemName: "lungs.fill")
+                                    .foregroundColor(DS.Colors.cigarette)
+                                    .font(.system(size: DS.Size.iconSize))
                                 
-                                // Safely unwrap optional tags with proper colors
-                                if let tags = cigarette.tags, !tags.isEmpty {
-                                    HStack(spacing: 4) {
-                                        ForEach(tags.prefix(3)) { tag in
-                                            Text(tag.name)
-                                                .font(.caption2)
-                                                .padding(.horizontal, 6)
-                                                .padding(.vertical, 2)
-                                                .background(tag.color)
-                                                .foregroundColor(.white)
-                                                .cornerRadius(4)
-                                        }
-                                        
-                                        if tags.count > 3 {
-                                            Text("+\(tags.count - 3)")
-                                                .font(.caption2)
-                                                .padding(.horizontal, 6)
-                                                .padding(.vertical, 2)
-                                                .background(Color.gray)
-                                                .foregroundColor(.white)
-                                                .cornerRadius(4)
+                                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                    Text(cigarette.timestamp, format: .dateTime.hour().minute())
+                                        .font(DS.Text.body)
+                                        .fontWeight(.medium)
+                                    
+                                    if let tags = cigarette.tags, !tags.isEmpty {
+                                        HStack(spacing: DS.Space.xs) {
+                                            ForEach(tags.prefix(3)) { tag in
+                                                Text(tag.name)
+                                                    .font(DS.Text.small)
+                                                    .padding(.horizontal, DS.Space.sm)
+                                                    .padding(.vertical, DS.Space.xs)
+                                                    .background(tag.color)
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(DS.Size.buttonRadius / 2)
+                                            }
+                                            if tags.count > 3 {
+                                                Text("+\(tags.count - 3)")
+                                                    .font(DS.Text.small)
+                                                    .padding(.horizontal, DS.Space.sm)
+                                                    .padding(.vertical, DS.Space.xs)
+                                                    .background(DS.Colors.secondary)
+                                                    .foregroundColor(.white)
+                                                    .cornerRadius(DS.Size.buttonRadius / 2)
+                                            }
                                         }
                                     }
                                 }
-                            }
-                            
-                            Spacer()
-                            
-                            HStack(spacing: 8) {
-                                Button(action: {
-                                    onAddTags(cigarette)
-                                }) {
-                                    Image(systemName: "tag")
-                                        .foregroundColor(.blue)
-                                        .font(.system(size: 16))
-                                }
-                                
-                                Button(action: {
-                                    onDelete(cigarette)
-                                }) {
-                                    Image(systemName: "trash")
-                                        .foregroundColor(.red)
-                                        .font(.system(size: 16))
+                                Spacer()
+                                HStack(spacing: DS.Space.sm) {
+                                    Button(action: { onAddTags(cigarette) }) {
+                                        Image(systemName: "tag")
+                                            .foregroundColor(DS.Colors.primary)
+                                            .font(.system(size: DS.Size.iconSize))
+                                    }
+                                    Button(action: { onDelete(cigarette) }) {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(DS.Colors.danger)
+                                            .font(.system(size: DS.Size.iconSize))
+                                    }
                                 }
                             }
+                            .padding(.vertical, DS.Space.sm)
+                            .padding(.horizontal, DS.Space.md)
+                            .background(Color(.secondarySystemGroupedBackground))
+                            .cornerRadius(DS.Size.buttonRadius)
                         }
-                        .padding(.vertical, 8)
-                        .padding(.horizontal, 12)
-                        .background(Color(.systemBackground))
-                        .cornerRadius(8)
-                        .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
                     }
                 }
             }
         }
     }
-}
-
-#Preview {
-    TodayCigarettesList()
 }

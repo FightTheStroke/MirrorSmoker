@@ -2,7 +2,7 @@
 //  EnhancedStatisticsView.swift
 //  MirrorSmokerStopper
 //
-//  Created by Roberto D'Angelo on 31/08/25.
+//  Created by Assistant on 09/01/25.
 //
 
 import SwiftUI
@@ -16,11 +16,7 @@ struct EnhancedStatisticsView: View {
     @State private var selectedTimeFrame: TimeFrame = .today
     
     enum TimeFrame: String, CaseIterable {
-        case today = "Today"
-        case yesterday = "Yesterday" 
-        case thisWeek = "This Week"
-        case lastWeek = "Last Week"
-        case thisMonth = "This Month"
+        case today, yesterday, thisWeek, lastWeek, thisMonth
         
         var localizedDescription: String {
             switch self {
@@ -35,212 +31,148 @@ struct EnhancedStatisticsView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
-                // Time Frame Picker
-                timeFramePicker
-                
-                // Quick Stats Overview
-                quickStatsGrid
-                
-                // Weekly Chart (only for weekly views)
-                if selectedTimeFrame == .thisWeek || selectedTimeFrame == .lastWeek {
-                    WeeklyChart(weeklyStats: weeklyChartData)
+            VStack(spacing: DS.Space.lg) {
+                // Titolo grande coerente con Apple style
+                HStack {
+                    Text(NSLocalizedString("statistics.title", comment: ""))
+                        .font(DS.Text.largeTitle)
+                        .fontWeight(.bold)
+                        .padding(.top, 6)
+                    Spacer()
                 }
-                
-                // Tag Analysis (only if there are tagged cigarettes)
-                if !tagAnalysisData.isEmpty {
-                    tagAnalysisSection
-                }
-                
-                // Detailed Statistics
-                detailedStatsSection
-            }
-            .padding()
-        }
-        .navigationTitle(NSLocalizedString("statistics.title", comment: ""))
-        .navigationBarTitleDisplayMode(.large)
-        .background(Color(.systemGroupedBackground))
-    }
-    
-    // MARK: - Time Frame Picker
-    
-    private var timeFramePicker: some View {
-        VStack(spacing: 16) {
-            Text(NSLocalizedString("statistics.analyze.period", comment: ""))
-                .font(.headline)
-                .frame(maxWidth: .infinity, alignment: .leading)
-            
-            Picker("Time Frame", selection: $selectedTimeFrame) {
-                ForEach(TimeFrame.allCases, id: \.self) { frame in
-                    Text(frame.localizedDescription).tag(frame)
-                }
-            }
-            .pickerStyle(.segmented)
-        }
-        .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
-    }
-    
-    // MARK: - Quick Stats Grid
-    
-    private var quickStatsGrid: some View {
-        LazyVGrid(columns: [
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ], spacing: 16) {
-            StatCard(
-                title: NSLocalizedString("statistics.total", comment: ""),
-                value: "\(filteredCigarettes.count)",
-                subtitle: NSLocalizedString("cigarettes", comment: ""),
-                color: .blue,
-                icon: "cigarette"
-            )
-            
-            StatCard(
-                title: NSLocalizedString("statistics.average", comment: ""),
-                value: String(format: "%.1f", averagePerPeriod),
-                subtitle: averageUnit,
-                color: .orange,
-                icon: "chart.line.uptrend.xyaxis"
-            )
-            
-            StatCard(
-                title: NSLocalizedString("statistics.peak.hour", comment: ""),
-                value: peakHour,
-                subtitle: NSLocalizedString("statistics.most.active", comment: ""),
-                color: .red,
-                icon: "clock"
-            )
-            
-            StatCard(
-                title: NSLocalizedString("statistics.most.used.tag", comment: ""),
-                value: mostUsedTag.isEmpty ? NSLocalizedString("statistics.none", comment: "") : mostUsedTag,
-                subtitle: NSLocalizedString("statistics.category", comment: ""),
-                color: .green,
-                icon: "tag"
-            )
-        }
-    }
-    
-    // MARK: - Tag Analysis Section
-    
-    private var tagAnalysisSection: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Text(NSLocalizedString("statistics.tag.analysis", comment: ""))
-                    .font(.headline)
-                Spacer()
-            }
-            
-            VStack(spacing: 12) {
-                ForEach(tagAnalysisData.prefix(5), id: \.tag.id) { item in
-                    HStack(spacing: 12) {
-                        Circle()
-                            .fill(item.tag.color)
-                            .frame(width: 16, height: 16)
-                        
-                        Text(item.tag.name)
-                            .font(.subheadline)
-                        
-                        Spacer()
-                        
-                        VStack(alignment: .trailing, spacing: 2) {
-                            Text("\(item.count)")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                            
-                            Text("\(item.percentage, specifier: "%.0f")%")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
+
+                // Selettore periodo
+                DSCard {
+                    VStack(spacing: DS.Space.sm) {
+                        DSSectionHeader(NSLocalizedString("statistics.analyze.period", comment: ""))
+                        Picker("Time Frame", selection: $selectedTimeFrame) {
+                            ForEach(TimeFrame.allCases, id: \.self) { frame in
+                                Text(frame.localizedDescription).tag(frame)
+                            }
                         }
-                        
-                        // Progress indicator
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(item.tag.color.opacity(0.3))
-                            .frame(width: 40, height: 8)
-                            .overlay(
-                                GeometryReader { geometry in
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(item.tag.color)
-                                        .frame(width: geometry.size.width * (item.percentage / 100))
-                                }
+                        .pickerStyle(.segmented)
+                    }
+                }
+
+                // Griglia statistiche rapide
+                DSCard {
+                    VStack(spacing: DS.Space.sm) {
+                        DSSectionHeader(NSLocalizedString("quick.stats", comment: ""))
+                        LazyVGrid(columns: [
+                            GridItem(.flexible()),
+                            GridItem(.flexible())
+                        ], spacing: DS.Space.md) {
+                            DSStatCard(
+                                title: NSLocalizedString("statistics.total", comment: ""),
+                                value: "\(filteredCigarettes.count)",
+                                subtitle: NSLocalizedString("cigarettes", comment: ""),
+                                color: DS.Colors.primary,
+                                icon: "chart.bar.fill"
                             )
+                            
+                            DSStatCard(
+                                title: NSLocalizedString("statistics.average", comment: ""),
+                                value: String(format: "%.1f", averagePerPeriod),
+                                subtitle: averageUnit,
+                                color: DS.Colors.warning,
+                                icon: "chart.line.uptrend.xyaxis"
+                            )
+                            
+                            DSStatCard(
+                                title: NSLocalizedString("statistics.peak.hour", comment: ""),
+                                value: peakHour,
+                                subtitle: NSLocalizedString("statistics.most.active", comment: ""),
+                                color: DS.Colors.danger,
+                                icon: "clock.fill"
+                            )
+                            
+                            DSStatCard(
+                                title: NSLocalizedString("statistics.most.used.tag", comment: ""),
+                                value: mostUsedTag.isEmpty ? NSLocalizedString("statistics.none", comment: "") : mostUsedTag,
+                                subtitle: NSLocalizedString("statistics.category", comment: ""),
+                                color: DS.Colors.success,
+                                icon: "tag.fill"
+                            )
+                        }
                     }
-                    .padding(.vertical, 8)
                 }
-            }
-        }
-        .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
-    }
-    
-    // MARK: - Detailed Stats Section
-    
-    private var detailedStatsSection: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Text(NSLocalizedString("statistics.detailed.statistics", comment: ""))
-                    .font(.headline)
-                Spacer()
-            }
-            
-            VStack(spacing: 12) {
-                if !filteredCigarettes.isEmpty {
-                    DetailStatRow(
-                        title: NSLocalizedString("statistics.first.cigarette", comment: ""),
-                        value: firstCigaretteTime,
-                        icon: "sunrise.fill",
-                        color: .orange
-                    )
-                    
-                    DetailStatRow(
-                        title: NSLocalizedString("statistics.last.cigarette", comment: ""), 
-                        value: lastCigaretteTime,
-                        icon: "sunset.fill",
-                        color: .purple
-                    )
-                    
-                    if filteredCigarettes.count > 1 {
-                        DetailStatRow(
-                            title: NSLocalizedString("statistics.longest.break", comment: ""),
-                            value: longestBreak,
-                            icon: "timer",
-                            color: .green
-                        )
+
+                // Grafico settimanale, solo per vista settimanale
+                if selectedTimeFrame == .thisWeek || selectedTimeFrame == .lastWeek {
+                    DSCard {
+                        VStack(spacing: DS.Space.sm) {
+                            DSSectionHeader(NSLocalizedString("weekly.chart.title", comment: ""))
+                            WeeklyChart(weeklyStats: weeklyChartData)
+                        }
+                    }
+                }
+                
+                // Analisi tag (solo se ci sono)
+                if !tagAnalysisData.isEmpty {
+                    DSCard {
+                        VStack(spacing: DS.Space.sm) {
+                            DSSectionHeader(NSLocalizedString("statistics.tag.analysis", comment: ""))
+                            ForEach(tagAnalysisData.prefix(6), id: \.tag.id) { item in
+                                CleanTagAnalysisRow(item: item)
+                            }
+                        }
+                    }
+                }
+
+                // Dettaglio statistiche
+                DSCard {
+                    VStack(spacing: DS.Space.sm) {
+                        DSSectionHeader(NSLocalizedString("statistics.detailed.statistics", comment: ""))
                         
-                        DetailStatRow(
-                            title: NSLocalizedString("statistics.average.interval", comment: ""),
-                            value: averageInterval,
-                            icon: "clock",
-                            color: .blue
-                        )
+                        if !filteredCigarettes.isEmpty {
+                            CleanDetailStatRow(
+                                title: NSLocalizedString("statistics.first.cigarette", comment: ""),
+                                value: firstCigaretteTime,
+                                icon: "sunrise.fill",
+                                color: DS.Colors.warning
+                            )
+                            CleanDetailStatRow(
+                                title: NSLocalizedString("statistics.last.cigarette", comment: ""), 
+                                value: lastCigaretteTime,
+                                icon: "sunset.fill",
+                                color: Color.purple
+                            )
+                            if filteredCigarettes.count > 1 {
+                                CleanDetailStatRow(
+                                    title: NSLocalizedString("statistics.longest.break", comment: ""),
+                                    value: longestBreak,
+                                    icon: "timer",
+                                    color: DS.Colors.success
+                                )
+                                CleanDetailStatRow(
+                                    title: NSLocalizedString("statistics.average.interval", comment: ""),
+                                    value: averageInterval,
+                                    icon: "clock",
+                                    color: DS.Colors.primary
+                                )
+                            }
+                            CleanDetailStatRow(
+                                title: NSLocalizedString("statistics.with.tags", comment: ""),
+                                value: "\(cigarettesWithTags) / \(filteredCigarettes.count)",
+                                icon: "tag",
+                                color: Color.indigo
+                            )
+                        } else {
+                            CleanEmptyStateView()
+                        }
                     }
-                    
-                    DetailStatRow(
-                        title: NSLocalizedString("statistics.with.tags", comment: ""),
-                        value: "\(cigarettesWithTags) / \(filteredCigarettes.count)",
-                        icon: "tag",
-                        color: .indigo
-                    )
-                } else {
-                    Text(NSLocalizedString("statistics.none", comment: ""))
-                        .foregroundStyle(.secondary)
-                        .padding()
                 }
+                
+                Spacer(minLength: 40)
             }
+            .padding(.horizontal, DS.Space.lg)
+            .padding(.top, DS.Space.md)
         }
-        .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+        .background(DS.Colors.background)
     }
     
     // MARK: - Computed Properties
-    
+
     private var filteredCigarettes: [Cigarette] {
         let calendar = Calendar.current
         let now = Date()
@@ -250,24 +182,20 @@ struct EnhancedStatisticsView: View {
             let startOfDay = calendar.startOfDay(for: now)
             let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
             return cigarettes.filter { $0.timestamp >= startOfDay && $0.timestamp < endOfDay }
-            
         case .yesterday:
             let yesterday = calendar.date(byAdding: .day, value: -1, to: now)!
             let startOfYesterday = calendar.startOfDay(for: yesterday)
             let endOfYesterday = calendar.date(byAdding: .day, value: 1, to: startOfYesterday)!
             return cigarettes.filter { $0.timestamp >= startOfYesterday && $0.timestamp < endOfYesterday }
-            
         case .thisWeek:
             let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: now)?.start ?? now
             let endOfWeek = calendar.date(byAdding: .weekOfYear, value: 1, to: startOfWeek)!
             return cigarettes.filter { $0.timestamp >= startOfWeek && $0.timestamp < endOfWeek }
-            
         case .lastWeek:
             let lastWeek = calendar.date(byAdding: .weekOfYear, value: -1, to: now)!
             let startOfLastWeek = calendar.dateInterval(of: .weekOfYear, for: lastWeek)?.start ?? lastWeek
             let endOfLastWeek = calendar.date(byAdding: .weekOfYear, value: 1, to: startOfLastWeek)!
             return cigarettes.filter { $0.timestamp >= startOfLastWeek && $0.timestamp < endOfLastWeek }
-            
         case .thisMonth:
             let startOfMonth = calendar.dateInterval(of: .month, for: now)?.start ?? now
             let endOfMonth = calendar.date(byAdding: .month, value: 1, to: startOfMonth)!
@@ -279,25 +207,18 @@ struct EnhancedStatisticsView: View {
         let calendar = Calendar.current
         let now = Date()
         var chartData: [(Date, Int)] = []
-        
         for i in 0..<7 {
             let date = calendar.date(byAdding: .day, value: -i, to: now)!
             let dayStart = calendar.startOfDay(for: date)
             let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart)!
-            
-            let count = cigarettes.filter { cigarette in
-                cigarette.timestamp >= dayStart && cigarette.timestamp < dayEnd
-            }.count
-            
+            let count = cigarettes.filter { $0.timestamp >= dayStart && $0.timestamp < dayEnd }.count
             chartData.append((dayStart, count))
         }
-        
         return chartData.reversed()
     }
     
     private var tagAnalysisData: [TagAnalysisItem] {
         var tagCounts: [Tag: Int] = [:]
-        
         for cigarette in filteredCigarettes {
             if let tags = cigarette.tags {
                 for tag in tags {
@@ -305,7 +226,6 @@ struct EnhancedStatisticsView: View {
                 }
             }
         }
-        
         let total = filteredCigarettes.count
         return tagCounts.map { tag, count in
             TagAnalysisItem(
@@ -319,102 +239,72 @@ struct EnhancedStatisticsView: View {
     private var averagePerPeriod: Double {
         let count = filteredCigarettes.count
         switch selectedTimeFrame {
-        case .today, .yesterday:
-            return Double(count)
-        case .thisWeek, .lastWeek:
-            return Double(count) / 7.0
+        case .today, .yesterday: return Double(count)
+        case .thisWeek, .lastWeek: return Double(count) / 7.0
         case .thisMonth:
             let daysInMonth = Calendar.current.range(of: .day, in: .month, for: Date())?.count ?? 30
             return Double(count) / Double(daysInMonth)
         }
     }
-    
     private var averageUnit: String {
         switch selectedTimeFrame {
-        case .today, .yesterday:
-            return NSLocalizedString("statistics.today", comment: "").lowercased()
-        case .thisWeek, .lastWeek:
-            return NSLocalizedString("statistics.per.day", comment: "")
-        case .thisMonth:
-            return NSLocalizedString("statistics.per.day", comment: "")
+        case .today, .yesterday: return NSLocalizedString("statistics.today", comment: "").lowercased()
+        case .thisWeek, .lastWeek, .thisMonth: return NSLocalizedString("statistics.per.day", comment: "")
         }
     }
-    
     private var peakHour: String {
         var hourCounts = Array(repeating: 0, count: 24)
-        
         for cigarette in filteredCigarettes {
             let hour = Calendar.current.component(.hour, from: cigarette.timestamp)
             hourCounts[hour] += 1
         }
-        
         guard let maxIndex = hourCounts.enumerated().max(by: { $0.element < $1.element })?.offset,
-              hourCounts[maxIndex] > 0 else {
-            return NSLocalizedString("statistics.none", comment: "")
-        }
-        
+              hourCounts[maxIndex] > 0 else { return NSLocalizedString("statistics.none", comment: "") }
         return "\(maxIndex):00"
     }
-    
-    private var mostUsedTag: String {
-        tagAnalysisData.first?.tag.name ?? ""
-    }
-    
+    private var mostUsedTag: String { tagAnalysisData.first?.tag.name ?? "" }
     private var firstCigaretteTime: String {
         guard let first = filteredCigarettes.min(by: { $0.timestamp < $1.timestamp }) else {
             return NSLocalizedString("statistics.none", comment: "")
         }
         return DateFormatter.timeOnly.string(from: first.timestamp)
     }
-    
     private var lastCigaretteTime: String {
         guard let last = filteredCigarettes.max(by: { $0.timestamp < $1.timestamp }) else {
             return NSLocalizedString("statistics.none", comment: "")
         }
         return DateFormatter.timeOnly.string(from: last.timestamp)
     }
-    
     private var longestBreak: String {
         guard filteredCigarettes.count > 1 else { return "N/A" }
-        
         let sortedCigarettes = filteredCigarettes.sorted { $0.timestamp < $1.timestamp }
         var maxInterval: TimeInterval = 0
-        
         for i in 1..<sortedCigarettes.count {
             let interval = sortedCigarettes[i].timestamp.timeIntervalSince(sortedCigarettes[i-1].timestamp)
             maxInterval = max(maxInterval, interval)
         }
-        
         return formatTimeInterval(maxInterval)
     }
-    
     private var averageInterval: String {
         guard filteredCigarettes.count > 1 else { return "N/A" }
-        
         let sortedCigarettes = filteredCigarettes.sorted { $0.timestamp < $1.timestamp }
         var totalInterval: TimeInterval = 0
-        
         for i in 1..<sortedCigarettes.count {
             let interval = sortedCigarettes[i].timestamp.timeIntervalSince(sortedCigarettes[i-1].timestamp)
             totalInterval += interval
         }
-        
         let averageInterval = totalInterval / Double(sortedCigarettes.count - 1)
         return formatTimeInterval(averageInterval)
     }
-    
     private var cigarettesWithTags: Int {
         filteredCigarettes.filter { cigarette in
             cigarette.tags?.isEmpty == false
         }.count
     }
-    
     // MARK: - Helper Functions
-    
     private func formatTimeInterval(_ interval: TimeInterval) -> String {
         let hours = Int(interval) / 3600
         let minutes = (Int(interval) % 3600) / 60
-        
         if hours > 0 {
             return "\(hours)h \(minutes)m"
         } else {
@@ -423,85 +313,72 @@ struct EnhancedStatisticsView: View {
     }
 }
 
-// MARK: - StatCard with Icon
-
-struct StatCard: View {
-    let title: String
-    let value: String
-    let subtitle: String
-    let color: Color
-    let icon: String
-    
-    var body: some View {
-        VStack(spacing: 8) {
-            HStack {
-                Image(systemName: icon)
-                    .font(.title3)
-                    .foregroundStyle(color)
-                Spacer()
-            }
-            
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Text(value)
-                    .font(.title2)
-                    .fontWeight(.bold)
-                    .foregroundStyle(color)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Text(subtitle)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-        }
-        .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(16)
-        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
-    }
-}
-
-// MARK: - Data Models
-
 struct TagAnalysisItem {
     let tag: Tag
     let count: Int
     let percentage: Double
 }
 
-struct DetailStatRow: View {
+// MARK: - Minified views coerenti
+
+struct CleanTagAnalysisRow: View {
+    let item: TagAnalysisItem
+    var body: some View {
+        HStack(spacing: DS.Space.md) {
+            Circle()
+                .fill(item.tag.color)
+                .frame(width: 16, height: 16)
+            Text(item.tag.name)
+                .font(DS.Text.body)
+                .fontWeight(.medium)
+            Spacer()
+            Text("\(item.count)").font(DS.Text.caption).fontWeight(.semibold)
+            Text("\(item.percentage, specifier: \"%.0f\")%").font(DS.Text.caption)
+        }
+        .padding(.vertical, DS.Space.xs)
+    }
+}
+
+struct CleanDetailStatRow: View {
     let title: String
     let value: String
     let icon: String
     let color: Color
-    
     var body: some View {
-        HStack(spacing: 12) {
+        HStack(spacing: DS.Space.md) {
             Image(systemName: icon)
-                .font(.system(size: 16))
+                .font(.system(size: DS.Size.iconSize))
                 .foregroundStyle(color)
-                .frame(width: 24)
-            
+                .frame(width: 28, alignment: .center)
             Text(title)
-                .font(.subheadline)
-            
-            Spacer()
-            
-            Text(value)
-                .font(.subheadline)
+                .font(DS.Text.body)
                 .fontWeight(.medium)
+            Spacer()
+            Text(value)
+                .font(DS.Text.body)
+                .fontWeight(.semibold)
                 .foregroundStyle(color)
         }
-        .padding(.vertical, 4)
+        .padding(.vertical, DS.Space.sm)
+        .padding(.horizontal, DS.Space.md)
+        .background(Color(.secondarySystemGroupedBackground))
+        .cornerRadius(DS.Size.buttonRadius)
     }
 }
 
-// MARK: - Extensions
+struct CleanEmptyStateView: View {
+    var body: some View {
+        VStack(spacing: DS.Space.md) {
+            Image(systemName: "chart.bar.xaxis")
+                .font(.largeTitle)
+                .foregroundStyle(DS.Colors.textSecondary)
+            Text(NSLocalizedString("statistics.none", comment: ""))
+                .font(DS.Text.body)
+                .foregroundStyle(DS.Colors.textSecondary)
+        }
+        .padding(.vertical, DS.Space.xl)
+    }
+}
 
 extension DateFormatter {
     static let timeOnly: DateFormatter = {

@@ -7,6 +7,12 @@
 
 import SwiftUI
 
+// Shared Data Models
+struct HourlyData {
+    let hour: Int
+    let count: Int
+}
+
 struct InteractiveHourlyChart: View {
     let data: [HourlyData]
     let selectedDate: Date
@@ -57,36 +63,6 @@ struct InteractiveHourlyChart: View {
                 }
             }
             .frame(height: 120)
-            
-            // Legend
-            HStack {
-                Spacer()
-                
-                LegendItem(color: .gray.opacity(0.3), label: "0")
-                LegendItem(color: .green, label: "1-2")
-                LegendItem(color: .orange, label: "3-5")
-                LegendItem(color: .red, label: "6+")
-                
-                Spacer()
-            }
-            
-            // Selected hour info
-            if let selectedHour = selectedHour {
-                HStack {
-                    Image(systemName: "info.circle.fill")
-                        .foregroundColor(.blue)
-                    
-                    Text(String(format: NSLocalizedString("chart.tap.info", comment: ""), selectedHour, (selectedHour + 1) % 24))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
-                    Spacer()
-                }
-                .padding(.horizontal)
-                .padding(.vertical, 8)
-                .background(Color.blue.opacity(0.1))
-                .cornerRadius(8)
-            }
         }
     }
     
@@ -98,44 +74,18 @@ struct InteractiveHourlyChart: View {
     
     private func barColor(for hourData: HourlyData) -> Color {
         switch hourData.count {
-        case 0:
-            return .gray.opacity(0.3)
-        case 1...2:
-            return .green
-        case 3...5:
-            return .orange
-        default:
-            return .red
+        case 0: return .gray.opacity(0.3)
+        case 1...2: return .green
+        case 3...5: return .orange
+        default: return .red
         }
     }
     
     private func hourLabel(_ hour: Int) -> String {
-        if hour == 0 {
-            return "12AM"
-        } else if hour < 12 {
-            return "\(hour)AM"
-        } else if hour == 12 {
-            return "12PM"
-        } else {
-            return "\(hour - 12)PM"
-        }
-    }
-}
-
-struct LegendItem: View {
-    let color: Color
-    let label: String
-    
-    var body: some View {
-        HStack(spacing: 4) {
-            RoundedRectangle(cornerRadius: 2)
-                .fill(color)
-                .frame(width: 12, height: 8)
-            
-            Text(label)
-                .font(.caption2)
-                .foregroundColor(.secondary)
-        }
+        if hour == 0 { return "12AM" }
+        else if hour < 12 { return "\(hour)AM" }
+        else if hour == 12 { return "12PM" }
+        else { return "\(hour - 12)PM" }
     }
 }
 

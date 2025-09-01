@@ -1,70 +1,38 @@
-//
-//  DailyStatsHeader.swift
-//  Mirror Smoker
-//
-//  Created by Roberto D'Angelo on 27/08/24.
-//
-
 import SwiftUI
 
 struct DailyStatsHeader: View {
-    // Make parameters optional with default values
-    var todayCount: Int = 0
-    var onQuickAdd: () -> Void = {}
-    var onAddWithTags: () -> Void = {}
+    let todayCount: Int
+    let onQuickAdd: () -> Void
+    let onAddWithTags: () -> Void
     
     var body: some View {
-        VStack(spacing: 16) {
-            HStack {
-                VStack(alignment: .leading, spacing: 4) {
+        DSCard {
+            VStack(spacing: DS.Space.lg) {
+                VStack(spacing: DS.Space.sm) {
                     Text(NSLocalizedString("today.title", comment: ""))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                    
+                        .font(DS.Text.headline)
+                        .foregroundStyle(DS.Colors.textSecondary)
                     Text("\(todayCount)")
-                        .font(.system(size: 32, weight: .bold, design: .default))
-                        .foregroundColor(todayCount == 0 ? .green : todayCount <= 10 ? .blue : todayCount <= 20 ? .orange : .red)
-                    
-                    Text(NSLocalizedString("cigarettes", comment: ""))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                        .font(DS.Text.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundStyle(DS.Colors.cigarette)
+                    Text(todayCount == 1 ? NSLocalizedString("cigarette.singular", comment: "") : NSLocalizedString("cigarette.plural", comment: ""))
+                        .font(DS.Text.caption)
+                        .foregroundStyle(DS.Colors.textSecondary)
                 }
-                
-                Spacer()
-                
-                VStack(spacing: 12) {
-                    Button(action: onQuickAdd) {
-                        Text(NSLocalizedString("daily.stats.quick.add", comment: ""))
-                            .font(.caption)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    
-                    Button(action: onAddWithTags) {
-                        Text(NSLocalizedString("button.add.with.tags", comment: ""))
-                            .font(.caption)
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.red, lineWidth: 1)
-                            )
-                            .foregroundColor(.red)
-                            .cornerRadius(8)
-                    }
+                HStack(spacing: DS.Space.md) {
+                    DSButton(
+                        NSLocalizedString("daily.stats.quick.add", comment: ""),
+                        icon: "plus.circle.fill",
+                        style: .primary
+                    ) { onQuickAdd() }
+                    DSButton(
+                        NSLocalizedString("button.add.with.tags", comment: ""),
+                        icon: "tag.fill",
+                        style: .secondary
+                    ) { onAddWithTags() }
                 }
             }
-            .padding()
-            .background(Color(.systemBackground))
-            .cornerRadius(12)
-            .shadow(color: .black.opacity(0.1), radius: 4, x: 0, y: 2)
         }
     }
-}
-
-#Preview {
-    DailyStatsHeader()
 }

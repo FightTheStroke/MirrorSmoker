@@ -91,10 +91,9 @@ struct ContentView: View {
     }
     
     var body: some View {
-        ZStack(alignment: .bottom) {
+        ZStack(alignment: .bottomTrailing) {
             ScrollView {
-                VStack(spacing: 20) {
-                    // Spostiamo le statistiche rapide in CIMA
+                VStack(spacing: DS.Space.lg) {
                     QuickStatsFooter(
                         weeklyCount: weeklyCount,
                         monthlyCount: monthlyCount,
@@ -127,9 +126,9 @@ struct ContentView: View {
                         cigarettes: allCigarettes
                     )
                 }
-                .padding()
+                .padding(DS.Space.lg)
             }
-            .background(Color(.systemGroupedBackground))
+            .background(DS.Colors.background)
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
             }
@@ -166,7 +165,8 @@ struct ContentView: View {
                 }
             }
             
-            FloatingActionButton {
+            // Floating Action Button - POSIZIONATO A DESTRA
+            DSFloatingActionButton {
                 addCigarette()
                 let impact = UIImpactFeedbackGenerator(style: .medium)
                 impact.impactOccurred()
@@ -176,18 +176,9 @@ struct ContentView: View {
                     showingTagPicker = true
                 }
             }
-            .padding(.bottom, 30)
+            .padding(.bottom, 100) // Spazio per tab bar
+            .padding(.trailing, DS.Space.lg)
         }
-//        .onAppear {
-//            syncWidgetData()
-//            processPendingWidgetCigarettes()
-//        }
-//        .onChange(of: todayCount) { _, newValue in
-//            syncWidgetData()
-//        }
-//        .onChange(of: lastCigaretteTime) { _, newValue in
-//            syncWidgetData()
-//        }
     }
     
     // MARK: - Private Methods

@@ -11,52 +11,62 @@ struct WeeklyChart: View {
     let weeklyStats: [(Date, Int)]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(NSLocalizedString("weekly.chart.title", comment: ""))
-                .font(.title3)
-                .fontWeight(.semibold)
-            
-            HStack(alignment: .bottom, spacing: 8) {
-                ForEach(weeklyStats, id: \.0) { date, count in
-                    VStack(spacing: 4) {
-                        // Barra
-                        Rectangle()
-                            .fill(count > 15 ? Color.red : count > 10 ? Color.orange : Color.green)
-                            .frame(height: max(min(CGFloat(count) * 8, 120), count > 0 ? 4 : 2))
-                            .cornerRadius(2)
-                        
-                        // Giorno
-                        Text(date, format: .dateTime.weekday(.abbreviated))
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                        
-                        // Valore
-                        Text("\(count)")
-                            .font(.caption2)
-                            .fontWeight(.medium)
-                            .foregroundColor(.primary)
-                    }
-                    .frame(maxWidth: .infinity)
+        HStack(alignment: .bottom, spacing: DS.Space.sm) {
+            ForEach(weeklyStats, id: \.0) { date, count in
+                VStack(spacing: DS.Space.xs) {
+                    // Barra
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(barColor(count))
+                        .frame(width: 18, height: barHeight(count))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(Color.primary.opacity(0.2), lineWidth: 1)
+                        )
+                    
+                    // Giorno
+                    Text(dayLabel(date))
+                        .font(DS.Text.small)
+                        .foregroundColor(DS.Colors.textSecondary)
+                    
+                    // Valore
+                    Text("\(count)")
+                        .font(DS.Text.caption)
+                        .fontWeight(.medium)
+                        .foregroundColor(DS.Colors.textPrimary)
                 }
+                .frame(maxWidth: .infinity)
             }
-            .frame(height: 160)
         }
-        .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(12)
+        .frame(height: 120)
+    }
+    
+    private func barHeight(_ count: Int) -> CGFloat {
+        let maxH: CGFloat = 100
+        return count > 0 ? max(8, min(maxH, CGFloat(count) * 12)) : 4
+    }
+    
+    private func barColor(_ count: Int) -> Color {
+        switch count {
+        case 0: return DS.Colors.success
+        case 1...4: return DS.Colors.primary
+        case 5...9: return DS.Colors.warning
+        default: return DS.Colors.danger
+        }
+    }
+    
+    private func dayLabel(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.setLocalizedDateFormatFromTemplate("E")
+        return formatter.string(from: date)
     }
 }
 
 #Preview {
     WeeklyChart(
-        weeklyStats: [
-            (Date(), 5),
-            (Calendar.current.date(byAdding: .day, value: -1, to: Date())!, 8),
-            (Calendar.current.date(byAdding: .day, value: -2, to: Date())!, 12),
-            (Calendar.current.date(byAdding: .day, value: -3, to: Date())!, 6),
-            (Calendar.current.date(byAdding: .day, value: -4, to: Date())!, 15),
-            (Calendar.current.date(byAdding: .day, value: -5, to: Date())!, 9),
-            (Calendar.current.date(byAdding: .day, value: -6, to: Date())!, 11)
-        ]
+        weeklyStats: (0..<7).map { 
+            let date = Calendar.current.date(byAdding: .day, value: -$0, to: Date())!
+            return (date, Int.random(in: 0...15))
+        }
     )
 }

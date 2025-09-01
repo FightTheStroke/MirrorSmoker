@@ -14,44 +14,62 @@ struct HistorySection: View {
     var cigarettes: [Cigarette] = []
     
     var body: some View {
-        VStack(spacing: 16) {
-            HStack {
-                Text(NSLocalizedString("history.recent.title", comment: ""))
-                    .font(.headline)
+        DSCard {
+            VStack(spacing: DS.Space.md) {
+                DSSectionHeader(NSLocalizedString("history.recent.title", comment: ""))
                 
-                Spacer()
-            }
-            
-            if dailyStats.isEmpty {
-                VStack(spacing: 8) {
-                    Image(systemName: "calendar")
-                        .font(.largeTitle)
-                        .foregroundColor(.secondary)
-                    
-                    Text(NSLocalizedString("history.no.history", comment: ""))
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                }
-                .frame(maxWidth: .infinity)
-                .padding()
-                .background(Color(.systemGray6))
-                .cornerRadius(12)
-            } else {
-                // Show last 7 days of stats
-                ForEach(dailyStats.prefix(7), id: \.date) { stat in
-                    HStack {
-                        Text(stat.date, format: .dateTime.weekday(.wide))
-                            .font(.subheadline)
+                if dailyStats.isEmpty {
+                    VStack(spacing: DS.Space.md) {
+                        Image(systemName: "calendar")
+                            .font(.largeTitle)
+                            .foregroundColor(DS.Colors.textSecondary)
                         
-                        Spacer()
-                        
-                        Text("\(stat.count)")
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
+                        Text(NSLocalizedString("history.no.history", comment: ""))
+                            .font(DS.Text.body)
+                            .foregroundColor(DS.Colors.textSecondary)
                     }
-                    .padding(.vertical, 4)
+                    .padding(.vertical, DS.Space.lg)
+                } else {
+                    VStack(spacing: DS.Space.sm) {
+                        ForEach(dailyStats.prefix(7), id: \.date) { stat in
+                            HStack(spacing: DS.Space.md) {
+                                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                    Text(stat.date, format: .dateTime.weekday(.wide))
+                                        .font(DS.Text.body)
+                                        .fontWeight(.medium)
+                                    
+                                    Text(stat.date, format: .dateTime.month(.abbreviated).day())
+                                        .font(DS.Text.caption)
+                                        .foregroundStyle(DS.Colors.textSecondary)
+                                }
+                                
+                                Spacer()
+                                
+                                VStack(alignment: .trailing, spacing: DS.Space.xs) {
+                                    Text("\(stat.count)")
+                                        .font(DS.Text.headline)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(colorForCount(stat.count))
+                                    
+                                    Text(stat.count == 1 ? NSLocalizedString("cigarette.singular", comment: "") : NSLocalizedString("cigarettes", comment: ""))
+                                        .font(DS.Text.small)
+                                        .foregroundStyle(DS.Colors.textSecondary)
+                                }
+                            }
+                            .padding(.vertical, DS.Space.xs)
+                        }
+                    }
                 }
             }
+        }
+    }
+    
+    private func colorForCount(_ count: Int) -> Color {
+        switch count {
+        case 0: return DS.Colors.success
+        case 1...3: return DS.Colors.primary
+        case 4...7: return DS.Colors.warning
+        default: return DS.Colors.danger
         }
     }
 }

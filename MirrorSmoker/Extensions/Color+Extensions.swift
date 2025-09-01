@@ -1,13 +1,14 @@
 //
-//  Hex.swift
+//  Color+Extensions.swift
 //  Mirror Smoker
 //
-//  Created by Roberto D'Angelo on 27/08/24.
+//  Created by Roberto D'Angelo on 31/08/25.
 //
 
 import SwiftUI
 
 extension Color {
+    /// Create a Color from a hex string
     static func fromHex(_ hex: String) -> Color? {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0
@@ -33,7 +34,7 @@ extension Color {
         )
     }
     
-    // Convert Color to hex string
+    /// Convert Color to hex string
     func toHex() -> String {
         let uiColor = UIColor(self)
         var red: CGFloat = 0
@@ -43,7 +44,16 @@ extension Color {
         
         uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
         
-        let rgb = (Int)(red*255)<<16 | (Int)(green*255)<<8 | (Int)(blue*255)<<0
+        let rgb: Int = (Int)(red * 255) << 16 | (Int)(green * 255) << 8 | (Int)(blue * 255) << 0
+        
         return String(format: "#%06x", rgb)
     }
+}
+
+// MARK: - App Colors
+
+struct AppColors {
+    static let systemBackground = Color(.systemBackground)
+    static let systemGray6 = Color(.systemGray6)
+    static let systemGroupedBackground = Color(.systemGroupedBackground)
 }

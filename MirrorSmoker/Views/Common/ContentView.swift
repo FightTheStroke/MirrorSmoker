@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var showSettings = false
     @State private var showTagPicker = false
     @State private var selectedCigarette: Cigarette?
+    @State private var selectedTags: [Tag] = []
     
     // Filtered data for today
     private var todayCigarettes: [Cigarette] {
@@ -48,111 +49,197 @@ struct ContentView: View {
     var body: some View {
         TabView(selection: $selectedTab) {
             // Main Tab - Simple Dashboard
-            ZStack {
-                ScrollView(showsIndicators: false) {
-                    VStack(spacing: 20) {
-                        // Today's Counter - Simple and Clean
-                        VStack(spacing: 12) {
-                            Text("Today")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                            
-                            Text("\(todayCigarettes.count)")
-                                .font(.system(size: 48, weight: .bold, design: .default))
-                                .foregroundColor(colorForCount(todayCigarettes.count))
-                            
-                            Text("cigarettes")
-                                .font(.caption)
-                                .foregroundColor(.secondary)
-                        }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color(.systemGray6))
-                        .cornerRadius(16)
-                        
-                        // Today's List - Simple
-                        if !todayCigarettes.isEmpty {
-                            VStack(alignment: .leading, spacing: 12) {
+            NavigationView {
+                ZStack {
+                    ScrollView(showsIndicators: false) {
+                        VStack(spacing: 20) {
+                            // App Title & Context
+                            VStack(spacing: 8) {
                                 HStack {
-                                    Text("Today's Cigarettes")
-                                        .font(.headline)
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Mirror Smoker")
+                                            .font(.largeTitle)
+                                            .fontWeight(.bold)
+                                        
+                                        Text("Track and reflect on your smoking habits")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    
                                     Spacer()
                                 }
+                            }
+                            
+                            // Quick Stats - Moved above Today's card
+                            VStack(spacing: 12) {
+                                Text("Quick Stats")
+                                    .font(.headline)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                 
-                                ForEach(todayCigarettes) { cigarette in
-                                    HStack {
-                                        Image(systemName: "lungs.fill")
-                                            .foregroundColor(.red)
-                                        
-                                        VStack(alignment: .leading, spacing: 2) {
-                                            Text(cigarette.timestamp, format: .dateTime.hour().minute())
-                                                .font(.subheadline)
-                                            
-                                            if !cigarette.note.isEmpty {
-                                                Text(cigarette.note)
-                                                    .font(.caption)
-                                                    .foregroundColor(.secondary)
-                                            }
-                                        }
-                                        
-                                        Spacer()
-                                        
-                                        // Simple delete button
-                                        Button(action: {
-                                            deleteCigarette(cigarette)
-                                        }) {
-                                            Image(systemName: "trash")
-                                                .foregroundColor(.red)
-                                        }
-                                    }
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal, 12)
-                                    .background(Color(.systemBackground))
-                                    .cornerRadius(8)
+                                HStack {
+                                    StatBox(title: "This Week", value: "\(weeklyCount)", color: .blue)
+                                    StatBox(title: "This Month", value: "\(monthlyCount)", color: .orange)
+                                    StatBox(title: "Total", value: "\(cigarettes.count)", color: .purple)
                                 }
                             }
-                        }
-                        
-                        // Simple Stats
-                        VStack(spacing: 12) {
-                            Text("Quick Stats")
-                                .font(.headline)
                             
-                            HStack {
-                                StatBox(title: "This Week", value: "\(weeklyCount)", color: .blue)
-                                StatBox(title: "This Month", value: "\(monthlyCount)", color: .orange)
-                                StatBox(title: "Total", value: "\(cigarettes.count)", color: .purple)
+                            // Today's Counter - Now below quick stats
+                            VStack(spacing: 12) {
+                                Text("Today")
+                                    .font(.headline)
+                                    .foregroundColor(.secondary)
+                                
+                                Text("\(todayCigarettes.count)")
+                                    .font(.system(size: 48, weight: .bold, design: .default))
+                                    .foregroundColor(colorForCount(todayCigarettes.count))
+                                
+                                Text(todayCigarettes.count == 1 ? "cigarette" : "cigarettes")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
                             }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color(.systemGray6))
+                            .cornerRadius(16)
+                            
+                            // Today's List - With Tags
+                            if !todayCigarettes.isEmpty {
+                                VStack(alignment: .leading, spacing: 12) {
+                                    HStack {
+                                        Text("Today's Cigarettes")
+                                            .font(.headline)
+                                        Spacer()
+                                    }
+                                    
+                                    ForEach(todayCigarettes) { cigarette in
+                                        HStack {
+                                            Image(systemName: "lungs.fill")
+                                                .foregroundColor(.red)
+                                            
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text(cigarette.timestamp, format: .dateTime.hour().minute())
+                                                    .font(.subheadline)
+                                                    .fontWeight(.medium)
+                                                
+                                                if !cigarette.note.isEmpty {
+                                                    Text(cigarette.note)
+                                                        .font(.caption)
+                                                        .foregroundColor(.secondary)
+                                                }
+                                                
+                                                // Show tags as colored chips
+                                                if let cigaretteTags = cigarette.tags, !cigaretteTags.isEmpty {
+                                                    HStack {
+                                                        ForEach(cigaretteTags.prefix(3)) { tag in
+                                                            Text(tag.name)
+                                                                .font(.system(size: 10))
+                                                                .padding(.horizontal, 6)
+                                                                .padding(.vertical, 2)
+                                                                .background(tag.color)
+                                                                .foregroundColor(.white)
+                                                                .cornerRadius(4)
+                                                        }
+                                                        
+                                                        if cigaretteTags.count > 3 {
+                                                            Text("+\(cigaretteTags.count - 3)")
+                                                                .font(.system(size: 10))
+                                                                .padding(.horizontal, 6)
+                                                                .padding(.vertical, 2)
+                                                                .background(Color.gray)
+                                                                .foregroundColor(.white)
+                                                                .cornerRadius(4)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            
+                                            Spacer()
+                                            
+                                            HStack(spacing: 8) {
+                                                // Add/Edit tags button
+                                                Button(action: {
+                                                    selectedCigarette = cigarette
+                                                    selectedTags = cigarette.tags ?? []
+                                                    showTagPicker = true
+                                                }) {
+                                                    Image(systemName: "tag")
+                                                        .foregroundColor(.blue)
+                                                }
+                                                
+                                                // Simple delete button
+                                                Button(action: {
+                                                    deleteCigarette(cigarette)
+                                                }) {
+                                                    Image(systemName: "trash")
+                                                        .foregroundColor(.red)
+                                                }
+                                            }
+                                        }
+                                        .padding(.vertical, 8)
+                                        .padding(.horizontal, 12)
+                                        .background(Color(.systemBackground))
+                                        .cornerRadius(8)
+                                        .swipeActions(edge: .leading) {
+                                            Button(action: {
+                                                selectedCigarette = cigarette
+                                                selectedTags = cigarette.tags ?? []
+                                                showTagPicker = true
+                                            }) {
+                                                Label("Tags", systemImage: "tag")
+                                            }
+                                            .tint(.blue)
+                                        }
+                                        .swipeActions(edge: .trailing) {
+                                            Button(role: .destructive, action: {
+                                                deleteCigarette(cigarette)
+                                            }) {
+                                                Label("Delete", systemImage: "trash")
+                                            }
+                                        }
+                                    }
+                                }
+                            } else {
+                                // Empty state
+                                VStack(spacing: 12) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .font(.largeTitle)
+                                        .foregroundColor(.green)
+                                    
+                                    Text("Great! No cigarettes today")
+                                        .font(.headline)
+                                    
+                                    Text("Keep it up! Use the + button to log one if needed.")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                        .multilineTextAlignment(.center)
+                                }
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(12)
+                            }
+                            
+                            // Add bottom padding to avoid floating button
+                            Color.clear.frame(height: 80)
                         }
-                        
-                        // Add bottom padding to avoid floating button
-                        Color.clear.frame(height: 80)
+                        .padding(.horizontal)
                     }
-                    .padding(.horizontal)
-                }
-                
-                // Floating Action Button
-                VStack {
-                    Spacer()
-                    HStack {
+                    
+                    // Floating Action Button
+                    VStack {
                         Spacer()
-                        FloatingActionButton {
-                            addCigarette()
+                        HStack {
+                            Spacer()
+                            FloatingActionButton {
+                                addCigarette()
+                            }
+                            .padding(.trailing, 20)
+                            .padding(.bottom, 20)
                         }
-                        .padding(.trailing, 20)
-                        .padding(.bottom, 20)
                     }
                 }
             }
-            .navigationTitle("Mirror Smoker")
-            .navigationBarTitleDisplayMode(.large)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: { showSettings = true }) {
-                        Image(systemName: "gear")
-                    }
-                }
-            }
+            .navigationBarHidden(true)
             .tabItem {
                 Image(systemName: "house.fill")
                 Text("Home")
@@ -161,7 +248,7 @@ struct ContentView: View {
             
             // Simple Stats Tab
             NavigationView {
-                SimpleStatsView(cigarettes: cigarettes)
+                EnhancedStatisticsView()
                     .navigationTitle("Statistics")
             }
             .tabItem {
@@ -169,9 +256,28 @@ struct ContentView: View {
                 Text("Stats")
             }
             .tag(1)
+            
+            // Settings Tab
+            NavigationView {
+                SettingsView()
+                    .navigationTitle("Settings")
+            }
+            .tabItem {
+                Image(systemName: "gear")
+                Text("Settings")
+            }
+            .tag(2)
         }
-        .sheet(isPresented: $showSettings) {
-            SettingsView()
+        .sheet(isPresented: $showTagPicker) {
+            TagPickerView(selectedTags: $selectedTags)
+                .onDisappear {
+                    // Save tags to the selected cigarette
+                    if let cigarette = selectedCigarette {
+                        cigarette.tags = selectedTags
+                        try? modelContext.save()
+                        selectedCigarette = nil
+                    }
+                }
         }
         .accentColor(.red)
     }
@@ -179,21 +285,37 @@ struct ContentView: View {
     // MARK: - Actions
     
     private func addCigarette() {
+        // Add haptic feedback
+        let impact = UIImpactFeedbackGenerator(style: .medium)
+        impact.impactOccurred()
+        
         let newCigarette = Cigarette()
         modelContext.insert(newCigarette)
         
         do {
             try modelContext.save()
+            
+            // Sync with widget
+            WidgetStore.shared.syncWithWidget(modelContext: modelContext)
+            
         } catch {
             print("Error saving cigarette: \(error)")
         }
     }
     
     private func deleteCigarette(_ cigarette: Cigarette) {
+        // Add haptic feedback
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
+        
         modelContext.delete(cigarette)
         
         do {
             try modelContext.save()
+            
+            // Sync with widget
+            WidgetStore.shared.syncWithWidget(modelContext: modelContext)
+            
         } catch {
             print("Error deleting cigarette: \(error)")
         }
@@ -257,10 +379,47 @@ struct SimpleStatsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                // Quick Stats Grid
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
+                    StatCard(
+                        title: "Today",
+                        value: "\(todayCount)",
+                        subtitle: "cigarettes",
+                        color: .blue,
+                        systemImage: "lungs.fill"
+                    )
+                    
+                    StatCard(
+                        title: "This Week",
+                        value: "\(weekCount)",
+                        subtitle: "total",
+                        color: .orange,
+                        systemImage: "calendar"
+                    )
+                    
+                    StatCard(
+                        title: "Average",
+                        value: String(format: "%.1f", weeklyAverage),
+                        subtitle: "per day",
+                        color: .green,
+                        systemImage: "chart.line.uptrend.xyaxis"
+                    )
+                    
+                    StatCard(
+                        title: "Total",
+                        value: "\(cigarettes.count)",
+                        subtitle: "all time",
+                        color: .purple,
+                        systemImage: "sum"
+                    )
+                }
+                .padding(.horizontal)
+                
                 // 7-Day Chart
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Last 7 Days")
                         .font(.headline)
+                        .padding(.horizontal)
                     
                     HStack(alignment: .bottom, spacing: 8) {
                         ForEach(last7Days, id: \.0) { date, count in
@@ -283,15 +442,41 @@ struct SimpleStatsView: View {
                         }
                     }
                     .frame(height: 120)
+                    .padding(.horizontal)
                 }
                 .padding()
-                .background(Color(.systemGray6))
+                .background(AppColors.systemGray6)
                 .cornerRadius(12)
+                .padding(.horizontal)
                 
                 Spacer()
             }
-            .padding()
+            .padding(.vertical)
         }
+    }
+    
+    private var todayCount: Int {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
+        
+        return cigarettes.filter { cigarette in
+            cigarette.timestamp >= today && cigarette.timestamp < tomorrow
+        }.count
+    }
+    
+    private var weekCount: Int {
+        let calendar = Calendar.current
+        let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
+        
+        return cigarettes.filter { cigarette in
+            cigarette.timestamp >= weekAgo
+        }.count
+    }
+    
+    private var weeklyAverage: Double {
+        guard weekCount > 0 else { return 0 }
+        return Double(weekCount) / 7.0
     }
 }
 

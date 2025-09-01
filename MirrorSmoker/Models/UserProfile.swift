@@ -8,40 +8,77 @@
 import Foundation
 import SwiftData
 
+enum SmokingType: String, CaseIterable, Codable {
+    case cigarettes = "cigarettes"
+    case electronic = "electronic"
+    case tobacco = "tobacco"
+    
+    var displayName: String {
+        switch self {
+        case .cigarettes:
+            return "Sigarette"
+        case .electronic:
+            return "Sigarette Elettroniche"
+        case .tobacco:
+            return "Tabacco"
+        }
+    }
+    
+    var icon: String {
+        switch self {
+        case .cigarettes:
+            return "lungs.fill"
+        case .electronic:
+            return "battery.100"
+        case .tobacco:
+            return "leaf.fill"
+        }
+    }
+}
+
 @Model
 final class UserProfile {
     var id: UUID = UUID()
     var name: String = ""
-    var email: String = ""
-    var username: String = ""
-    var dailyGoal: Int = 20
-    var weeklyGoal: Int = 140
-    var monthlyGoal: Int = 600
+    var birthDate: Date?
+    var weight: Double = 0.0 // in kg
+    var smokingType: SmokingType = SmokingType.cigarettes
+    var startedSmokingAge: Int = 18
     var notificationsEnabled: Bool = true
-    var themePreference: String = "light"
+    var themePreference: String = "system"
     var lastUpdated: Date = Date()
+    
+    // Computed property for age
+    var age: Int {
+        guard let birthDate = birthDate else { return 0 }
+        let calendar = Calendar.current
+        let ageComponents = calendar.dateComponents([.year], from: birthDate, to: Date())
+        return ageComponents.year ?? 0
+    }
+    
+    // Computed property for years smoking
+    var yearsSmokingSince: Int {
+        max(0, age - startedSmokingAge)
+    }
     
     init(
         id: UUID = UUID(),
         name: String = "",
-        email: String = "",
-        username: String = "",
-        dailyGoal: Int = 20,
-        weeklyGoal: Int = 140,
-        monthlyGoal: Int = 600,
+        birthDate: Date? = nil,
+        weight: Double = 0.0,
+        smokingType: SmokingType = .cigarettes,
+        startedSmokingAge: Int = 18,
         notificationsEnabled: Bool = true,
-        themePreference: String = "light",
-        lastUpdated: Date = Date()
+        themePreference: String = "system"
     ) {
         self.id = id
         self.name = name
-        self.email = email
-        self.username = username
-        self.dailyGoal = dailyGoal
-        self.weeklyGoal = weeklyGoal
-        self.monthlyGoal = monthlyGoal
+        self.birthDate = birthDate
+        self.weight = weight
+        self.smokingType = smokingType
+        self.startedSmokingAge = startedSmokingAge
         self.notificationsEnabled = notificationsEnabled
         self.themePreference = themePreference
-        self.lastUpdated = lastUpdated
+        self.lastUpdated = Date()
     }
 }

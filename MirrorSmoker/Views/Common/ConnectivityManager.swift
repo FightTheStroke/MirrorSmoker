@@ -15,16 +15,38 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     
     private var session: WCSession?
     private var modelContext: ModelContext?
+    private var isActivated = false
     
     override private init() {
         super.init()
     }
     
     func activate() {
-        if WCSession.isSupported() {
-            session = WCSession.default
-            session?.delegate = self
-            session?.activate()
+        // Temporarily disable WCSession to fix performance issues
+        // TODO: Re-enable once Watch connectivity is stable
+        return
+        
+        guard WCSession.isSupported() else {
+            print("WCSession not supported on this device")
+            return
+        }
+        
+        // Only activate if we haven't already
+        guard !isActivated else { return }
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.session = WCSession.default
+            self.session?.delegate = self
+            
+            // Activate on background queue to avoid blocking main thread
+            DispatchQueue.global(qos: .utility).async {
+                self.session?.activate()
+                DispatchQueue.main.async {
+                    self.isActivated = true
+                }
+            }
         }
     }
     
@@ -35,31 +57,66 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     // MARK: - WCSessionDelegate
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        // Handle activation completion
+        DispatchQueue.main.async { [weak self] in
+            if let error = error {
+                print("WCSession activation failed: \(error.localizedDescription)")
+                return
+            }
+            
+            switch activationState {
+            case .activated:
+                print("WCSession activated successfully")
+            case .inactive:
+                print("WCSession is inactive")
+            case .notActivated:
+                print("WCSession not activated")
+            @unknown default:
+                print("WCSession unknown state")
+            }
+        }
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        // Handle session becoming inactive
+        print("WCSession became inactive")
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
-        // Handle session deactivation
+        print("WCSession deactivated")
+        // Re-activate if needed
+        DispatchQueue.global(qos: .utility).async {
+            session.activate()
+        }
     }
     
     // MARK: - Message Sending
     
     func sendAddCigarette(_ dto: CigaretteDTO) {
+        guard let session = session, 
+              session.isReachable else {
+            print("WCSession not reachable")
+            return
+        }
+        
         let message = [
             "type": "addCigarette",
             "data": dto.toDictionary()
         ] as [String : Any]
         
-        session?.sendMessage(message, replyHandler: nil) { error in
-            print("Error sending message: \(error)")
+        // Send on background queue
+        DispatchQueue.global(qos: .utility).async {
+            session.sendMessage(message, replyHandler: nil) { error in
+                print("Error sending message: \(error.localizedDescription)")
+            }
         }
     }
     
     func sendTodaySnapshot(from cigarettes: [Cigarette]) {
+        guard let session = session,
+              session.isReachable else {
+            print("WCSession not reachable for snapshot")
+            return
+        }
+        
         let today = Calendar.current.startOfDay(for: Date())
         let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
         let todayCount = cigarettes.filter { $0.timestamp >= today && $0.timestamp < tomorrow }.count
@@ -69,8 +126,11 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
             "todayCount": todayCount
         ] as [String : Any]
         
-        session?.sendMessage(message, replyHandler: nil) { error in
-            print("Error sending snapshot: \(error)")
+        // Send on background queue
+        DispatchQueue.global(qos: .utility).async {
+            session.sendMessage(message, replyHandler: nil) { error in
+                print("Error sending snapshot: \(error.localizedDescription)")
+            }
         }
     }
 }

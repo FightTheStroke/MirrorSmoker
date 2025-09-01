@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftData
+import SwiftUI
 
 @Model
 final class Tag {
@@ -20,5 +21,10 @@ final class Tag {
         self.name = name
         self.colorHex = colorHex
         self.cigarettes = cigarettes
+    }
+    
+    // Computed property for SwiftUI Color
+    var color: Color {
+        Color.fromHex(colorHex) ?? .blue
     }
 }

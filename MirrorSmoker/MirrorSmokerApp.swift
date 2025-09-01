@@ -52,7 +52,8 @@ struct MirrorSmokerApp: App {
                     WidgetStore.shared.configure(modelContext: Self.sharedModelContainer.mainContext)
                 }
                 .task {
-                    ConnectivityManager.shared.activate()
+                    // Initial widget sync
+                    WidgetStore.shared.syncWithWidget(modelContext: Self.sharedModelContainer.mainContext)
                 }
         }
     }

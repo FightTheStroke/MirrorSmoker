@@ -11,15 +11,17 @@ import AppIntents
 
 struct CigaretteWidgetProvider: TimelineProvider {
     func placeholder(in context: Context) -> CigaretteWidgetEntry {
-        CigaretteWidgetEntry(date: Date(), todayCount: 0, lastCigaretteTime: "--:--")
+        CigaretteWidgetEntry(date: Date(), todayCount: 0, lastCigaretteTime: "--:--", hasPending: false)
     }
 
     func getSnapshot(in context: Context, completion: @escaping (CigaretteWidgetEntry) -> Void) {
         let data = WidgetStore.readSnapshot()
+        let pendingCount = WidgetStore.shared.getPendingCount()
         let entry = CigaretteWidgetEntry(
             date: Date(), 
             todayCount: data.todayCount, 
-            lastCigaretteTime: data.lastCigaretteTime
+            lastCigaretteTime: data.lastCigaretteTime,
+            hasPending: pendingCount > 0
         )
         completion(entry)
     }
@@ -27,15 +29,32 @@ struct CigaretteWidgetProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<CigaretteWidgetEntry>) -> Void) {
         // Get real data from shared storage
         let data = WidgetStore.readSnapshot()
+        let pendingCount = WidgetStore.shared.getPendingCount()
+        
+        // Check if widget data seems uninitialized (could be first run)
+        let isFirstRun = !WidgetStore.shared.hasBeenInitialized()
         
         let entry = CigaretteWidgetEntry(
             date: Date(),
             todayCount: data.todayCount,
-            lastCigaretteTime: data.lastCigaretteTime
+            lastCigaretteTime: data.lastCigaretteTime,
+            hasPending: pendingCount > 0
         )
         
-        // Refresh every 15 minutes or when app updates
-        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 15, to: Date()) ?? Date()
+        // Refresh strategy based on state
+        let refreshMinutes: Int
+        if isFirstRun {
+            // On first run, refresh very frequently to sync with app quickly
+            refreshMinutes = 1
+        } else if pendingCount > 0 {
+            // If pending items, refresh more frequently
+            refreshMinutes = 2
+        } else {
+            // Normal refresh rate
+            refreshMinutes = 15
+        }
+        
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: refreshMinutes, to: Date()) ?? Date()
         let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
         
         completion(timeline)
@@ -46,9 +65,12 @@ struct CigaretteWidgetEntry: TimelineEntry {
     let date: Date
     let todayCount: Int
     let lastCigaretteTime: String
+    let hasPending: Bool
 }
 
 struct AnimatedAddButton: View {
+    let hasPending: Bool
+    
     var body: some View {
         Button(intent: AddCigaretteIntent()) {
             ZStack {
@@ -56,17 +78,18 @@ struct AnimatedAddButton: View {
                 Circle()
                     .fill(
                         LinearGradient(
-                            colors: [Color.red, Color.red.opacity(0.8)],
+                            colors: hasPending ? [Color.orange, Color.orange.opacity(0.8)] : [Color.red, Color.red.opacity(0.8)],
                             startPoint: .topLeading,
                             endPoint: .bottomTrailing
                         )
                     )
-                    .shadow(color: .red.opacity(0.4), radius: 3, x: 0, y: 2)
+                    .shadow(color: (hasPending ? Color.orange : Color.red).opacity(0.4), radius: 3, x: 0, y: 2)
                 
-                // Plus icon
-                Image(systemName: "plus")
+                // Icon based on pending state
+                Image(systemName: hasPending ? "clock.fill" : "plus")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundColor(.white)
+                    .scaleEffect(hasPending ? 0.9 : 1.0)
             }
         }
         .buttonStyle(.plain)
@@ -98,14 +121,25 @@ struct CigaretteWidgetView: View {
                 
                 Spacer()
                 
-                // Quick status
-                Text(statusText(for: entry.todayCount))
-                    .font(.system(size: 8, weight: .medium))
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(statusColor(for: entry.todayCount).opacity(0.2))
-                    .foregroundColor(statusColor(for: entry.todayCount))
-                    .cornerRadius(8)
+                // Status indicator
+                HStack(spacing: 4) {
+                    if entry.hasPending {
+                        Image(systemName: "clock.fill")
+                            .font(.system(size: 8))
+                            .foregroundColor(.orange)
+                        Text("SYNC")
+                            .font(.system(size: 8, weight: .medium))
+                            .foregroundColor(.orange)
+                    } else {
+                        Text(statusText(for: entry.todayCount))
+                            .font(.system(size: 8, weight: .medium))
+                            .foregroundColor(statusColor(for: entry.todayCount))
+                    }
+                }
+                .padding(.horizontal, 6)
+                .padding(.vertical, 2)
+                .background((entry.hasPending ? Color.orange : statusColor(for: entry.todayCount)).opacity(0.2))
+                .cornerRadius(8)
             }
             .padding(.bottom, 12)
             
@@ -113,21 +147,31 @@ struct CigaretteWidgetView: View {
             HStack(alignment: .top) {
                 // Count section
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("\(entry.todayCount)")
-                        .font(.system(size: 34, weight: .bold, design: .rounded))
-                        .foregroundColor(colorForCount(entry.todayCount))
-                        .minimumScaleFactor(0.7)
-                        .lineLimit(1)
+                    HStack(alignment: .firstTextBaseline, spacing: 4) {
+                        Text("\(entry.todayCount)")
+                            .font(.system(size: 34, weight: .bold, design: .rounded))
+                            .foregroundColor(colorForCount(entry.todayCount))
+                            .minimumScaleFactor(0.7)
+                            .lineLimit(1)
+                        
+                        // Pending indicator
+                        if entry.hasPending {
+                            Text("•••")
+                                .font(.system(size: 12, weight: .bold))
+                                .foregroundColor(.orange)
+                                .opacity(0.8)
+                        }
+                    }
                     
-                    Text("today")
+                    Text(entry.hasPending ? "syncing..." : "today")
                         .font(.system(size: 11, weight: .medium))
-                        .foregroundColor(.secondary)
+                        .foregroundColor(entry.hasPending ? .orange : .secondary)
                 }
                 
                 Spacer()
                 
                 // Add button
-                AnimatedAddButton()
+                AnimatedAddButton(hasPending: entry.hasPending)
             }
             
             Spacer()
@@ -169,7 +213,7 @@ struct CigaretteWidgetView: View {
             ZStack {
                 // Base gradient
                 LinearGradient(
-                    colors: gradientColors(for: entry.todayCount),
+                    colors: gradientColors(for: entry.todayCount, hasPending: entry.hasPending),
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
@@ -229,7 +273,15 @@ struct CigaretteWidgetView: View {
         }
     }
     
-    private func gradientColors(for count: Int) -> [Color] {
+    private func gradientColors(for count: Int, hasPending: Bool) -> [Color] {
+        if hasPending {
+            return [
+                Color.orange.opacity(0.4),
+                Color.yellow.opacity(0.3),
+                Color.orange.opacity(0.2)
+            ]
+        }
+        
         switch count {
         case 0:
             return [
@@ -303,7 +355,8 @@ struct AddCigaretteIntent: AppIntent {
 #Preview(as: .systemSmall) {
     MirrorSmokerWidget()
 } timeline: {
-    CigaretteWidgetEntry(date: .now, todayCount: 0, lastCigaretteTime: "--:--")
-    CigaretteWidgetEntry(date: .now, todayCount: 3, lastCigaretteTime: "14:30")
-    CigaretteWidgetEntry(date: .now, todayCount: 8, lastCigaretteTime: "16:45")
+    CigaretteWidgetEntry(date: .now, todayCount: 0, lastCigaretteTime: "--:--", hasPending: false)
+    CigaretteWidgetEntry(date: .now, todayCount: 3, lastCigaretteTime: "14:30", hasPending: false)
+    CigaretteWidgetEntry(date: .now, todayCount: 3, lastCigaretteTime: "14:30", hasPending: true)
+    CigaretteWidgetEntry(date: .now, todayCount: 8, lastCigaretteTime: "16:45", hasPending: false)
 }

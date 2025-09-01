@@ -23,6 +23,9 @@ struct SettingsView: View {
     @State private var showingSaveConfirmation = false
     @State private var hasLoadedProfile = false
     
+    // Cache the profile to avoid repeated lookups
+    @State private var cachedProfile: UserProfile?
+    
     // Focus states for better UX
     @FocusState private var focusedField: Field?
     
@@ -31,13 +34,21 @@ struct SettingsView: View {
     }
     
     private var profile: UserProfile? {
-        // Safely get the first profile, handling potential data corruption
-        do {
-            return profiles.first
-        } catch {
-            print("Error accessing profiles: \(error)")
-            return nil
+        // Use cached profile if available, otherwise get first profile safely
+        if let cached = cachedProfile {
+            return cached
         }
+        
+        // Safely get the first profile without throwing
+        guard !profiles.isEmpty else { return nil }
+        let firstProfile = profiles.first
+        
+        // Cache it for future use
+        DispatchQueue.main.async {
+            cachedProfile = firstProfile
+        }
+        
+        return firstProfile
     }
     
     private var isValidWeight: Bool {
@@ -49,6 +60,15 @@ struct SettingsView: View {
     
     private var isValidAge: Bool {
         startedSmokingAge >= 10 && startedSmokingAge <= 80
+    }
+    
+    // Computed values to reduce repeated calculations
+    private var currentAge: Int {
+        profile?.age ?? 0
+    }
+    
+    private var yearsSmokingCalculated: Int {
+        max(0, currentAge - startedSmokingAge)
     }
     
     var body: some View {
@@ -66,6 +86,7 @@ struct SettingsView: View {
                             .focused($focusedField, equals: .name)
                             .textInputAutocapitalization(.words)
                             .submitLabel(.next)
+                            .autocorrectionDisabled()
                     }
                     
                     // Birth Date Field
@@ -78,14 +99,14 @@ struct SettingsView: View {
                             Text("Data di nascita")
                                 .foregroundColor(.primary)
                             
-                            if let profile = profile, profile.birthDate != nil {
+                            if profile?.birthDate != nil {
                                 HStack {
                                     Text(birthDate, style: .date)
                                         .foregroundColor(.secondary)
                                     
                                     Spacer()
                                     
-                                    Text("Età: \(profile.age)")
+                                    Text("Età: \(currentAge)")
                                         .font(.caption)
                                         .padding(.horizontal, 8)
                                         .padding(.vertical, 4)
@@ -105,32 +126,29 @@ struct SettingsView: View {
                     }
                     
                     // Weight Field
-                    HStack {
-                        Image(systemName: "scalemass")
-                            .foregroundColor(.blue)
-                            .frame(width: 24)
-                        
-                        TextField("Peso (kg)", text: $weight)
-                            .focused($focusedField, equals: .weight)
-                            .keyboardType(.decimalPad)
-                            .submitLabel(.next)
-                        
-                        if !weight.isEmpty {
-                            Text("kg")
-                                .foregroundColor(.secondary)
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Image(systemName: "scalemass")
+                                .foregroundColor(.blue)
+                                .frame(width: 24)
+                            
+                            TextField("Peso (kg)", text: $weight)
+                                .focused($focusedField, equals: .weight)
+                                .keyboardType(.decimalPad)
+                                .submitLabel(.next)
+                                .autocorrectionDisabled()
+                            
+                            if !weight.isEmpty {
+                                Text("kg")
+                                    .foregroundColor(.secondary)
+                            }
                         }
-                    }
-                    .overlay(
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundColor(isValidWeight ? .clear : .red)
-                            .offset(y: 15)
-                    )
-                    
-                    if !isValidWeight {
-                        Text("Inserisci un peso valido (1-300 kg)")
-                            .font(.caption)
-                            .foregroundColor(.red)
+                        
+                        if !isValidWeight && !weight.isEmpty {
+                            Text("Inserisci un peso valido (1-300 kg)")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                        }
                     }
                     
                 } header: {
@@ -160,33 +178,36 @@ struct SettingsView: View {
                     }
                     
                     // Started Smoking Age
-                    HStack {
-                        Image(systemName: "hourglass.tophalf.filled")
-                            .foregroundColor(.orange)
-                            .frame(width: 24)
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Image(systemName: "hourglass.tophalf.filled")
+                                .foregroundColor(.orange)
+                                .frame(width: 24)
+                            
+                            Text("Età quando ho iniziato")
+                            
+                            Spacer()
+                            
+                            TextField("Età", value: $startedSmokingAge, formatter: NumberFormatter())
+                                .focused($focusedField, equals: .startedSmokingAge)
+                                .keyboardType(.numberPad)
+                                .frame(width: 60)
+                                .multilineTextAlignment(.trailing)
+                                .autocorrectionDisabled()
+                            
+                            Text("anni")
+                                .foregroundColor(.secondary)
+                        }
                         
-                        Text("Età quando ho iniziato")
-                        
-                        Spacer()
-                        
-                        TextField("Età", value: $startedSmokingAge, formatter: NumberFormatter())
-                            .focused($focusedField, equals: .startedSmokingAge)
-                            .keyboardType(.numberPad)
-                            .frame(width: 60)
-                            .multilineTextAlignment(.trailing)
-                        
-                        Text("anni")
-                            .foregroundColor(.secondary)
-                    }
-                    
-                    if !isValidAge {
-                        Text("Inserisci un'età valida (10-80 anni)")
-                            .font(.caption)
-                            .foregroundColor(.red)
+                        if !isValidAge {
+                            Text("Inserisci un'età valida (10-80 anni)")
+                                .font(.caption)
+                                .foregroundColor(.red)
+                        }
                     }
                     
                     // Years smoking display
-                    if let profile = profile, profile.birthDate != nil && isValidAge {
+                    if profile?.birthDate != nil && isValidAge && currentAge > 0 {
                         HStack {
                             Image(systemName: "clock.fill")
                                 .foregroundColor(.red)
@@ -196,7 +217,7 @@ struct SettingsView: View {
                             
                             Spacer()
                             
-                            Text("\(max(0, profile.age - startedSmokingAge)) anni")
+                            Text("\(yearsSmokingCalculated) anni")
                                 .fontWeight(.semibold)
                                 .foregroundColor(.red)
                         }
@@ -242,13 +263,13 @@ struct SettingsView: View {
                 }
                 
                 // Health Insights Section (if profile is complete)
-                if let profile = profile, profile.birthDate != nil && !weight.isEmpty && isValidWeight {
+                if profile?.birthDate != nil && !weight.isEmpty && isValidWeight && currentAge > 0 {
                     Section {
                         HealthInsightsView(
-                            age: profile.age,
+                            age: currentAge,
                             weight: Double(weight) ?? 0,
                             smokingType: smokingType,
-                            yearsSmokingSince: max(0, profile.age - startedSmokingAge)
+                            yearsSmokingSince: yearsSmokingCalculated
                         )
                     } header: {
                         Text("Informazioni sulla Salute")
@@ -303,6 +324,14 @@ struct SettingsView: View {
                     hasLoadedProfile = true
                 }
             }
+            .onChange(of: profiles) { _, _ in
+                // Update cached profile when profiles change
+                cachedProfile = profiles.first
+                if !hasLoadedProfile {
+                    loadProfileData()
+                    hasLoadedProfile = true
+                }
+            }
             .onSubmit {
                 switch focusedField {
                 case .name:
@@ -321,6 +350,7 @@ struct SettingsView: View {
                     Button("Fine") {
                         focusedField = nil
                     }
+                    .foregroundColor(.blue)
                 }
             }
             .sheet(isPresented: $showDatePicker) {
@@ -336,6 +366,7 @@ struct SettingsView: View {
                 Text("Le tue informazioni sono state salvate con successo")
             }
         }
+        .navigationViewStyle(.stack) // Fixes some constraint issues on iPhone
     }
     
     // MARK: - Computed Properties
@@ -373,6 +404,9 @@ struct SettingsView: View {
             }
             try modelContext.save()
             
+            // Reset cached profile
+            cachedProfile = nil
+            
             // Reset the form
             name = ""
             birthDate = Date()
@@ -409,6 +443,10 @@ struct SettingsView: View {
         
         do {
             try modelContext.save()
+            
+            // Update cached profile
+            cachedProfile = profileToSave
+            
             showingSaveConfirmation = true
             
             // Haptic feedback
@@ -429,7 +467,7 @@ struct DatePickerSheet: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 20) {
                 DatePicker(
                     "Data di nascita",
                     selection: $selectedDate,
@@ -459,7 +497,7 @@ struct DatePickerSheet: View {
                 }
             }
         }
-        .presentationDetents([.medium])
+        .navigationViewStyle(.stack) // Consistency with main view
     }
 }
 
@@ -476,10 +514,12 @@ struct HealthInsightsView: View {
                 HStack {
                     Image(systemName: "figure.stand")
                         .foregroundColor(.blue)
+                        .frame(width: 20)
                     
-                    VStack(alignment: .leading) {
+                    VStack(alignment: .leading, spacing: 2) {
                         Text("Informazioni generali")
                             .font(.subheadline)
+                            .fontWeight(.medium)
                         Text("Età: \(age) anni • Peso: \(weight, specifier: "%.1f") kg")
                             .font(.caption)
                             .foregroundColor(.secondary)
@@ -493,10 +533,12 @@ struct HealthInsightsView: View {
             HStack {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .foregroundColor(.orange)
+                    .frame(width: 20)
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text("Durata del fumo")
                         .font(.subheadline)
+                        .fontWeight(.medium)
                     Text("\(yearsSmokingSince) anni di \(smokingType.displayName.lowercased())")
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -509,10 +551,12 @@ struct HealthInsightsView: View {
             HStack {
                 Image(systemName: "heart.fill")
                     .foregroundColor(.red)
+                    .frame(width: 20)
                 
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 2) {
                     Text("Ricorda")
                         .font(.subheadline)
+                        .fontWeight(.medium)
                     Text("È sempre il momento giusto per smettere")
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -521,6 +565,7 @@ struct HealthInsightsView: View {
                 Spacer()
             }
         }
+        .padding(.vertical, 4)
     }
 }
 

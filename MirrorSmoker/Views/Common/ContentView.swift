@@ -294,6 +294,12 @@ struct ContentView: View {
         .accentColor(.red)
         .onChange(of: todayCigarettes.count) { oldValue, newValue in
             // Sync widget whenever the count changes
+            print("Today's count changed from \(oldValue) to \(newValue) - syncing widget")
+            syncWidget()
+        }
+        .onChange(of: cigarettes.count) { oldValue, newValue in
+            // Also sync when total cigarettes change (for robustness)
+            print("Total count changed from \(oldValue) to \(newValue) - syncing widget")  
             syncWidget()
         }
         .onAppear {
@@ -303,12 +309,23 @@ struct ContentView: View {
                 hasProcessedPendingCigarettes = true
             }
             
-            // Then sync widget with current data
+            // Force initial sync to ensure widget is up to date
             syncWidget()
+            
+            // If this is likely first run, sync again after a delay
+            if !WidgetStore.shared.hasBeenInitialized() {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    syncWidget()
+                }
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
             // Process pending cigarettes when app comes to foreground
             processPendingWidgetCigarettes()
+            syncWidget()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            // Also sync when app becomes active (from background)
             syncWidget()
         }
     }
@@ -326,8 +343,10 @@ struct ContentView: View {
         do {
             try modelContext.save()
             
-            // Sync with widget
-            syncWidget()
+            // Force immediate widget sync with slight delay to ensure save is complete
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                syncWidget()
+            }
             
         } catch {
             print("Error saving cigarette: \(error)")
@@ -344,29 +363,13 @@ struct ContentView: View {
         do {
             try modelContext.save()
             
-            // Sync with widget
-            syncWidget()
+            // Force immediate widget sync with slight delay to ensure save is complete
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                syncWidget()
+            }
             
         } catch {
             print("Error deleting cigarette: \(error)")
-        }
-    }
-    
-    private func processPendingWidgetCigarettes() {
-        do {
-            try WidgetStore.shared.createPendingCigarettes { date in
-                let newCigarette = Cigarette()
-                newCigarette.timestamp = date
-                modelContext.insert(newCigarette)
-            }
-            
-            // Save all pending cigarettes
-            try modelContext.save()
-            
-            print("Successfully processed pending widget cigarettes")
-            
-        } catch {
-            print("Error processing pending widget cigarettes: \(error)")
         }
     }
     
@@ -382,7 +385,40 @@ struct ContentView: View {
             lastTime = "--:--"
         }
         
-        WidgetStore.shared.syncWithWidget(todayCount: count, lastCigaretteTime: lastTime)
+        print("🔄 Syncing widget: count=\(count), lastTime=\(lastTime)")
+        WidgetStore.shared.updateWidgetData(todayCount: count, lastCigaretteTime: lastTime)
+    }
+    
+    private func processPendingWidgetCigarettes() {
+        // Get pending timestamps from widget store
+        guard let defaults = WidgetStore.shared.userDefaults,
+              let pendingTimestamps = defaults.array(forKey: WidgetStore.shared.pendingCigarettesKey) as? [Double],
+              !pendingTimestamps.isEmpty else {
+            return
+        }
+        
+        print("Processing \(pendingTimestamps.count) pending cigarettes from widget...")
+        
+        do {
+            // Create cigarettes for each timestamp
+            for timestamp in pendingTimestamps {
+                let newCigarette = Cigarette()
+                newCigarette.timestamp = Date(timeIntervalSince1970: timestamp)
+                modelContext.insert(newCigarette)
+            }
+            
+            // Save all cigarettes to database
+            try modelContext.save()
+            
+            // Clear pending items after successful save
+            defaults.removeObject(forKey: WidgetStore.shared.pendingCigarettesKey)
+            
+            print("Successfully processed \(pendingTimestamps.count) cigarettes from widget")
+            
+        } catch {
+            print("Error processing pending widget cigarettes: \(error)")
+            // Don't clear pending items if there was an error
+        }
     }
     
     private func colorForCount(_ count: Int) -> Color {

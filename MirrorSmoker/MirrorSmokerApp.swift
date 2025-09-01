@@ -49,11 +49,23 @@ struct MirrorSmokerApp: App {
             ContentView()
                 .modelContainer(Self.sharedModelContainer)
                 .onAppear {
+                    // Configure WidgetStore with model context
                     WidgetStore.shared.configure(modelContext: Self.sharedModelContainer.mainContext)
+                    
+                    // Force immediate initial sync to ensure widget has correct data
+                    Task {
+                        // Give a small delay to ensure database is ready
+                        try? await Task.sleep(nanoseconds: 100_000_000) // 0.1 seconds
+                        
+                        // Force sync on first launch
+                        await WidgetStore.shared.performInitialSync(modelContext: Self.sharedModelContainer.mainContext)
+                    }
                 }
                 .task {
-                    // Initial widget sync
-                    WidgetStore.shared.syncWithWidget(modelContext: Self.sharedModelContainer.mainContext)
+                    // Secondary sync check - ensure widget has latest data
+                    if WidgetStore.shared.needsRefresh() {
+                        WidgetStore.shared.syncWithWidget(modelContext: Self.sharedModelContainer.mainContext)
+                    }
                 }
         }
     }

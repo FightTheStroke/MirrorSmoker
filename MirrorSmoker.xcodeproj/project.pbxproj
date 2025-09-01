@@ -128,10 +128,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Models/Cigarette.swift,
-				Models/Hex.swift,
 				Models/Product.swift,
 				Models/Tag.swift,
-				"Models/Tag+Extensions.swift",
 				Models/UserProfile.swift,
 				Views/Common/ConnectivityManager.swift,
 			);

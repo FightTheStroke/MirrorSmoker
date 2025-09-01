@@ -18,6 +18,7 @@ struct ContentView: View {
     @State private var showTagPicker = false
     @State private var selectedCigarette: Cigarette?
     @State private var selectedTags: [Tag] = []
+    @State private var hasProcessedPendingCigarettes = false
     
     // Filtered data for today
     private var todayCigarettes: [Cigarette] {
@@ -99,7 +100,7 @@ struct ContentView: View {
                             }
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color(.systemGray6))
+                            .background(AppColors.systemGray6)
                             .cornerRadius(16)
                             
                             // Today's List - With Tags
@@ -112,49 +113,57 @@ struct ContentView: View {
                                     }
                                     
                                     ForEach(todayCigarettes) { cigarette in
-                                        HStack {
+                                        HStack(spacing: 12) {
                                             Image(systemName: "lungs.fill")
                                                 .foregroundColor(.red)
+                                                .frame(width: 20)
                                             
-                                            VStack(alignment: .leading, spacing: 4) {
-                                                Text(cigarette.timestamp, format: .dateTime.hour().minute())
-                                                    .font(.subheadline)
-                                                    .fontWeight(.medium)
+                                            VStack(alignment: .leading, spacing: 6) {
+                                                // Time and Tags on the same row
+                                                HStack(alignment: .center, spacing: 8) {
+                                                    Text(cigarette.timestamp, format: .dateTime.hour().minute())
+                                                        .font(.subheadline)
+                                                        .fontWeight(.bold)
+                                                        .foregroundColor(.primary)
+                                                    
+                                                    // Show tags as colored chips
+                                                    if let cigaretteTags = cigarette.tags, !cigaretteTags.isEmpty {
+                                                        HStack(spacing: 4) {
+                                                            ForEach(cigaretteTags.prefix(3)) { tag in
+                                                                Text(tag.name)
+                                                                    .font(.caption2)
+                                                                    .padding(.horizontal, 6)
+                                                                    .padding(.vertical, 2)
+                                                                    .background(tag.color)
+                                                                    .foregroundColor(.white)
+                                                                    .cornerRadius(4)
+                                                            }
+                                                            
+                                                            if cigaretteTags.count > 3 {
+                                                                Text("+\(cigaretteTags.count - 3)")
+                                                                    .font(.caption2)
+                                                                    .padding(.horizontal, 6)
+                                                                    .padding(.vertical, 2)
+                                                                    .background(Color.gray)
+                                                                    .foregroundColor(.white)
+                                                                    .cornerRadius(4)
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    Spacer()
+                                                }
                                                 
+                                                // Note below if present
                                                 if !cigarette.note.isEmpty {
                                                     Text(cigarette.note)
                                                         .font(.caption)
                                                         .foregroundColor(.secondary)
-                                                }
-                                                
-                                                // Show tags as colored chips
-                                                if let cigaretteTags = cigarette.tags, !cigaretteTags.isEmpty {
-                                                    HStack {
-                                                        ForEach(cigaretteTags.prefix(3)) { tag in
-                                                            Text(tag.name)
-                                                                .font(.system(size: 10))
-                                                                .padding(.horizontal, 6)
-                                                                .padding(.vertical, 2)
-                                                                .background(tag.color)
-                                                                .foregroundColor(.white)
-                                                                .cornerRadius(4)
-                                                        }
-                                                        
-                                                        if cigaretteTags.count > 3 {
-                                                            Text("+\(cigaretteTags.count - 3)")
-                                                                .font(.system(size: 10))
-                                                                .padding(.horizontal, 6)
-                                                                .padding(.vertical, 2)
-                                                                .background(Color.gray)
-                                                                .foregroundColor(.white)
-                                                                .cornerRadius(4)
-                                                        }
-                                                    }
+                                                        .padding(.leading, 2)
                                                 }
                                             }
                                             
-                                            Spacer()
-                                            
+                                            // Action buttons
                                             HStack(spacing: 8) {
                                                 // Add/Edit tags button
                                                 Button(action: {
@@ -215,7 +224,7 @@ struct ContentView: View {
                                 }
                                 .padding()
                                 .frame(maxWidth: .infinity)
-                                .background(Color(.systemGray6))
+                                .background(AppColors.systemGray6)
                                 .cornerRadius(12)
                             }
                             
@@ -276,10 +285,32 @@ struct ContentView: View {
                         cigarette.tags = selectedTags
                         try? modelContext.save()
                         selectedCigarette = nil
+                        
+                        // Sync widget with updated data
+                        syncWidget()
                     }
                 }
         }
         .accentColor(.red)
+        .onChange(of: todayCigarettes.count) { oldValue, newValue in
+            // Sync widget whenever the count changes
+            syncWidget()
+        }
+        .onAppear {
+            // Process any pending cigarettes from widget first
+            if !hasProcessedPendingCigarettes {
+                processPendingWidgetCigarettes()
+                hasProcessedPendingCigarettes = true
+            }
+            
+            // Then sync widget with current data
+            syncWidget()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            // Process pending cigarettes when app comes to foreground
+            processPendingWidgetCigarettes()
+            syncWidget()
+        }
     }
     
     // MARK: - Actions
@@ -296,7 +327,7 @@ struct ContentView: View {
             try modelContext.save()
             
             // Sync with widget
-            WidgetStore.shared.syncWithWidget(modelContext: modelContext)
+            syncWidget()
             
         } catch {
             print("Error saving cigarette: \(error)")
@@ -314,11 +345,44 @@ struct ContentView: View {
             try modelContext.save()
             
             // Sync with widget
-            WidgetStore.shared.syncWithWidget(modelContext: modelContext)
+            syncWidget()
             
         } catch {
             print("Error deleting cigarette: \(error)")
         }
+    }
+    
+    private func processPendingWidgetCigarettes() {
+        do {
+            try WidgetStore.shared.createPendingCigarettes { date in
+                let newCigarette = Cigarette()
+                newCigarette.timestamp = date
+                modelContext.insert(newCigarette)
+            }
+            
+            // Save all pending cigarettes
+            try modelContext.save()
+            
+            print("Successfully processed pending widget cigarettes")
+            
+        } catch {
+            print("Error processing pending widget cigarettes: \(error)")
+        }
+    }
+    
+    private func syncWidget() {
+        let count = todayCigarettes.count
+        let lastTime: String
+        
+        if let lastCigarette = todayCigarettes.first {
+            let formatter = DateFormatter()
+            formatter.timeStyle = .short
+            lastTime = formatter.string(from: lastCigarette.timestamp)
+        } else {
+            lastTime = "--:--"
+        }
+        
+        WidgetStore.shared.syncWithWidget(todayCount: count, lastCigaretteTime: lastTime)
     }
     
     private func colorForCount(_ count: Int) -> Color {
@@ -348,7 +412,7 @@ struct StatBox: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppColors.systemGray6)
         .cornerRadius(12)
     }
 }
@@ -385,32 +449,28 @@ struct SimpleStatsView: View {
                         title: "Today",
                         value: "\(todayCount)",
                         subtitle: "cigarettes",
-                        color: .blue,
-                        systemImage: "lungs.fill"
+                        color: .blue
                     )
                     
                     StatCard(
                         title: "This Week",
                         value: "\(weekCount)",
                         subtitle: "total",
-                        color: .orange,
-                        systemImage: "calendar"
+                        color: .orange
                     )
                     
                     StatCard(
                         title: "Average",
                         value: String(format: "%.1f", weeklyAverage),
                         subtitle: "per day",
-                        color: .green,
-                        systemImage: "chart.line.uptrend.xyaxis"
+                        color: .green
                     )
                     
                     StatCard(
                         title: "Total",
                         value: "\(cigarettes.count)",
                         subtitle: "all time",
-                        color: .purple,
-                        systemImage: "sum"
+                        color: .purple
                     )
                 }
                 .padding(.horizontal)

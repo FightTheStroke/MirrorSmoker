@@ -42,11 +42,21 @@ final class UserProfile {
     var name: String = ""
     var birthDate: Date?
     var weight: Double = 0.0 // in kg
-    var smokingType: SmokingType = SmokingType.cigarettes
+    var smokingTypeRaw: String = SmokingType.cigarettes.rawValue
     var startedSmokingAge: Int = 18
     var notificationsEnabled: Bool = true
     var themePreference: String = "system"
     var lastUpdated: Date = Date()
+    
+    // Computed property for smokingType that handles nil/invalid values gracefully
+    var smokingType: SmokingType {
+        get {
+            return SmokingType(rawValue: smokingTypeRaw) ?? .cigarettes
+        }
+        set {
+            smokingTypeRaw = newValue.rawValue
+        }
+    }
     
     // Computed property for age
     var age: Int {
@@ -75,7 +85,7 @@ final class UserProfile {
         self.name = name
         self.birthDate = birthDate
         self.weight = weight
-        self.smokingType = smokingType
+        self.smokingTypeRaw = smokingType.rawValue
         self.startedSmokingAge = startedSmokingAge
         self.notificationsEnabled = notificationsEnabled
         self.themePreference = themePreference

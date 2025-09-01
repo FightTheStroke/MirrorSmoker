@@ -8,6 +8,129 @@
 import SwiftUI
 import SwiftData
 
+struct TagSelectionRow: View {
+    let tag: Tag
+    let cigarettesInRange: [Cigarette]
+    let onTap: () -> Void
+    
+    private var taggedCigarettes: [Cigarette] {
+        cigarettesInRange.filter { cigarette in
+            cigarette.tags?.contains(tag) ?? false
+        }
+    }
+    
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: 12) {
+                // Tag color indicator
+                Circle()
+                    .fill(tag.color)
+                    .frame(width: 20, height: 20)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(tag.name)
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                    
+                    if !taggedCigarettes.isEmpty {
+                        Text("\(taggedCigarettes.count) already tagged in this period")
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                }
+                
+                Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.secondary)
+                    .font(.caption)
+            }
+            .padding()
+            .background(AppColors.systemGray6)
+            .cornerRadius(12)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+struct CreateNewTagSheet: View {
+    @Binding var tagName: String
+    @Binding var tagColor: String
+    @Binding var isPresented: Bool
+    let onSave: (Tag) -> Void
+    
+    @Environment(\.modelContext) private var modelContext
+    
+    private let availableColors = [
+        "#007AFF", "#FF3B30", "#FF9500", "#FFCC00",
+        "#34C759", "#5AC8FA", "#AF52DE", "#FF2D92",
+        "#A2845E", "#8E8E93"
+    ]
+    
+    var body: some View {
+        NavigationView {
+            VStack(spacing: 20) {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Tag Name")
+                        .font(.headline)
+                    
+                    TextField("Enter tag name", text: $tagName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                }
+                
+                VStack(alignment: .leading, spacing: 12) {
+                    Text("Color")
+                        .font(.headline)
+                    
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 12) {
+                        ForEach(availableColors, id: \.self) { colorHex in
+                            Button(action: {
+                                tagColor = colorHex
+                            }) {
+                                Circle()
+                                    .fill(Color.fromHex(colorHex) ?? .blue)
+                                    .frame(width: 40, height: 40)
+                                    .overlay(
+                                        Circle()
+                                            .stroke(tagColor == colorHex ? Color.primary : Color.clear, lineWidth: 3)
+                                    )
+                            }
+                        }
+                    }
+                }
+                
+                Spacer()
+            }
+            .padding()
+            .navigationTitle("New Tag")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        isPresented = false
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        let newTag = Tag(name: tagName, colorHex: tagColor)
+                        modelContext.insert(newTag)
+                        
+                        do {
+                            try modelContext.save()
+                            onSave(newTag)
+                            isPresented = false
+                        } catch {
+                            print("Error saving tag: \(error)")
+                        }
+                    }
+                    .disabled(tagName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+            }
+        }
+    }
+}
+
 struct TagSelectorForTimeSheet: View {
     let hourRange: HourRange
     let selectedDate: Date
@@ -92,7 +215,7 @@ struct TagSelectorForTimeSheet: View {
                     }
                 }
                 .padding()
-                .background(Color(.systemGray6))
+                .background(AppColors.systemGray6)
                 .cornerRadius(12)
                 
                 // Tag List

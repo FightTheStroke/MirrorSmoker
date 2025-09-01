@@ -16,7 +16,6 @@ struct EnhancedStatisticsView: View {
     @State private var selectedTimeFrame: TimeFrame = .today
     @State private var selectedHourRange: HourRange?
     @State private var showingTagSelector = false
-    @State private var selectedDate = Date()
     
     enum TimeFrame: String, CaseIterable {
         case today = "Today"
@@ -66,7 +65,7 @@ struct EnhancedStatisticsView: View {
             if let hourRange = selectedHourRange {
                 TagSelectorForTimeSheet(
                     hourRange: hourRange,
-                    selectedDate: selectedDate,
+                    selectedDate: currentSelectedDate,
                     onTagSelected: { tag in
                         addTagToTimeRange(tag: tag, hourRange: hourRange)
                     }
@@ -91,7 +90,7 @@ struct EnhancedStatisticsView: View {
             .pickerStyle(.segmented)
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppColors.systemGray6)
         .cornerRadius(12)
     }
     
@@ -103,32 +102,28 @@ struct EnhancedStatisticsView: View {
                 title: "Total",
                 value: "\(filteredCigarettes.count)",
                 subtitle: "cigarettes",
-                color: .blue,
-                systemImage: "lungs.fill"
+                color: .blue
             )
             
             StatCard(
                 title: "Average",
                 value: String(format: "%.1f", averagePerPeriod),
                 subtitle: averageUnit,
-                color: .orange,
-                systemImage: "chart.line.uptrend.xyaxis"
+                color: .orange
             )
             
             StatCard(
                 title: "Peak Hour",
                 value: peakHour,
                 subtitle: "most active",
-                color: .red,
-                systemImage: "clock.fill"
+                color: .red
             )
             
             StatCard(
                 title: "Most Used Tag",
                 value: mostUsedTag.isEmpty ? "None" : mostUsedTag,
                 subtitle: "category",
-                color: .green,
-                systemImage: "tag.fill"
+                color: .green
             )
         }
     }
@@ -150,7 +145,7 @@ struct EnhancedStatisticsView: View {
             
             InteractiveHourlyChart(
                 data: hourlyDistributionData,
-                selectedDate: selectedDate,
+                selectedDate: currentSelectedDate,
                 onHourSelected: { hour in
                     let startHour = hour
                     let endHour = (hour + 1) % 24
@@ -160,7 +155,7 @@ struct EnhancedStatisticsView: View {
             )
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppColors.systemGray6)
         .cornerRadius(12)
     }
     
@@ -202,7 +197,8 @@ struct EnhancedStatisticsView: View {
             }
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppColors.systemGray6)
+        .clipped()
         .cornerRadius(12)
     }
     
@@ -247,7 +243,7 @@ struct EnhancedStatisticsView: View {
             }
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppColors.systemGray6)
         .cornerRadius(12)
     }
     
@@ -281,7 +277,7 @@ struct EnhancedStatisticsView: View {
             }
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppColors.systemGray6)
         .cornerRadius(12)
     }
     
@@ -333,11 +329,29 @@ struct EnhancedStatisticsView: View {
             }
         }
         .padding()
-        .background(Color(.systemGray6))
+        .background(AppColors.systemGray6)
         .cornerRadius(12)
     }
     
     // MARK: - Computed Properties
+    
+    private var currentSelectedDate: Date {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        switch selectedTimeFrame {
+        case .today:
+            return now
+        case .yesterday:
+            return calendar.date(byAdding: .day, value: -1, to: now) ?? now
+        case .thisWeek:
+            return now
+        case .lastWeek:
+            return calendar.date(byAdding: .weekOfYear, value: -1, to: now) ?? now
+        case .thisMonth:
+            return now
+        }
+    }
     
     private var filteredCigarettes: [Cigarette] {
         let calendar = Calendar.current
@@ -345,33 +359,28 @@ struct EnhancedStatisticsView: View {
         
         switch selectedTimeFrame {
         case .today:
-            selectedDate = now
             let startOfDay = calendar.startOfDay(for: now)
             let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
             return cigarettes.filter { $0.timestamp >= startOfDay && $0.timestamp < endOfDay }
             
         case .yesterday:
             let yesterday = calendar.date(byAdding: .day, value: -1, to: now)!
-            selectedDate = yesterday
             let startOfYesterday = calendar.startOfDay(for: yesterday)
             let endOfYesterday = calendar.date(byAdding: .day, value: 1, to: startOfYesterday)!
             return cigarettes.filter { $0.timestamp >= startOfYesterday && $0.timestamp < endOfYesterday }
             
         case .thisWeek:
-            selectedDate = now
             let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: now)?.start ?? now
             let endOfWeek = calendar.date(byAdding: .weekOfYear, value: 1, to: startOfWeek)!
             return cigarettes.filter { $0.timestamp >= startOfWeek && $0.timestamp < endOfWeek }
             
         case .lastWeek:
             let lastWeek = calendar.date(byAdding: .weekOfYear, value: -1, to: now)!
-            selectedDate = lastWeek
             let startOfLastWeek = calendar.dateInterval(of: .weekOfYear, for: lastWeek)?.start ?? lastWeek
             let endOfLastWeek = calendar.date(byAdding: .weekOfYear, value: 1, to: startOfLastWeek)!
             return cigarettes.filter { $0.timestamp >= startOfLastWeek && $0.timestamp < endOfLastWeek }
             
         case .thisMonth:
-            selectedDate = now
             let startOfMonth = calendar.dateInterval(of: .month, for: now)?.start ?? now
             let endOfMonth = calendar.date(byAdding: .month, value: 1, to: startOfMonth)!
             return cigarettes.filter { $0.timestamp >= startOfMonth && $0.timestamp < endOfMonth }
@@ -442,7 +451,7 @@ struct EnhancedStatisticsView: View {
         case .thisWeek, .lastWeek:
             return Double(count) / 7.0
         case .thisMonth:
-            let daysInMonth = Calendar.current.range(of: .day, in: .month, for: selectedDate)?.count ?? 30
+            let daysInMonth = Calendar.current.range(of: .day, in: .month, for: currentSelectedDate)?.count ?? 30
             return Double(count) / Double(daysInMonth)
         }
     }
@@ -571,7 +580,7 @@ struct EnhancedStatisticsView: View {
     private func addTagToTimeRange(tag: Tag, hourRange: HourRange) {
         // Find cigarettes in the specified hour range for the selected date
         let calendar = Calendar.current
-        let startOfSelectedDay = calendar.startOfDay(for: selectedDate)
+        let startOfSelectedDay = calendar.startOfDay(for: currentSelectedDate)
         
         let startTime = calendar.date(byAdding: .hour, value: hourRange.start, to: startOfSelectedDay)!
         let endTime = calendar.date(byAdding: .hour, value: hourRange.end, to: startOfSelectedDay)!
@@ -614,11 +623,6 @@ struct WeeklyData {
     let day: String
     let dayAbbr: String
     let count: Int
-}
-
-struct HourRange {
-    let start: Int
-    let end: Int
 }
 
 struct DetailStatRow: View {

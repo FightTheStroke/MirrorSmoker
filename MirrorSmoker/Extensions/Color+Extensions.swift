@@ -49,11 +49,3 @@ extension Color {
         return String(format: "#%06x", rgb)
     }
 }
-
-// MARK: - App Colors
-
-struct AppColors {
-    static let systemBackground = Color(.systemBackground)
-    static let systemGray6 = Color(.systemGray6)
-    static let systemGroupedBackground = Color(.systemGroupedBackground)
-}

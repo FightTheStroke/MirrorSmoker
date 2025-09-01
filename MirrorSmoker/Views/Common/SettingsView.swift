@@ -21,6 +21,7 @@ struct SettingsView: View {
     @State private var notificationsEnabled = true
     @State private var themePreference = "system"
     @State private var showingSaveConfirmation = false
+    @State private var hasLoadedProfile = false
     
     // Focus states for better UX
     @FocusState private var focusedField: Field?
@@ -29,8 +30,14 @@ struct SettingsView: View {
         case name, weight, startedSmokingAge
     }
     
-    private var profile: UserProfile {
-        profiles.first ?? UserProfile()
+    private var profile: UserProfile? {
+        // Safely get the first profile, handling potential data corruption
+        do {
+            return profiles.first
+        } catch {
+            print("Error accessing profiles: \(error)")
+            return nil
+        }
     }
     
     private var isValidWeight: Bool {
@@ -71,7 +78,7 @@ struct SettingsView: View {
                             Text("Data di nascita")
                                 .foregroundColor(.primary)
                             
-                            if profile.birthDate != nil {
+                            if let profile = profile, profile.birthDate != nil {
                                 HStack {
                                     Text(birthDate, style: .date)
                                         .foregroundColor(.secondary)
@@ -179,7 +186,7 @@ struct SettingsView: View {
                     }
                     
                     // Years smoking display
-                    if profile.birthDate != nil && isValidAge {
+                    if let profile = profile, profile.birthDate != nil && isValidAge {
                         HStack {
                             Image(systemName: "clock.fill")
                                 .foregroundColor(.red)
@@ -235,7 +242,7 @@ struct SettingsView: View {
                 }
                 
                 // Health Insights Section (if profile is complete)
-                if profile.birthDate != nil && !weight.isEmpty && isValidWeight {
+                if let profile = profile, profile.birthDate != nil && !weight.isEmpty && isValidWeight {
                     Section {
                         HealthInsightsView(
                             age: profile.age,
@@ -273,11 +280,28 @@ struct SettingsView: View {
                     .disabled(!canSave)
                     .listRowBackground(Color.clear)
                 }
+                
+                // Debug Section - only in debug builds
+                #if DEBUG
+                Section {
+                    Button("Clear All Profiles (Debug)") {
+                        clearAllProfiles()
+                    }
+                    .foregroundColor(.red)
+                } header: {
+                    Text("Debug Tools")
+                } footer: {
+                    Text("This will delete all profile data - use only for debugging")
+                }
+                #endif
             }
             .navigationTitle("Impostazioni")
             .navigationBarTitleDisplayMode(.large)
             .onAppear {
-                loadProfileData()
+                if !hasLoadedProfile {
+                    loadProfileData()
+                    hasLoadedProfile = true
+                }
             }
             .onSubmit {
                 switch focusedField {
@@ -325,6 +349,11 @@ struct SettingsView: View {
     // MARK: - Functions
     
     private func loadProfileData() {
+        guard let profile = profile else {
+            // Set defaults if no profile exists
+            return
+        }
+        
         name = profile.name
         if let birthDate = profile.birthDate {
             self.birthDate = birthDate
@@ -336,11 +365,33 @@ struct SettingsView: View {
         themePreference = profile.themePreference
     }
     
+    private func clearAllProfiles() {
+        do {
+            // Delete all profiles
+            for profile in profiles {
+                modelContext.delete(profile)
+            }
+            try modelContext.save()
+            
+            // Reset the form
+            name = ""
+            birthDate = Date()
+            weight = ""
+            smokingType = .cigarettes
+            startedSmokingAge = 18
+            notificationsEnabled = true
+            themePreference = "system"
+            
+        } catch {
+            print("Error clearing profiles: \(error)")
+        }
+    }
+    
     @MainActor
     private func saveProfile() async {
         let profileToSave: UserProfile
         
-        if let existingProfile = profiles.first {
+        if let existingProfile = profile {
             profileToSave = existingProfile
         } else {
             profileToSave = UserProfile()

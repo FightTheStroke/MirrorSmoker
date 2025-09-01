@@ -228,6 +228,34 @@ struct ContentView: View {
                                 .cornerRadius(12)
                             }
                             
+                            // Debug Section - only in debug builds
+                            #if DEBUG
+                            Section {
+                                Button("Debug Widget State") {
+                                    WidgetStore.shared.debugWidgetState()
+                                }
+                                .foregroundColor(.blue)
+                                
+                                Button("Reset Widget Data") {
+                                    WidgetStore.shared.resetWidgetData()
+                                    // Force sync after reset
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                        syncWidget()
+                                    }
+                                }
+                                .foregroundColor(.orange)
+                                
+                                Button("Force Widget Sync") {
+                                    syncWidget()
+                                }
+                                .foregroundColor(.green)
+                            } header: {
+                                Text("Widget Debug")
+                            } footer: {
+                                Text("Debug tools for widget synchronization")
+                            }
+                            #endif
+                            
                             // Add bottom padding to avoid floating button
                             Color.clear.frame(height: 80)
                         }
@@ -390,14 +418,22 @@ struct ContentView: View {
     }
     
     private func processPendingWidgetCigarettes() {
+        // Debug widget state first
+        WidgetStore.shared.debugWidgetState()
+        
         // Get pending timestamps from widget store
-        guard let defaults = WidgetStore.shared.userDefaults,
-              let pendingTimestamps = defaults.array(forKey: WidgetStore.shared.pendingCigarettesKey) as? [Double],
-              !pendingTimestamps.isEmpty else {
+        guard let defaults = WidgetStore.shared.userDefaults else {
+            print("❌ No UserDefaults available for app group")
             return
         }
         
-        print("Processing \(pendingTimestamps.count) pending cigarettes from widget...")
+        guard let pendingTimestamps = defaults.array(forKey: WidgetStore.shared.pendingCigarettesKey) as? [Double],
+              !pendingTimestamps.isEmpty else {
+            print("ℹ️ No pending cigarettes to process")
+            return
+        }
+        
+        print("⚡ Processing \(pendingTimestamps.count) pending cigarettes from widget...")
         
         do {
             // Create cigarettes for each timestamp
@@ -405,18 +441,22 @@ struct ContentView: View {
                 let newCigarette = Cigarette()
                 newCigarette.timestamp = Date(timeIntervalSince1970: timestamp)
                 modelContext.insert(newCigarette)
+                print("  📝 Created cigarette for: \(Date(timeIntervalSince1970: timestamp))")
             }
             
             // Save all cigarettes to database
             try modelContext.save()
+            print("  💾 Saved \(pendingTimestamps.count) cigarettes to database")
             
             // Clear pending items after successful save
             defaults.removeObject(forKey: WidgetStore.shared.pendingCigarettesKey)
+            defaults.synchronize()
+            print("  🧹 Cleared pending items from widget store")
             
-            print("Successfully processed \(pendingTimestamps.count) cigarettes from widget")
+            print("✅ Successfully processed \(pendingTimestamps.count) cigarettes from widget")
             
         } catch {
-            print("Error processing pending widget cigarettes: \(error)")
+            print("❌ Error processing pending widget cigarettes: \(error)")
             // Don't clear pending items if there was an error
         }
     }

@@ -31,6 +31,12 @@ struct CigaretteWidgetProvider: TimelineProvider {
         let data = WidgetStore.readSnapshot()
         let pendingCount = WidgetStore.shared.getPendingCount()
         
+        // Debug logging
+        print("🔧 Widget getTimeline called:")
+        print("  - Data: count=\(data.todayCount), time=\(data.lastCigaretteTime)")
+        print("  - Pending: \(pendingCount)")
+        print("  - Context: \(context)")
+        
         // Check if widget data seems uninitialized (could be first run)
         let isFirstRun = !WidgetStore.shared.hasBeenInitialized()
         
@@ -41,21 +47,25 @@ struct CigaretteWidgetProvider: TimelineProvider {
             hasPending: pendingCount > 0
         )
         
-        // Refresh strategy based on state
+        print("  - Created entry: count=\(entry.todayCount), time=\(entry.lastCigaretteTime), pending=\(entry.hasPending)")
+        
+        // Refresh strategy based on state - make more aggressive
         let refreshMinutes: Int
         if isFirstRun {
             // On first run, refresh very frequently to sync with app quickly
             refreshMinutes = 1
         } else if pendingCount > 0 {
             // If pending items, refresh more frequently
-            refreshMinutes = 2
+            refreshMinutes = 1 // More aggressive
         } else {
-            // Normal refresh rate
-            refreshMinutes = 15
+            // Normal refresh rate - still more frequent for testing
+            refreshMinutes = 5 // Reduced from 15 to 5 for testing
         }
         
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: refreshMinutes, to: Date()) ?? Date()
         let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
+        
+        print("  - Next update in \(refreshMinutes) minutes at \(nextUpdate)")
         
         completion(timeline)
     }

@@ -1,0 +1,137 @@
+"today.title" = "Heute";
+"today.cigarettes.count" = "%d Zigaretten";
+"button.smoked.one" = "Eine Zigarette geraucht";
+"button.add.with.tags" = "Mit Tags hinzufügen";
+"section.today" = "Heute";
+"today.none" = "Heute keine Zigaretten! 🎉";
+"section.history" = "Verlauf";
+"cigarettes" = "Zigaretten";
+"a11y.new.cigarette" = "Neue Zigarette";
+"a11y.new.cigarette.hint" = "Tippen: schnell hinzufügen. Lang drücken, um mit Tags hinzuzufügen.";
+"nav.title.tracker" = "Zigaretten-Tracker";
+"menu.weekly.stats" = "Wöchentliche Statistiken";
+"menu.advanced.analytics" = "Erweiterte Analysen";
+"alert.add.note" = "Notiz hinzufügen";
+"placeholder.optional.note" = "Optionale Notiz";
+"button.add" = "Hinzufügen";
+"button.cancel" = "Abbrechen";
+
+// Settings
+"settings.title" = "Einstellungen";
+"settings.profile" = "Persönliches Profil";
+"settings.profile.footer" = "Diese Informationen helfen, Statistiken und Empfehlungen zu personalisieren";
+"settings.name" = "Dein Name";
+"settings.birth.date" = "Geburtsdatum";
+"settings.age" = "Alter: %d";
+"settings.weight" = "Gewicht (kg)";
+"settings.weight.validation" = "Geben Sie ein gültiges Gewicht ein (1-300 kg)";
+"settings.smoking.habits" = "Rauchgewohnheiten";
+"settings.smoking.habits.footer" = "Hilf uns, deinen Weg mit dem Rauchen besser zu verstehen";
+"settings.smoking.type" = "Art des Rauchens";
+"settings.started.age" = "Alter, als ich anfing";
+"settings.started.age.validation" = "Geben Sie ein gültiges Alter ein (10-80 Jahre)";
+"settings.current.age" = "Aktuelles Alter";
+"settings.smoking.years" = "Raucherjahre";
+"settings.health.insights" = "Gesundheitseinblicke";
+"settings.health.insights.footer" = "Dies sind Schätzungen, die auf allgemeinen Daten basieren und keine ärztliche Beratung ersetzen";
+"settings.save.changes" = "Änderungen speichern";
+"settings.profile.saved" = "Profil gespeichert";
+"settings.profile.saved.message" = "Deine Informationen wurden erfolgreich gespeichert";
+"settings.info.title" = "App-Informationen";
+"settings.version" = "Version";
+"settings.copyright" = "© 2025 FightTheStroke Foundation";
+"settings.website" = "www.fightthestroke.org";
+"settings.email" = "info@fightthestroke.org";
+"settings.debug" = "Entwickler-Tools";
+"age.placeholder" = "Alter";
+"years.unit" = "Jahre";
+"smoking.type.picker.label" = "Typ";
+"debug.toggle.panel" = "Debug-Panel umschalten";
+"health.insights.general.info" = "Allgemeine Informationen";
+"health.insights.age.weight.format" = "Alter: %d Jahre • Gewicht: %.1f kg";
+"health.insights.smoking.duration" = "Rauchdauer";
+"health.insights.smoking.duration.format" = "%d Jahre %@";
+"health.insights.reminder" = "Denk daran";
+"health.insights.quit.message" = "Es ist immer ein guter Zeitpunkt, aufzuhören";
+"debug.widget.state" = "Widget-Status debuggen";
+"debug.force.sync" = "Widget-Synchronisierung erzwingen";
+"debug.reset.data" = "Widget-Daten zurücksetzen";
+
+// ContentView
+"app.title" = "Mirror Smoker";
+"app.subtitle" = "Verfolge und reflektiere deine Rauchgewohnheiten";
+"quick.stats" = "Schnellstatistiken";
+"stats.this.week" = "Diese Woche";
+"stats.this.month" = "Dieser Monat";
+"stats.total" = "Gesamt";
+"cigarette.singular" = "Zigarette";
+"cigarette.plural" = "Zigaretten";
+"todays.cigarettes" = "Heutige Zigaretten";
+"empty.state.title" = "Super! Heute keine Zigaretten";
+"empty.state.subtitle" = "Weiter so! Verwende die +-Taste, um bei Bedarf eine zu protokollieren.";
+
+// Tab Bar
+"tab.home" = "Start";
+"tab.stats" = "Statistiken";
+"tab.settings" = "Einstellungen";
+
+// Statistics
+"statistics.title" = "Statistiken";
+"statistics.analyze.period" = "Zeitraum analysieren";
+"statistics.today" = "Heute";
+"statistics.yesterday" = "Gestern";
+"statistics.this.week" = "Diese Woche";
+"statistics.last.week" = "Letzte Woche";
+"statistics.this.month" = "Dieser Monat";
+"statistics.total" = "Gesamt";
+"statistics.average" = "Durchschnitt";
+"statistics.peak.hour" = "Spitzenstunde";
+"statistics.most.used.tag" = "Meistgenutzter Tag";
+"statistics.none" = "Keine";
+"statistics.per.day" = "pro Tag";
+"statistics.most.active" = "am aktivsten";
+"statistics.category" = "Kategorie";
+"statistics.hourly.distribution" = "Stündliche Verteilung";
+"statistics.tap.bars" = "Balken antippen, um Tags hinzuzufügen";
+"statistics.tag.analysis" = "Tag-Analyse";
+"statistics.peak.hours.analysis" = "Analyse der Spitzenstunden";
+"statistics.weekly.pattern" = "Wöchentliches Muster";
+"statistics.detailed.statistics" = "Detaillierte Statistiken";
+"statistics.first.cigarette" = "Erste Zigarette";
+"statistics.last.cigarette" = "Letzte Zigarette";
+"statistics.longest.break" = "Längste Pause";
+"statistics.average.interval" = "Durchschnittlicher Abstand";
+"statistics.with.tags" = "Mit Tags";
+"statistics.morning" = "Morgen";
+"statistics.afternoon" = "Nachmittag";
+"statistics.evening" = "Abend";
+"statistics.night" = "Nacht";
+
+// Tags
+"tags.none.title" = "Noch keine Tags";
+"tags.none.subtitle" = "Erstelle deinen ersten Tag, um deine Zigaretten zu kategorisieren";
+"tags.create.first" = "Ersten Tag erstellen";
+"tags.available" = "Verfügbare Tags";
+"tags.swipe.hint" = "Wische auf einem Tag nach links, um ihn zu löschen";
+"tags.select.title" = "Tags auswählen";
+"tags.delete.title" = "Tag löschen";
+"tags.delete.message" = "Bist du sicher, dass du '%@' löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.";
+"tags.name.placeholder" = "Tag-Name";
+"tags.name.title" = "Tag-Name";
+"tags.name.footer" = "Wähle einen beschreibenden Namen für deinen Tag";
+"tags.color.custom" = "Benutzerdefinierte Farbe";
+"tags.color.footer" = "Tippe auf eine Farbe, um sie auszuwählen, oder verwende die benutzerdefinierte Farbauswahl";
+"tags.preview" = "Tag-Vorschau";
+"tags.preview.title" = "Vorschau";
+"tags.create.title" = "Tag erstellen";
+"tags.label" = "Tags";
+
+// Common
+"done" = "Fertig";
+"cancel" = "Abbrechen";
+"confirm" = "Bestätigen";
+"delete" = "Löschen";
+"edit" = "Bearbeiten";
+"save" = "Speichern";
+"ok" = "OK";
+"close" = "Schließen";

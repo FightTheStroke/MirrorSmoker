@@ -30,16 +30,16 @@ struct TagPickerView: View {
                             .font(.largeTitle)
                             .foregroundColor(.secondary)
                         
-                        Text("No tags yet")
+                        Text(NSLocalizedString("tags.none.title", comment: ""))
                             .font(.headline)
                         
-                        Text("Create your first tag to categorize your cigarettes")
+                        Text(NSLocalizedString("tags.none.subtitle", comment: ""))
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal)
                         
-                        Button("Create First Tag") {
+                        Button(NSLocalizedString("tags.create.first", comment: "")) {
                             showingCreateTag = true
                         }
                         .buttonStyle(.borderedProminent)
@@ -59,9 +59,9 @@ struct TagPickerView: View {
                             }
                             .onDelete(perform: deleteTag)
                         } header: {
-                            Text("Available Tags")
+                            Text(NSLocalizedString("tags.available", comment: ""))
                         } footer: {
-                            Text("Swipe left on a tag to delete it")
+                            Text(NSLocalizedString("tags.swipe.hint", comment: ""))
                                 .font(.caption)
                         }
                     }
@@ -69,11 +69,11 @@ struct TagPickerView: View {
                     .background(Color(.systemGroupedBackground))
                 }
             }
-            .navigationTitle("Select Tags")
+            .navigationTitle(NSLocalizedString("tags.select.title", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button(NSLocalizedString("done", comment: "")) {
                         dismiss()
                     }
                     .fontWeight(.semibold)
@@ -83,7 +83,7 @@ struct TagPickerView: View {
                     Button {
                         showingCreateTag = true
                     } label: {
-                        Label("Create Tag", systemImage: "plus")
+                        Label(NSLocalizedString("tags.create", comment: ""), systemImage: "plus")
                     }
                 }
             }
@@ -97,15 +97,15 @@ struct TagPickerView: View {
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
             }
-            .alert("Delete Tag", isPresented: $showingDeleteAlert, presenting: tagToDelete) { tag in
-                Button("Cancel", role: .cancel) {
+            .alert(NSLocalizedString("tags.delete.title", comment: ""), isPresented: $showingDeleteAlert, presenting: tagToDelete) { tag in
+                Button(NSLocalizedString("cancel", comment: ""), role: .cancel) {
                     tagToDelete = nil
                 }
-                Button("Delete", role: .destructive) {
+                Button(NSLocalizedString("delete", comment: ""), role: .destructive) {
                     confirmDeleteTag(tag)
                 }
             } message: { tag in
-                Text("Are you sure you want to delete '\(tag.name)'? This action cannot be undone.")
+                Text(String(format: NSLocalizedString("tags.delete.message", comment: ""), tag.name))
             }
         }
     }
@@ -235,7 +235,7 @@ struct CreateTagView: View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Tag Name", text: $tagName)
+                    TextField(NSLocalizedString("tags.name.placeholder", comment: ""), text: $tagName)
                         .focused($isTagNameFocused)
                         .textInputAutocapitalization(.words)
                         .submitLabel(.done)
@@ -246,14 +246,14 @@ struct CreateTagView: View {
                             }
                         }
                 } header: {
-                    Text("Tag Name")
+                    Text(NSLocalizedString("tags.name.title", comment: ""))
                 } footer: {
-                    Text("Choose a descriptive name for your tag")
+                    Text(NSLocalizedString("tags.name.footer", comment: ""))
                 }
                 
                 Section {
                     // Custom color picker
-                    ColorPicker("Custom Color", selection: .init(
+                    ColorPicker(NSLocalizedString("tags.color.custom", comment: ""), selection: .init(
                         get: { Color.fromHex(tagColor) ?? .blue },
                         set: { tagColor = $0.toHex() }
                     ))
@@ -277,9 +277,9 @@ struct CreateTagView: View {
                     }
                     .padding(.vertical, 8)
                 } header: {
-                    Text("Color")
+                    Text(NSLocalizedString("tags.color", comment: ""))
                 } footer: {
-                    Text("Tap a color to select it, or use the custom color picker")
+                    Text(NSLocalizedString("tags.color.footer", comment: ""))
                 }
                 
                 // Preview section
@@ -289,27 +289,27 @@ struct CreateTagView: View {
                             .fill(Color.fromHex(tagColor) ?? .blue)
                             .frame(width: 16, height: 16)
                         
-                        Text(tagName.isEmpty ? "Tag Preview" : tagName)
+                        Text(tagName.isEmpty ? NSLocalizedString("tags.preview", comment: "") : tagName)
                             .foregroundColor(tagName.isEmpty ? .secondary : .primary)
                         
                         Spacer()
                     }
                     .padding(.vertical, 4)
                 } header: {
-                    Text("Preview")
+                    Text(NSLocalizedString("tags.preview.title", comment: ""))
                 }
             }
-            .navigationTitle("Create Tag")
+            .navigationTitle(NSLocalizedString("tags.create.title", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(NSLocalizedString("cancel", comment: "")) {
                         isPresented = false
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
+                    Button(NSLocalizedString("save", comment: "")) {
                         onSave()
                         isPresented = false
                     }
@@ -320,7 +320,7 @@ struct CreateTagView: View {
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
                     Spacer()
-                    Button("Done") {
+                    Button(NSLocalizedString("done", comment: "")) {
                         isTagNameFocused = false
                     }
                 }

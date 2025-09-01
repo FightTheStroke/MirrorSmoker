@@ -17,7 +17,7 @@ struct DailyStatsHeader: View {
         VStack(spacing: 16) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Today")
+                    Text(NSLocalizedString("today.title", comment: ""))
                         .font(.caption)
                         .foregroundColor(.secondary)
                     
@@ -25,7 +25,7 @@ struct DailyStatsHeader: View {
                         .font(.system(size: 32, weight: .bold, design: .default))
                         .foregroundColor(todayCount == 0 ? .green : todayCount <= 10 ? .blue : todayCount <= 20 ? .orange : .red)
                     
-                    Text("cigarettes")
+                    Text(NSLocalizedString("cigarettes", comment: ""))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -34,7 +34,7 @@ struct DailyStatsHeader: View {
                 
                 VStack(spacing: 12) {
                     Button(action: onQuickAdd) {
-                        Text("Quick Add")
+                        Text(NSLocalizedString("daily.stats.quick.add", comment: ""))
                             .font(.caption)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)
@@ -44,7 +44,7 @@ struct DailyStatsHeader: View {
                     }
                     
                     Button(action: onAddWithTags) {
-                        Text("Add with Tags")
+                        Text(NSLocalizedString("button.add.with.tags", comment: ""))
                             .font(.caption)
                             .padding(.horizontal, 12)
                             .padding(.vertical, 6)

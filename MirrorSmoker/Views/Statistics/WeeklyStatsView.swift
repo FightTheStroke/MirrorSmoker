@@ -52,7 +52,7 @@ struct WeeklyStatsView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     VStack(spacing: 16) {
-                        Text("Ultime 4 settimane")
+                        Text(NSLocalizedString("weekly.stats.last.4.weeks", comment: ""))
                             .font(.title2)
                             .fontWeight(.bold)
                         
@@ -64,16 +64,16 @@ struct WeeklyStatsView: View {
                             let averagePerWeek = totalLast4Weeks / 4
                             
                             WeeklyStatCard(
-                                title: "Totale 4 settimane",
+                                title: NSLocalizedString("weekly.stats.total.4.weeks", comment: ""),
                                 value: "\(totalLast4Weeks)",
-                                subtitle: "sigarette",
+                                subtitle: NSLocalizedString("cigarettes", comment: ""),
                                 color: .red
                             )
                             
                             WeeklyStatCard(
-                                title: "Media settimanale",
+                                title: NSLocalizedString("weekly.stats.average.weekly", comment: ""),
                                 value: "\(averagePerWeek)",
-                                subtitle: "a settimana",
+                                subtitle: NSLocalizedString("weekly.stats.per.week", comment: ""),
                                 color: .blue
                             )
                         }
@@ -90,14 +90,14 @@ struct WeeklyStatsView: View {
                                         .font(.headline)
                                         .fontWeight(.semibold)
                                     
-                                    Text("\(week.total) sigarette totali")
+                                    Text(String(format: NSLocalizedString("weekly.stats.total.cigarettes", comment: ""), week.total))
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
                                 }
                                 
                                 Spacer()
                                 
-                                Text("Media: \(week.total / 7)")
+                                Text(String(format: NSLocalizedString("weekly.stats.average.format", comment: ""), week.total / 7))
                                     .font(.caption)
                                     .padding(.horizontal, 8)
                                     .padding(.vertical, 4)
@@ -136,7 +136,7 @@ struct WeeklyStatsView: View {
                     
                     if weeklyData.count >= 2 {
                         VStack(spacing: 12) {
-                            Text("📊 Analisi tendenza")
+                            Text(NSLocalizedString("weekly.stats.trend.analysis", comment: ""))
                                 .font(.headline)
                                 .fontWeight(.semibold)
                             
@@ -150,11 +150,13 @@ struct WeeklyStatsView: View {
                                     .foregroundColor(difference < 0 ? .green : difference > 0 ? .red : .blue)
                                 
                                 VStack(alignment: .leading) {
-                                    Text(difference == 0 ? "Nessun cambiamento" : difference < 0 ? "Miglioramento" : "Peggioramento")
+                                    Text(difference == 0 ? NSLocalizedString("weekly.stats.no.change", comment: "") : difference < 0 ? NSLocalizedString("weekly.stats.improvement", comment: "") : NSLocalizedString("weekly.stats.worsening", comment: ""))
                                         .font(.headline)
                                         .foregroundColor(difference < 0 ? .green : difference > 0 ? .red : .blue)
                                     
-                                    Text(difference == 0 ? "Stesso numero della settimana scorsa" : "\(abs(difference)) sigarette \(difference < 0 ? "in meno" : "in più") rispetto alla settimana scorsa")
+                                    Text(difference == 0 ? 
+                                         NSLocalizedString("weekly.stats.same.as.last.week", comment: "") : 
+                                         String(format: NSLocalizedString("weekly.stats.difference.format", comment: ""), abs(difference), difference < 0 ? NSLocalizedString("weekly.stats.less", comment: "") : NSLocalizedString("weekly.stats.more", comment: "")))
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
                                 }
@@ -172,11 +174,11 @@ struct WeeklyStatsView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Statistiche Settimanali")
+            .navigationTitle(NSLocalizedString("weekly.stats.title", comment: ""))
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Chiudi") {
+                    Button(NSLocalizedString("close", comment: "")) {
                         dismiss()
                     }
                 }
@@ -186,8 +188,8 @@ struct WeeklyStatsView: View {
     
     private func weekTitle(for date: Date, index: Int) -> String {
         switch index {
-        case 3: return "Questa settimana"
-        case 2: return "Settimana scorsa"
+        case 3: return NSLocalizedString("weekly.stats.this.week", comment: "")
+        case 2: return NSLocalizedString("weekly.stats.last.week", comment: "")
         default:
             let formatter = DateFormatter()
             formatter.dateFormat = "d MMM"

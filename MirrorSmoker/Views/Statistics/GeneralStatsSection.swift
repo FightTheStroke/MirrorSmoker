@@ -16,29 +16,29 @@ struct GeneralStatsSection: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("General Statistics")
+            Text(NSLocalizedString("general.stats.title", comment: ""))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             // Total cigarettes
             StatCard(
-                title: "Total",
+                title: NSLocalizedString("statistics.total", comment: ""),
                 value: "\(totalCigarettes)",
-                subtitle: "cigarettes",
+                subtitle: NSLocalizedString("cigarettes", comment: ""),
                 color: .blue
             )
             
             // Average per day
             StatCard(
-                title: "Average",
+                title: NSLocalizedString("statistics.average", comment: ""),
                 value: String(format: "%.1f", averagePerDay),
-                subtitle: "per day",
+                subtitle: NSLocalizedString("statistics.per.day", comment: ""),
                 color: .green
             )
             
             // This week vs last week comparison
             VStack(spacing: 8) {
-                Text("Weekly Comparison")
+                Text(NSLocalizedString("general.stats.weekly.comparison", comment: ""))
                     .font(.subheadline)
                     .fontWeight(.semibold)
                 
@@ -48,7 +48,7 @@ struct GeneralStatsSection: View {
                             .font(.title2)
                             .fontWeight(.bold)
                         
-                        Text("This Week")
+                        Text(NSLocalizedString("statistics.this.week", comment: ""))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -62,7 +62,7 @@ struct GeneralStatsSection: View {
                             .font(.title2)
                             .fontWeight(.bold)
                         
-                        Text("Last Week")
+                        Text(NSLocalizedString("statistics.last.week", comment: ""))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }

@@ -33,7 +33,7 @@ struct TagSelectionRow: View {
                         .foregroundColor(.primary)
                     
                     if !taggedCigarettes.isEmpty {
-                        Text("\(taggedCigarettes.count) already tagged in this period")
+                        Text(String(format: NSLocalizedString("tag.selector.already.tagged", comment: ""), taggedCigarettes.count))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -71,15 +71,15 @@ struct CreateNewTagSheet: View {
         NavigationView {
             VStack(spacing: 20) {
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Tag Name")
+                    Text(NSLocalizedString("tags.name.title", comment: ""))
                         .font(.headline)
                     
-                    TextField("Enter tag name", text: $tagName)
+                    TextField(NSLocalizedString("tag.selector.enter.name", comment: ""), text: $tagName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                 }
                 
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Color")
+                    Text(NSLocalizedString("tags.color", comment: ""))
                         .font(.headline)
                     
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 5), spacing: 12) {
@@ -102,17 +102,17 @@ struct CreateNewTagSheet: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle("New Tag")
+            .navigationTitle(NSLocalizedString("tag.selector.new.tag", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(NSLocalizedString("cancel", comment: "")) {
                         isPresented = false
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
+                    Button(NSLocalizedString("save", comment: "")) {
                         let newTag = Tag(name: tagName, colorHex: tagColor)
                         modelContext.insert(newTag)
                         
@@ -187,7 +187,7 @@ struct TagSelectorForTimeSheet: View {
             VStack(spacing: 20) {
                 // Header Info
                 VStack(spacing: 12) {
-                    Text("Add Tag to Time Period")
+                    Text(NSLocalizedString("tag.selector.add.to.period", comment: ""))
                         .font(.headline)
                     
                     VStack(spacing: 4) {
@@ -201,7 +201,7 @@ struct TagSelectorForTimeSheet: View {
                     }
                     
                     if cigarettesInRange.isEmpty {
-                        Text("No cigarettes in this time period")
+                        Text(NSLocalizedString("tag.selector.no.cigarettes", comment: ""))
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .padding(.horizontal)
@@ -209,7 +209,7 @@ struct TagSelectorForTimeSheet: View {
                             .background(Color.orange.opacity(0.1))
                             .cornerRadius(8)
                     } else {
-                        Text("\(cigarettesInRange.count) cigarette\(cigarettesInRange.count == 1 ? "" : "s") in this period")
+                        Text(String(format: NSLocalizedString("tag.selector.cigarettes.count", comment: ""), cigarettesInRange.count, cigarettesInRange.count == 1 ? "" : "s"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -225,15 +225,15 @@ struct TagSelectorForTimeSheet: View {
                             .font(.largeTitle)
                             .foregroundColor(.secondary)
                         
-                        Text("No tags available")
+                        Text(NSLocalizedString("tag.selector.no.tags", comment: ""))
                             .font(.headline)
                         
-                        Text("Create a new tag to categorize this time period")
+                        Text(NSLocalizedString("tag.selector.create.to.categorize", comment: ""))
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .multilineTextAlignment(.center)
                         
-                        Button("Create First Tag") {
+                        Button(NSLocalizedString("tags.create.first", comment: "")) {
                             showingCreateTag = true
                         }
                         .buttonStyle(.borderedProminent)
@@ -258,17 +258,17 @@ struct TagSelectorForTimeSheet: View {
                 
                 Spacer()
             }
-            .navigationTitle("Select Tag")
+            .navigationTitle(NSLocalizedString("tags.select.title", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button(NSLocalizedString("cancel", comment: "")) {
                         dismiss()
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("New Tag") {
+                    Button(NSLocalizedString("tag.selector.new.tag", comment: "")) {
                         showingCreateTag = true
                     }
                 }

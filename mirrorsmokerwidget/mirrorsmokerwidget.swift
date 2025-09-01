@@ -27,17 +27,8 @@ struct CigaretteWidgetProvider: TimelineProvider {
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<CigaretteWidgetEntry>) -> Void) {
-        // Get real data from shared storage
         let data = WidgetStore.readSnapshot()
         let pendingCount = WidgetStore.shared.getPendingCount()
-        
-        // Debug logging
-        print("🔧 Widget getTimeline called:")
-        print("  - Data: count=\(data.todayCount), time=\(data.lastCigaretteTime)")
-        print("  - Pending: \(pendingCount)")
-        print("  - Context: \(context)")
-        
-        // Check if widget data seems uninitialized (could be first run)
         let isFirstRun = !WidgetStore.shared.hasBeenInitialized()
         
         let entry = CigaretteWidgetEntry(
@@ -47,25 +38,17 @@ struct CigaretteWidgetProvider: TimelineProvider {
             hasPending: pendingCount > 0
         )
         
-        print("  - Created entry: count=\(entry.todayCount), time=\(entry.lastCigaretteTime), pending=\(entry.hasPending)")
-        
-        // Refresh strategy based on state - make more aggressive
         let refreshMinutes: Int
         if isFirstRun {
-            // On first run, refresh very frequently to sync with app quickly
             refreshMinutes = 1
         } else if pendingCount > 0 {
-            // If pending items, refresh more frequently
-            refreshMinutes = 1 // More aggressive
+            refreshMinutes = 2
         } else {
-            // Normal refresh rate - still more frequent for testing
-            refreshMinutes = 5 // Reduced from 15 to 5 for testing
+            refreshMinutes = 15
         }
         
         let nextUpdate = Calendar.current.date(byAdding: .minute, value: refreshMinutes, to: Date()) ?? Date()
         let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-        
-        print("  - Next update in \(refreshMinutes) minutes at \(nextUpdate)")
         
         completion(timeline)
     }
@@ -84,7 +67,6 @@ struct AnimatedAddButton: View {
     var body: some View {
         Button(intent: AddCigaretteIntent()) {
             ZStack {
-                // Background circle with shadow
                 Circle()
                     .fill(
                         LinearGradient(
@@ -95,7 +77,6 @@ struct AnimatedAddButton: View {
                     )
                     .shadow(color: (hasPending ? Color.orange : Color.red).opacity(0.4), radius: 3, x: 0, y: 2)
                 
-                // Icon based on pending state
                 Image(systemName: hasPending ? "clock.fill" : "plus")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundColor(.white)
@@ -112,9 +93,8 @@ struct CigaretteWidgetView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Header migliorato
+            // Header
             HStack(spacing: 6) {
-                // App icon
                 ZStack {
                     Circle()
                         .fill(Color.red.opacity(0.1))
@@ -131,7 +111,6 @@ struct CigaretteWidgetView: View {
                 
                 Spacer()
                 
-                // Status indicator
                 HStack(spacing: 4) {
                     if entry.hasPending {
                         Image(systemName: "clock.fill")
@@ -155,7 +134,6 @@ struct CigaretteWidgetView: View {
             
             // Main display
             HStack(alignment: .top) {
-                // Count section
                 VStack(alignment: .leading, spacing: 2) {
                     HStack(alignment: .firstTextBaseline, spacing: 4) {
                         Text("\(entry.todayCount)")
@@ -164,7 +142,6 @@ struct CigaretteWidgetView: View {
                             .minimumScaleFactor(0.7)
                             .lineLimit(1)
                         
-                        // Pending indicator
                         if entry.hasPending {
                             Text("•••")
                                 .font(.system(size: 12, weight: .bold))
@@ -180,7 +157,6 @@ struct CigaretteWidgetView: View {
                 
                 Spacer()
                 
-                // Add button
                 AnimatedAddButton(hasPending: entry.hasPending)
             }
             
@@ -188,7 +164,6 @@ struct CigaretteWidgetView: View {
             
             // Bottom info bar
             HStack {
-                // Last cigarette time
                 HStack(spacing: 4) {
                     Image(systemName: "clock.fill")
                         .font(.system(size: 8))
@@ -207,7 +182,6 @@ struct CigaretteWidgetView: View {
                 
                 Spacer()
                 
-                // Progress indicator
                 HStack(spacing: 2) {
                     ForEach(0..<5, id: \.self) { index in
                         Circle()
@@ -221,14 +195,12 @@ struct CigaretteWidgetView: View {
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
         .containerBackground(for: .widget) {
             ZStack {
-                // Base gradient
                 LinearGradient(
                     colors: gradientColors(for: entry.todayCount, hasPending: entry.hasPending),
                     startPoint: .topLeading,
                     endPoint: .bottomTrailing
                 )
                 
-                // Subtle pattern overlay
                 Circle()
                     .fill(.white.opacity(0.1))
                     .frame(width: 80, height: 80)
@@ -244,42 +216,29 @@ struct CigaretteWidgetView: View {
     
     private func statusText(for count: Int) -> String {
         switch count {
-        case 0:
-            return "GOOD"
-        case 1...3:
-            return "OK"
-        case 4...7:
-            return "HIGH"
-        default:
-            return "ALERT"
+        case 0: return "GOOD"
+        case 1...3: return "OK"
+        case 4...7: return "HIGH"
+        default: return "ALERT"
         }
     }
     
     private func colorForCount(_ count: Int) -> Color {
         switch count {
-        case 0:
-            return .green
-        case 1...3:
-            return .blue
-        case 4...7:
-            return .orange
-        case 8...12:
-            return .red
-        default:
-            return .purple
+        case 0: return .green
+        case 1...3: return .blue
+        case 4...7: return .orange
+        case 8...12: return .red
+        default: return .purple
         }
     }
     
     private func statusColor(for count: Int) -> Color {
         switch count {
-        case 0:
-            return .green
-        case 1...5:
-            return .blue
-        case 6...10:
-            return .orange
-        default:
-            return .red
+        case 0: return .green
+        case 1...5: return .blue
+        case 6...10: return .orange
+        default: return .red
         }
     }
     
@@ -344,20 +303,16 @@ struct MirrorSmokerWidget: Widget {
         .configurationDisplayName("Mirror Smoker")
         .description("Monitor your daily cigarette count with a quick add button. Updates in real-time.")
         .supportedFamilies([.systemSmall])
-        .contentMarginsDisabled() // For edge-to-edge content on iOS 17+
+        .contentMarginsDisabled()
     }
 }
-
-// MARK: - App Intent for Quick Add
 
 struct AddCigaretteIntent: AppIntent {
     static var title: LocalizedStringResource = "Add Cigarette"
     static var description = IntentDescription("Quickly add a cigarette from the widget")
     
     func perform() async throws -> some IntentResult {
-        // Add cigarette via WidgetStore
         await WidgetStore.shared.addCigaretteFromWidget()
-        
         return .result()
     }
 }

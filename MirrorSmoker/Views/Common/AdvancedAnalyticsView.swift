@@ -23,7 +23,7 @@ struct AdvancedAnalyticsView: View {
                 VStack(spacing: 20) {
                     // Tag usage chart
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Tag Usage")
+                        Text(NSLocalizedString("advanced.analytics.tag.usage", comment: ""))
                             .font(.headline)
                         
                         #if canImport(Charts)
@@ -37,11 +37,11 @@ struct AdvancedAnalyticsView: View {
                             }
                             .frame(height: 200)
                         } else {
-                            Text("Charts require iOS 16+ or macOS 13+")
+                            Text(NSLocalizedString("advanced.analytics.charts.not.available", comment: ""))
                                 .foregroundColor(.secondary)
                         }
                         #else
-                        Text("Charts not available on this platform")
+                        Text(NSLocalizedString("advanced.analytics.charts.not.available.platform", comment: ""))
                             .foregroundColor(.secondary)
                         #endif
                     }
@@ -51,7 +51,7 @@ struct AdvancedAnalyticsView: View {
                     
                     // Time distribution
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Time Distribution")
+                        Text(NSLocalizedString("advanced.analytics.time.distribution", comment: ""))
                             .font(.headline)
                         
                         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 4), spacing: 12) {
@@ -76,7 +76,7 @@ struct AdvancedAnalyticsView: View {
                     
                     // Weekly pattern
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Weekly Pattern")
+                        Text(NSLocalizedString("statistics.weekly.pattern", comment: ""))
                             .font(.headline)
                         
                         HStack(spacing: 8) {
@@ -102,11 +102,11 @@ struct AdvancedAnalyticsView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Advanced Analytics")
+            .navigationTitle(NSLocalizedString("analytics.title", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Done") {
+                    Button(NSLocalizedString("done", comment: "")) {
                         dismiss()
                     }
                 }

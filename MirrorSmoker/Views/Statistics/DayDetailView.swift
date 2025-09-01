@@ -42,7 +42,7 @@ struct DayDetailView: View {
                                 .font(.title2)
                                 .fontWeight(.bold)
                             
-                            Text("\(cigarettes.count) sigarette")
+                            Text(String(format: NSLocalizedString("day.detail.cigarettes.count", comment: ""), cigarettes.count))
                                 .font(.title3)
                                 .foregroundColor(cigarettes.count > 20 ? .red : cigarettes.count > 10 ? .orange : .green)
                         }
@@ -51,7 +51,7 @@ struct DayDetailView: View {
                         
                         if let peakHour = peakHour {
                             VStack {
-                                Text("Ora di picco")
+                                Text(NSLocalizedString("day.detail.peak.hour", comment: ""))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                                 Text("\(peakHour):00")
@@ -68,7 +68,7 @@ struct DayDetailView: View {
                 // Grafico orario
                 if !sortedCigarettes.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Distribuzione oraria")
+                        Text(NSLocalizedString("day.detail.hourly.distribution", comment: ""))
                             .font(.headline)
                         
                         HStack(alignment: .bottom, spacing: 2) {
@@ -96,7 +96,7 @@ struct DayDetailView: View {
                 
                 // Lista dettagliata delle sigarette
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Dettagli")
+                    Text(NSLocalizedString("day.detail.details", comment: ""))
                         .font(.headline)
                     
                     LazyVStack(spacing: 8) {
@@ -136,7 +136,7 @@ struct DayDetailView: View {
             }
             .padding()
         }
-        .navigationTitle("Dettaglio giorno")
+        .navigationTitle(NSLocalizedString("day.detail.title", comment: ""))
         .navigationBarTitleDisplayMode(.large)
     }
     

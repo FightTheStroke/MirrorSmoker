@@ -76,7 +76,7 @@ struct InteractiveHourlyChart: View {
                     Image(systemName: "info.circle.fill")
                         .foregroundColor(.blue)
                     
-                    Text("Tap to add tags to \(selectedHour):00-\((selectedHour + 1) % 24):00")
+                    Text(String(format: NSLocalizedString("chart.tap.info", comment: ""), selectedHour, (selectedHour + 1) % 24))
                         .font(.caption)
                         .foregroundColor(.secondary)
                     

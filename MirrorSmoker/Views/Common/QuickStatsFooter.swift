@@ -16,7 +16,7 @@ struct QuickStatsFooter: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Quick Stats")
+                Text(NSLocalizedString("quick.stats", comment: ""))
                     .font(.headline)
                 
                 Spacer()
@@ -28,7 +28,7 @@ struct QuickStatsFooter: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    Text("This Week")
+                    Text(NSLocalizedString("stats.this.week", comment: ""))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -43,7 +43,7 @@ struct QuickStatsFooter: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    Text("This Month")
+                    Text(NSLocalizedString("stats.this.month", comment: ""))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -58,7 +58,7 @@ struct QuickStatsFooter: View {
                         .font(.title2)
                         .fontWeight(.bold)
                     
-                    Text("All Time")
+                    Text(NSLocalizedString("quick.stats.all.time", comment: ""))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

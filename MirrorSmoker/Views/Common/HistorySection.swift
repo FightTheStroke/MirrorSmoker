@@ -16,7 +16,7 @@ struct HistorySection: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Recent History")
+                Text(NSLocalizedString("history.recent.title", comment: ""))
                     .font(.headline)
                 
                 Spacer()
@@ -28,7 +28,7 @@ struct HistorySection: View {
                         .font(.largeTitle)
                         .foregroundColor(.secondary)
                     
-                    Text("No history yet")
+                    Text(NSLocalizedString("history.no.history", comment: ""))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

@@ -24,7 +24,20 @@ struct EnhancedStatisticsView: View {
         case lastWeek = "Last Week"
         case thisMonth = "This Month"
         
-        var description: String { rawValue }
+        var localizedDescription: String {
+            switch self {
+            case .today:
+                return NSLocalizedString("statistics.today", comment: "")
+            case .yesterday:
+                return NSLocalizedString("statistics.yesterday", comment: "")
+            case .thisWeek:
+                return NSLocalizedString("statistics.this.week", comment: "")
+            case .lastWeek:
+                return NSLocalizedString("statistics.last.week", comment: "")
+            case .thisMonth:
+                return NSLocalizedString("statistics.this.month", comment: "")
+            }
+        }
     }
     
     var body: some View {
@@ -59,7 +72,7 @@ struct EnhancedStatisticsView: View {
             }
             .padding()
         }
-        .navigationTitle("Statistics")
+        .navigationTitle(NSLocalizedString("statistics.title", comment: ""))
         .navigationBarTitleDisplayMode(.large)
         .sheet(isPresented: $showingTagSelector) {
             if let hourRange = selectedHourRange {
@@ -78,13 +91,13 @@ struct EnhancedStatisticsView: View {
     
     private var timeFramePicker: some View {
         VStack(spacing: 16) {
-            Text("Analyze Period")
+            Text(NSLocalizedString("statistics.analyze.period", comment: ""))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             Picker("Time Frame", selection: $selectedTimeFrame) {
                 ForEach(TimeFrame.allCases, id: \.self) { frame in
-                    Text(frame.description).tag(frame)
+                    Text(frame.localizedDescription).tag(frame)
                 }
             }
             .pickerStyle(.segmented)
@@ -99,30 +112,30 @@ struct EnhancedStatisticsView: View {
     private var quickStatsGrid: some View {
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
             StatCard(
-                title: "Total",
+                title: NSLocalizedString("statistics.total", comment: ""),
                 value: "\(filteredCigarettes.count)",
-                subtitle: "cigarettes",
+                subtitle: NSLocalizedString("cigarettes", comment: ""),
                 color: .blue
             )
             
             StatCard(
-                title: "Average",
+                title: NSLocalizedString("statistics.average", comment: ""),
                 value: String(format: "%.1f", averagePerPeriod),
                 subtitle: averageUnit,
                 color: .orange
             )
             
             StatCard(
-                title: "Peak Hour",
+                title: NSLocalizedString("statistics.peak.hour", comment: ""),
                 value: peakHour,
-                subtitle: "most active",
+                subtitle: NSLocalizedString("statistics.most.active", comment: ""),
                 color: .red
             )
             
             StatCard(
-                title: "Most Used Tag",
-                value: mostUsedTag.isEmpty ? "None" : mostUsedTag,
-                subtitle: "category",
+                title: NSLocalizedString("statistics.most.used.tag", comment: ""),
+                value: mostUsedTag.isEmpty ? NSLocalizedString("statistics.none", comment: "") : mostUsedTag,
+                subtitle: NSLocalizedString("statistics.category", comment: ""),
                 color: .green
             )
         }
@@ -133,12 +146,12 @@ struct EnhancedStatisticsView: View {
     private var hourlyAnalysisSection: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Hourly Distribution")
+                Text(NSLocalizedString("statistics.hourly.distribution", comment: ""))
                     .font(.headline)
                 
                 Spacer()
                 
-                Text("Tap bars to add tags")
+                Text(NSLocalizedString("statistics.tap.bars", comment: ""))
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
@@ -163,7 +176,7 @@ struct EnhancedStatisticsView: View {
     
     private var tagAnalysisSection: some View {
         VStack(spacing: 16) {
-            Text("Tag Analysis")
+            Text(NSLocalizedString("statistics.tag.analysis", comment: ""))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
@@ -206,7 +219,7 @@ struct EnhancedStatisticsView: View {
     
     private var peakHoursSection: some View {
         VStack(spacing: 16) {
-            Text("Peak Hours Analysis")
+            Text(NSLocalizedString("statistics.peak.hours.analysis", comment: ""))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
@@ -231,7 +244,7 @@ struct EnhancedStatisticsView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(colorForHourIntensity(item.count))
                             
-                            Text("cigarettes")
+                            Text(NSLocalizedString("cigarettes", comment: ""))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -251,7 +264,7 @@ struct EnhancedStatisticsView: View {
     
     private var weeklyPatternSection: some View {
         VStack(spacing: 16) {
-            Text("Weekly Pattern")
+            Text(NSLocalizedString("statistics.weekly.pattern", comment: ""))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
@@ -285,34 +298,34 @@ struct EnhancedStatisticsView: View {
     
     private var detailedStatsSection: some View {
         VStack(spacing: 16) {
-            Text("Detailed Statistics")
+            Text(NSLocalizedString("statistics.detailed.statistics", comment: ""))
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             VStack(spacing: 12) {
                 DetailStatRow(
-                    title: "First cigarette",
+                    title: NSLocalizedString("statistics.first.cigarette", comment: ""),
                     value: firstCigaretteTime,
                     icon: "sunrise.fill",
                     color: .orange
                 )
                 
                 DetailStatRow(
-                    title: "Last cigarette", 
+                    title: NSLocalizedString("statistics.last.cigarette", comment: ""), 
                     value: lastCigaretteTime,
                     icon: "sunset.fill",
                     color: .purple
                 )
                 
                 DetailStatRow(
-                    title: "Longest break",
+                    title: NSLocalizedString("statistics.longest.break", comment: ""),
                     value: longestBreak,
                     icon: "timer",
                     color: .green
                 )
                 
                 DetailStatRow(
-                    title: "Average interval",
+                    title: NSLocalizedString("statistics.average.interval", comment: ""),
                     value: averageInterval,
                     icon: "clock",
                     color: .blue
@@ -320,7 +333,7 @@ struct EnhancedStatisticsView: View {
                 
                 if !filteredCigarettes.isEmpty {
                     DetailStatRow(
-                        title: "With tags",
+                        title: NSLocalizedString("statistics.with.tags", comment: ""),
                         value: "\(cigarettesWithTags) of \(filteredCigarettes.count)",
                         icon: "tag",
                         color: .indigo
@@ -459,16 +472,16 @@ struct EnhancedStatisticsView: View {
     private var averageUnit: String {
         switch selectedTimeFrame {
         case .today, .yesterday:
-            return "today"
+            return NSLocalizedString("statistics.today", comment: "").lowercased()
         case .thisWeek, .lastWeek:
-            return "per day"
+            return NSLocalizedString("statistics.per.day", comment: "")
         case .thisMonth:
-            return "per day"
+            return NSLocalizedString("statistics.per.day", comment: "")
         }
     }
     
     private var peakHour: String {
-        guard let peak = topPeakHours.first else { return "None" }
+        guard let peak = topPeakHours.first else { return NSLocalizedString("statistics.none", comment: "") }
         return "\(peak.hour):00"
     }
     
@@ -478,14 +491,14 @@ struct EnhancedStatisticsView: View {
     
     private var firstCigaretteTime: String {
         guard let first = filteredCigarettes.min(by: { $0.timestamp < $1.timestamp }) else {
-            return "None"
+            return NSLocalizedString("statistics.none", comment: "")
         }
         return DateFormatter.timeOnly.string(from: first.timestamp)
     }
     
     private var lastCigaretteTime: String {
         guard let last = filteredCigarettes.max(by: { $0.timestamp < $1.timestamp }) else {
-            return "None"
+            return NSLocalizedString("statistics.none", comment: "")
         }
         return DateFormatter.timeOnly.string(from: last.timestamp)
     }
@@ -530,13 +543,13 @@ struct EnhancedStatisticsView: View {
     private func timeLabel(for hour: Int) -> String {
         switch hour {
         case 6..<12:
-            return "Morning"
+            return NSLocalizedString("statistics.morning", comment: "")
         case 12..<17:
-            return "Afternoon"
+            return NSLocalizedString("statistics.afternoon", comment: "")
         case 17..<21:
-            return "Evening"
+            return NSLocalizedString("statistics.evening", comment: "")
         default:
-            return "Night"
+            return NSLocalizedString("statistics.night", comment: "")
         }
     }
     

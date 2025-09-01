@@ -58,11 +58,11 @@ struct ContentView: View {
                             VStack(spacing: 8) {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 4) {
-                                        Text("Mirror Smoker")
+                                        Text(NSLocalizedString("app.title", comment: ""))
                                             .font(.largeTitle)
                                             .fontWeight(.bold)
                                         
-                                        Text("Track and reflect on your smoking habits")
+                                        Text(NSLocalizedString("app.subtitle", comment: ""))
                                             .font(.caption)
                                             .foregroundColor(.secondary)
                                     }
@@ -73,20 +73,34 @@ struct ContentView: View {
                             
                             // Quick Stats - Moved above Today's card
                             VStack(spacing: 12) {
-                                Text("Quick Stats")
+                                Text(NSLocalizedString("quick.stats", comment: ""))
                                     .font(.headline)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 
-                                HStack {
-                                    StatBox(title: "This Week", value: "\(weeklyCount)", color: .blue)
-                                    StatBox(title: "This Month", value: "\(monthlyCount)", color: .orange)
-                                    StatBox(title: "Total", value: "\(cigarettes.count)", color: .purple)
+                                HStack(alignment: .top, spacing: 12) {
+                                    StatBox(
+                                        title: NSLocalizedString("stats.this.week", comment: ""), 
+                                        value: "\(weeklyCount)", 
+                                        color: .blue
+                                    )
+                                    
+                                    StatBox(
+                                        title: NSLocalizedString("stats.this.month", comment: ""), 
+                                        value: "\(monthlyCount)", 
+                                        color: .orange
+                                    )
+                                    
+                                    StatBox(
+                                        title: NSLocalizedString("stats.total", comment: ""), 
+                                        value: "\(cigarettes.count)", 
+                                        color: .purple
+                                    )
                                 }
                             }
                             
                             // Today's Counter - Now below quick stats
                             VStack(spacing: 12) {
-                                Text("Today")
+                                Text(NSLocalizedString("today.title", comment: ""))
                                     .font(.headline)
                                     .foregroundColor(.secondary)
                                 
@@ -94,7 +108,9 @@ struct ContentView: View {
                                     .font(.system(size: 48, weight: .bold, design: .default))
                                     .foregroundColor(colorForCount(todayCigarettes.count))
                                 
-                                Text(todayCigarettes.count == 1 ? "cigarette" : "cigarettes")
+                                Text(todayCigarettes.count == 1 ? 
+                                     NSLocalizedString("cigarette.singular", comment: "") : 
+                                     NSLocalizedString("cigarette.plural", comment: ""))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }
@@ -107,7 +123,7 @@ struct ContentView: View {
                             if !todayCigarettes.isEmpty {
                                 VStack(alignment: .leading, spacing: 12) {
                                     HStack {
-                                        Text("Today's Cigarettes")
+                                        Text(NSLocalizedString("todays.cigarettes", comment: ""))
                                             .font(.headline)
                                         Spacer()
                                     }
@@ -194,7 +210,7 @@ struct ContentView: View {
                                                 selectedTags = cigarette.tags ?? []
                                                 showTagPicker = true
                                             }) {
-                                                Label("Tags", systemImage: "tag")
+                                                Label(NSLocalizedString("tags.label", comment: ""), systemImage: "tag")
                                             }
                                             .tint(.blue)
                                         }
@@ -202,7 +218,7 @@ struct ContentView: View {
                                             Button(role: .destructive, action: {
                                                 deleteCigarette(cigarette)
                                             }) {
-                                                Label("Delete", systemImage: "trash")
+                                                Label(NSLocalizedString("delete", comment: ""), systemImage: "trash")
                                             }
                                         }
                                     }
@@ -214,10 +230,10 @@ struct ContentView: View {
                                         .font(.largeTitle)
                                         .foregroundColor(.green)
                                     
-                                    Text("Great! No cigarettes today")
+                                    Text(NSLocalizedString("empty.state.title", comment: ""))
                                         .font(.headline)
                                     
-                                    Text("Keep it up! Use the + button to log one if needed.")
+                                    Text(NSLocalizedString("empty.state.subtitle", comment: ""))
                                         .font(.caption)
                                         .foregroundColor(.secondary)
                                         .multilineTextAlignment(.center)
@@ -227,34 +243,6 @@ struct ContentView: View {
                                 .background(AppColors.systemGray6)
                                 .cornerRadius(12)
                             }
-                            
-                            // Debug Section - only in debug builds
-                            #if DEBUG
-                            Section {
-                                Button("Debug Widget State") {
-                                    WidgetStore.shared.debugWidgetState()
-                                }
-                                .foregroundColor(.blue)
-                                
-                                Button("Reset Widget Data") {
-                                    WidgetStore.shared.resetWidgetData()
-                                    // Force sync after reset
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                                        syncWidget()
-                                    }
-                                }
-                                .foregroundColor(.orange)
-                                
-                                Button("Force Widget Sync") {
-                                    syncWidget()
-                                }
-                                .foregroundColor(.green)
-                            } header: {
-                                Text("Widget Debug")
-                            } footer: {
-                                Text("Debug tools for widget synchronization")
-                            }
-                            #endif
                             
                             // Add bottom padding to avoid floating button
                             Color.clear.frame(height: 80)
@@ -279,29 +267,28 @@ struct ContentView: View {
             .navigationBarHidden(true)
             .tabItem {
                 Image(systemName: "house.fill")
-                Text("Home")
+                Text(NSLocalizedString("tab.home", comment: ""))
             }
             .tag(0)
             
             // Simple Stats Tab
             NavigationView {
                 EnhancedStatisticsView()
-                    .navigationTitle("Statistics")
+                    .navigationTitle(NSLocalizedString("statistics.title", comment: ""))
             }
             .tabItem {
                 Image(systemName: "chart.bar.fill")
-                Text("Stats")
+                Text(NSLocalizedString("tab.stats", comment: ""))
             }
             .tag(1)
             
             // Settings Tab
             NavigationView {
                 SettingsView()
-                    .navigationTitle("Settings")
             }
             .tabItem {
                 Image(systemName: "gear")
-                Text("Settings")
+                Text(NSLocalizedString("tab.settings", comment: ""))
             }
             .tag(2)
         }
@@ -321,13 +308,11 @@ struct ContentView: View {
         }
         .accentColor(.red)
         .onChange(of: todayCigarettes.count) { oldValue, newValue in
-            // Sync widget whenever the count changes
-            print("Today's count changed from \(oldValue) to \(newValue) - syncing widget")
+            // Sync widget whenever the count changes (senza log per evitare spam)
             syncWidget()
         }
         .onChange(of: cigarettes.count) { oldValue, newValue in
-            // Also sync when total cigarettes change (for robustness)
-            print("Total count changed from \(oldValue) to \(newValue) - syncing widget")  
+            // Also sync when total cigarettes change (senza log per evitare spam)
             syncWidget()
         }
         .onAppear {
@@ -337,67 +322,32 @@ struct ContentView: View {
                 hasProcessedPendingCigarettes = true
             }
             
-            // Force initial sync to ensure widget is up to date
-            syncWidget()
-            
-            // If this is likely first run, sync again after a delay
-            if !WidgetStore.shared.hasBeenInitialized() {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    syncWidget()
-                }
-            }
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
-            // Process pending cigarettes when app comes to foreground
-            processPendingWidgetCigarettes()
-            syncWidget()
-        }
-        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
-            // Also sync when app becomes active (from background)
+            // Then sync widget with current data
             syncWidget()
         }
     }
     
     // MARK: - Actions
     
-    private func addCigarette() {
-        // Add haptic feedback
-        let impact = UIImpactFeedbackGenerator(style: .medium)
-        impact.impactOccurred()
-        
-        let newCigarette = Cigarette()
-        modelContext.insert(newCigarette)
-        
-        do {
-            try modelContext.save()
-            
-            // Force immediate widget sync with slight delay to ensure save is complete
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                syncWidget()
-            }
-            
-        } catch {
-            print("Error saving cigarette: \(error)")
+    private func processPendingWidgetCigarettes() {
+        guard let pendingTimestamps = WidgetStore.shared.safeDefaults.array(forKey: WidgetStore.shared.pendingCigarettesKey) as? [Double],
+              !pendingTimestamps.isEmpty else {
+            return
         }
-    }
-    
-    private func deleteCigarette(_ cigarette: Cigarette) {
-        // Add haptic feedback
-        let impact = UIImpactFeedbackGenerator(style: .light)
-        impact.impactOccurred()
-        
-        modelContext.delete(cigarette)
         
         do {
-            try modelContext.save()
-            
-            // Force immediate widget sync with slight delay to ensure save is complete
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                syncWidget()
+            for timestamp in pendingTimestamps {
+                let newCigarette = Cigarette()
+                newCigarette.timestamp = Date(timeIntervalSince1970: timestamp)
+                modelContext.insert(newCigarette)
             }
             
+            try modelContext.save()
+            
+            WidgetStore.shared.clearPendingData()
+            
         } catch {
-            print("Error deleting cigarette: \(error)")
+            print("Error processing pending widget cigarettes: \(error)")
         }
     }
     
@@ -413,51 +363,38 @@ struct ContentView: View {
             lastTime = "--:--"
         }
         
-        print("🔄 Syncing widget: count=\(count), lastTime=\(lastTime)")
-        WidgetStore.shared.updateWidgetData(todayCount: count, lastCigaretteTime: lastTime)
+        // Debounce per evitare troppe chiamate
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            WidgetStore.shared.updateWidgetData(todayCount: count, lastCigaretteTime: lastTime)
+        }
     }
     
-    private func processPendingWidgetCigarettes() {
-        // Debug widget state first
-        WidgetStore.shared.debugWidgetState()
+    private func addCigarette() {
+        let impact = UIImpactFeedbackGenerator(style: .medium)
+        impact.impactOccurred()
         
-        // Get pending timestamps from widget store
-        guard let defaults = WidgetStore.shared.userDefaults else {
-            print("❌ No UserDefaults available for app group")
-            return
-        }
-        
-        guard let pendingTimestamps = defaults.array(forKey: WidgetStore.shared.pendingCigarettesKey) as? [Double],
-              !pendingTimestamps.isEmpty else {
-            print("ℹ️ No pending cigarettes to process")
-            return
-        }
-        
-        print("⚡ Processing \(pendingTimestamps.count) pending cigarettes from widget...")
+        let newCigarette = Cigarette()
+        modelContext.insert(newCigarette)
         
         do {
-            // Create cigarettes for each timestamp
-            for timestamp in pendingTimestamps {
-                let newCigarette = Cigarette()
-                newCigarette.timestamp = Date(timeIntervalSince1970: timestamp)
-                modelContext.insert(newCigarette)
-                print("  📝 Created cigarette for: \(Date(timeIntervalSince1970: timestamp))")
-            }
-            
-            // Save all cigarettes to database
             try modelContext.save()
-            print("  💾 Saved \(pendingTimestamps.count) cigarettes to database")
-            
-            // Clear pending items after successful save
-            defaults.removeObject(forKey: WidgetStore.shared.pendingCigarettesKey)
-            defaults.synchronize()
-            print("  🧹 Cleared pending items from widget store")
-            
-            print("✅ Successfully processed \(pendingTimestamps.count) cigarettes from widget")
-            
+            syncWidget()
         } catch {
-            print("❌ Error processing pending widget cigarettes: \(error)")
-            // Don't clear pending items if there was an error
+            print("Error saving cigarette: \(error)")
+        }
+    }
+    
+    private func deleteCigarette(_ cigarette: Cigarette) {
+        let impact = UIImpactFeedbackGenerator(style: .light)
+        impact.impactOccurred()
+        
+        modelContext.delete(cigarette)
+        
+        do {
+            try modelContext.save()
+            syncWidget()
+        } catch {
+            print("Error deleting cigarette: \(error)")
         }
     }
     
@@ -480,13 +417,19 @@ struct StatBox: View {
             Text(title)
                 .font(.caption)
                 .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .lineLimit(2)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(minHeight: 32)
             
             Text(value)
                 .font(.title3)
                 .fontWeight(.bold)
                 .foregroundColor(color)
+                .minimumScaleFactor(0.8)
         }
         .frame(maxWidth: .infinity)
+        .frame(minHeight: 80)
         .padding()
         .background(AppColors.systemGray6)
         .cornerRadius(12)
@@ -522,28 +465,28 @@ struct SimpleStatsView: View {
                 // Quick Stats Grid
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: 12) {
                     StatCard(
-                        title: "Today",
+                        title: NSLocalizedString("today.title", comment: ""),
                         value: "\(todayCount)",
-                        subtitle: "cigarettes",
+                        subtitle: NSLocalizedString("cigarettes", comment: ""),
                         color: .blue
                     )
                     
                     StatCard(
-                        title: "This Week",
+                        title: NSLocalizedString("stats.this.week", comment: ""),
                         value: "\(weekCount)",
                         subtitle: "total",
                         color: .orange
                     )
                     
                     StatCard(
-                        title: "Average",
+                        title: NSLocalizedString("statistics.average", comment: ""),
                         value: String(format: "%.1f", weeklyAverage),
-                        subtitle: "per day",
+                        subtitle: NSLocalizedString("statistics.per.day", comment: ""),
                         color: .green
                     )
                     
                     StatCard(
-                        title: "Total",
+                        title: NSLocalizedString("stats.total", comment: ""),
                         value: "\(cigarettes.count)",
                         subtitle: "all time",
                         color: .purple

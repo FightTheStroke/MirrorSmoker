@@ -17,7 +17,7 @@ struct TodayCigarettesList: View {
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Today's Cigarettes")
+                Text(NSLocalizedString("todays.cigarettes", comment: ""))
                     .font(.headline)
                 
                 Spacer()
@@ -29,7 +29,7 @@ struct TodayCigarettesList: View {
                         .font(.largeTitle)
                         .foregroundColor(.secondary)
                     
-                    Text("No cigarettes logged today")
+                    Text(NSLocalizedString("today.cigarettes.list.empty", comment: ""))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }

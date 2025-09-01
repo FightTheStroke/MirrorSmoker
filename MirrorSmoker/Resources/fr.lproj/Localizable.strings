@@ -1,0 +1,137 @@
+"today.title" = "Aujourd'hui";
+"today.cigarettes.count" = "%d cigarettes";
+"button.smoked.one" = "Fumé une cigarette";
+"button.add.with.tags" = "Ajouter avec Étiquettes";
+"section.today" = "Aujourd'hui";
+"today.none" = "Aucune cigarette aujourd'hui ! 🎉";
+"section.history" = "Historique";
+"cigarettes" = "cigarettes";
+"a11y.new.cigarette" = "Nouvelle cigarette";
+"a11y.new.cigarette.hint" = "Appui court : ajout rapide. Appui long pour ajouter avec des étiquettes.";
+"nav.title.tracker" = "Suivi de Cigarettes";
+"menu.weekly.stats" = "Statistiques Hebdomadaires";
+"menu.advanced.analytics" = "Analyses Avancées";
+"alert.add.note" = "Ajouter une note";
+"placeholder.optional.note" = "Note facultative";
+"button.add" = "Ajouter";
+"button.cancel" = "Annuler";
+
+// Settings
+"settings.title" = "Paramètres";
+"settings.profile" = "Profil Personnel";
+"settings.profile.footer" = "Ces informations aident à personnaliser les statistiques et les recommandations";
+"settings.name" = "Votre nom";
+"settings.birth.date" = "Date de naissance";
+"settings.age" = "Âge : %d";
+"settings.weight" = "Poids (kg)";
+"settings.weight.validation" = "Veuillez entrer un poids valide (1-300 kg)";
+"settings.smoking.habits" = "Habitudes de Tabagisme";
+"settings.smoking.habits.footer" = "Aidez-nous à mieux comprendre votre parcours avec le tabac";
+"settings.smoking.type" = "Type de tabac";
+"settings.started.age" = "Âge auquel j'ai commencé";
+"settings.started.age.validation" = "Veuillez entrer un âge valide (10-80 ans)";
+"settings.current.age" = "Âge actuel";
+"settings.smoking.years" = "Années de tabagisme";
+"settings.health.insights" = "Infos Santé";
+"settings.health.insights.footer" = "Ce sont des estimations basées sur des données générales et ne remplacent pas un avis médical";
+"settings.save.changes" = "Enregistrer les Modifications";
+"settings.profile.saved" = "Profil Enregistré";
+"settings.profile.saved.message" = "Vos informations ont été enregistrées avec succès";
+"settings.info.title" = "Informations sur l'App";
+"settings.version" = "Version";
+"settings.copyright" = "© 2025 FightTheStroke Foundation";
+"settings.website" = "www.fightthestroke.org";
+"settings.email" = "info@fightthestroke.org";
+"settings.debug" = "Outils de Développement";
+"age.placeholder" = "Âge";
+"years.unit" = "ans";
+"smoking.type.picker.label" = "Type";
+"debug.toggle.panel" = "Afficher/Masquer le Panneau de Débogage";
+"health.insights.general.info" = "Informations Générales";
+"health.insights.age.weight.format" = "Âge : %d ans • Poids : %.1f kg";
+"health.insights.smoking.duration" = "Durée du Tabagisme";
+"health.insights.smoking.duration.format" = "%d ans de %@";
+"health.insights.reminder" = "Rappel";
+"health.insights.quit.message" = "Il est toujours temps d'arrêter";
+"debug.widget.state" = "Déboguer l'État du Widget";
+"debug.force.sync" = "Forcer la Synchro du Widget";
+"debug.reset.data" = "Réinitialiser les Données du Widget";
+
+// ContentView
+"app.title" = "Mirror Smoker";
+"app.subtitle" = "Suivez et réfléchissez à vos habitudes de tabagisme";
+"quick.stats" = "Statistiques Rapides";
+"stats.this.week" = "Cette Semaine";
+"stats.this.month" = "Ce Mois-ci";
+"stats.total" = "Total";
+"cigarette.singular" = "cigarette";
+"cigarette.plural" = "cigarettes";
+"todays.cigarettes" = "Cigarettes d'Aujourd'hui";
+"empty.state.title" = "Super ! Aucune cigarette aujourd'hui";
+"empty.state.subtitle" = "Continuez comme ça ! Utilisez le bouton + pour en enregistrer une si besoin.";
+
+// Tab Bar
+"tab.home" = "Accueil";
+"tab.stats" = "Statistiques";
+"tab.settings" = "Paramètres";
+
+// Statistics
+"statistics.title" = "Statistiques";
+"statistics.analyze.period" = "Analyser la Période";
+"statistics.today" = "Aujourd'hui";
+"statistics.yesterday" = "Hier";
+"statistics.this.week" = "Cette Semaine";
+"statistics.last.week" = "Semaine Dernière";
+"statistics.this.month" = "Ce Mois-ci";
+"statistics.total" = "Total";
+"statistics.average" = "Moyenne";
+"statistics.peak.hour" = "Heure de Pointe";
+"statistics.most.used.tag" = "Étiquette la Plus Utilisée";
+"statistics.none" = "Aucune";
+"statistics.per.day" = "par jour";
+"statistics.most.active" = "la plus active";
+"statistics.category" = "catégorie";
+"statistics.hourly.distribution" = "Distribution Horaire";
+"statistics.tap.bars" = "Touchez les barres pour ajouter des étiquettes";
+"statistics.tag.analysis" = "Analyse des Étiquettes";
+"statistics.peak.hours.analysis" = "Analyse des Heures de Pointe";
+"statistics.weekly.pattern" = "Schéma Hebdomadaire";
+"statistics.detailed.statistics" = "Statistiques Détaillées";
+"statistics.first.cigarette" = "Première cigarette";
+"statistics.last.cigarette" = "Dernière cigarette";
+"statistics.longest.break" = "Pause la plus longue";
+"statistics.average.interval" = "Intervalle moyen";
+"statistics.with.tags" = "Avec étiquettes";
+"statistics.morning" = "Matin";
+"statistics.afternoon" = "Après-midi";
+"statistics.evening" = "Soir";
+"statistics.night" = "Nuit";
+
+// Tags
+"tags.none.title" = "Pas encore d'étiquettes";
+"tags.none.subtitle" = "Créez votre première étiquette pour catégoriser vos cigarettes";
+"tags.create.first" = "Créer la Première Étiquette";
+"tags.available" = "Étiquettes Disponibles";
+"tags.swipe.hint" = "Balayez vers la gauche sur une étiquette pour la supprimer";
+"tags.select.title" = "Sélectionner des Étiquettes";
+"tags.delete.title" = "Supprimer l'Étiquette";
+"tags.delete.message" = "Êtes-vous sûr de vouloir supprimer '%@' ? Cette action est irréversible.";
+"tags.name.placeholder" = "Nom de l'Étiquette";
+"tags.name.title" = "Nom de l'Étiquette";
+"tags.name.footer" = "Choisissez un nom descriptif pour votre étiquette";
+"tags.color.custom" = "Couleur Personnalisée";
+"tags.color.footer" = "Touchez une couleur pour la sélectionner, ou utilisez le sélecteur de couleur personnalisé";
+"tags.preview" = "Aperçu de l'Étiquette";
+"tags.preview.title" = "Aperçu";
+"tags.create.title" = "Créer une Étiquette";
+"tags.label" = "Étiquettes";
+
+// Common
+"done" = "Terminé";
+"cancel" = "Annuler";
+"confirm" = "Confirmer";
+"delete" = "Supprimer";
+"edit" = "Modifier";
+"save" = "Enregistrer";
+"ok" = "OK";
+"close" = "Fermer";

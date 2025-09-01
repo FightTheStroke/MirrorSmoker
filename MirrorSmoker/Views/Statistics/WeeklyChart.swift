@@ -12,7 +12,7 @@ struct WeeklyChart: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Andamento settimanale")
+            Text(NSLocalizedString("weekly.chart.title", comment: ""))
                 .font(.title3)
                 .fontWeight(.semibold)
             

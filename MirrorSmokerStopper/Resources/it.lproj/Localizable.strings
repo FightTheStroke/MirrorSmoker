@@ -446,3 +446,54 @@
 "time.range.week" = "Settimana";
 "time.range.month" = "Mese";
 "time.range.all" = "Tutto il tempo";
+
+// Help View
+"help.title" = "Come Usare MirrorSmoker";
+"help.subtitle" = "Una guida completa per tracciare e ridurre le tue abitudini di fumo";
+"help.navigation.title" = "Aiuto";
+
+// Quick Start
+"help.quick.start.title" = "Inizio Rapido";
+"help.quick.start.1" = "Tocca il pulsante blu + per registrare velocemente una sigaretta";
+"help.quick.start.2" = "Tieni premuto il pulsante + per aggiungere tag alla sigaretta";
+"help.quick.start.3" = "Controlla i tuoi progressi giornalieri nella scheda Statistiche";
+
+// Main Features
+"help.main.features.title" = "Funzionalità Principali";
+"help.main.features.1" = "Traccia sigarette con timestamp precisi";
+"help.main.features.2" = "Imposta obiettivi personalizzati per smettere";
+"help.main.features.3" = "Visualizza statistiche dettagliate e tendenze";
+"help.main.features.4" = "Sincronizza i dati su tutti i dispositivi con iCloud";
+
+// Cigarette Management
+"help.cigarette.management.title" = "Gestione delle Registrazioni";
+"help.cigarette.management.1" = "Scorri verso sinistra su una sigaretta per eliminarla";
+"help.cigarette.management.2" = "Scorri verso destra su una sigaretta per aggiungere tag";
+"help.cigarette.management.3" = "Tocca una riga sigaretta per vedere dettagli e modificare note";
+"help.cigarette.management.4" = "Usa il pulsante flottante per registrazioni veloci";
+
+// Tags
+"help.tags.title" = "Utilizzare i Tag";
+"help.tags.1" = "I tag ti aiutano a capire quando e perché fumi";
+"help.tags.2" = "Crea tag personalizzati come 'Stress', 'Lavoro', 'Sociale', ecc.";
+"help.tags.3" = "Visualizza l'analisi dei tag nelle Statistiche per identificare i trigger";
+
+// Integrations
+"help.integrations.title" = "Widget e Siri";
+"help.integrations.1" = "Aggiungi widget alla schermata home per registrazioni veloci";
+"help.integrations.2" = "Dì 'Hey Siri, ho fumato una sigaretta' per registrare istantaneamente";
+"help.integrations.3" = "Chiedi a Siri il conteggio giornaliero o le statistiche settimanali";
+"help.integrations.4" = "Imposta obiettivi di cessazione con comandi vocali Siri";
+
+// Statistics
+"help.statistics.title" = "Comprendere le Statistiche";
+"help.statistics.1" = "Visualizza i progressi giornalieri rispetto al tuo piano";
+"help.statistics.2" = "Analizza tendenze settimanali e mensili";
+"help.statistics.3" = "Traccia i giorni migliori e peggiori per motivazione";
+
+// Tips
+"help.tips.title" = "Suggerimenti Pro";
+"help.tips.1" = "Imposta una data realistica nelle Impostazioni per una migliore pianificazione";
+"help.tips.2" = "Usa i tag in modo coerente per ottenere migliori insight";
+"help.tips.3" = "Controlla regolarmente le statistiche per motivazione";
+"help.tips.4" = "Attiva la riduzione graduale per un piano sostenibile";

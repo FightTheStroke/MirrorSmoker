@@ -7,6 +7,7 @@
 
 import Foundation
 import WatchConnectivity
+import os.log
 import SwiftData
 import Combine
 
@@ -16,7 +17,8 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     private var session: WCSession?
     private var modelContext: ModelContext?
     private var isActivated = false
-    
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "ConnectivityManager")
+
     override private init() {
         super.init()
     }
@@ -49,22 +51,21 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     // MARK: - WCSessionDelegate
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        DispatchQueue.main.async { [weak self] in
-            guard let _ = self else { return }
+        DispatchQueue.main.async {
             if let error = error {
-                print("WCSession activation failed: \(error.localizedDescription)")
+                Self.logger.error("WCSession activation failed: \(error.localizedDescription)")
                 return
             }
             
             switch activationState {
             case .activated:
-                print("WCSession activated successfully")
+                Self.logger.info("WCSession activated successfully")
             case .inactive:
-                print("WCSession is inactive")
+                Self.logger.warning("WCSession is inactive")
             case .notActivated:
-                print("WCSession not activated")
+                Self.logger.warning("WCSession not activated")
             @unknown default:
-                print("WCSession unknown state")
+                Self.logger.error("WCSession unknown state")
             }
         }
     }
@@ -88,7 +89,7 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     func sendAddCigarette(_ dto: CigaretteDTO) {
         guard let session = session, 
               session.isReachable else {
-            print("WCSession not reachable")
+            Self.logger.warning("WCSession not reachable, cannot send data to watch.")
             return
         }
         
@@ -100,7 +101,7 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         // Send on background queue
         DispatchQueue.global(qos: .utility).async {
             session.sendMessage(message, replyHandler: nil) { error in
-                print("Error sending message: \(error.localizedDescription)")
+                Self.logger.error("Error sending message: \(error.localizedDescription)")
             }
         }
     }
@@ -108,7 +109,7 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     func sendTodaySnapshot(from cigarettes: [Cigarette]) {
         guard let session = session,
               session.isReachable else {
-            print("WCSession not reachable for snapshot")
+            Self.logger.warning("WCSession not reachable for snapshot")
             return
         }
         
@@ -124,7 +125,7 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         // Send on background queue
         DispatchQueue.global(qos: .utility).async {
             session.sendMessage(message, replyHandler: nil) { error in
-                print("Error sending snapshot: \(error.localizedDescription)")
+                Self.logger.error("Error sending snapshot: \(error.localizedDescription)")
             }
         }
     }

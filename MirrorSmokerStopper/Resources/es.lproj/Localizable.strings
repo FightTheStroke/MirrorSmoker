@@ -331,3 +331,85 @@
 "nuovo.tag" = "Nueva Etiqueta";
 "annulla" = "Cancelar";
 "salva" = "Guardar";
+
+// Missing Statistics Keys (Critical)
+"statistics.title.main" = "Estadísticas";
+"statistics.todays.overview" = "Resumen de Hoy";
+"statistics.today.single" = "cigarrillo";
+"statistics.today.plural" = "cigarrillos";
+"statistics.no.cigarettes.today.full" = "🎉 ¡Ningún cigarrillo hoy!";
+"statistics.following.plan.full" = "💪 Estás siguiendo tu plan";
+"statistics.exceeded.goal.full" = "⚠️ Superaste el objetivo de hoy";
+"statistics.cigarettes.unit" = "cigarrillos";
+"statistics.trend" = "Tendencia";
+"statistics.daily.distribution.full" = "Distribución diaria";
+"statistics.weekly.trend.full" = "Tendencia semanal";
+"statistics.no.data" = "Sin datos";
+"statistics.no.data.subtitle" = "No hay cigarrillos registrados en el período seleccionado";
+"statistics.insufficient.data" = "Datos insuficientes";
+"statistics.insufficient.data.subtitle" = "Registra más cigarrillos para ver la tendencia";
+"statistics.best.day" = "Mejor día";
+"statistics.worst.day" = "Peor día";
+"statistics.analyzed.period" = "Período analizado";
+"statistics.days.count" = "%d días";
+"statistics.cigarettes.count" = "%d cigarrillos";
+"statistics.average.per.day" = "Promedio/día";
+"statistics.today.label" = "Hoy";
+
+// Time Range Keys
+"time.range.today" = "Hoy";
+"time.range.yesterday" = "Ayer";
+"time.range.week" = "Semana";
+"time.range.month" = "Mes";
+"time.range.all" = "Todo el tiempo";
+
+// Help View
+"help.title" = "Cómo Usar MirrorSmoker";
+"help.subtitle" = "Una guía completa para rastrear y reducir tus hábitos de fumar";
+"help.navigation.title" = "Ayuda";
+
+// Quick Start
+"help.quick.start.title" = "Inicio Rápido";
+"help.quick.start.1" = "Toca el botón azul + para registrar rápidamente un cigarrillo";
+"help.quick.start.2" = "Mantén presionado el botón + para agregar etiquetas a tu cigarrillo";
+"help.quick.start.3" = "Revisa tu progreso diario en la pestaña Estadísticas";
+
+// Main Features
+"help.main.features.title" = "Características Principales";
+"help.main.features.1" = "Rastrea cigarrillos con marcas de tiempo precisas";
+"help.main.features.2" = "Establece objetivos personalizados para dejar de fumar";
+"help.main.features.3" = "Ve estadísticas detalladas y tendencias";
+"help.main.features.4" = "Sincroniza datos en todos tus dispositivos con iCloud";
+
+// Cigarette Management
+"help.cigarette.management.title" = "Gestión de Registros";
+"help.cigarette.management.1" = "Desliza hacia la izquierda en cualquier entrada de cigarrillo para eliminarla";
+"help.cigarette.management.2" = "Desliza hacia la derecha en una entrada de cigarrillo para agregar etiquetas";
+"help.cigarette.management.3" = "Toca en una fila de cigarrillo para ver detalles y editar notas";
+"help.cigarette.management.4" = "Usa el botón flotante para registros rápidos";
+
+// Tags
+"help.tags.title" = "Usando Etiquetas";
+"help.tags.1" = "Las etiquetas te ayudan a entender cuándo y por qué fumas";
+"help.tags.2" = "Crea etiquetas personalizadas como 'Estrés', 'Trabajo', 'Social', etc.";
+"help.tags.3" = "Ve el análisis de etiquetas en Estadísticas para identificar tus desencadenantes";
+
+// Integrations
+"help.integrations.title" = "Widgets y Siri";
+"help.integrations.1" = "Agrega widgets a la pantalla de inicio para registros rápidos";
+"help.integrations.2" = "Di 'Hey Siri, fumé un cigarrillo' para registrar instantáneamente";
+"help.integrations.3" = "Pregunta a Siri por tu conteo diario o estadísticas semanales";
+"help.integrations.4" = "Establece objetivos para dejar de fumar con comandos de voz de Siri";
+
+// Statistics
+"help.statistics.title" = "Entendiendo las Estadísticas";
+"help.statistics.1" = "Ve el progreso diario comparado con tu plan para dejar de fumar";
+"help.statistics.2" = "Analiza tendencias semanales y mensuales";
+"help.statistics.3" = "Rastrea tus mejores y peores días para motivación";
+
+// Tips
+"help.tips.title" = "Consejos Pro";
+"help.tips.1" = "Establece una fecha realista en Configuración para mejor planificación";
+"help.tips.2" = "Usa etiquetas consistentemente para obtener mejores insights";
+"help.tips.3" = "Revisa tus estadísticas regularmente para motivación";
+"help.tips.4" = "Habilita la reducción gradual para un plan sostenible";

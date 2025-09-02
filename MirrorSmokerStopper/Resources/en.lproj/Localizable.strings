@@ -651,3 +651,54 @@
 "nuovo.tag" = "New Tag";
 "annulla" = "Cancel";
 "salva" = "Save";
+
+// Help View
+"help.title" = "How to Use MirrorSmoker";
+"help.subtitle" = "A complete guide to tracking and reducing your smoking habits";
+"help.navigation.title" = "Help";
+
+// Quick Start
+"help.quick.start.title" = "Quick Start";
+"help.quick.start.1" = "Tap the blue + button to quickly log a cigarette";
+"help.quick.start.2" = "Hold the + button to add tags to your cigarette";
+"help.quick.start.3" = "Check your daily progress in the Statistics tab";
+
+// Main Features
+"help.main.features.title" = "Main Features";
+"help.main.features.1" = "Track cigarettes with precise timestamps";
+"help.main.features.2" = "Set personalized quit goals and plans";
+"help.main.features.3" = "View detailed statistics and trends";
+"help.main.features.4" = "Sync data across all your devices with iCloud";
+
+// Cigarette Management
+"help.cigarette.management.title" = "Managing Your Records";
+"help.cigarette.management.1" = "Swipe left on any cigarette entry to delete it";
+"help.cigarette.management.2" = "Swipe right on a cigarette entry to add tags";
+"help.cigarette.management.3" = "Tap on a cigarette row to view details and edit notes";
+"help.cigarette.management.4" = "Use the floating action button for quick logging";
+
+// Tags
+"help.tags.title" = "Using Tags";
+"help.tags.1" = "Tags help you understand when and why you smoke";
+"help.tags.2" = "Create custom tags like 'Stress', 'Work', 'Social', etc.";
+"help.tags.3" = "View tag analysis in Statistics to identify your triggers";
+
+// Integrations
+"help.integrations.title" = "Widgets & Siri";
+"help.integrations.1" = "Add home screen widgets for quick cigarette logging";
+"help.integrations.2" = "Say 'Hey Siri, I smoked a cigarette' to log instantly";
+"help.integrations.3" = "Ask Siri for your daily count or weekly statistics";
+"help.integrations.4" = "Set quit goals with Siri voice commands";
+
+// Statistics
+"help.statistics.title" = "Understanding Statistics";
+"help.statistics.1" = "View daily progress compared to your quit plan";
+"help.statistics.2" = "Analyze weekly and monthly trends";
+"help.statistics.3" = "Track your best and worst days for motivation";
+
+// Tips
+"help.tips.title" = "Pro Tips";
+"help.tips.1" = "Set a realistic quit date in Settings for better planning";
+"help.tips.2" = "Use tags consistently to get better insights";
+"help.tips.3" = "Check your statistics regularly for motivation";
+"help.tips.4" = "Enable gradual reduction for a sustainable quit plan";

@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import os.log
 
 struct TagPickerView: View {
     @Binding var selectedTags: [Tag]
@@ -14,6 +15,8 @@ struct TagPickerView: View {
         .blue, .red, .green, .orange, .purple, .pink, .yellow, .gray,
         .indigo, .teal, .mint, .cyan, .brown
     ]
+    
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "TagPickerView")
     
     var body: some View {
         VStack(spacing: DS.Space.md) {
@@ -127,7 +130,7 @@ struct TagPickerView: View {
         do {
             try modelContext.save()
         } catch {
-            print("Error creating tag: \(error)")
+            Self.logger.error("Error creating tag: \(error.localizedDescription)")
         }
     }
 }

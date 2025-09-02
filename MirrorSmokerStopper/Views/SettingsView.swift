@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import os.log
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
@@ -23,6 +24,7 @@ struct SettingsView: View {
     @State private var hasLoadedProfile = false
     @State private var showDebugPanel = false
     @State private var hasUnsavedChanges = false
+    @State private var showingHelpView = false
     
     @State private var quitDate: Date?
     @State private var enableGradualReduction = true
@@ -487,30 +489,50 @@ struct SettingsView: View {
             .navigationTitle(NSLocalizedString("settings.title", comment: ""))
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
+                // Help button - always visible
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(NSLocalizedString("cancel", comment: "")) {
-                        dismiss()
+                    Button(action: {
+                        showingHelpView = true
+                    }) {
+                        Image(systemName: "questionmark.circle")
+                            .font(.title2)
                     }
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        Task {
-                            await saveProfile()
+                
+                // Cancel button - only when there are unsaved changes
+                if hasUnsavedChanges {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(NSLocalizedString("cancel", comment: "")) {
+                            // Reset to original values
+                            loadProfileData()
+                            hasUnsavedChanges = false
                             UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                         }
-                    }) {
-                        HStack(spacing: 4) {
-                            if hasUnsavedChanges {
+                    }
+                }
+                
+                // Save button - only when there are valid unsaved changes
+                if hasUnsavedChanges && canSave {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            Task {
+                                await saveProfile()
+                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                            }
+                        }) {
+                            HStack(spacing: 4) {
                                 Circle()
                                     .fill(DS.Colors.warning)
                                     .frame(width: 6, height: 6)
+                                Text(NSLocalizedString("save", comment: ""))
                             }
-                            Text(NSLocalizedString("save", comment: ""))
                         }
+                        .fontWeight(.semibold)
                     }
-                    .disabled(!canSave)
-                    .fontWeight(.semibold)
                 }
+            }
+            .sheet(isPresented: $showingHelpView) {
+                HelpView()
             }
         }
         .onAppear {
@@ -600,7 +622,7 @@ struct SettingsView: View {
             hasUnsavedChanges = false
             showingSaveConfirmation = true
         } catch {
-            print(NSLocalizedString("error.saving.profile", comment: ""), error)
+            Self.logger.error("Error saving profile: \(error.localizedDescription)")
         }
     }
 }

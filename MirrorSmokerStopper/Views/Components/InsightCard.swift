@@ -7,12 +7,15 @@
 
 import SwiftUI
 import SwiftData
+import os.log
 
 struct InsightCard: View {
     let insight: SmokingInsight
     @State private var isExpanded: Bool = false
     let onDismiss: (() -> Void)?
     let onActionTaken: (() -> Void)?
+    
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "InsightCard")
     
     init(insight: SmokingInsight, onDismiss: (() -> Void)? = nil, onActionTaken: (() -> Void)? = nil) {
         self.insight = insight
@@ -148,6 +151,19 @@ struct InsightCard: View {
             .fill(priorityColor)
             .frame(width: 8, height: 8)
             .opacity(insight.priority == .critical ? 1.0 : 0.7)
+    }
+    
+    private func showActionSheet() {
+        let dismissAction = ActionSheet.Button.default(Text(NSLocalizedString("dismiss.button", comment: ""))) {
+            onDismiss()
+            Self.logger.info("Insight dismissed by user.")
+        }
+        let takeAction = ActionSheet.Button.default(Text(NSLocalizedString("take.action.button", comment: ""))) {
+            onActionTaken()
+            Self.logger.info("Insight action taken by user.")
+        }
+        
+        // Present action sheet...
     }
 }
 

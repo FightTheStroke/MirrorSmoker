@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import os.log
 
 struct TagSelectionRow: View {
     let tag: Tag
@@ -144,6 +145,8 @@ struct TagSelectorForTimeSheet: View {
     @State private var newTagName = ""
     @State private var newTagColor = "#007AFF"
     
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "TagSelector")
+    
     private var timeRangeText: String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
@@ -177,7 +180,7 @@ struct TagSelectorForTimeSheet: View {
         do {
             return try modelContext.fetch(descriptor)
         } catch {
-            print("Error fetching cigarettes: \(error)")
+            Self.logger.error("Error fetching cigarettes: \(error.localizedDescription)")
             return []
         }
     }

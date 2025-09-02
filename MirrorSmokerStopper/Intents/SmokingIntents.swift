@@ -8,10 +8,13 @@
 import AppIntents
 import SwiftData
 import SwiftUI
+import os.log
 
 // MARK: - Shared Model Container Access
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 extension AppIntent {
+    static let logger = Logger(subsystem: "com.mirror-labs.mirrorsmoker", category: "SmokingIntents")
+    
     var sharedModelContainer: ModelContainer {
         let schema = Schema([
             Cigarette.self,
@@ -31,7 +34,7 @@ extension AppIntent {
         do {
             return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
-            print("Failed to create ModelContainer in Intent: \(error)")
+            Self.logger.critical("Failed to create ModelContainer in Intent: \(error)")
             // Fallback to in-memory container
             let fallbackConfig = ModelConfiguration(
                 "MirrorSmokerModel_v2_memory",
@@ -63,6 +66,8 @@ struct AddCigaretteIntent: AppIntent {
     @Parameter(title: "Note", description: "Optional note about this cigarette")
     var note: String?
     
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "SmokingIntents")
+
     func perform() async throws -> some IntentResult & ProvidesDialog & ShowsSnippetView {
         let modelContext = ModelContext(sharedModelContainer)
         

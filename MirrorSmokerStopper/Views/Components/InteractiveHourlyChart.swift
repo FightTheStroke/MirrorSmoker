@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import Charts
+import SwiftData
+import os.log
 
 // Shared Data Models
 struct HourlyData {
@@ -21,6 +24,8 @@ struct InteractiveHourlyChart: View {
     @State private var selectedHour: Int?
     
     private let maxCount: Int
+    
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "InteractiveHourlyChart")
     
     init(data: [HourlyData], selectedDate: Date, onHourSelected: @escaping (Int) -> Void) {
         self.data = data
@@ -86,6 +91,15 @@ struct InteractiveHourlyChart: View {
         else if hour < 12 { return "\(hour)AM" }
         else if hour == 12 { return "12PM" }
         else { return "\(hour - 12)PM" }
+    }
+    
+    private func onSelectionChanged(hour: Int?) {
+        if let hour {
+            selectedHour = hour
+            Self.logger.debug("Selected hour: \(hour)")
+        } else {
+            selectedHour = nil
+        }
     }
 }
 

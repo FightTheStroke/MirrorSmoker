@@ -9,9 +9,11 @@ import WidgetKit
 import SwiftData
 import Foundation
 import SwiftUI
+import os.log
 
 public class WidgetStore {
     public static let shared = WidgetStore()
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "WidgetStore")
     
     // Torniamo all'App Group originale
     private let appGroupID = "group.org.mirror-labs.mirrorsmoker"
@@ -24,10 +26,10 @@ public class WidgetStore {
         // Prova a creare UserDefaults con App Group
         if let groupDefaults = UserDefaults(suiteName: appGroupID) {
             self.userDefaults = groupDefaults
-            print("✅ Using App Group: \(appGroupID)")
+            Self.logger.info("✅ Using App Group: \(appGroupID)")
         } else {
             self.userDefaults = nil
-            print("⚠️ App Group not available, using fallback")
+            Self.logger.warning("⚠️ App Group not available, using fallback")
         }
     }
     

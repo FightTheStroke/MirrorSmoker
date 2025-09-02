@@ -2,6 +2,7 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+import os.log
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -14,6 +15,8 @@ struct ContentView: View {
     @State private var selectedTags: [Tag] = []
     @State private var lastAddedCigarette: Cigarette?
     @State private var insightsViewModel = InsightsViewModel()
+    
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "ContentView")
     
     private var todaysCigarettes: [Cigarette] {
         let calendar = Calendar.current
@@ -401,7 +404,7 @@ struct ContentView: View {
             // Update widget
             WidgetCenter.shared.reloadAllTimelines()
         } catch { 
-            print("Error saving cigarette: \(error)") 
+            Self.logger.error("Error saving cigarette: \(error.localizedDescription)")
         }
     }
     
@@ -411,12 +414,12 @@ struct ContentView: View {
     
     private func updateCigaretteTags(_ cigarette: Cigarette, tags: [Tag]) {
         cigarette.tags = tags.isEmpty ? nil : tags
-        do { try modelContext.save() } catch { print("Error updating cigarette tags: \(error)") }
+        do { try modelContext.save() } catch { Self.logger.error("Error updating cigarette tags: \(error.localizedDescription)") }
     }
     
     private func deleteCigarette(_ cigarette: Cigarette) {
         modelContext.delete(cigarette)
-        do { try modelContext.save() } catch { print("Error deleting cigarette: \(error)") }
+        do { try modelContext.save() } catch { Self.logger.error("Error deleting cigarette: \(error.localizedDescription)") }
     }
     
     private var statusMessageWithCorrectLogic: some View {

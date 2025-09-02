@@ -250,3 +250,60 @@
 
 // Missing strings from views
 "history.no.history" = "No data available";
+// Insights System
+"dependency.low" = "Low";
+"dependency.moderate" = "Moderate"; 
+"dependency.high" = "High";
+"dependency.severe" = "Severe";
+
+"insight.category.behavioral" = "Behavioral";
+"insight.category.timing" = "Timing";
+"insight.category.progress" = "Progress";
+"insight.category.health" = "Health";
+"insight.category.motivation" = "Motivation";
+
+// Morning Pattern Insights
+"insight.morning.early.title" = "Early Morning Pattern";
+"insight.morning.early.message" = "You smoke your first cigarette %d minutes after waking. Research shows this indicates high nicotine dependence.";
+"insight.morning.early.action" = "Try delaying your first cigarette by 15-30 minutes tomorrow. Even small delays can reduce dependency.";
+
+"insight.morning.moderate.title" = "Morning Habit";
+"insight.morning.moderate.message" = "First cigarette typically %d minutes after waking. You have moderate morning dependency.";
+"insight.morning.moderate.action" = "Consider establishing a morning routine without smoking for the first hour.";
+
+// Evening Pattern Insights  
+"insight.evening.late.title" = "Late Night Smoking";
+"insight.evening.late.message" = "You often smoke around %d:00. Late smoking can disrupt your sleep quality.";
+"insight.evening.late.action" = "Try stopping smoking 2 hours before bedtime to improve sleep quality.";
+
+// Tag Pattern Insights
+"insight.tag.frequent.title" = "Frequent Trigger";
+"insight.tag.frequent.message" = "'%@' accounts for %d%% of your cigarettes. This is your main trigger.";
+"insight.tag.frequent.action" = "When feeling %@, try a 5-minute breathing exercise instead of smoking.";
+
+// Progress Insights
+"insight.goal.exceeded.title" = "Goal Exceeded";
+"insight.goal.exceeded.message" = "You've smoked %d more than your target of %d today.";
+"insight.goal.exceeded.action" = "Focus on your next goal tomorrow. Each day is a fresh start.";
+
+"insight.improvement.title" = "Great Progress!";
+"insight.improvement.message" = "You smoked %d fewer cigarettes than yesterday!";
+"insight.improvement.action" = "Keep this momentum going. What did you do differently today?";
+
+// Dependency Level Insights
+"insight.dependency.title" = "%@ Dependency Level";
+"insight.dependency.message" = "Based on your %d daily average, you have %@ nicotine dependence.";
+"insight.dependency.action.low" = "Great job! Focus on identifying and avoiding your remaining triggers.";
+"insight.dependency.action.moderate" = "Consider behavioral strategies like delay techniques and alternative habits.";
+"insight.dependency.action.high" = "Gradual reduction with professional support may be most effective.";
+"insight.dependency.action.severe" = "Consider consulting a healthcare provider for comprehensive cessation support.";
+
+// Frequency Insights
+"insight.frequency.high.title" = "High Frequency Pattern";
+"insight.frequency.high.message" = "You smoke every %d minutes on average. This indicates a strong physiological dependence.";
+"insight.frequency.high.action" = "Try extending the time between cigarettes by just 10 minutes each day.";
+
+// Insight Card UI
+"insight.suggestion" = "Suggestion";
+"insight.action.understood" = "Got it!";
+"insight.show.suggestion" = "Show suggestion";

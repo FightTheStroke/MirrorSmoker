@@ -26,12 +26,13 @@ struct SettingsView: View {
     @State private var quitDate: Date?
     @State private var showQuitDatePicker = false
     @State private var enableGradualReduction = true
+    @State private var dailyAverageInput = "" // NEW: Campo per la media giornaliera
     
     private var profile: UserProfile? {
         profiles.first
     }
     
-    private var dailyAverage: Double {
+    private var calculatedDailyAverage: Double {
         guard !allCigarettes.isEmpty else { return 0.0 }
         
         let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
@@ -47,8 +48,16 @@ struct SettingsView: View {
     
     // Calcola l'obiettivo di oggi basato sul piano
     private var todayTarget: Int {
-        guard let profile = profile else { return Int(dailyAverage) }
-        return profile.todayTarget(dailyAverage: dailyAverage)
+        guard let profile = profile else { return Int(dailyAverageForPlan) }
+        return profile.todayTarget(dailyAverage: dailyAverageForPlan)
+    }
+    
+    // Usa l'input dell'utente o calcola dalla cronologia
+    private var dailyAverageForPlan: Double {
+        if let input = Double(dailyAverageInput), input > 0 {
+            return input
+        }
+        return calculatedDailyAverage
     }
     
     private var isValidWeight: Bool {
@@ -60,6 +69,13 @@ struct SettingsView: View {
     
     private var isValidAge: Bool {
         startedSmokingAge >= 10 && startedSmokingAge <= 80
+    }
+    
+    private var isValidDailyAverage: Bool {
+        if let avg = Double(dailyAverageInput), avg >= 0 && avg <= 100 {
+            return true
+        }
+        return dailyAverageInput.isEmpty
     }
     
     private var currentAge: Int {
@@ -181,6 +197,31 @@ struct SettingsView: View {
                                             .foregroundColor(DS.Colors.danger)
                                     }
                                 }
+                                
+                                // NEW: Campo per la media giornaliera
+                                VStack(alignment: .leading, spacing: DS.Space.sm) {
+                                    HStack {
+                                        Image(systemName: "chart.bar.fill")
+                                            .foregroundColor(DS.Colors.info)
+                                            .frame(width: 24)
+                                        Text("Sigarette al giorno (media)")
+                                            .font(DS.Text.body)
+                                    }
+                                    TextField("Esempio: 15.5", text: $dailyAverageInput)
+                                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                                        .keyboardType(.decimalPad)
+                                    
+                                    if !isValidDailyAverage && !dailyAverageInput.isEmpty {
+                                        Text("Inserisci un valore valido (0-100 sigarette/giorno)")
+                                            .font(DS.Text.caption)
+                                            .foregroundColor(DS.Colors.danger)
+                                    }
+                                    
+                                    Text("Lascia vuoto per calcolare automaticamente dagli ultimi 30 giorni (\(String(format: "%.1f", calculatedDailyAverage)) sigarette/giorno)")
+                                        .font(DS.Text.caption)
+                                        .foregroundColor(DS.Colors.textSecondary)
+                                        .multilineTextAlignment(.leading)
+                                }
                             }
                         }
                     }
@@ -204,7 +245,7 @@ struct SettingsView: View {
                                                 .foregroundColor(DS.Colors.textSecondary)
                                         }
                                         Spacer()
-                                        Text(String(format: "%.1f", dailyAverage))
+                                        Text(String(format: "%.1f", calculatedDailyAverage))
                                             .font(DS.Text.title2)
                                             .fontWeight(.bold)
                                             .foregroundColor(DS.Colors.primary)
@@ -253,7 +294,7 @@ struct SettingsView: View {
                                 // PREVIEW DEL PIANO se la data è selezionata
                                 if let quitDate = quitDate, enableGradualReduction {
                                     let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
-                                    let dailyReduction = dailyAverage / Double(max(daysRemaining, 1))
+                                    let dailyReduction = dailyAverageForPlan / Double(max(daysRemaining, 1))
                                     
                                     VStack(alignment: .leading, spacing: DS.Space.sm) {
                                         Text("Anteprima del tuo piano:")
@@ -265,7 +306,7 @@ struct SettingsView: View {
                                             HStack {
                                                 Text("• Inizi da:")
                                                 Spacer()
-                                                Text("\(String(format: "%.1f", dailyAverage)) sigarette/giorno")
+                                                Text("\(String(format: "%.1f", dailyAverageForPlan)) sigarette/giorno")
                                                     .fontWeight(.medium)
                                             }
                                             HStack {
@@ -403,7 +444,8 @@ struct SettingsView: View {
     private var canSave: Bool {
         !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
         isValidWeight &&
-        isValidAge
+        isValidAge &&
+        isValidDailyAverage
     }
     
     private var appVersion: String {
@@ -424,6 +466,11 @@ struct SettingsView: View {
         // Carica piano cessazione
         quitDate = profile.quitDate
         enableGradualReduction = profile.enableGradualReduction
+        
+        // Carica media giornaliera se presente
+        if profile.dailyAverage > 0 {
+            dailyAverageInput = String(format: "%.1f", profile.dailyAverage)
+        }
     }
     
     @MainActor
@@ -447,6 +494,13 @@ struct SettingsView: View {
         // Salva piano cessazione
         profileToSave.quitDate = quitDate
         profileToSave.enableGradualReduction = enableGradualReduction
+        
+        // Salva la media giornaliera se fornita
+        if let dailyAvg = Double(dailyAverageInput), dailyAvg > 0 {
+            profileToSave.dailyAverage = dailyAvg
+        } else {
+            profileToSave.dailyAverage = calculatedDailyAverage
+        }
         
         profileToSave.lastUpdated = Date()
         

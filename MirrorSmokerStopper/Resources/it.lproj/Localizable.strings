@@ -254,3 +254,60 @@
 
 // Missing strings from views
 "history.no.history" = "Nessun dato disponibile";
+// Sistema Insights
+"dependency.low" = "Bassa";
+"dependency.moderate" = "Moderata"; 
+"dependency.high" = "Alta";
+"dependency.severe" = "Severa";
+
+"insight.category.behavioral" = "Comportamentale";
+"insight.category.timing" = "Temporale";
+"insight.category.progress" = "Progresso";
+"insight.category.health" = "Salute";
+"insight.category.motivation" = "Motivazione";
+
+// Insights Pattern Mattutino
+"insight.morning.early.title" = "Pattern Mattutino Precoce";
+"insight.morning.early.message" = "Fumi la prima sigaretta %d minuti dopo esserti svegliato. La ricerca mostra che questo indica alta dipendenza da nicotina.";
+"insight.morning.early.action" = "Prova a ritardare la prima sigaretta di 15-30 minuti domani. Anche piccoli ritardi possono ridurre la dipendenza.";
+
+"insight.morning.moderate.title" = "Abitudine Mattutina";
+"insight.morning.moderate.message" = "Prima sigaretta tipicamente %d minuti dopo il risveglio. Hai una dipendenza mattutina moderata.";
+"insight.morning.moderate.action" = "Considera di stabilire una routine mattutina senza fumare per la prima ora.";
+
+// Insights Pattern Serale
+"insight.evening.late.title" = "Fumo Notturno Tardivo";
+"insight.evening.late.message" = "Spesso fumi intorno alle %d:00. Fumare tardi può compromettere la qualità del sonno.";
+"insight.evening.late.action" = "Prova a smettere di fumare 2 ore prima di andare a letto per migliorare la qualità del sonno.";
+
+// Insights Pattern Tag
+"insight.tag.frequent.title" = "Trigger Frequente";
+"insight.tag.frequent.message" = "'%@' rappresenta il %d%% delle tue sigarette. Questo è il tuo trigger principale.";
+"insight.tag.frequent.action" = "Quando ti senti %@, prova un esercizio di respirazione di 5 minuti invece di fumare.";
+
+// Insights Progresso
+"insight.goal.exceeded.title" = "Obiettivo Superato";
+"insight.goal.exceeded.message" = "Hai fumato %d sigarette in più del tuo obiettivo di %d oggi.";
+"insight.goal.exceeded.action" = "Concentrati sul prossimo obiettivo domani. Ogni giorno è un nuovo inizio.";
+
+"insight.improvement.title" = "Ottimo Progresso!";
+"insight.improvement.message" = "Hai fumato %d sigarette in meno rispetto a ieri!";
+"insight.improvement.action" = "Mantieni questo slancio. Cosa hai fatto di diverso oggi?";
+
+// Insights Livello Dipendenza
+"insight.dependency.title" = "Livello di Dipendenza %@";
+"insight.dependency.message" = "Basandosi sulla tua media di %d al giorno, hai una dipendenza da nicotina %@.";
+"insight.dependency.action.low" = "Ottimo lavoro! Concentrati sull'identificare ed evitare i tuoi trigger rimanenti.";
+"insight.dependency.action.moderate" = "Considera strategie comportamentali come tecniche di ritardo e abitudini alternative.";
+"insight.dependency.action.high" = "La riduzione graduale con supporto professionale potrebbe essere più efficace.";
+"insight.dependency.action.severe" = "Considera di consultare un operatore sanitario per un supporto completo alla cessazione.";
+
+// Insights Frequenza
+"insight.frequency.high.title" = "Pattern Alta Frequenza";
+"insight.frequency.high.message" = "Fumi ogni %d minuti in media. Questo indica una forte dipendenza fisiologica.";
+"insight.frequency.high.action" = "Prova ad estendere il tempo tra le sigarette di soli 10 minuti ogni giorno.";
+
+// Insight Card UI
+"insight.suggestion" = "Suggerimento";
+"insight.action.understood" = "Capito!";
+"insight.show.suggestion" = "Mostra suggerimento";

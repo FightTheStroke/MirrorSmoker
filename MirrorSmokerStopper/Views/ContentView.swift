@@ -6,12 +6,14 @@ struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette]
     @Query private var userProfiles: [UserProfile]
+    @Query private var allTags: [Tag]
     
     @State private var showingSettings = false
     @State private var showingHistory = false
     @State private var showingTagPicker = false
     @State private var selectedTags: [Tag] = []
     @State private var lastAddedCigarette: Cigarette?
+    @State private var insightsViewModel = InsightsViewModel()
     
     // Computed properties for today's data
     private var todaysCigarettes: [Cigarette] {
@@ -107,24 +109,34 @@ struct ContentView: View {
     
     private var colorForTodayCount: Color {
         let target = todayTarget
-        
-        switch todayCount {
-        case 0:
+
+        if todayCount == 0 {
             return DS.Colors.success // Verde - perfetto!
-        case 1..<Int(Double(target) * 0.5):
+        }
+        
+        if target <= 0 { // Should have quit
+            return DS.Colors.cigarette // Any cigarette is over target
+        }
+        
+        let percentage = Double(todayCount) / Double(target)
+        
+        if percentage < 0.5 {
             return DS.Colors.success // Verde - sotto metà obiettivo
-        case Int(Double(target) * 0.5)..<Int(Double(target) * 0.8):
+        } else if percentage < 0.8 {
             return DS.Colors.warning // Giallo - vicino all'obiettivo
-        case Int(Double(target) * 0.8)..<target:
+        } else if percentage < 1.0 {
             return Color.orange // Arancione - molto vicino al limite
-        case target:
+        } else if todayCount == target { // percentage == 1.0
             return DS.Colors.danger // Rosso - ha raggiunto il limite
-        default:
+        } else { // percentage > 1.0
             return DS.Colors.cigarette // Rosso scuro - ha superato l'obiettivo
         }
     }
     
     private var progressPercentage: Double {
+        guard todayTarget > 0 else {
+            return todayCount > 0 ? 1.0 : 0.0
+        }
         return min(1.0, Double(todayCount) / Double(todayTarget))
     }
     
@@ -159,6 +171,7 @@ struct ContentView: View {
         ScrollView {
             VStack(spacing: DS.Space.lg) {
                 todayOverviewSection
+                todaysInsightSection
                 heroSection
                 quickStatsSection
                 todaysCigarettesSection
@@ -586,6 +599,42 @@ struct ContentView: View {
         } catch {
             print("Error deleting cigarette: \(error)")
         }
+    }
+    
+    // MARK: - Insights System
+    
+    private var todaysInsightSection: some View {
+        Group {
+            if let todayInsight = insightsViewModel.getTodayInsight() {
+                InsightCard(
+                    insight: todayInsight,
+                    onDismiss: {
+                        withAnimation(.easeOut(duration: 0.3)) {
+                            insightsViewModel.dismissInsight(todayInsight)
+                        }
+                    },
+                    onActionTaken: {
+                        insightsViewModel.markInsightAsShown(todayInsight)
+                        // TODO: Track action taken in analytics
+                    }
+                )
+                .transition(.asymmetric(
+                    insertion: .move(edge: .top).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+            }
+        }
+    }
+    
+    private func generateInsightsIfNeeded() {
+        guard let currentProfile = currentProfile else { return }
+        
+        // Generate insights based on current data
+        insightsViewModel.generateInsights(
+            cigarettes: allCigarettes,
+            profile: currentProfile,
+            tags: allTags
+        )
     }
 }
 

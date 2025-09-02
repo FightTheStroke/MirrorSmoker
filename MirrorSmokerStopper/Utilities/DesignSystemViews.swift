@@ -30,17 +30,27 @@ struct DSCard<Content: View>: View {
 // Section header used to display section titles
 struct DSSectionHeader: View {
     let title: String
+    let subtitle: String?
 
-    init(_ title: String) {
+    init(_ title: String, subtitle: String? = nil) {
         self.title = title
+        self.subtitle = subtitle
     }
 
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
-            Text(title)
-                .font(DS.Text.title3)
-                .foregroundStyle(DS.Colors.textPrimary)
-            Spacer()
+        VStack(alignment: .leading, spacing: DS.Space.xs) {
+            HStack(alignment: .center, spacing: 0) {
+                Text(title)
+                    .font(DS.Text.title3)
+                    .foregroundStyle(DS.Colors.textPrimary)
+                Spacer()
+            }
+            
+            if let subtitle = subtitle {
+                Text(subtitle)
+                    .font(DS.Text.caption)
+                    .foregroundStyle(DS.Colors.textSecondary)
+            }
         }
         .padding(.bottom, DS.Space.xs)
     }

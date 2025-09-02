@@ -50,7 +50,7 @@ struct TodayCigarettesList: View {
                                                     .font(DS.Text.small)
                                                     .padding(.horizontal, DS.Space.sm)
                                                     .padding(.vertical, DS.Space.xs)
-                                                    .background(DS.Colors.secondary)
+                                                    .background(DS.Colors.textSecondary)
                                                     .foregroundColor(.white)
                                                     .cornerRadius(DS.Size.buttonRadius / 2)
                                             }

@@ -48,6 +48,10 @@ struct DS {
         static let chart4 = AppColors.chart4
         static let chart5 = AppColors.chart5
         
+        // Additional chart colors
+        static let chartSecondary = AppColors.chart2
+        static let chartTertiary = AppColors.chart3
+        
         // Tag colors
         static let tagWork = AppColors.tagWork
         static let tagStress = AppColors.tagStress
@@ -67,6 +71,10 @@ struct DS {
         static let buttonDisabled = AppColors.buttonDisabled
         static let link = AppColors.link
         static let linkVisited = AppColors.linkVisited
+        
+        // Additional colors
+        static let secondary = AppColors.textSecondary
+        static let accent = AppColors.primary
     }
     
     // MARK: - Typography (iOS System Fonts)

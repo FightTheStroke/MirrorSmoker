@@ -26,6 +26,7 @@ enum AppColors {
     static let card = Color(.systemBackground)
     static let cardSecondary = Color(.secondarySystemBackground)
     static let separator = Color(.separator)
+    static let systemGray6 = Color(.systemGray6)
     
     // MARK: - Text Colors
     static let textPrimary = Color.primary
@@ -46,6 +47,11 @@ enum AppColors {
     static let chart4 = Color(red: 1.0, green: 0.58, blue: 0.0) // Orange
     static let chart5 = Color(red: 0.20, green: 0.78, blue: 0.35) // Green
     
+    // MARK: - Additional Chart Colors
+    static let chartSecondary = Color(red: 0.32, green: 0.78, blue: 0.98) // Light blue
+    static let chartTertiary = Color(red: 0.88, green: 0.38, blue: 0.98) // Purple
+    static let accent = Color(red: 1.0, green: 0.58, blue: 0.0) // Orange accent
+    
     // MARK: - Tag Colors (Carefully Selected)
     static let tagWork = Color(red: 0.85, green: 0.25, blue: 0.25) // Muted red
     static let tagStress = Color(red: 0.6, green: 0.4, blue: 0.8) // Muted purple
@@ -65,4 +71,7 @@ enum AppColors {
     static let buttonDisabled = Color(.systemGray4)
     static let link = primary
     static let linkVisited = primaryDark
+    
+    // MARK: - Additional Colors
+    static let secondary = Color(.secondaryLabel)
 }

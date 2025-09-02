@@ -36,7 +36,7 @@ struct QuickStatsFooter: View {
                         Text("\(allTimeCount)")
                             .font(DS.Text.title)
                             .fontWeight(.bold)
-                            .foregroundStyle(DS.Colors.secondary)
+                            .foregroundStyle(DS.Colors.textSecondary)
                         Text(NSLocalizedString("stats.total", comment: ""))
                             .font(DS.Text.caption)
                             .foregroundStyle(DS.Colors.textSecondary)

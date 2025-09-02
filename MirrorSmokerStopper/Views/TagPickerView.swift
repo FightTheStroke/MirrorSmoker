@@ -17,7 +17,7 @@ struct TagPickerView: View {
                     VStack(spacing: DS.Space.md) {
                         Image(systemName: "tag")
                             .font(.largeTitle)
-                            .foregroundColor(DS.Colors.secondary)
+                            .foregroundColor(DS.Colors.textSecondary)
                         Text(NSLocalizedString("tags.none.subtitle", comment: ""))
                             .font(DS.Text.body)
                             .foregroundColor(DS.Colors.textSecondary)

@@ -51,125 +51,17 @@ struct WeeklyStatsView: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 24) {
-                    VStack(spacing: 16) {
-                        Text(NSLocalizedString("weekly.stats.last.4.weeks", comment: ""))
-                            .font(.title2)
-                            .fontWeight(.bold)
-                        
-                        LazyVGrid(columns: [
-                            GridItem(.flexible()),
-                            GridItem(.flexible())
-                        ], spacing: 12) {
-                            let totalLast4Weeks = weeklyData.reduce(0) { $0 + $1.total }
-                            let averagePerWeek = totalLast4Weeks / 4
-                            
-                            WeeklyStatCard(
-                                title: NSLocalizedString("weekly.stats.total.4.weeks", comment: ""),
-                                value: "\(totalLast4Weeks)",
-                                subtitle: NSLocalizedString("cigarettes", comment: ""),
-                                color: .red
-                            )
-                            
-                            WeeklyStatCard(
-                                title: NSLocalizedString("weekly.stats.average.weekly", comment: ""),
-                                value: "\(averagePerWeek)",
-                                subtitle: NSLocalizedString("weekly.stats.per.week", comment: ""),
-                                color: .blue
-                            )
-                        }
-                    }
-                    .padding()
-                    .background(AppColors.systemGray6)
-                    .cornerRadius(16)
+                    // Header section with summary cards
+                    headerSection
                     
+                    // Weekly charts
                     ForEach(Array(weeklyData.enumerated()), id: \.offset) { index, week in
-                        VStack(spacing: 12) {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(weekTitle(for: week.weekStart, index: index))
-                                        .font(.headline)
-                                        .fontWeight(.semibold)
-                                    
-                                    Text(String(format: NSLocalizedString("weekly.stats.total.cigarettes", comment: ""), week.total))
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
-                                }
-                                
-                                Spacer()
-                                
-                                Text(String(format: NSLocalizedString("weekly.stats.average.format", comment: ""), week.total / 7))
-                                    .font(.caption)
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
-                                    .background(Color.blue.opacity(0.2))
-                                    .foregroundColor(.blue)
-                                    .cornerRadius(8)
-                            }
-                            
-                            HStack(alignment: .bottom, spacing: 4) {
-                                ForEach(0..<7, id: \.self) { dayIndex in
-                                    let count = week.daily[dayIndex]
-                                    let dayDate = Calendar.current.date(byAdding: .day, value: dayIndex, to: week.weekStart)!
-                                    
-                                    VStack(spacing: 4) {
-                                        Rectangle()
-                                            .fill(barColor(for: count))
-                                            .frame(height: max(min(CGFloat(count) * 60.0 / CGFloat(maxDailyCount), 60), count > 0 ? 4 : 2))
-                                            .cornerRadius(2)
-                                        
-                                        Text(dayDate, format: .dateTime.weekday(.abbreviated))
-                                            .font(.caption2)
-                                            .foregroundColor(.secondary)
-                                        
-                                        Text("\(count)")
-                                            .font(.caption)
-                                            .fontWeight(.medium)
-                                    }
-                                }
-                            }
-                            .frame(height: 100)
-                        }
-                        .padding()
-                        .background(AppColors.systemGray6)
-                        .cornerRadius(12)
+                        weeklyChartSection(week: week, index: index)
                     }
                     
+                    // Trend analysis
                     if weeklyData.count >= 2 {
-                        VStack(spacing: 12) {
-                            Text(NSLocalizedString("weekly.stats.trend.analysis", comment: ""))
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                            
-                            let thisWeek = weeklyData.last?.total ?? 0
-                            let lastWeek = weeklyData.dropLast().last?.total ?? 0
-                            let difference = thisWeek - lastWeek
-                            
-                            HStack {
-                                Image(systemName: difference < 0 ? "arrow.down.circle.fill" : difference > 0 ? "arrow.up.circle.fill" : "minus.circle.fill")
-                                    .font(.title2)
-                                    .foregroundColor(difference < 0 ? .green : difference > 0 ? .red : .blue)
-                                
-                                VStack(alignment: .leading) {
-                                    Text(difference == 0 ? NSLocalizedString("weekly.stats.no.change", comment: "") : difference < 0 ? NSLocalizedString("weekly.stats.improvement", comment: "") : NSLocalizedString("weekly.stats.worsening", comment: ""))
-                                        .font(.headline)
-                                        .foregroundColor(difference < 0 ? .green : difference > 0 ? .red : .blue)
-                                    
-                                    Text(difference == 0 ? 
-                                         NSLocalizedString("weekly.stats.same.as.last.week", comment: "") : 
-                                         String(format: NSLocalizedString("weekly.stats.difference.format", comment: ""), abs(difference), difference < 0 ? NSLocalizedString("weekly.stats.less", comment: "") : NSLocalizedString("weekly.stats.more", comment: "")))
-                                        .font(.subheadline)
-                                        .foregroundColor(.secondary)
-                                }
-                                
-                                Spacer()
-                            }
-                            .padding()
-                            .background(AppColors.systemBackground)
-                            .cornerRadius(8)
-                        }
-                        .padding()
-                        .background(AppColors.systemGray6)
-                        .cornerRadius(16)
+                        trendAnalysisSection
                     }
                 }
                 .padding()
@@ -185,6 +77,133 @@ struct WeeklyStatsView: View {
             }
         }
     }
+    
+    // MARK: - View Sections
+    
+    private var headerSection: some View {
+        VStack(spacing: 16) {
+            Text(NSLocalizedString("weekly.stats.last.4.weeks", comment: ""))
+                .font(.title2)
+                .fontWeight(.bold)
+            
+            LazyVGrid(columns: [
+                GridItem(.flexible()),
+                GridItem(.flexible())
+            ], spacing: 12) {
+                let totalLast4Weeks = weeklyData.reduce(0) { $0 + $1.total }
+                let averagePerWeek = totalLast4Weeks / 4
+                
+                WeeklyStatCard(
+                    title: NSLocalizedString("weekly.stats.total.4.weeks", comment: ""),
+                    value: "\(totalLast4Weeks)",
+                    subtitle: NSLocalizedString("cigarettes", comment: ""),
+                    color: .red
+                )
+                
+                WeeklyStatCard(
+                    title: NSLocalizedString("weekly.stats.average.weekly", comment: ""),
+                    value: "\(averagePerWeek)",
+                    subtitle: NSLocalizedString("weekly.stats.per.week", comment: ""),
+                    color: .blue
+                )
+            }
+        }
+        .padding()
+        .background(AppColors.systemGray6)
+        .cornerRadius(16)
+    }
+    
+    private func weeklyChartSection(week: (weekStart: Date, total: Int, daily: [Int]), index: Int) -> some View {
+        VStack(spacing: 12) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(weekTitle(for: week.weekStart, index: index))
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Text(String(format: NSLocalizedString("weekly.stats.total.cigarettes", comment: ""), week.total))
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+                
+                Text(String(format: NSLocalizedString("weekly.stats.average.format", comment: ""), week.total / 7))
+                    .font(.caption)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 4)
+                    .background(Color.blue.opacity(0.2))
+                    .foregroundColor(.blue)
+                    .cornerRadius(8)
+            }
+            
+            HStack(alignment: .bottom, spacing: 4) {
+                ForEach(0..<7, id: \.self) { dayIndex in
+                    let count = week.daily[dayIndex]
+                    let dayDate = Calendar.current.date(byAdding: .day, value: dayIndex, to: week.weekStart)!
+                    
+                    VStack(spacing: 4) {
+                        Rectangle()
+                            .fill(barColor(for: count))
+                            .frame(height: max(min(CGFloat(count) * 60.0 / CGFloat(maxDailyCount), 60), count > 0 ? 4 : 2))
+                            .cornerRadius(2)
+                        
+                        Text(dayDate, format: .dateTime.weekday(.abbreviated))
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                        
+                        Text("\(count)")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                    }
+                }
+            }
+            .frame(height: 100)
+        }
+        .padding()
+        .background(AppColors.systemGray6)
+        .cornerRadius(12)
+    }
+    
+    private var trendAnalysisSection: some View {
+        VStack(spacing: 12) {
+            Text(NSLocalizedString("weekly.stats.trend.analysis", comment: ""))
+                .font(.headline)
+                .fontWeight(.semibold)
+            
+            let thisWeek = weeklyData.last?.total ?? 0
+            let lastWeek = weeklyData.dropLast().last?.total ?? 0
+            let difference = thisWeek - lastWeek
+            
+            HStack {
+                Image(systemName: difference < 0 ? "arrow.down.circle.fill" : difference > 0 ? "arrow.up.circle.fill" : "minus.circle.fill")
+                    .font(.title2)
+                    .foregroundColor(difference < 0 ? .green : difference > 0 ? .red : .blue)
+                
+                VStack(alignment: .leading) {
+                    Text(difference == 0 ? NSLocalizedString("weekly.stats.no.change", comment: "") : difference < 0 ? NSLocalizedString("weekly.stats.improvement", comment: "") : NSLocalizedString("weekly.stats.worsening", comment: ""))
+                        .font(.headline)
+                        .foregroundColor(difference < 0 ? .green : difference > 0 ? .red : .blue)
+                    
+                    Text(difference == 0 ? 
+                         NSLocalizedString("weekly.stats.same.as.last.week", comment: "") : 
+                         String(format: NSLocalizedString("weekly.stats.difference.format", comment: ""), abs(difference), difference < 0 ? NSLocalizedString("weekly.stats.less", comment: "") : NSLocalizedString("weekly.stats.more", comment: "")))
+                        .font(.subheadline)
+                        .foregroundColor(.secondary)
+                }
+                
+                Spacer()
+            }
+            .padding()
+            .background(Color(.systemBackground))
+            .cornerRadius(8)
+        }
+        .padding()
+        .background(AppColors.systemGray6)
+        .cornerRadius(16)
+    }
+    
+    // MARK: - Helper Methods
     
     private func weekTitle(for date: Date, index: Int) -> String {
         switch index {
@@ -228,7 +247,7 @@ struct WeeklyStatCard: View {
                 .foregroundColor(.secondary)
         }
         .padding()
-        .background(AppColors.systemBackground)
+        .background(Color(.systemBackground))
         .cornerRadius(12)
     }
 }

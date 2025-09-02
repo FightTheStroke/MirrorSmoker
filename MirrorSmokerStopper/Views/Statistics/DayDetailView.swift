@@ -62,7 +62,7 @@ struct DayDetailView: View {
                     }
                 }
                 .padding()
-                .background(Color(AppColors.systemGray6))
+                .background(AppColors.systemGray6)
                 .cornerRadius(12)
                 
                 // Grafico orario
@@ -90,7 +90,7 @@ struct DayDetailView: View {
                         .frame(height: 100)
                     }
                     .padding()
-                    .background(Color(.systemGray6))
+                    .background(AppColors.systemGray6)
                     .cornerRadius(12)
                 }
                 
@@ -131,7 +131,7 @@ struct DayDetailView: View {
                     }
                 }
                 .padding()
-                .background(Color(.systemGray6))
+                .background(AppColors.systemGray6)
                 .cornerRadius(12)
             }
             .padding()

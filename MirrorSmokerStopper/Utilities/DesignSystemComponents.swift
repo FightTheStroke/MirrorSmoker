@@ -87,7 +87,7 @@ struct DSFABStyle: ButtonStyle {
             .foregroundColor(DS.Colors.textInverse)
             .clipShape(Circle())
             .scaleEffect(shouldAnimate ? (configuration.isPressed ? 0.95 : 1.0) : 1.0)
-            .dsShadow(DS.Shadow.medium)
+            .dsAdaptiveShadow(.medium)
             .animation(DS.Animation.bouncy, value: configuration.isPressed)
     }
     
@@ -199,7 +199,7 @@ struct DSHealthCard: View {
                     .font(.system(size: DS.Size.iconSizeLarge))
                     .foregroundColor(color)
                 
-                if let trend = trend {
+                if trend != nil {
                     Image(systemName: trendIcon)
                         .font(.system(size: DS.Size.iconSizeSmall))
                         .foregroundColor(trendColor)
@@ -228,16 +228,16 @@ struct DSHealthCard: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(DS.Space.md)
+        .padding(DS.AdaptiveSpace.md)
         .background(DS.Colors.cardSecondary)
-        .cornerRadius(DS.Size.cardRadiusSmall)
-        .dsShadow(DS.Shadow.small)
+        .cornerRadius(DS.AdaptiveSize.cardRadiusSmall)
+        .dsAdaptiveShadow(.small)
     }
 }
 
-// MARK: - Enhanced DSCard
+// MARK: - Unified DSCard
 
-struct DSCard: View {
+struct DSCard<Content: View>: View {
     enum Variant {
         case plain
         case bordered
@@ -250,16 +250,14 @@ struct DSCard: View {
         case medium
         case large
         
-        var shadow: DSShadow {
+        var shadowLevel: ShadowLevel {
             switch self {
-            case .none:
-                return DSShadow(color: Color.clear, radius: 0, x: 0, y: 0)
-            case .small:
-                return DS.Shadow.small
+            case .none, .small:
+                return .small
             case .medium:
-                return DS.Shadow.medium
+                return .medium
             case .large:
-                return DS.Shadow.large
+                return .large
             }
         }
     }
@@ -267,30 +265,31 @@ struct DSCard: View {
     let variant: Variant
     let elevation: Elevation
     let interactive: Bool
-    let content: () -> AnyView
+    private let content: Content
     
-    init<Content: View>(
+    init(
         variant: Variant = .plain,
         elevation: Elevation = .small,
         interactive: Bool = false,
-        @ViewBuilder content: @escaping () -> Content
+        @ViewBuilder content: () -> Content
     ) {
         self.variant = variant
         self.elevation = elevation
         self.interactive = interactive
-        self.content = { AnyView(content()) }
+        self.content = content()
     }
     
     var body: some View {
-        content()
-            .background(backgroundColor)
-            .cornerRadius(DS.Size.cardRadius)
-            .overlay(
-                borderOverlay
-            )
-            .dsShadow(elevation.shadow)
-            .scaleEffect(shouldScale ? (interactive ? 0.98 : 1.0) : 1.0)
-            .animation(DS.Animation.fast, value: interactive)
+        VStack(alignment: .leading, spacing: DS.Space.md) {
+            content
+        }
+        .padding(DS.AdaptiveSpace.md)
+        .background(backgroundColor)
+        .cornerRadius(DS.AdaptiveSize.cardRadius)
+        .overlay(borderOverlay)
+        .dsAdaptiveShadow(elevation.shadowLevel)
+        .scaleEffect(shouldScale ? (interactive ? 0.98 : 1.0) : 1.0)
+        .animation(DS.Animation.fast, value: interactive)
     }
     
     private var backgroundColor: Color {
@@ -488,7 +487,6 @@ struct DSProgressRing: View {
     
     var body: some View {
         ZStack {
-            // Background ring
             Circle()
                 .stroke(
                     color.opacity(0.2),
@@ -496,7 +494,6 @@ struct DSProgressRing: View {
                 )
                 .frame(width: size, height: size)
             
-            // Progress ring
             Circle()
                 .trim(from: 0, to: progress)
                 .stroke(

@@ -68,33 +68,40 @@ struct SmallCigaretteWidgetView: View {
             )
             
             VStack(spacing: 8) {
-                // Today count
+                // Today count with accessibility
                 VStack(spacing: 2) {
                     Text("\(entry.todayStats.todayCount)")
                         .font(.system(size: 32, weight: .bold, design: .rounded))
                         .foregroundColor(Color(entry.todayStats.statusColor))
+                        .accessibilityLabel(Text(String(format: NSLocalizedString("widget.a11y.today.count", comment: ""), entry.todayStats.todayCount)))
                     
                     Text(NSLocalizedString("widget.today", comment: ""))
                         .font(.caption2)
                         .fontWeight(.medium)
                         .foregroundColor(.secondary)
                         .textCase(.uppercase)
+                        .accessibilityHidden(true)
                 }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(String(format: NSLocalizedString("widget.a11y.today.cigarettes", comment: ""), entry.todayStats.todayCount))
+                .accessibilityValue(entry.todayStats.todayCount == 0 ? NSLocalizedString("widget.a11y.great.job", comment: "") : "")
                 
                 Spacer()
                 
-                // Add button
+                // Add button with accessibility
                 Button(intent: AddCigaretteIntent()) {
                     Image(systemName: "plus")
                         .font(.system(size: 14, weight: .bold))
                         .foregroundColor(.white)
                         .frame(width: 32, height: 32)
                         .background(Color("#007AFF"))
-                        .clipShape(Circle())
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
                 }
                 .buttonStyle(PlainButtonStyle())
+                .accessibilityLabel(NSLocalizedString("widget.a11y.add.cigarette", comment: ""))
+                .accessibilityHint(NSLocalizedString("widget.a11y.add.cigarette.hint", comment: ""))
             }
-            .padding(12)
+            .padding(16)
         }
         .containerBackground(for: .widget) {
             LinearGradient(
@@ -125,30 +132,37 @@ struct MediumCigaretteWidgetView: View {
             HStack(spacing: 16) {
                 // Left side - Main stats
                 VStack(alignment: .leading, spacing: 8) {
-                    // Today count
+                    // Today count with accessibility
                     VStack(alignment: .leading, spacing: 4) {
                         HStack(alignment: .firstTextBaseline, spacing: 4) {
                             Text("\(entry.todayStats.todayCount)")
                                 .font(.system(size: 36, weight: .bold, design: .rounded))
                                 .foregroundColor(Color(entry.todayStats.statusColor))
+                                .accessibilityLabel(Text(String(format: NSLocalizedString("widget.a11y.today.count", comment: ""), entry.todayStats.todayCount)))
                             
                             Text(NSLocalizedString("widget.today", comment: ""))
                                 .font(.caption)
                                 .fontWeight(.medium)
                                 .foregroundColor(.secondary)
                                 .textCase(.uppercase)
+                                .accessibilityHidden(true)
                         }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel(String(format: NSLocalizedString("widget.a11y.today.cigarettes", comment: ""), entry.todayStats.todayCount))
                         
-                        // Last cigarette time
+                        // Last cigarette time with accessibility
                         Text(entry.todayStats.lastCigaretteFormatted)
                             .font(.caption2)
                             .foregroundColor(.secondary)
                             .lineLimit(1)
+                            .accessibilityLabel(entry.todayStats.lastCigaretteTime == nil ? 
+                                NSLocalizedString("widget.a11y.no.cigarettes.today", comment: "") : 
+                                String(format: NSLocalizedString("widget.a11y.last.cigarette.time", comment: ""), entry.todayStats.lastCigaretteFormatted))
                     }
                     
                     Spacer()
                     
-                    // Daily average
+                    // Daily average with accessibility
                     VStack(alignment: .leading, spacing: 2) {
                         Text(String(format: "%.1f", entry.todayStats.dailyAverage))
                             .font(.system(size: 16, weight: .semibold, design: .rounded))
@@ -158,7 +172,10 @@ struct MediumCigaretteWidgetView: View {
                             .font(.caption2)
                             .foregroundColor(.secondary)
                             .textCase(.uppercase)
+                            .accessibilityHidden(true)
                     }
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel(String(format: NSLocalizedString("widget.a11y.daily.average", comment: ""), entry.todayStats.dailyAverage))
                 }
                 
                 Spacer()
@@ -179,9 +196,11 @@ struct MediumCigaretteWidgetView: View {
                         }
                         .frame(width: 60, height: 60)
                         .background(Color("#007AFF"))
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
                     }
                     .buttonStyle(PlainButtonStyle())
+                    .accessibilityLabel(NSLocalizedString("widget.a11y.add.cigarette", comment: ""))
+                    .accessibilityHint(NSLocalizedString("widget.a11y.add.cigarette.hint", comment: ""))
                     
                     Spacer()
                 }

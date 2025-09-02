@@ -133,12 +133,12 @@ struct DSTag_Previews: PreviewProvider {
                     
                     VStack(spacing: DS.Space.sm) {
                         HStack(spacing: DS.Space.sm) {
-                            DSTag("Custom Blue", style: .filled, color: Color(hex: "#007AFF"))
-                            DSTag("Custom Purple", style: .filled, color: Color(hex: "#AF52DE"))
+                            DSTag("Custom Blue", style: .filled, color: Color(hex: "#007AFF") ?? Color.blue)
+                            DSTag("Custom Purple", style: .filled, color: Color(hex: "#AF52DE") ?? Color.purple)
                         }
                         HStack(spacing: DS.Space.sm) {
-                            DSTag("Custom Blue", style: .outline, color: Color(hex: "#007AFF"))
-                            DSTag("Custom Purple", style: .outline, color: Color(hex: "#AF52DE"))
+                            DSTag("Custom Blue", style: .outline, color: Color(hex: "#007AFF") ?? Color.blue)
+                            DSTag("Custom Purple", style: .outline, color: Color(hex: "#AF52DE") ?? Color.purple)
                         }
                     }
                 }
@@ -364,7 +364,7 @@ struct DSColors_Previews: PreviewProvider {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 2), spacing: DS.Space.sm) {
                 ForEach(colors, id: \.0) { name, color in
                     HStack {
-                        RoundedRectangle(cornerRadius: DS.Size.cornerRadiusSmall)
+                        RoundedRectangle(cornerRadius: DS.Size.cardRadiusSmall)
                             .fill(color)
                             .frame(width: 40, height: 40)
                         
@@ -376,7 +376,7 @@ struct DSColors_Previews: PreviewProvider {
                     }
                     .padding(DS.Space.sm)
                     .background(DS.Colors.backgroundSecondary)
-                    .cornerRadius(DS.Size.cornerRadiusSmall)
+                    .cornerRadius(DS.Size.cardRadiusSmall)
                 }
             }
         }

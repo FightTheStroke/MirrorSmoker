@@ -18,23 +18,23 @@ struct CigaretteRecordedView: View {
                 .font(.largeTitle)
                 .foregroundColor(.green)
             
-            Text("Cigarette Recorded")
+            Text(NSLocalizedString("cigarette.recorded.title", comment: ""))
                 .font(.headline)
                 .fontWeight(.semibold)
             
             VStack(spacing: 8) {
-                Text("Time: \(timestamp.formatted(date: .omitted, time: .shortened))")
+                Text(String(format: NSLocalizedString("cigarette.recorded.time", comment: ""), timestamp.formatted(date: .omitted, time: .shortened)))
                     .font(.body)
                     .foregroundColor(.secondary)
                 
                 if let tags = tags, !tags.isEmpty {
-                    Text("Tags: \(tags.joined(separator: ", "))")
+                    Text(String(format: NSLocalizedString("cigarette.recorded.tags", comment: ""), tags.joined(separator: ", ")))
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
             }
             
-            Text("Keep tracking your progress!")
+            Text(NSLocalizedString("cigarette.recorded.subtitle", comment: ""))
                 .font(.caption)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)

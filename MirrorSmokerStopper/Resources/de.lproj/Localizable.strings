@@ -124,6 +124,8 @@
 "delete" = "Löschen";
 "edit" = "Bearbeiten";
 "save" = "Speichern";
+"settings.calculated.age" = "Berechnetes Alter";
+"settings.years.old" = "%d Jahre alt";
 "ok" = "OK";
 "close" = "Schließen";
 "daily.stats.quick.add" = "Schnell Hinzufügen";
@@ -264,3 +266,44 @@
 "widget.intent.add.cigarette.description" = "Schnell eine Zigarette zur täglichen Zählung hinzufügen";
 "widget.intent.success" = "Zigarette erfolgreich hinzugefügt";
 "widget.intent.error.add.failed" = "Fehler beim Hinzufügen der Zigarette. Bitte versuchen Sie es erneut.";
+
+// Missing hardcoded strings from views
+"time.just.now" = "Gerade jetzt";
+"today.vs.goal.chart" = "Heute vs Ziel";
+"weekly.progress.chart" = "Wöchentlicher Fortschritt";
+"early.morning.pattern.insight" = "Frühmorgendliches Muster";
+"tag.name.label" = "Tag-Name";
+"tag.placeholder.example" = "Beispiel: Stress, Sozial, Pause";
+"color.label" = "Farbe";
+"preview.label" = "Vorschau";
+"tag.name.preview" = "Tag-Name";
+"new.tag.title" = "Neues Tag";
+"cancel.button" = "Abbrechen";
+"save.button" = "Speichern";
+"insight.pattern.format" = "Muster: %@";
+"pattern.recommendation.format" = "%@";
+"action.taken.message" = "Aktion ausgeführt";
+"dismissed.message" = "Verworfen";
+"cigarette.count.display" = "%d";
+"percentage.format" = "%d%%";
+
+// Intent localization 
+"intent.add.cigarette.title" = "Zigarette Hinzufügen";
+"intent.add.cigarette.description" = "Eine Zigarette aufzeichnen, die Sie gerade geraucht haben";
+"intent.suggested.phrase" = "Ich habe eine Zigarette geraucht";
+"intent.parameter.tags" = "Tags";
+"intent.parameter.tags.description" = "Optionale Tags für diese Zigarette";
+"intent.parameter.note" = "Notiz";
+"intent.parameter.note.description" = "Optionale Notiz zu dieser Zigarette";
+"intent.success.message" = "Zigarette erfolgreich aufgezeichnet";
+"intent.get.count.title" = "Heutige Zigarettenanzahl Abrufen";
+
+// TagPickerView specific translations
+"nome.del.tag" = "Tag-Name";
+"esempio.tag" = "Beispiel: Stress, Sozial, Pause";
+"colore" = "Farbe";
+"anteprima" = "Vorschau";
+"nome.tag" = "Tag-Name";
+"nuovo.tag" = "Neues Tag";
+"annulla" = "Abbrechen";
+"salva" = "Speichern";

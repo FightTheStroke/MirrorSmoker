@@ -7,9 +7,9 @@ struct TodayCigarettesList: View {
     var onAddTags: (Cigarette) -> Void = { _ in }
     
     var body: some View {
-        DSCard(variant: .plain, elevation: .small) {
+        VStack(spacing: 0) {
+            // Header with card styling
             VStack(spacing: 0) {
-                // Header
                 HStack {
                     Text(NSLocalizedString("todays.cigarettes", comment: ""))
                         .font(DS.Text.headline)
@@ -20,8 +20,10 @@ struct TodayCigarettesList: View {
                         .fontWeight(.semibold)
                         .foregroundColor(DS.Colors.primary)
                 }
-                .padding(DS.Space.md)
-                .padding(.bottom, DS.Space.xs)
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(String(format: NSLocalizedString("a11y.todays.cigarettes.count", comment: ""), todayCigarettes.count))
+                .padding(DS.AdaptiveSpace.md)
+                .background(DS.Colors.card)
                 
                 if todayCigarettes.isEmpty {
                     // Empty state
@@ -34,23 +36,35 @@ struct TodayCigarettesList: View {
                             .foregroundColor(DS.Colors.textSecondary)
                             .multilineTextAlignment(.center)
                     }
-                    .padding(DS.Space.xl)
+                    .padding(DS.AdaptiveSpace.xl)
+                    .background(DS.Colors.card)
                 } else {
-                    // List with cigarettes
-                    List {
+                    // Cigarettes list with proper spacing
+                    LazyVStack(spacing: 0) {
                         ForEach(todayCigarettes, id: \.id) { cigarette in
                             CigaretteRowView(
                                 cigarette: cigarette,
                                 onDelete: { onDelete(cigarette) },
                                 onAddTags: { onAddTags(cigarette) }
                             )
+                            .padding(.horizontal, DS.AdaptiveSpace.md)
+                            .padding(.vertical, DS.Space.xs)
+                            .background(DS.Colors.card)
+                            
+                            // Divider between rows (except last)
+                            if cigarette.id != todayCigarettes.last?.id {
+                                Divider()
+                                    .padding(.horizontal, DS.AdaptiveSpace.md)
+                                    .background(DS.Colors.card)
+                            }
                         }
                     }
-                    .listStyle(.plain)
-                    .frame(minHeight: CGFloat(todayCigarettes.count) * 60)
-                    .frame(maxHeight: 300) // Limit height for long lists
+                    .padding(.bottom, DS.Space.sm)
+                    .background(DS.Colors.card)
                 }
             }
+            .cornerRadius(DS.AdaptiveSize.cardRadius)
+            .dsAdaptiveShadow(.small)
         }
     }
 }
@@ -67,6 +81,7 @@ struct CigaretteRowView: View {
             Image(systemName: "lungs.fill")
                 .foregroundColor(DS.Colors.cigarette)
                 .font(.system(size: DS.Size.iconSize))
+                .accessibilityHidden(true)
             
             // Time
             Text(cigarette.timestamp, format: .dateTime.hour().minute())
@@ -76,7 +91,7 @@ struct CigaretteRowView: View {
             
             Spacer()
             
-            // Tags
+            // Tags (if any)
             if let tags = cigarette.tags, !tags.isEmpty {
                 HStack(spacing: DS.Space.xs) {
                     ForEach(tags.prefix(3), id: \.id) { tag in
@@ -86,37 +101,46 @@ struct CigaretteRowView: View {
                             .padding(.vertical, 2)
                             .background(tag.color)
                             .foregroundColor(.white)
-                            .cornerRadius(6)
+                            .cornerRadius(DS.AdaptiveSize.tagRadius)
                     }
                     
                     if tags.count > 3 {
-                        Text(NSLocalizedString("plus.more.tags", comment: ""), tags.count - 3)
+                        Text(String.localizedStringWithFormat(NSLocalizedString("plus.more.tags", comment: ""), tags.count - 3))
                             .font(DS.Text.caption2)
                             .padding(.horizontal, DS.Space.xs)
                             .padding(.vertical, 2)
                             .background(DS.Colors.backgroundSecondary)
                             .foregroundColor(DS.Colors.textSecondary)
-                            .cornerRadius(6)
+                            .cornerRadius(DS.AdaptiveSize.tagRadius)
                     }
                 }
             }
-        }
-        .padding(.vertical, DS.Space.xs)
-        .swipeActions(edge: .leading) {
-            Button {
-                onAddTags()
-            } label: {
-                Label(NSLocalizedString("add.tags", comment: ""), systemImage: "tag")
+            
+            // Action buttons (compact)
+            HStack(spacing: DS.Space.xs) {
+                // Add tags button
+                Button(action: onAddTags) {
+                    Image(systemName: "tag")
+                        .font(.system(size: 14))
+                        .foregroundColor(DS.Colors.primary)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(NSLocalizedString("a11y.add.tags.to.cigarette", comment: ""))
+                
+                // Delete button
+                Button(action: onDelete) {
+                    Image(systemName: "trash")
+                        .font(.system(size: 14))
+                        .foregroundColor(DS.Colors.danger)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel(NSLocalizedString("a11y.delete.cigarette", comment: ""))
             }
-            .tint(DS.Colors.primary)
         }
-        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive) {
-                onDelete()
-            } label: {
-                Label(NSLocalizedString("delete", comment: ""), systemImage: "trash")
-            }
-        }
+        .contentShape(Rectangle())
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(NSLocalizedString("a11y.cigarette.row", comment: ""))
+        .accessibilityValue(cigarette.timestamp.formatted(date: .omitted, time: .shortened))
     }
 }
 

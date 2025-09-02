@@ -26,25 +26,20 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         // TODO: Re-enable once Watch connectivity is stable
         return
         
-        guard WCSession.isSupported() else { return }
-        
-        // Only activate if we haven't already
-        guard !isActivated else { return }
-        
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            
-            self.session = WCSession.default
-            self.session?.delegate = self
-            
-            // Activate on background queue to avoid blocking main thread
-            DispatchQueue.global(qos: .utility).async {
-                self.session?.activate()
-                DispatchQueue.main.async {
-                    self.isActivated = true
-                }
-            }
-        }
+        // COMMENTED OUT: WCSession code temporarily disabled
+        // guard WCSession.isSupported() else { return }
+        // guard !isActivated else { return }
+        // DispatchQueue.main.async { [weak self] in
+        //     guard let self = self else { return }
+        //     self.session = WCSession.default
+        //     self.session?.delegate = self
+        //     DispatchQueue.global(qos: .utility).async {
+        //         self.session?.activate()
+        //         DispatchQueue.main.async {
+        //             self.isActivated = true
+        //         }
+        //     }
+        // }
     }
     
     func configure(modelContext: ModelContext) {
@@ -55,6 +50,7 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         DispatchQueue.main.async { [weak self] in
+            guard let _ = self else { return }
             if let error = error {
                 print("WCSession activation failed: \(error.localizedDescription)")
                 return

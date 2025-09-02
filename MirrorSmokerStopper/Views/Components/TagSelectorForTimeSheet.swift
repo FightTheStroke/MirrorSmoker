@@ -207,7 +207,7 @@ struct TagSelectorForTimeSheet: View {
                             .padding(.horizontal)
                             .padding(.vertical, 8)
                             .background(DS.Colors.warning.opacity(0.1))
-                            .cornerRadius(DS.Size.cornerRadiusSmall)
+                            .cornerRadius(DS.AdaptiveSize.cardRadiusSmall)
                     } else {
                         Text(String(format: NSLocalizedString("tag.selector.cigarettes.count", comment: ""), cigarettesInRange.count, cigarettesInRange.count == 1 ? "" : "s"))
                             .font(.caption)

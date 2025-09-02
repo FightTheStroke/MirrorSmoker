@@ -124,6 +124,37 @@
 "delete" = "Eliminar";
 "edit" = "Editar";
 "save" = "Guardar";
+"settings.calculated.age" = "Edad Calculada";
+"settings.years.old" = "%d años";
+
+// Widget Accessibility
+"widget.a11y.today.count" = "%d";
+"widget.a11y.today.cigarettes" = "Hoy: %d cigarrillos";
+"widget.a11y.great.job" = "¡Excelente trabajo! Sin cigarrillos hoy";
+"widget.a11y.add.cigarette" = "Añadir cigarrillo";
+"widget.a11y.add.cigarette.hint" = "Toca para registrar un nuevo cigarrillo";
+"widget.a11y.no.cigarettes.today" = "Sin cigarrillos registrados hoy";
+"widget.a11y.last.cigarette.time" = "Último cigarrillo a las %@";
+"widget.a11y.daily.average" = "Promedio diario: %.1f cigarrillos";
+
+// UI Accessibility
+"a11y.cigarette.row" = "Fila de cigarrillo";
+"a11y.cigarette.time" = "Hora: %@";
+"a11y.delete.cigarette" = "Eliminar cigarrillo";
+"a11y.add.tags.to.cigarette" = "Añadir etiquetas al cigarrillo";
+"a11y.floating.add.button" = "Añadir nuevo cigarrillo";
+"a11y.floating.add.button.hint" = "Toca para añadir cigarrillo, mantén presionado para añadir con etiquetas";
+"a11y.progress.ring" = "Progreso: %@ de %@ cigarrillos";
+"a11y.stats.card" = "Tarjeta de estadísticas";
+"a11y.today.stats" = "Estadísticas de hoy";
+"a11y.quick.stats" = "Estadísticas rápidas";
+"a11y.navigation.tab" = "Pestaña %@";
+"a11y.back.button" = "Atrás";
+"a11y.settings.button" = "Configuración";
+"a11y.save.button" = "Guardar";
+"a11y.form.field" = "Campo %@";
+"a11y.picker" = "Selector %@";
+"a11y.toggle" = "Interruptor %@";
 "ok" = "OK";
 "close" = "Cerrar";
 "daily.stats.quick.add" = "Añadir Rápido";
@@ -259,3 +290,44 @@
 "widget.intent.add.cigarette.description" = "Añade rápidamente un cigarrillo al conteo diario";
 "widget.intent.success" = "Cigarrillo añadido exitosamente";
 "widget.intent.error.add.failed" = "Error al añadir cigarrillo. Inténtalo de nuevo.";
+
+// Missing hardcoded strings from views
+"time.just.now" = "Justo ahora";
+"today.vs.goal.chart" = "Hoy vs Objetivo";
+"weekly.progress.chart" = "Progreso Semanal";
+"early.morning.pattern.insight" = "Patrón Matutino Temprano";
+"tag.name.label" = "Nombre de la etiqueta";
+"tag.placeholder.example" = "Ejemplo: Estrés, Social, Descanso";
+"color.label" = "Color";
+"preview.label" = "Vista previa";
+"tag.name.preview" = "Nombre de etiqueta";
+"new.tag.title" = "Nueva Etiqueta";
+"cancel.button" = "Cancelar";
+"save.button" = "Guardar";
+"insight.pattern.format" = "Patrón: %@";
+"pattern.recommendation.format" = "%@";
+"action.taken.message" = "Acción tomada";
+"dismissed.message" = "Descartado";
+"cigarette.count.display" = "%d";
+"percentage.format" = "%d%%";
+
+// Intent localization 
+"intent.add.cigarette.title" = "Añadir Cigarrillo";
+"intent.add.cigarette.description" = "Registra un cigarrillo que acabas de fumar";
+"intent.suggested.phrase" = "He fumado un cigarrillo";
+"intent.parameter.tags" = "Etiquetas";
+"intent.parameter.tags.description" = "Etiquetas opcionales para añadir a este cigarrillo";
+"intent.parameter.note" = "Nota";
+"intent.parameter.note.description" = "Nota opcional sobre este cigarrillo";
+"intent.success.message" = "Cigarrillo registrado correctamente";
+"intent.get.count.title" = "Obtener Conteo de Cigarrillos de Hoy";
+
+// TagPickerView specific translations
+"nome.del.tag" = "Nombre de Etiqueta";
+"esempio.tag" = "Ejemplo: Estrés, Social, Descanso";
+"colore" = "Color";
+"anteprima" = "Vista previa";
+"nome.tag" = "Nombre de etiqueta";
+"nuovo.tag" = "Nueva Etiqueta";
+"annulla" = "Cancelar";
+"salva" = "Guardar";

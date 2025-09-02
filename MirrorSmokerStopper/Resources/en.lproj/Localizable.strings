@@ -175,8 +175,51 @@
 "delete" = "Delete";
 "edit" = "Edit";
 "save" = "Save";
+"settings.calculated.age" = "Calculated Age";
+"settings.years.old" = "%d years old";
+
+// Widget Accessibility
+"widget.a11y.today.count" = "%d";
+"widget.a11y.today.cigarettes" = "Today: %d cigarettes";
+"widget.a11y.great.job" = "Great job! No cigarettes today";
+"widget.a11y.add.cigarette" = "Add cigarette";
+"widget.a11y.add.cigarette.hint" = "Tap to record a new cigarette";
+"widget.a11y.no.cigarettes.today" = "No cigarettes recorded today";
+"widget.a11y.last.cigarette.time" = "Last cigarette at %@";
+"widget.a11y.daily.average" = "Daily average: %.1f cigarettes";
+
+// UI Accessibility
+"a11y.cigarette.row" = "Cigarette entry";
+"a11y.cigarette.time" = "Time: %@";
+"a11y.delete.cigarette" = "Delete cigarette";
+"a11y.add.tags.to.cigarette" = "Add tags to cigarette";
+"a11y.floating.add.button" = "Add new cigarette";
+"a11y.floating.add.button.hint" = "Tap to add cigarette, hold to add with tags";
+"a11y.progress.ring" = "Progress: %@ of %@ cigarettes";
+"a11y.stats.card" = "Statistics card";
+"a11y.today.stats" = "Today's statistics";
+"a11y.quick.stats" = "Quick statistics";
+"a11y.navigation.tab" = "%@ tab";
+"a11y.back.button" = "Back";
+"a11y.settings.button" = "Settings";
+"a11y.save.button" = "Save";
+"a11y.form.field" = "%@ field";
+"a11y.picker" = "%@ picker";
+"a11y.toggle" = "%@ toggle";
+"a11y.today.count.and.target" = "Today: %d out of %d cigarettes";
+"a11y.todays.cigarettes.count" = "Today's cigarettes: %d entries";
 "ok" = "OK";
 "close" = "Close";
+
+// Widget Localization
+"widget.today" = "Today";
+"widget.daily.avg" = "Daily Avg";
+"widget.add" = "Add";
+"widget.never" = "Never";
+"widget.display.name" = "MirrorSmoker";
+"widget.description" = "Track your cigarettes quickly";
+"widget.no.cigarettes.today" = "No cigarettes today";
+"widget.last.at" = "Last at";
 
 // Missing keys
 "daily.stats.quick.add" = "Quick Add";
@@ -564,3 +607,47 @@
 "statistics.cigarettes.count" = "%d cigarettes";
 "statistics.highest.day" = "Highest Day";
 "statistics.lowest.day" = "Lowest Day";
+
+// Missing hardcoded strings from views
+"time.just.now" = "Just now";
+"today.vs.goal.chart" = "Today vs Goal";
+"weekly.progress.chart" = "Weekly Progress";
+"early.morning.pattern.insight" = "Early Morning Pattern";
+"tag.name.label" = "Tag name";
+"tag.placeholder.example" = "Example: Stress, Social, Break";
+"color.label" = "Color";
+"preview.label" = "Preview";
+"tag.name.preview" = "Tag name";
+"new.tag.title" = "New Tag";
+"cancel.button" = "Cancel";
+"save.button" = "Save";
+"insight.pattern.format" = "Pattern: %@";
+"pattern.recommendation.format" = "%@";
+"action.taken.message" = "Action taken";
+"dismissed.message" = "Dismissed";
+"cigarette.count.display" = "%d";
+"percentage.format" = "%d%%";
+
+// Intent localization 
+"intent.add.cigarette.title" = "Add Cigarette";
+"intent.add.cigarette.description" = "Record a cigarette you just smoked";
+"intent.suggested.phrase" = "I smoked a cigarette";
+"intent.parameter.tags" = "Tags";
+"intent.parameter.tags.description" = "Optional tags to add to this cigarette";
+"intent.parameter.note" = "Note";
+"intent.parameter.note.description" = "Optional note about this cigarette";
+"intent.success.message" = "Cigarette recorded successfully";
+"intent.get.count.title" = "Get Today's Cigarette Count";
+"intent.get.weekly.stats.title" = "Get Weekly Smoking Stats";
+"intent.set.quit.goal.title" = "Set Quit Goal";
+"intent.get.motivation.title" = "Get Motivation";
+
+// TagPickerView specific translations
+"nome.del.tag" = "Tag Name";
+"esempio.tag" = "Example: Stress, Social, Break";
+"colore" = "Color";
+"anteprima" = "Preview";
+"nome.tag" = "Tag name";
+"nuovo.tag" = "New Tag";
+"annulla" = "Cancel";
+"salva" = "Save";

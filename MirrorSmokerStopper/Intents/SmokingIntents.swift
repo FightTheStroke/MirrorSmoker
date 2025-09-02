@@ -52,7 +52,7 @@ extension AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct AddCigaretteIntent: AppIntent {
-    static var title: LocalizedStringResource = "Add Cigarette"
+    static var title: LocalizedStringResource = "intent.add.cigarette.title"
     static var description = IntentDescription("Record a cigarette you just smoked")
     
     static var suggestedInvocationPhrase: String = "I smoked a cigarette"
@@ -114,7 +114,7 @@ struct AddCigaretteIntent: AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct GetTodayCountIntent: AppIntent {
-    static var title: LocalizedStringResource = "Get Today's Cigarette Count"
+    static var title: LocalizedStringResource = "intent.get.count.title"
     static var description = IntentDescription("Get the number of cigarettes smoked today")
     
     static var suggestedInvocationPhrase: String = "How many cigarettes did I smoke today"
@@ -150,7 +150,7 @@ struct GetTodayCountIntent: AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct GetWeeklyStatsIntent: AppIntent {
-    static var title: LocalizedStringResource = "Get Weekly Smoking Stats"
+    static var title: LocalizedStringResource = "intent.get.weekly.stats.title"
     static var description = IntentDescription("Get your smoking statistics for this week")
     
     static var suggestedInvocationPhrase: String = "Show my weekly smoking stats"
@@ -184,7 +184,7 @@ struct GetWeeklyStatsIntent: AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct SetQuitGoalIntent: AppIntent {
-    static var title: LocalizedStringResource = "Set Quit Goal"
+    static var title: LocalizedStringResource = "intent.set.quit.goal.title"
     static var description = IntentDescription("Set your target date to quit smoking")
     
     static var suggestedInvocationPhrase: String = "Set my quit smoking date"
@@ -227,7 +227,7 @@ struct SetQuitGoalIntent: AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct GetMotivationIntent: AppIntent {
-    static var title: LocalizedStringResource = "Get Motivation"
+    static var title: LocalizedStringResource = "intent.get.motivation.title"
     static var description = IntentDescription("Get a motivational message to help with quitting smoking")
     
     static var suggestedInvocationPhrase: String = "Give me smoking motivation"

@@ -60,7 +60,7 @@ enum InsightPriority: Int, Codable {
 }
 
 struct SmokingInsight: Codable, Identifiable, Hashable {
-    let id = UUID()
+    var id = UUID()
     let title: String
     let message: String
     let actionable: String
@@ -272,7 +272,7 @@ class InsightEngine {
         
         let todayCount = cigarettes.filter { calendar.isDate($0.timestamp, inSameDayAs: today) }.count
         let yesterdayCount = cigarettes.filter { calendar.isDate($0.timestamp, inSameDayAs: yesterday) }.count
-        let weekAverage = cigarettes.filter { $0.timestamp >= weekAgo }.count / 7
+        let _ = cigarettes.filter { $0.timestamp >= weekAgo }.count / 7 // weekAverage unused for now
         
         let dailyAverage = profile.calculateDailyAverage(from: cigarettes)
         let target = profile.todayTarget(dailyAverage: dailyAverage)

@@ -259,3 +259,47 @@
 "widget.intent.add.cigarette.description" = "Ajoutez rapidement une cigarette au décompte quotidien";
 "widget.intent.success" = "Cigarette ajoutée avec succès";
 "widget.intent.error.add.failed" = "Échec de l'ajout de cigarette. Veuillez réessayer.";
+
+// Missing hardcoded strings from views
+"time.just.now" = "À l'instant";
+"today.vs.goal.chart" = "Aujourd'hui vs Objectif";
+"weekly.progress.chart" = "Progrès Hebdomadaire";
+"early.morning.pattern.insight" = "Motif Matinal Précoce";
+"tag.name.label" = "Nom de l'étiquette";
+"tag.placeholder.example" = "Exemple : Stress, Social, Pause";
+"color.label" = "Couleur";
+"preview.label" = "Aperçu";
+"tag.name.preview" = "Nom de l'étiquette";
+"new.tag.title" = "Nouvelle Étiquette";
+"cancel.button" = "Annuler";
+"save.button" = "Enregistrer";
+"save" = "Enregistrer";
+"settings.calculated.age" = "Âge Calculé";
+"settings.years.old" = "%d ans";
+"insight.pattern.format" = "Motif : %@";
+"pattern.recommendation.format" = "%@";
+"action.taken.message" = "Action prise";
+"dismissed.message" = "Ignoré";
+"cigarette.count.display" = "%d";
+"percentage.format" = "%d%%";
+
+// Intent localization 
+"intent.add.cigarette.title" = "Ajouter Cigarette";
+"intent.add.cigarette.description" = "Enregistrer une cigarette que vous venez de fumer";
+"intent.suggested.phrase" = "J'ai fumé une cigarette";
+"intent.parameter.tags" = "Étiquettes";
+"intent.parameter.tags.description" = "Étiquettes optionnelles à ajouter à cette cigarette";
+"intent.parameter.note" = "Note";
+"intent.parameter.note.description" = "Note optionnelle sur cette cigarette";
+"intent.success.message" = "Cigarette enregistrée avec succès";
+"intent.get.count.title" = "Obtenir le Nombre de Cigarettes d'Aujourd'hui";
+
+// TagPickerView specific translations
+"nome.del.tag" = "Nom de l'Étiquette";
+"esempio.tag" = "Exemple : Stress, Social, Pause";
+"colore" = "Couleur";
+"anteprima" = "Aperçu";
+"nome.tag" = "Nom de l'étiquette";
+"nuovo.tag" = "Nouvelle Étiquette";
+"annulla" = "Annuler";
+"salva" = "Enregistrer";

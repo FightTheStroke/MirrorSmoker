@@ -207,7 +207,7 @@ struct InsightCard_Previews: PreviewProvider {
         VStack(spacing: DS.Space.md) {
             InsightCard(
                 insight: SmokingInsight(
-                    title: "Early Morning Pattern",
+                    title: NSLocalizedString("early.morning.pattern.insight", comment: ""),
                     message: "You smoke your first cigarette 15 minutes after waking. Research shows this indicates high nicotine dependence.",
                     actionable: "Try delaying your first cigarette by 15-30 minutes tomorrow. Even small delays can reduce dependency.",
                     trigger: .morningPattern(firstCigaretteMinutes: 15),
@@ -216,8 +216,8 @@ struct InsightCard_Previews: PreviewProvider {
                     icon: "sun.rise",
                     category: .timing
                 ),
-                onDismiss: { print("Dismissed") },
-                onActionTaken: { print("Action taken") }
+                onDismiss: { print(NSLocalizedString("dismissed.message", comment: "")) },
+                onActionTaken: { print(NSLocalizedString("action.taken.message", comment: "")) }
             )
             
             InsightCard(

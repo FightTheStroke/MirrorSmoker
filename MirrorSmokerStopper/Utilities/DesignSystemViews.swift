@@ -8,25 +8,6 @@
 
 import SwiftUI
 
-// Simple card container used across the app
-struct DSCard<Content: View>: View {
-    private let content: () -> Content
-
-    init(@ViewBuilder content: @escaping () -> Content) {
-        self.content = content
-    }
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: DS.Space.md) {
-            content()
-        }
-        .padding(DS.Space.md)
-        .background(DS.Colors.card)
-        .cornerRadius(DS.Size.cardRadius)
-        .dsShadow(DS.Shadow.small)
-    }
-}
-
 // Section header used to display section titles
 struct DSSectionHeader: View {
     let title: String

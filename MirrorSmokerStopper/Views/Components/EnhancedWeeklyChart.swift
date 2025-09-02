@@ -290,14 +290,14 @@ struct TrendIndicator: View {
             CircularProgressView(
                 progress: 0.7,
                 color: DS.Colors.primary,
-                label: "Today vs Goal",
+                label: NSLocalizedString("today.vs.goal.chart", comment: ""),
                 value: "70%"
             )
             
             CircularProgressView(
                 progress: 0.3,
                 color: DS.Colors.success,
-                label: "Weekly Progress",
+                label: NSLocalizedString("weekly.progress.chart", comment: ""),
                 value: "30%"
             )
         }

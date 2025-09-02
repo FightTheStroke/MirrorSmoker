@@ -235,17 +235,17 @@ extension View {
     func dsCard() -> some View {
         self
             .background(DS.Colors.card)
-            .cornerRadius(DS.Size.cardRadius)
-            .dsShadow(DS.Shadow.small)
+            .cornerRadius(DS.AdaptiveSize.cardRadius)
+            .dsAdaptiveShadow(.small)
     }
     
     func dsTag() -> some View {
         self
-            .padding(.horizontal, DS.Space.sm)
-            .padding(.vertical, DS.Space.xs)
+            .padding(.horizontal, DS.AdaptiveSpace.sm)
+            .padding(.vertical, DS.AdaptiveSpace.xs)
             .background(DS.Colors.tagWork)
             .foregroundColor(DS.Colors.textInverse)
-            .cornerRadius(DS.Size.tagRadius)
+            .cornerRadius(DS.AdaptiveSize.tagRadius)
             .font(DS.Text.caption)
     }
 }

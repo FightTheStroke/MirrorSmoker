@@ -1,6 +1,7 @@
 #if os(iOS)
 import SwiftUI
 import SwiftData
+import WidgetKit
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -109,7 +110,7 @@ struct ContentView: View {
         let minutes = (Int(interval) % 3600) / 60
         if hours > 0 { return "\(hours)h \(minutes)m ago" }
         else if minutes > 0 { return "\(minutes)m ago" }
-        else { return "Just now" }
+        else { return NSLocalizedString("time.just.now", comment: "") }
     }
     
     var body: some View {
@@ -187,7 +188,7 @@ struct ContentView: View {
                     showingTagPicker = true
                 }
             )
-            .padding(.bottom, 100)
+            .padding(.bottom, 60)
             .padding(.trailing, DS.Space.lg)
         }
     }
@@ -222,6 +223,8 @@ struct ContentView: View {
                     lineWidth: 4,
                     color: colorForTodayCount
                 )
+                .accessibilityLabel(String(format: NSLocalizedString("a11y.progress.ring", comment: ""), "\(todayCount)", "\(todayTarget)"))
+                .accessibilityValue(Text("\(Int(progressPercentage * 100))%"))
             }
         }
     }
@@ -244,6 +247,8 @@ struct ContentView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(DS.Colors.textSecondary)
                 }
+                .accessibilityElement(children: .combine)
+                .accessibilityLabel(String(format: NSLocalizedString("a11y.today.count.and.target", comment: ""), todayCount, todayTarget))
                 
                 Text(todayCount == 1 ? NSLocalizedString("cigarette.singular", comment: "") : NSLocalizedString("cigarette.plural", comment: ""))
                     .font(DS.Text.caption)
@@ -262,10 +267,12 @@ struct ContentView: View {
                         .font(DS.Text.title3)
                         .fontWeight(.semibold)
                         .foregroundStyle(DS.Colors.textPrimary)
+                        .accessibilityLabel(String(format: NSLocalizedString("a11y.cigarette.time", comment: ""), lastCigaretteTime))
                     
                     Text(timeAgoString)
                         .font(DS.Text.caption)
                         .foregroundStyle(DS.Colors.textSecondary)
+                        .accessibilityLabel(timeAgoString)
                 }
             }
         }
@@ -389,7 +396,13 @@ struct ContentView: View {
     private func addCigarette(tags: [Tag]? = nil) {
         let newCigarette = Cigarette(timestamp: Date(), note: "", tags: tags)
         modelContext.insert(newCigarette)
-        do { try modelContext.save() } catch { print("Error saving cigarette: \(error)") }
+        do { 
+            try modelContext.save()
+            // Update widget
+            WidgetCenter.shared.reloadAllTimelines()
+        } catch { 
+            print("Error saving cigarette: \(error)") 
+        }
     }
     
     private func addCigaretteWithTags(_ tags: [Tag]) {

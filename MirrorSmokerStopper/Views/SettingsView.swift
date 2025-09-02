@@ -10,6 +10,7 @@ import SwiftData
 
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     @Query private var profiles: [UserProfile]
     @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette] // NEED: Per calcolare la media
     
@@ -376,7 +377,11 @@ struct SettingsView: View {
                         icon: "checkmark.circle.fill",
                         style: canSave ? .primary : .secondary
                     ) {
-                        Task { await saveProfile() }
+                        Task { 
+                            await saveProfile()
+                            // Dismiss keyboard when saving
+                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        }
                     }
                     .disabled(!canSave)
                     
@@ -435,7 +440,9 @@ struct SettingsView: View {
             )
         }
         .alert("Piano Salvato", isPresented: $showingSaveConfirmation) {
-            Button("OK") { }
+            Button("OK") { 
+                dismiss()
+            }
         } message: {
             Text("Il tuo piano di cessazione è stato salvato con successo")
         }

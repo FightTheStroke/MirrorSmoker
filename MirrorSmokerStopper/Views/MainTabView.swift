@@ -5,34 +5,52 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            NavigationStack {
+            // Home Tab
+            NavigationView {
                 ContentView()
-                    .navigationBarHidden(true)
             }
             .tabItem {
-                Image(systemName: selectedTab == 0 ? "house.fill" : "house")
-                Text(NSLocalizedString("tab.home", comment: ""))
+                Image(systemName: "house")
+                Text("Home")
             }
             .tag(0)
             
-            NavigationStack {
+            // Statistics Tab
+            NavigationView {
                 EnhancedStatisticsView()
             }
             .tabItem {
-                Image(systemName: selectedTab == 1 ? "chart.bar.fill" : "chart.bar")
-                Text(NSLocalizedString("tab.stats", comment: ""))
+                Image(systemName: "chart.bar")
+                Text("Statistiche")
             }
             .tag(1)
             
-            NavigationStack {
+            // History Tab
+            NavigationView {
+                HistoryView()
+            }
+            .tabItem {
+                Image(systemName: "clock")
+                Text("Cronologia")
+            }
+            .tag(2)
+            
+            // Settings Tab
+            NavigationView {
                 SettingsView()
             }
             .tabItem {
-                Image(systemName: selectedTab == 2 ? "gear" : "gear")
-                Text(NSLocalizedString("tab.settings", comment: ""))
+                Image(systemName: "gear")
+                Text("Impostazioni")
             }
-            .tag(2)
+            .tag(3)
         }
-        .tint(DS.Colors.primary)
+        .accentColor(DS.Colors.primary)
+    }
+}
+
+struct MainTabView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainTabView()
     }
 }

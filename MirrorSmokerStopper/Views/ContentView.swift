@@ -170,11 +170,10 @@ struct ContentView: View {
     private var scrollContent: some View {
         ScrollView {
             VStack(spacing: DS.Space.lg) {
-                todayOverviewSection
-                todaysInsightSection
                 heroSection
                 quickStatsSection
                 todaysCigarettesSection
+                todaysInsightSection
             }
             .padding(DS.Space.lg)
         }
@@ -226,7 +225,51 @@ struct ContentView: View {
                 headerSection
                 todayStatsSection
                 actionButtonsSection
+                
+                // Integrazione della panoramica di oggi nella sezione principale
+                todayOverviewContent
             }
+        }
+    }
+    
+    // Contenuto della panoramica di oggi integrato
+    private var todayOverviewContent: some View {
+        Group {
+            let target = todayTarget
+            
+            VStack(alignment: .leading, spacing: DS.Space.sm) {
+                // Status message con logica corretta
+                statusMessageWithCorrectLogic
+                
+                // Mostra la media e il piano se esistono
+                if dailyAverage > 0 {
+                    VStack(alignment: .leading, spacing: DS.Space.xs) {
+                        Text("La tua media: \(String(format: "%.1f", dailyAverage))/giorno")
+                            .font(DS.Text.caption)
+                            .foregroundColor(DS.Colors.textSecondary)
+                        
+                        if let quitDate = currentProfile?.quitDate {
+                            Text("Obiettivo: \(quitDate.formatted(date: .abbreviated, time: .omitted))")
+                                .font(DS.Text.caption)
+                                .fontWeight(.semibold)
+                                .foregroundColor(DS.Colors.primary)
+                            
+                            let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
+                            if daysRemaining > 0 {
+                                Text("\(daysRemaining) giorni al traguardo")
+                                    .font(DS.Text.caption)
+                                    .foregroundColor(DS.Colors.textTertiary)
+                            } else if daysRemaining == 0 {
+                                Text("🎯 Oggi è il grande giorno!")
+                                    .font(DS.Text.caption)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(DS.Colors.success)
+                            }
+                        }
+                    }
+                }
+            }
+            .padding(.top, DS.Space.md)
         }
     }
     
@@ -360,145 +403,11 @@ struct ContentView: View {
         .padding(.trailing, DS.Space.lg)
     }
     
-    // MARK: - View Sections
-    
-    private var todayOverviewSection: some View {
-        DSCard {
-            VStack(spacing: DS.Space.md) {
-                DSSectionHeader("Panoramica di Oggi")
-                
-                HStack(spacing: DS.Space.lg) {
-                    // Progress circle
-                    VStack(spacing: DS.Space.sm) {
-                        ZStack {
-                            DSProgressRing(
-                                progress: progressPercentage,
-                                size: 80,
-                                lineWidth: 8,
-                                color: colorForTodayCount
-                            )
-                            
-                            VStack(spacing: DS.Space.xxs) {
-                                Text("\(todayCount)")
-                                    .font(DS.Text.title2)
-                                    .fontWeight(.bold)
-                                    .foregroundColor(colorForTodayCount)
-                                Text("/ \(todayTarget)")
-                                    .font(DS.Text.caption)
-                                    .foregroundColor(DS.Colors.textSecondary)
-                            }
-                        }
-                        
-                        Text("Oggi")
-                            .font(DS.Text.caption)
-                            .foregroundColor(DS.Colors.textSecondary)
-                    }
-                    
-                    // Status message e info piano
-                    VStack(alignment: .leading, spacing: DS.Space.sm) {
-                        statusMessageWithCorrectLogic
-                        
-                        // Mostra la media e il piano se esistono
-                        if dailyAverage > 0 {
-                            VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                Text("La tua media: \(String(format: "%.1f", dailyAverage))/giorno")
-                                    .font(DS.Text.caption)
-                                    .foregroundColor(DS.Colors.textSecondary)
-                                
-                                if let quitDate = currentProfile?.quitDate {
-                                    Text("Obiettivo: \(quitDate.formatted(date: .abbreviated, time: .omitted))")
-                                        .font(DS.Text.caption)
-                                        .fontWeight(.semibold)
-                                        .foregroundColor(DS.Colors.primary)
-                                    
-                                    let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
-                                    if daysRemaining > 0 {
-                                        Text("\(daysRemaining) giorni al traguardo")
-                                            .font(DS.Text.caption)
-                                            .foregroundColor(DS.Colors.textTertiary)
-                                    } else if daysRemaining == 0 {
-                                        Text("🎯 Oggi è il grande giorno!")
-                                            .font(DS.Text.caption)
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(DS.Colors.success)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    
-                    Spacer()
-                }
-            }
-        }
-    }
-    
-    private var statusMessageWithCorrectLogic: some View {
-        Group {
-            let target = todayTarget
-            
-            if todayCount == 0 {
-                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("🎉 Perfetto!")
-                        .font(DS.Text.headline)
-                        .foregroundColor(DS.Colors.success)
-                    Text("Giornata senza sigarette")
-                        .font(DS.Text.caption)
-                        .foregroundColor(DS.Colors.textSecondary)
-                }
-            } else if todayCount < Int(Double(target) * 0.5) {
-                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("💚 Ottimo!")
-                        .font(DS.Text.headline)
-                        .foregroundColor(DS.Colors.success)
-                    Text("Sotto metà dell'obiettivo")
-                        .font(DS.Text.caption)
-                        .foregroundColor(DS.Colors.textSecondary)
-                }
-            } else if todayCount < Int(Double(target) * 0.8) {
-                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("💛 Bene")
-                        .font(DS.Text.headline)
-                        .foregroundColor(DS.Colors.warning)
-                    Text("Stai rispettando il piano")
-                        .font(DS.Text.caption)
-                        .foregroundColor(DS.Colors.textSecondary)
-                }
-            } else if todayCount < target {
-                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("🧡 Attenzione")
-                        .font(DS.Text.headline)
-                        .foregroundColor(Color.orange)
-                    Text("Vicino al limite del piano")
-                        .font(DS.Text.caption)
-                        .foregroundColor(DS.Colors.textSecondary)
-                }
-            } else if todayCount == target {
-                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("🔴 Limite raggiunto")
-                        .font(DS.Text.headline)
-                        .foregroundColor(DS.Colors.danger)
-                    Text("Hai raggiunto l'obiettivo di oggi")
-                        .font(DS.Text.caption)
-                        .foregroundColor(DS.Colors.textSecondary)
-                }
-            } else {
-                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("🚨 Fuori piano")
-                        .font(DS.Text.headline)
-                        .foregroundColor(DS.Colors.cigarette)
-                    Text("Hai superato di \(todayCount - target)")
-                        .font(DS.Text.caption)
-                        .foregroundColor(DS.Colors.textSecondary)
-                }
-            }
-        }
-    }
-    
+    // MARK: - Quick Stats Section (rinominata da StatisticsView)
     private var quickStatsSection: some View {
         DSCard {
             VStack(spacing: DS.Space.lg) {
-                DSSectionHeader(NSLocalizedString("quick.stats", comment: ""))
+                DSSectionHeader("Statistiche") // Rinominato da "Quick Stats"
                 
                 LazyVGrid(columns: [
                     GridItem(.flexible()),
@@ -635,6 +544,69 @@ struct ContentView: View {
             profile: currentProfile,
             tags: allTags
         )
+    }
+    
+    // MARK: - Status Messages
+    private var statusMessageWithCorrectLogic: some View {
+        Group {
+            let target = todayTarget
+            
+            if todayCount == 0 {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("🎉 Perfetto!")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.success)
+                    Text("Giornata senza sigarette")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else if todayCount < Int(Double(target) * 0.5) {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("💚 Ottimo!")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.success)
+                    Text("Sotto metà dell'obiettivo")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else if todayCount < Int(Double(target) * 0.8) {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("💛 Bene")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.warning)
+                    Text("Stai rispettando il piano")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else if todayCount < target {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("🧡 Attenzione")
+                        .font(DS.Text.headline)
+                        .foregroundColor(Color.orange)
+                    Text("Vicino al limite del piano")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else if todayCount == target {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("🔴 Limite raggiunto")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.danger)
+                    Text("Hai raggiunto l'obiettivo di oggi")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("🚨 Fuori piano")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.cigarette)
+                    Text("Hai superato di \(todayCount - target)")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            }
+        }
     }
 }
 

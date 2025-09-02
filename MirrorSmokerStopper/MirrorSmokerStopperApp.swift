@@ -11,20 +11,12 @@ struct MirrorSmokerStopperApp: App {
 
     var body: some Scene {
         WindowGroup {
-            // Check if the container failed to load and show an error view.
-            if persistenceController.modelContainer == nil {
-                ErrorView(
-                    title: "Failed to Load Database",
-                    message: "The application could not load your data. Please try restarting the app. If the problem persists, contact support."
-                )
-            } else {
-                MainTabView()
-                    // Inject the managed model container into the environment.
-                    .modelContainer(persistenceController.modelContainer)
-                    .onAppear {
-                        setupWidgetSync()
-                    }
-            }
+            MainTabView()
+                // Inject the managed model container into the environment.
+                .modelContainer(persistenceController.modelContainer)
+                .onAppear {
+                    setupWidgetSync()
+                }
         }
     }
     
@@ -34,7 +26,7 @@ struct MirrorSmokerStopperApp: App {
         // The primary mechanism for widget updates should be the shared data container.
         // Forcing a timeline reload can be done when absolutely necessary.
         // For example, after a significant background task.
-        logger.info("Widget sync configured. Relying on SwiftData's automatic updates.")
+        Self.logger.info("Widget sync configured. Relying on SwiftData's automatic updates.")
         
         // The NotificationCenter observer can be kept for specific edge cases
         // or removed if @Query proves sufficient across all targets.
@@ -44,7 +36,7 @@ struct MirrorSmokerStopperApp: App {
             object: nil,
             queue: .main
         ) { _ in
-            logger.info("Received notification: Cigarette added from widget. UI should refresh automatically via @Query.")
+            Self.logger.info("Received notification: Cigarette added from widget. UI should refresh automatically via @Query.")
             // No explicit action needed here, as @Query handles the refresh.
         }
     }

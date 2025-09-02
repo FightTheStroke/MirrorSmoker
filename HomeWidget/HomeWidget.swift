@@ -16,7 +16,6 @@ struct CigaretteEntry: TimelineEntry {
 
 // MARK: - Widget Provider
 struct CigaretteProvider: TimelineProvider {
-    private let dataProvider = WidgetDataProvider()
     
     func placeholder(in context: Context) -> CigaretteEntry {
         CigaretteEntry(
@@ -31,7 +30,7 @@ struct CigaretteProvider: TimelineProvider {
     
     func getSnapshot(in context: Context, completion: @escaping (CigaretteEntry) -> Void) {
         Task {
-            let stats = await dataProvider.getTodayStats()
+            let stats = getTodayStats()
             let entry = CigaretteEntry(date: Date(), todayStats: stats)
             completion(entry)
         }
@@ -39,7 +38,7 @@ struct CigaretteProvider: TimelineProvider {
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<CigaretteEntry>) -> Void) {
         Task {
-            let stats = await dataProvider.getTodayStats()
+            let stats = getTodayStats()
             let entry = CigaretteEntry(date: Date(), todayStats: stats)
             
             // Refresh every 15 minutes
@@ -47,6 +46,58 @@ struct CigaretteProvider: TimelineProvider {
             let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
             
             completion(timeline)
+        }
+    }
+    
+    // MARK: - Data Access
+    private func getTodayStats() -> WidgetTodayStats {
+        guard let url = AppGroupManager.sharedContainer else {
+            return WidgetTodayStats.fallback
+        }
+        
+        let storeURL = url.appendingPathComponent("MirrorSmoker.sqlite")
+        
+        do {
+            let schema = Schema([Cigarette.self, Tag.self, UserProfile.self, Product.self])
+            let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .automatic)
+            let container = try ModelContainer(for: schema, configurations: [config])
+            let context = ModelContext(container)
+            
+            // Get today's cigarettes
+            let today = Calendar.current.startOfDay(for: Date())
+            let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+            
+            let todayDescriptor = FetchDescriptor<Cigarette>(
+                predicate: #Predicate<Cigarette> { cigarette in
+                    cigarette.timestamp >= today && cigarette.timestamp < tomorrow
+                }
+            )
+            
+            let todayCigarettes = try context.fetch(todayDescriptor)
+            
+            // Get last cigarette
+            let lastCigaretteTime = todayCigarettes.last?.timestamp
+            
+            // Calculate 30-day average
+            let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+            let recentDescriptor = FetchDescriptor<Cigarette>(
+                predicate: #Predicate<Cigarette> { cigarette in
+                    cigarette.timestamp >= thirtyDaysAgo
+                }
+            )
+            
+            let recentCigarettes = try context.fetch(recentDescriptor)
+            let dailyAverage = Double(recentCigarettes.count) / 30.0
+            
+            return WidgetTodayStats(
+                todayCount: todayCigarettes.count,
+                dailyAverage: dailyAverage,
+                lastCigaretteTime: lastCigaretteTime
+            )
+            
+        } catch {
+            print("❌ Widget failed to fetch data: \(error)")
+            return WidgetTodayStats.fallback
         }
     }
 }

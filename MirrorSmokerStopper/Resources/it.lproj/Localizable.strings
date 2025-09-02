@@ -256,6 +256,18 @@
 "settings.current.target.unit" = "oggi";
 "settings.reduction.plan" = "Piano di Riduzione Graduale";
 "settings.reduction.plan.description" = "Riduci gradualmente da %d a 0 sigarette in %d giorni";
+
+// Critical Settings Strings from Screenshots
+"settings.quit.plan.section" = "Piano per Smettere";
+"settings.quit.plan.subtitle" = "Imposta i tuoi obiettivi e il piano per smettere di fumare";
+"settings.daily.cigarettes.label" = "Sigarette giornaliere medie";
+"settings.daily.cigarettes.example" = "Es. 10.5";
+"settings.daily.average.title" = "Media calcolata automaticamente";
+"settings.daily.average.subtitle" = "Basata sugli ultimi 30 giorni di dati";
+"settings.auto.calculate.footer" = "Se lasci vuoto, useremo la media calcolata: %.1f sigarette/giorno";
+"settings.when.quit.question" = "Quando vuoi smettere?";
+"settings.gradual.induction.title" = "Riduzione graduale abilitata";
+"settings.gradual.induction.subtitle" = "Riduci gradualmente fino alla data obiettivo";
 "settings.profile.section" = "Profilo";
 "settings.name.placeholder" = "Il tuo nome";
 "settings.weight.placeholder" = "0";

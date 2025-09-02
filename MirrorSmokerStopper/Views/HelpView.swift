@@ -84,7 +84,7 @@ struct HelpView: View {
                     // Widget & Siri Section
                     helpSection(
                         title: NSLocalizedString("help.integrations.title", comment: ""),
-                        icon: "shortcuts",
+                        icon: "app.connected.to.app.below.fill",
                         color: DS.Colors.chart2,
                         content: [
                             NSLocalizedString("help.integrations.1", comment: ""),

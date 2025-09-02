@@ -154,16 +154,16 @@ struct InsightCard: View {
     }
     
     private func showActionSheet() {
-        let dismissAction = ActionSheet.Button.default(Text(NSLocalizedString("dismiss.button", comment: ""))) {
-            onDismiss()
+        let _ = ActionSheet.Button.default(Text(NSLocalizedString("dismiss.button", comment: ""))) {
+            onDismiss?()
             Self.logger.info("Insight dismissed by user.")
         }
-        let takeAction = ActionSheet.Button.default(Text(NSLocalizedString("take.action.button", comment: ""))) {
-            onActionTaken()
+        let _ = ActionSheet.Button.default(Text(NSLocalizedString("take.action.button", comment: ""))) {
+            onActionTaken?()
             Self.logger.info("Insight action taken by user.")
         }
         
-        // Present action sheet...
+        // TODO: Complete ActionSheet implementation if needed
     }
 }
 

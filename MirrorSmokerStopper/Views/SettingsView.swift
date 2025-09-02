@@ -10,6 +10,8 @@ import SwiftData
 import os.log
 
 struct SettingsView: View {
+    private static let logger = Logger(subsystem: "com.mirror-labs.mirrorsmoker", category: "SettingsView")
+    
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Query private var profiles: [UserProfile]

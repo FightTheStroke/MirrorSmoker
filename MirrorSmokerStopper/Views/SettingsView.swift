@@ -147,6 +147,30 @@ struct SettingsView: View {
                                     TextField("0", text: $weight)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .keyboardType(.decimalPad)
+                                        .toolbar {
+                                            if #available(iOS 15.0, *) {
+                                                ToolbarItemGroup(placement: .keyboard) {
+                                                    Spacer()
+                                                    Button(NSLocalizedString("done", comment: "")) {
+                                                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        .onReceive(weight.publisher) { _ in
+                                            // Format weight input with proper locale
+                                            if let value = Double(weight), value > 0 {
+                                                let formatter = NumberFormatter()
+                                                formatter.numberStyle = .decimal
+                                                formatter.maximumFractionDigits = 1
+                                                formatter.locale = Locale.current
+                                                if let formatted = formatter.string(from: NSNumber(value: value)) {
+                                                    if formatted != weight {
+                                                        weight = formatted
+                                                    }
+                                                }
+                                            }
+                                        }
                                     
                                     if !isValidWeight && !weight.isEmpty {
                                         Text(NSLocalizedString("settings.weight.invalid.message", comment: ""))
@@ -188,9 +212,19 @@ struct SettingsView: View {
                                         Text(NSLocalizedString("settings.started.smoking.age", comment: ""))
                                             .font(DS.Text.body)
                                     }
-                                    TextField("18", value: $startedSmokingAge, formatter: NumberFormatter())
+                                    TextField("18", value: $startedSmokingAge, formatter: ageFormatter)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .keyboardType(.numberPad)
+                                        .toolbar {
+                                            if #available(iOS 15.0, *) {
+                                                ToolbarItemGroup(placement: .keyboard) {
+                                                    Spacer()
+                                                    Button(NSLocalizedString("done", comment: "")) {
+                                                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                                                    }
+                                                }
+                                            }
+                                        }
                                     
                                     if !isValidAge {
                                         Text(NSLocalizedString("settings.age.invalid.message", comment: ""))
@@ -470,11 +504,11 @@ struct SettingsView: View {
         smokingType = profile.smokingType
         startedSmokingAge = profile.startedSmokingAge
         
-        // Carica piano cessazione
+        // Load quit plan
         quitDate = profile.quitDate
         enableGradualReduction = profile.enableGradualReduction
         
-        // Carica media giornaliera se presente
+        // Load daily average if present
         if profile.dailyAverage > 0 {
             dailyAverageInput = String(format: "%.1f", profile.dailyAverage)
         }
@@ -498,11 +532,11 @@ struct SettingsView: View {
         profileToSave.smokingType = smokingType
         profileToSave.startedSmokingAge = startedSmokingAge
         
-        // Salva piano cessazione
+        // Save quit plan
         profileToSave.quitDate = quitDate
         profileToSave.enableGradualReduction = enableGradualReduction
         
-        // Salva la media giornaliera se fornita
+        // Save daily average if provided
         if let dailyAvg = Double(dailyAverageInput), dailyAvg > 0 {
             profileToSave.dailyAverage = dailyAvg
         } else {

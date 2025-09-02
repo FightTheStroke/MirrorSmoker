@@ -312,6 +312,25 @@
 "settings.daily.cigarettes.average" = "Daily cigarettes (average)";
 "settings.daily.cigarettes.validation" = "Enter a valid value (0-100 cigarettes/day)";
 "settings.auto.calculate.footer" = "Leave empty to calculate automatically from last 30 days (%@ cigarettes/day)";
+
+// Input validation messages
+"done" = "Done";
+"settings.weight.invalid.message" = "Weight must be between 1 and 300 kg";
+"settings.age.invalid.message" = "Age must be between 10 and 80 years";
+"settings.daily.cigarettes.invalid" = "Daily cigarettes must be between 0 and 100";
+
+// Widget localization
+"widget.display.name" = "MirrorSmoker Tracker";
+"widget.description" = "Track cigarettes and view daily progress from your home screen";
+"widget.today" = "Today";
+"widget.daily.avg" = "Daily Avg";
+"widget.add" = "Add";
+"widget.no.cigarettes.today" = "No cigarettes today";
+"widget.last.at" = "Last at";
+"widget.intent.add.cigarette" = "Add Cigarette";
+"widget.intent.add.cigarette.description" = "Quickly add a cigarette to your daily count";
+"widget.intent.success" = "Cigarette added successfully";
+"widget.intent.error.add.failed" = "Failed to add cigarette. Please try again.";
 "settings.daily.average.calculated" = "Your daily average";
 "settings.daily.average.calculated.subtitle" = "Calculated from last 30 days";
 "settings.quit.date.question" = "When do you want to quit completely?";
@@ -473,6 +492,60 @@
 "error.fetching.cigarettes" = "Error fetching cigarettes: %@";
 "error.saving.profile" = "Error saving profile: %@";
 "error.creating.tag" = "Error creating tag: %@";
+
+// Additional keys for remaining Italian strings
+"add.tags" = "Add Tags";
+"daily.average.format.personal" = "Your average: %.1f/day";
+"quit.goal.format.personal" = "Goal: %@";
+"days.to.goal.format.personal" = "%d days to goal";
+"today.is.quit.day.personal" = "🎯 Today is the big day!";
+"perfect.no.cigarettes.personal" = "🎉 Perfect!";
+"no.cigarettes.today.personal" = "Day without cigarettes";
+"excellent.under.half.personal" = "💚 Excellent!";
+"under.half.goal.personal" = "Under half of goal";
+"good.following.plan.personal" = "💛 Good";
+"following.plan.personal" = "You're following the plan";
+"attention.near.limit.personal" = "🧡 Attention";
+"near.plan.limit.personal" = "Near plan limit";
+"limit.reached.personal" = "🔴 Limit reached";
+"daily.goal.reached.personal" = "You've reached today's goal";
+"over.plan.personal" = "🚨 Over plan";
+"exceeded.by.format.personal" = "You exceeded by %d";
+
+// Statistics view strings
+"statistics.title.main" = "Statistics";
+"statistics.todays.overview" = "Today's Overview";
+"statistics.today.single" = "cigarette";
+"statistics.today.plural" = "cigarettes";
+"statistics.no.cigarettes.today.full" = "🎉 No cigarettes today!";
+"statistics.following.plan.full" = "💪 You're following your plan";
+"statistics.exceeded.goal.full" = "⚠️ You exceeded today's goal";
+"statistics.total" = "Total";
+"statistics.average.per.day" = "Average/day";
+"statistics.cigarettes.unit" = "cigarettes";
+"statistics.trend" = "Trend";
+"statistics.daily.distribution.full" = "Daily distribution";
+"statistics.weekly.trend.full" = "Weekly trend";
+"statistics.no.data" = "No data";
+"statistics.no.data.subtitle" = "No cigarettes recorded in selected period";
+"statistics.insufficient.data" = "Insufficient data";
+"statistics.insufficient.data.subtitle" = "Record more cigarettes to see trend";
+"statistics.detailed.statistics" = "Detailed Statistics";
+"statistics.best.day" = "Best day";
+"statistics.worst.day" = "Worst day";
+"statistics.analyzed.period" = "Analyzed period";
+"statistics.days.count" = "%d days";
+
+// Time range enum
+"time.range.today" = "Today";
+"time.range.yesterday" = "Yesterday";
+"time.range.week" = "Week";
+"time.range.month" = "Month";
+"time.range.all" = "All time";
+
+// Main tab updated labels
+"tab.stats.main" = "Statistics";
+"tab.settings.main" = "Settings";
 
 // Time ranges and statistics
 "time.range.today" = "Today";

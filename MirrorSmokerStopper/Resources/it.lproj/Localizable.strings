@@ -311,3 +311,23 @@
 "insight.suggestion" = "Suggerimento";
 "insight.action.understood" = "Capito!";
 "insight.show.suggestion" = "Mostra suggerimento";
+"settings.auto.calculate.footer" = "Lascia vuoto per calcolare automaticamente dagli ultimi 30 giorni (%@ sigarette/giorno)";
+
+// Input validation messages
+"done" = "Fatto";
+"settings.weight.invalid.message" = "Il peso deve essere tra 1 e 300 kg";
+"settings.age.invalid.message" = "L'età deve essere tra 10 e 80 anni";
+"settings.daily.cigarettes.invalid" = "Le sigarette giornaliere devono essere tra 0 e 100";
+
+// Widget localization
+"widget.display.name" = "MirrorSmoker Tracker";
+"widget.description" = "Traccia le sigarette e visualizza i progressi giornalieri dalla schermata home";
+"widget.today" = "Oggi";
+"widget.daily.avg" = "Media Giorn.";
+"widget.add" = "Aggiungi";
+"widget.no.cigarettes.today" = "Nessuna sigaretta oggi";
+"widget.last.at" = "Ultima alle";
+"widget.intent.add.cigarette" = "Aggiungi Sigaretta";
+"widget.intent.add.cigarette.description" = "Aggiungi rapidamente una sigaretta al conteggio giornaliero";
+"widget.intent.success" = "Sigaretta aggiunta con successo";
+"widget.intent.error.add.failed" = "Impossibile aggiungere la sigaretta. Riprova.";

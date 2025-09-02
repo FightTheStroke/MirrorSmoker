@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A96040AC2E6758EA0042AE8B /* Todo.md in Resources */ = {isa = PBXBuildFile; fileRef = A96040AB2E6758EA0042AE8B /* Todo.md */; };
+		A96040B62E675A840042AE8B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F5E5742E65FEFD004181D9 /* WidgetKit.framework */; };
+		A96040B72E675A840042AE8B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F5E5762E65FEFD004181D9 /* SwiftUI.framework */; };
+		A96040C82E675A850042AE8B /* HomeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A96040B52E675A840042AE8B /* HomeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A96040D52E675C180042AE8B /* AiPoweredToDo.md in Resources */ = {isa = PBXBuildFile; fileRef = A96040D42E675C180042AE8B /* AiPoweredToDo.md */; };
 		A9F5E4C72E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A9F5E4C62E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A9F5E5032E65FBB4004181D9 /* CODE_OF_CONDUCT.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E4FD2E65FBB4004181D9 /* CODE_OF_CONDUCT.md */; };
 		A9F5E5042E65FBB4004181D9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E4FF2E65FBB4004181D9 /* LICENSE */; };
@@ -17,6 +22,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		A96040C62E675A850042AE8B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9F5E49B2E65FBA3004181D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A96040B42E675A840042AE8B;
+			remoteInfo = HomeWidgetExtension;
+		};
 		A9F5E4B12E65FBA5004181D9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A9F5E49B2E65FBA3004181D9 /* Project object */;
@@ -72,6 +84,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				A96040C82E675A850042AE8B /* HomeWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -79,6 +92,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		A96040AB2E6758EA0042AE8B /* Todo.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Todo.md; sourceTree = "<group>"; };
+		A96040B52E675A840042AE8B /* HomeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HomeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A96040D12E675B440042AE8B /* HomeWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HomeWidgetExtension.entitlements; sourceTree = "<group>"; };
+		A96040D42E675C180042AE8B /* AiPoweredToDo.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AiPoweredToDo.md; sourceTree = "<group>"; };
 		A9F5E4A32E65FBA4004181D9 /* MirrorSmokerStopper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MirrorSmokerStopper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9F5E4B02E65FBA5004181D9 /* MirrorSmokerStopperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MirrorSmokerStopperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9F5E4BA2E65FBA5004181D9 /* MirrorSmokerStopperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MirrorSmokerStopperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,6 +113,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A96040CC2E675A850042AE8B /* Exceptions for "HomeWidget" folder in "HomeWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A96040B42E675A840042AE8B /* HomeWidgetExtension */;
+		};
 		A9B839612E66099E00B0254B /* Exceptions for "MirrorSmokerStopper" folder in "MirrorSmokerStopper" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -118,6 +142,14 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		A96040B82E675A840042AE8B /* HomeWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A96040CC2E675A850042AE8B /* Exceptions for "HomeWidget" folder in "HomeWidgetExtension" target */,
+			);
+			path = HomeWidget;
+			sourceTree = "<group>";
+		};
 		A9F5E4A52E65FBA4004181D9 /* MirrorSmokerStopper */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -155,6 +187,15 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A96040B22E675A840042AE8B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A96040B72E675A840042AE8B /* SwiftUI.framework in Frameworks */,
+				A96040B62E675A840042AE8B /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9F5E4A02E65FBA4004181D9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -203,12 +244,14 @@
 		A9F5E49A2E65FBA3004181D9 = {
 			isa = PBXGroup;
 			children = (
+				A96040D12E675B440042AE8B /* HomeWidgetExtension.entitlements */,
 				A9F5E4A52E65FBA4004181D9 /* MirrorSmokerStopper */,
 				A9F5E4B32E65FBA5004181D9 /* MirrorSmokerStopperTests */,
 				A9F5E4BD2E65FBA5004181D9 /* MirrorSmokerStopperUITests */,
 				A9F5E4CA2E65FBA5004181D9 /* MirrorSmokerStopper Watch App */,
 				A9F5E4D82E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests */,
 				A9F5E4E22E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */,
+				A96040B82E675A840042AE8B /* HomeWidget */,
 				A9F5E5732E65FEFD004181D9 /* Frameworks */,
 				A9F5E4A42E65FBA4004181D9 /* Products */,
 				A9F5E4FD2E65FBB4004181D9 /* CODE_OF_CONDUCT.md */,
@@ -217,6 +260,8 @@
 				A9F5E5002E65FBB4004181D9 /* README.md */,
 				A9F5E5012E65FBB4004181D9 /* Roadmap.md */,
 				A9F5E5022E65FBB4004181D9 /* SECURITY.md */,
+				A96040AB2E6758EA0042AE8B /* Todo.md */,
+				A96040D42E675C180042AE8B /* AiPoweredToDo.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -229,6 +274,7 @@
 				A9F5E4C62E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app */,
 				A9F5E4D52E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests.xctest */,
 				A9F5E4DF2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests.xctest */,
+				A96040B52E675A840042AE8B /* HomeWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -245,6 +291,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A96040B42E675A840042AE8B /* HomeWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A96040C92E675A850042AE8B /* Build configuration list for PBXNativeTarget "HomeWidgetExtension" */;
+			buildPhases = (
+				A96040B12E675A840042AE8B /* Sources */,
+				A96040B22E675A840042AE8B /* Frameworks */,
+				A96040B32E675A840042AE8B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A96040B82E675A840042AE8B /* HomeWidget */,
+			);
+			name = HomeWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = HomeWidgetExtension;
+			productReference = A96040B52E675A840042AE8B /* HomeWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		A9F5E4A22E65FBA4004181D9 /* MirrorSmokerStopper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A9F5E4ED2E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper" */;
@@ -259,6 +327,7 @@
 			);
 			dependencies = (
 				A9F5E4C92E65FBA5004181D9 /* PBXTargetDependency */,
+				A96040C72E675A850042AE8B /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A9F5E4A52E65FBA4004181D9 /* MirrorSmokerStopper */,
@@ -394,6 +463,9 @@
 				LastSwiftUpdateCheck = 1640;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					A96040B42E675A840042AE8B = {
+						CreatedOnToolsVersion = 16.4;
+					};
 					A9F5E4A22E65FBA4004181D9 = {
 						CreatedOnToolsVersion = 16.4;
 					};
@@ -442,19 +514,29 @@
 				A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */,
 				A9F5E4D42E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests */,
 				A9F5E4DE2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */,
+				A96040B42E675A840042AE8B /* HomeWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A96040B32E675A840042AE8B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9F5E4A12E65FBA4004181D9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A9F5E5032E65FBB4004181D9 /* CODE_OF_CONDUCT.md in Resources */,
+				A96040AC2E6758EA0042AE8B /* Todo.md in Resources */,
 				A9F5E5042E65FBB4004181D9 /* LICENSE in Resources */,
 				A9F5E5052E65FBB4004181D9 /* README.md in Resources */,
 				A9F5E5062E65FBB4004181D9 /* Roadmap.md in Resources */,
+				A96040D52E675C180042AE8B /* AiPoweredToDo.md in Resources */,
 				A9F5E5072E65FBB4004181D9 /* SECURITY.md in Resources */,
 				A9F5E5092E65FBB4004181D9 /* CONTRIBUTING.md in Resources */,
 			);
@@ -498,6 +580,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A96040B12E675A840042AE8B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A9F5E49F2E65FBA4004181D9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -543,6 +632,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		A96040C72E675A850042AE8B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A96040B42E675A840042AE8B /* HomeWidgetExtension */;
+			targetProxy = A96040C62E675A850042AE8B /* PBXContainerItemProxy */;
+		};
 		A9F5E4B22E65FBA5004181D9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A9F5E4A22E65FBA4004181D9 /* MirrorSmokerStopper */;
@@ -571,6 +665,67 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		A96040CA2E675A850042AE8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = HomeWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HomeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HomeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper.HomeWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A96040CB2E675A850042AE8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = HomeWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HomeWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HomeWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper.HomeWidget";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		A9F5E4E72E65FBA6004181D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -994,6 +1149,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A96040C92E675A850042AE8B /* Build configuration list for PBXNativeTarget "HomeWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A96040CA2E675A850042AE8B /* Debug */,
+				A96040CB2E675A850042AE8B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		A9F5E49E2E65FBA3004181D9 /* Build configuration list for PBXProject "MirrorSmokerStopper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

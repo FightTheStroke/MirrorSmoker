@@ -239,3 +239,23 @@
 "today.goal.cessation" = "Meta de cesación:";
 "today.days.remaining" = "%d días restantes";
 "today.label" = "Hoy";
+"settings.auto.calculate.footer" = "Dejar vacío para calcular automáticamente de los últimos 30 días (%@ cigarrillos/día)";
+
+// Input validation messages
+"done" = "Hecho";
+"settings.weight.invalid.message" = "El peso debe estar entre 1 y 300 kg";
+"settings.age.invalid.message" = "La edad debe estar entre 10 y 80 años";
+"settings.daily.cigarettes.invalid" = "Los cigarrillos diarios deben estar entre 0 y 100";
+
+// Widget localization
+"widget.display.name" = "MirrorSmoker Tracker";
+"widget.description" = "Rastrea cigarrillos y ve el progreso diario desde la pantalla de inicio";
+"widget.today" = "Hoy";
+"widget.daily.avg" = "Prom. Diario";
+"widget.add" = "Añadir";
+"widget.no.cigarettes.today" = "Sin cigarrillos hoy";
+"widget.last.at" = "Último a las";
+"widget.intent.add.cigarette" = "Añadir Cigarrillo";
+"widget.intent.add.cigarette.description" = "Añade rápidamente un cigarrillo al conteo diario";
+"widget.intent.success" = "Cigarrillo añadido exitosamente";
+"widget.intent.error.add.failed" = "Error al añadir cigarrillo. Inténtalo de nuevo.";

@@ -152,7 +152,7 @@ class InsightEngine {
             let components = calendar.dateComponents([.hour, .minute], from: startOfDay, to: cigarette.timestamp)
             let minutesFromWaking = (components.hour ?? 0) * 60 + (components.minute ?? 0)
             
-            // Considera solo le prime ore del giorno (6-11 AM)
+            // Consider only early hours of the day (6-11 AM)
             if (components.hour ?? 0) >= 6 && (components.hour ?? 0) <= 11 {
                 if morningTimes.isEmpty || minutesFromWaking < morningTimes.min()! + 120 {
                     morningTimes.append(minutesFromWaking)

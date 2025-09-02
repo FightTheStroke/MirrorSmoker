@@ -121,7 +121,6 @@ struct ContentView: View {
                         quickStatsSection
                         todaysInsightSection
                     }
-                    .listRowInsets(EdgeInsets())
                     .listRowBackground(Color.clear)
                 }
                 
@@ -278,23 +277,23 @@ struct ContentView: View {
                 statusMessageWithCorrectLogic
                 if dailyAverageForPlan > 0 {
                     VStack(alignment: .leading, spacing: DS.Space.xs) {
-                        Text("La tua media: \(String(format: "%.1f", dailyAverageForPlan))/giorno")
+                        Text(String(format: NSLocalizedString("daily.average.format.personal", comment: ""), dailyAverageForPlan))
                             .font(DS.Text.caption)
                             .foregroundColor(DS.Colors.textSecondary)
                         
                         if let quitDate = currentProfile?.quitDate {
-                            Text("Obiettivo: \(quitDate.formatted(date: .abbreviated, time: .omitted))")
+                            Text(String(format: NSLocalizedString("quit.goal.format.personal", comment: ""), quitDate.formatted(date: .abbreviated, time: .omitted)))
                                 .font(DS.Text.caption)
                                 .fontWeight(.semibold)
                                 .foregroundColor(DS.Colors.primary)
                             
                             let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
                             if daysRemaining > 0 {
-                                Text("\(daysRemaining) giorni al traguardo")
+                                Text(String(format: NSLocalizedString("days.to.goal.format.personal", comment: ""), daysRemaining))
                                     .font(DS.Text.caption)
                                     .foregroundColor(DS.Colors.textTertiary)
                             } else if daysRemaining == 0 {
-                                Text("🎯 Oggi è il grande giorno!")
+                                Text(NSLocalizedString("today.is.quit.day.personal", comment: ""))
                                     .font(DS.Text.caption)
                                     .fontWeight(.semibold)
                                     .foregroundColor(DS.Colors.success)
@@ -343,20 +342,26 @@ struct ContentView: View {
                 .font(DS.Text.caption)
                 .foregroundColor(DS.Colors.textSecondary)
                 .lineLimit(2)
+                .minimumScaleFactor(0.8)
             Text(value)
                 .font(DS.Text.title2)
                 .fontWeight(.bold)
                 .foregroundColor(color)
+                .minimumScaleFactor(0.7)
             Text(subtitle)
                 .font(DS.Text.caption2)
                 .foregroundColor(DS.Colors.textTertiary)
                 .lineLimit(2)
+                .minimumScaleFactor(0.8)
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, minHeight: 80, alignment: .topLeading)
         .padding(DS.Space.sm)
         .background(DS.Colors.backgroundSecondary)
         .cornerRadius(DS.Size.cardRadiusSmall)
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(title): \(value), \(subtitle)")
+        .accessibilityAddTraits(.isStaticText)
     }
     
     private var todaysInsightSection: some View {
@@ -406,33 +411,33 @@ struct ContentView: View {
             let target = todayTarget
             if todayCount == 0 {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("🎉 Perfetto!").font(DS.Text.headline).foregroundColor(DS.Colors.success)
-                    Text("Giornata senza sigarette").font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text(NSLocalizedString("perfect.no.cigarettes.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.success)
+                    Text(NSLocalizedString("no.cigarettes.today.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else if todayCount < Int(Double(target) * 0.5) {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("💚 Ottimo!").font(DS.Text.headline).foregroundColor(DS.Colors.success)
-                    Text("Sotto metà dell'obiettivo").font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text(NSLocalizedString("excellent.under.half.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.success)
+                    Text(NSLocalizedString("under.half.goal.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else if todayCount < Int(Double(target) * 0.8) {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("💛 Bene").font(DS.Text.headline).foregroundColor(DS.Colors.warning)
-                    Text("Stai rispettando il piano").font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text(NSLocalizedString("good.following.plan.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.warning)
+                    Text(NSLocalizedString("following.plan.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else if todayCount < target {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("🧡 Attenzione").font(DS.Text.headline).foregroundColor(Color.orange)
-                    Text("Vicino al limite del piano").font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text(NSLocalizedString("attention.near.limit.personal", comment: "")).font(DS.Text.headline).foregroundColor(Color.orange)
+                    Text(NSLocalizedString("near.plan.limit.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else if todayCount == target {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("🔴 Limite raggiunto").font(DS.Text.headline).foregroundColor(DS.Colors.danger)
-                    Text("Hai raggiunto l'obiettivo di oggi").font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text(NSLocalizedString("limit.reached.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.danger)
+                    Text(NSLocalizedString("daily.goal.reached.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("🚨 Fuori piano").font(DS.Text.headline).foregroundColor(DS.Colors.cigarette)
-                    Text("Hai superato di \(todayCount - target)").font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text(NSLocalizedString("over.plan.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.cigarette)
+                    Text(String(format: NSLocalizedString("exceeded.by.format.personal", comment: ""), todayCount - target)).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             }
         }

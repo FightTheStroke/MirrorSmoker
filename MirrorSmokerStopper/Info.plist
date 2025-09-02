@@ -63,5 +63,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>JetBrainsMonoNL-Regular.ttf</string>
+		<string>JetBrainsMonoNL-Medium.ttf</string>
+		<string>JetBrainsMonoNL-SemiBold.ttf</string>
+		<string>JetBrainsMonoNL-Bold.ttf</string>
+	</array>
 </dict>
 </plist>

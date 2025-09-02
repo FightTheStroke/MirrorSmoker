@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct MirrorSmokerStopperApp: App {
-    // Shared ModelContainer with automatic migration
+    // Shared ModelContainer with App Group support and automatic migration
     private static let sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Cigarette.self,
@@ -18,6 +18,14 @@ struct MirrorSmokerStopperApp: App {
             UserProfile.self,
             Product.self
         ])
+        
+        // First try to use the App Group shared container for widget sync
+        if let sharedContainer = AppGroupManager.sharedModelContainer {
+            print("✅ Using App Group shared container for widget sync")
+            return sharedContainer
+        }
+        
+        print("⚠️ App Group not available, falling back to local container")
         
         // Try to create the new v2 container
         let newConfiguration = ModelConfiguration(
@@ -211,6 +219,22 @@ struct MirrorSmokerStopperApp: App {
         WindowGroup {
             MainTabView()
                 .modelContainer(Self.sharedModelContainer)
+                .onAppear {
+                    setupWidgetSyncNotifications()
+                }
+        }
+    }
+    
+    // MARK: - Widget Sync Setup
+    private func setupWidgetSyncNotifications() {
+        // Listen for cigarettes added from widget
+        NotificationCenter.default.addObserver(
+            forName: NSNotification.Name("CigaretteAddedFromWidget"),
+            object: nil,
+            queue: .main
+        ) { _ in
+            print("📱 Cigarette added from widget, refreshing app...")
+            // The app will automatically refresh since it shares the same ModelContainer
         }
     }
 }

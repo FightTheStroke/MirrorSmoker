@@ -371,3 +371,40 @@
 "help.tips.2" = "Utilisez les étiquettes de manière cohérente pour de meilleurs insights";
 "help.tips.3" = "Vérifiez régulièrement vos statistiques pour la motivation";
 "help.tips.4" = "Activez la réduction graduelle pour un plan durable";
+
+// Time ago formatting
+"time.ago.hours.minutes" = "il y a %dh %dm";
+"time.ago.minutes" = "il y a %dm";
+
+// Siri Intents
+"intent.record.cigarette.description" = "Enregistrer une cigarette que vous venez de fumer";
+"intent.record.cigarette.tags.title" = "Étiquettes";
+"intent.record.cigarette.tags.description" = "Étiquettes optionnelles à ajouter à cette cigarette";
+"intent.record.cigarette.note.title" = "Note";
+"intent.record.cigarette.note.description" = "Note optionnelle sur cette cigarette";
+"intent.record.cigarette.response.with.tags" = "Cigarette enregistrée avec étiquettes: %@";
+"intent.record.cigarette.response.success" = "Cigarette enregistrée avec succès";
+
+"intent.today.count.description" = "Obtenir le nombre de cigarettes fumées aujourd'hui";
+"intent.today.count.phrase" = "Combien de cigarettes ai-je fumé aujourd'hui";
+"intent.today.count.response.zero" = "Excellent travail! Vous n'avez fumé aucune cigarette aujourd'hui!";
+"intent.today.count.response.count" = "Vous avez fumé %d cigarettes aujourd'hui.";
+
+"intent.weekly.stats.description" = "Obtenir vos statistiques de tabagisme de cette semaine";
+"intent.weekly.stats.phrase" = "Montrez mes statistiques de tabagisme hebdomadaires";
+"intent.weekly.stats.response" = "Cette semaine vous avez fumé %d cigarettes, en moyenne %.1f par jour.";
+
+"intent.set.quit.date.description" = "Définir votre date cible pour arrêter de fumer";
+"intent.set.quit.date.phrase" = "Définir ma date d'arrêt du tabac";
+"intent.set.quit.date.title" = "Date d'Arrêt";
+"intent.set.quit.date.description.param" = "Quand voulez-vous arrêter de fumer?";
+"intent.set.quit.date.response" = "Parfait! J'ai défini votre date d'arrêt au %@. Vous pouvez le faire!";
+
+"intent.motivation.description" = "Obtenir un message motivationnel pour aider à arrêter de fumer";
+"intent.motivation.phrase" = "Donnez-moi de la motivation pour arrêter de fumer";
+"intent.motivation.message.1" = "Chaque cigarette que vous ne fumez pas est une victoire. Continuez!";
+"intent.motivation.message.2" = "Vos poumons commencent déjà à guérir. Chaque heure sans fumer compte.";
+"intent.motivation.message.3" = "Pensez à tout l'argent que vous économisez en ne fumant pas aujourd'hui.";
+"intent.motivation.message.4" = "Votre futur vous vous remerciera pour le choix que vous faites maintenant.";
+"intent.motivation.message.5" = "Chaque jour sans fumer est un jour où votre corps devient plus sain.";
+"intent.motivation.message.6" = "L'envie de fumer est temporaire, mais les bénéfices d'arrêter sont permanents.";

@@ -111,8 +111,8 @@ struct ContentView: View {
         let interval = Date().timeIntervalSince(lastCigarette.timestamp)
         let hours = Int(interval) / 3600
         let minutes = (Int(interval) % 3600) / 60
-        if hours > 0 { return "\(hours)h \(minutes)m ago" }
-        else if minutes > 0 { return "\(minutes)m ago" }
+        if hours > 0 { return String(format: NSLocalizedString("time.ago.hours.minutes", comment: ""), hours, minutes) }
+        else if minutes > 0 { return String(format: NSLocalizedString("time.ago.minutes", comment: ""), minutes) }
         else { return NSLocalizedString("time.just.now", comment: "") }
     }
     

@@ -413,3 +413,40 @@
 "help.tips.2" = "Usa etiquetas consistentemente para obtener mejores insights";
 "help.tips.3" = "Revisa tus estadísticas regularmente para motivación";
 "help.tips.4" = "Habilita la reducción gradual para un plan sostenible";
+
+// Time ago formatting
+"time.ago.hours.minutes" = "hace %dh %dm";
+"time.ago.minutes" = "hace %dm";
+
+// Siri Intents
+"intent.record.cigarette.description" = "Registra un cigarrillo que acabas de fumar";
+"intent.record.cigarette.tags.title" = "Etiquetas";
+"intent.record.cigarette.tags.description" = "Etiquetas opcionales para añadir a este cigarrillo";
+"intent.record.cigarette.note.title" = "Nota";
+"intent.record.cigarette.note.description" = "Nota opcional sobre este cigarrillo";
+"intent.record.cigarette.response.with.tags" = "Cigarrillo registrado con etiquetas: %@";
+"intent.record.cigarette.response.success" = "Cigarrillo registrado exitosamente";
+
+"intent.today.count.description" = "Obtener el número de cigarrillos fumados hoy";
+"intent.today.count.phrase" = "¿Cuántos cigarrillos fumé hoy?";
+"intent.today.count.response.zero" = "¡Excelente trabajo! No has fumado ningún cigarrillo hoy!";
+"intent.today.count.response.count" = "Has fumado %d cigarrillos hoy.";
+
+"intent.weekly.stats.description" = "Obtener tus estadísticas de fumar de esta semana";
+"intent.weekly.stats.phrase" = "Muestra mis estadísticas semanales de fumar";
+"intent.weekly.stats.response" = "Esta semana has fumado %d cigarrillos, promediando %.1f por día.";
+
+"intent.set.quit.date.description" = "Establecer tu fecha objetivo para dejar de fumar";
+"intent.set.quit.date.phrase" = "Establece mi fecha para dejar de fumar";
+"intent.set.quit.date.title" = "Fecha para Dejar";
+"intent.set.quit.date.description.param" = "¿Cuándo quieres dejar de fumar?";
+"intent.set.quit.date.response" = "¡Genial! He establecido tu fecha para dejar el %@. ¡Tú puedes hacerlo!";
+
+"intent.motivation.description" = "Obtener un mensaje motivacional para ayudar a dejar de fumar";
+"intent.motivation.phrase" = "Dame motivación para fumar";
+"intent.motivation.message.1" = "Cada cigarrillo que no fumas es una victoria. ¡Sigue así!";
+"intent.motivation.message.2" = "Tus pulmones ya están empezando a sanar. Cada hora sin fumar importa.";
+"intent.motivation.message.3" = "Piensa en todo el dinero que estás ahorrando al no fumar hoy.";
+"intent.motivation.message.4" = "Tu yo futuro te agradecerá por la elección que haces ahora mismo.";
+"intent.motivation.message.5" = "Cada día sin fumar es un día en que tu cuerpo se vuelve más saludable.";
+"intent.motivation.message.6" = "El impulso de fumar es temporal, pero los beneficios de dejarlo son permanentes.";

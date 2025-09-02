@@ -375,3 +375,40 @@
 "help.tips.2" = "Verwenden Sie Tags konsistent für bessere Einblicke";
 "help.tips.3" = "Überprüfen Sie regelmäßig Ihre Statistiken zur Motivation";
 "help.tips.4" = "Aktivieren Sie die schrittweise Reduzierung für einen nachhaltigen Plan";
+
+// Time ago formatting
+"time.ago.hours.minutes" = "vor %dh %dm";
+"time.ago.minutes" = "vor %dm";
+
+// Siri Intents
+"intent.record.cigarette.description" = "Eine soeben gerauchte Zigarette aufzeichnen";
+"intent.record.cigarette.tags.title" = "Tags";
+"intent.record.cigarette.tags.description" = "Optionale Tags für diese Zigarette hinzufügen";
+"intent.record.cigarette.note.title" = "Notiz";
+"intent.record.cigarette.note.description" = "Optionale Notiz zu dieser Zigarette";
+"intent.record.cigarette.response.with.tags" = "Zigarette mit Tags aufgezeichnet: %@";
+"intent.record.cigarette.response.success" = "Zigarette erfolgreich aufgezeichnet";
+
+"intent.today.count.description" = "Anzahl der heute gerauchten Zigaretten abrufen";
+"intent.today.count.phrase" = "Wie viele Zigaretten habe ich heute geraucht";
+"intent.today.count.response.zero" = "Großartig! Sie haben heute keine Zigaretten geraucht!";
+"intent.today.count.response.count" = "Sie haben heute %d Zigaretten geraucht.";
+
+"intent.weekly.stats.description" = "Ihre Rauchstatistiken für diese Woche abrufen";
+"intent.weekly.stats.phrase" = "Zeige meine wöchentlichen Rauchstatistiken";
+"intent.weekly.stats.response" = "Diese Woche haben Sie %d Zigaretten geraucht, durchschnittlich %.1f pro Tag.";
+
+"intent.set.quit.date.description" = "Ihr Zieldatum für das Rauchen aufhören festlegen";
+"intent.set.quit.date.phrase" = "Mein Datum zum Rauchen aufhören festlegen";
+"intent.set.quit.date.title" = "Aufhördatum";
+"intent.set.quit.date.description.param" = "Wann möchten Sie mit dem Rauchen aufhören?";
+"intent.set.quit.date.response" = "Großartig! Ich habe Ihr Aufhördatum auf den %@ gesetzt. Sie schaffen das!";
+
+"intent.motivation.description" = "Eine motivierende Nachricht erhalten, um beim Rauchen aufhören zu helfen";
+"intent.motivation.phrase" = "Gib mir Motivation zum Rauchen aufhören";
+"intent.motivation.message.1" = "Jede Zigarette, die Sie nicht rauchen, ist ein Sieg. Machen Sie weiter!";
+"intent.motivation.message.2" = "Ihre Lungen beginnen bereits zu heilen. Jede rauchfreie Stunde zählt.";
+"intent.motivation.message.3" = "Denken Sie an all das Geld, das Sie sparen, indem Sie heute nicht rauchen.";
+"intent.motivation.message.4" = "Ihr zukünftiges Ich wird Ihnen für die Entscheidung danken, die Sie jetzt treffen.";
+"intent.motivation.message.5" = "Jeder rauchfreie Tag ist ein Tag, an dem Ihr Körper gesünder wird.";
+"intent.motivation.message.6" = "Der Drang zu rauchen ist vorübergehend, aber die Vorteile des Aufhörens sind dauerhaft.";

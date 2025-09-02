@@ -372,6 +372,43 @@
 "widget.last.at" = "Last at";
 "widget.intent.add.cigarette" = "Add Cigarette";
 "widget.intent.add.cigarette.description" = "Quickly add a cigarette to your daily count";
+
+// Time ago formatting
+"time.ago.hours.minutes" = "%dh %dm ago";
+"time.ago.minutes" = "%dm ago";
+
+// Siri Intents
+"intent.record.cigarette.description" = "Record a cigarette you just smoked";
+"intent.record.cigarette.tags.title" = "Tags";
+"intent.record.cigarette.tags.description" = "Optional tags to add to this cigarette";
+"intent.record.cigarette.note.title" = "Note";
+"intent.record.cigarette.note.description" = "Optional note about this cigarette";
+"intent.record.cigarette.response.with.tags" = "Cigarette recorded with tags: %@";
+"intent.record.cigarette.response.success" = "Cigarette recorded successfully";
+
+"intent.today.count.description" = "Get the number of cigarettes smoked today";
+"intent.today.count.phrase" = "How many cigarettes did I smoke today";
+"intent.today.count.response.zero" = "Great job! You haven't smoked any cigarettes today!";
+"intent.today.count.response.count" = "You've smoked %d cigarettes today.";
+
+"intent.weekly.stats.description" = "Get your smoking statistics for this week";
+"intent.weekly.stats.phrase" = "Show my weekly smoking stats";
+"intent.weekly.stats.response" = "This week you've smoked %d cigarettes, averaging %.1f per day.";
+
+"intent.set.quit.date.description" = "Set your target date to quit smoking";
+"intent.set.quit.date.phrase" = "Set my quit smoking date";
+"intent.set.quit.date.title" = "Quit Date";
+"intent.set.quit.date.description.param" = "When do you want to quit smoking?";
+"intent.set.quit.date.response" = "Great! I've set your quit date to %@. You can do this!";
+
+"intent.motivation.description" = "Get a motivational message to help with quitting smoking";
+"intent.motivation.phrase" = "Give me smoking motivation";
+"intent.motivation.message.1" = "Every cigarette you don't smoke is a victory. Keep going!";
+"intent.motivation.message.2" = "Your lungs are already starting to heal. Each smoke-free hour matters.";
+"intent.motivation.message.3" = "Think about all the money you're saving by not smoking today.";
+"intent.motivation.message.4" = "Your future self will thank you for the choice you make right now.";
+"intent.motivation.message.5" = "Every day smoke-free is a day your body gets healthier.";
+"intent.motivation.message.6" = "The urge to smoke is temporary, but the benefits of quitting are permanent.";
 "widget.intent.success" = "Cigarette added successfully";
 "widget.intent.error.add.failed" = "Failed to add cigarette. Please try again.";
 "settings.daily.average.calculated" = "Your daily average";
@@ -702,3 +739,62 @@
 "help.tips.2" = "Use tags consistently to get better insights";
 "help.tips.3" = "Check your statistics regularly for motivation";
 "help.tips.4" = "Enable gradual reduction for a sustainable quit plan";
+
+// Hardcoded Strings - SettingsView
+"settings.user.profile" = "User Profile";
+"settings.user.name" = "Name";
+"settings.name.placeholder.hint" = "Enter your name";
+"settings.quit.date.title" = "Quit Date";
+"settings.daily.cigarettes.goal" = "Daily Cigarettes Goal";
+"settings.enable.gradual.reduction" = "Enable Gradual Reduction";
+"settings.reduction.curve" = "Reduction Curve";
+"settings.starting.smoker.type" = "Starting Smoker Type";
+"settings.product.information" = "Product Information";
+"settings.product.name" = "Product Name";
+"settings.product.name.example" = "e.g., Marlboro Gold";
+"settings.brand" = "Brand";
+"settings.brand.example" = "e.g., Philip Morris";
+"settings.price.per.pack" = "Price per Pack";
+"settings.cigarettes.per.pack" = "Cigarettes per Pack";
+"settings.health.motivation" = "Health & Motivation";
+"settings.enable.health.insights" = "Enable Health Insights";
+"settings.enable.motivational.messages" = "Enable Motivational Messages";
+"settings.data.management" = "Data Management";
+"settings.export.data" = "Export Data";
+"settings.import.data" = "Import Data";
+"settings.delete.all.data" = "Delete All Data";
+"settings.are.you.sure" = "Are you sure?";
+"settings.delete.warning" = "This will permanently delete all your smoking data. This action cannot be undone.";
+
+// MainTabView
+"tab.home" = "Home";
+"tab.stats" = "Stats";
+"tab.settings" = "Settings";
+
+// ContentView
+"add.cigarette.title" = "Add Cigarette";
+"note.optional" = "Note (optional)";
+"note.placeholder" = "What's on your mind?";
+"todays.cigarettes.title" = "Today's Cigarettes";
+
+// TagPickerView  
+"create.new.tag" = "Create New Tag";
+"tag.name.field" = "Tag Name";
+"tag.name.example" = "e.g., Stress";
+"tag.color.field" = "Tag Color";
+"select.tags.title" = "Select Tags";
+
+// InsightCard
+"health.insight.default" = "Health Insight";
+"youre.doing.great" = "You're doing great!";
+
+// StatView
+"smoked.today" = "Smoked Today";
+"cigarettes.unit" = "cigarettes";
+"money.saved" = "Money Saved";
+"since.label" = "since";
+"time.smoke.free" = "Time Smoke-Free";
+
+// HomeWidget
+"widget.smoked.today" = "Smoked Today";
+"widget.add.cigarette" = "Add Cigarette";

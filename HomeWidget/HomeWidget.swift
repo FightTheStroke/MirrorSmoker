@@ -7,6 +7,29 @@
 
 import WidgetKit
 import SwiftUI
+import SwiftData
+import Foundation
+
+// MARK: - Widget App Group Manager
+struct WidgetAppGroupManager {
+    static let groupIdentifier = "group.com.mirror-labs.mirrorsmoker"
+    
+    static var sharedContainer: URL? {
+        FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)
+    }
+}
+
+// MARK: - Widget Models (Simplified)
+@Model
+class WidgetCigarette {
+    var timestamp: Date
+    var note: String
+    
+    init(timestamp: Date = Date(), note: String = "") {
+        self.timestamp = timestamp
+        self.note = note
+    }
+}
 
 // MARK: - Widget Entry
 struct CigaretteEntry: TimelineEntry {
@@ -51,14 +74,14 @@ struct CigaretteProvider: TimelineProvider {
     
     // MARK: - Data Access
     private func getTodayStats() -> WidgetTodayStats {
-        guard let url = AppGroupManager.sharedContainer else {
+        guard let url = WidgetAppGroupManager.sharedContainer else {
             return WidgetTodayStats.fallback
         }
         
         let storeURL = url.appendingPathComponent("MirrorSmoker.sqlite")
         
         do {
-            let schema = Schema([Cigarette.self, Tag.self, UserProfile.self, Product.self])
+            let schema = Schema([WidgetCigarette.self])
             let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .automatic)
             let container = try ModelContainer(for: schema, configurations: [config])
             let context = ModelContext(container)
@@ -67,8 +90,8 @@ struct CigaretteProvider: TimelineProvider {
             let today = Calendar.current.startOfDay(for: Date())
             let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
             
-            let todayDescriptor = FetchDescriptor<Cigarette>(
-                predicate: #Predicate<Cigarette> { cigarette in
+            let todayDescriptor = FetchDescriptor<WidgetCigarette>(
+                predicate: #Predicate<WidgetCigarette> { cigarette in
                     cigarette.timestamp >= today && cigarette.timestamp < tomorrow
                 }
             )
@@ -80,8 +103,8 @@ struct CigaretteProvider: TimelineProvider {
             
             // Calculate 30-day average
             let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
-            let recentDescriptor = FetchDescriptor<Cigarette>(
-                predicate: #Predicate<Cigarette> { cigarette in
+            let recentDescriptor = FetchDescriptor<WidgetCigarette>(
+                predicate: #Predicate<WidgetCigarette> { cigarette in
                     cigarette.timestamp >= thirtyDaysAgo
                 }
             )

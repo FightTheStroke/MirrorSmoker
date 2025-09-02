@@ -93,6 +93,15 @@ public struct WidgetTodayStats {
         formatter.timeStyle = .short
         return formatter.string(from: lastCigaretteTime)
     }
+    
+    // Static fallback instance
+    public static var fallback: WidgetTodayStats {
+        WidgetTodayStats(
+            todayCount: 0,
+            dailyAverage: 0.0,
+            lastCigaretteTime: nil
+        )
+    }
 }
 
 // MARK: - Widget Data Provider

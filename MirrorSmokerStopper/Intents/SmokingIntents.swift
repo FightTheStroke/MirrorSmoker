@@ -57,14 +57,14 @@ extension AppIntent {
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct AddCigaretteIntent: AppIntent {
     static var title: LocalizedStringResource = "intent.add.cigarette.title"
-    static var description = IntentDescription("Record a cigarette you just smoked")
+    static var description = IntentDescription(NSLocalizedString("intent.record.cigarette.description", comment: ""))
     
     static var suggestedInvocationPhrase: String = "I smoked a cigarette"
     
-    @Parameter(title: "Tags", description: "Optional tags to add to this cigarette")
+    @Parameter(title: NSLocalizedString("intent.record.cigarette.tags.title", comment: ""), description: NSLocalizedString("intent.record.cigarette.tags.description", comment: ""))
     var tags: [String]?
     
-    @Parameter(title: "Note", description: "Optional note about this cigarette")
+    @Parameter(title: NSLocalizedString("intent.record.cigarette.note.title", comment: ""), description: NSLocalizedString("intent.record.cigarette.note.description", comment: ""))
     var note: String?
     
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "SmokingIntents")
@@ -107,8 +107,8 @@ struct AddCigaretteIntent: AppIntent {
         try modelContext.save()
         
         let message = tags?.isEmpty == false ? 
-            "Cigarette recorded with tags: \(tags?.joined(separator: ", ") ?? "")" :
-            "Cigarette recorded successfully"
+            String(format: NSLocalizedString("intent.record.cigarette.response.with.tags", comment: ""), tags?.joined(separator: ", ") ?? "") :
+            NSLocalizedString("intent.record.cigarette.response.success", comment: "")
             
         return .result(dialog: IntentDialog(stringLiteral: message)) {
             CigaretteRecordedView(timestamp: cigarette.timestamp, tags: tags)
@@ -121,9 +121,9 @@ struct AddCigaretteIntent: AppIntent {
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct GetTodayCountIntent: AppIntent {
     static var title: LocalizedStringResource = "intent.get.count.title"
-    static var description = IntentDescription("Get the number of cigarettes smoked today")
+    static var description = IntentDescription(NSLocalizedString("intent.today.count.description", comment: ""))
     
-    static var suggestedInvocationPhrase: String = "How many cigarettes did I smoke today"
+    static var suggestedInvocationPhrase: String = NSLocalizedString("intent.today.count.phrase", comment: "")
     
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let modelContext = ModelContext(sharedModelContainer)

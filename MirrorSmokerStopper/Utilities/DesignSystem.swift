@@ -81,14 +81,26 @@ struct DS {
     
     // MARK: - Typography (JetBrains Mono NL + System Fonts)
     struct Text {
-        // Custom font helper
-        private static func jetBrainsMono(size: CGFloat, weight: Font.Weight = .regular) -> Font {
-            Font.custom("JetBrains Mono NL", size: size).weight(weight)
+        // Custom font helpers with explicit weights
+        private static func jetBrainsMonoRegular(size: CGFloat) -> Font {
+            Font.custom("JetBrains Mono NL", size: size)
+        }
+        
+        private static func jetBrainsMonoMedium(size: CGFloat) -> Font {
+            Font.custom("JetBrains Mono NL Medium", size: size)
+        }
+        
+        private static func jetBrainsMonoSemiBold(size: CGFloat) -> Font {
+            Font.custom("JetBrains Mono NL SemiBold", size: size)
+        }
+        
+        private static func jetBrainsMonoBold(size: CGFloat) -> Font {
+            Font.custom("JetBrains Mono NL Bold", size: size)
         }
         
         // Large text
         static let largeTitle = Font.largeTitle.weight(.bold)
-        static let display = jetBrainsMono(size: 34, weight: .heavy) // Custom font for display
+        static let display = jetBrainsMonoBold(size: 34) // Custom font for display
         
         // Titles
         static let title = Font.title.weight(.semibold)
@@ -102,19 +114,19 @@ struct DS {
         // Body text
         static let body = Font.body
         static let bodyBold = Font.body.weight(.semibold)
-        static let bodyMono = jetBrainsMono(size: 17) // For code/monospace content
+        static let bodyMono = jetBrainsMonoRegular(size: 17) // For code/monospace content
         static let callout = Font.callout
         
         // Captions
         static let caption = Font.caption
         static let caption2 = Font.caption2
-        static let captionMono = jetBrainsMono(size: 12) // For small monospace content
+        static let captionMono = jetBrainsMonoRegular(size: 12) // For small monospace content
         static let footnote = Font.footnote
         
         // Special
         static let small = Font.caption
         static let micro = Font.caption2
-        static let code = jetBrainsMono(size: 14) // For inline code
+        static let code = jetBrainsMonoRegular(size: 14) // For inline code
     }
     
     // MARK: - Spacing (8pt Grid System)

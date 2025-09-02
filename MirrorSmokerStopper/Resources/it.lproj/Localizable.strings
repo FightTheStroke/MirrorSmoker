@@ -415,3 +415,34 @@
 "nuovo.tag" = "Nuovo Tag";
 "annulla" = "Annulla";
 "salva" = "Salva";
+
+// Missing Statistics Keys (Critical)
+"statistics.title.main" = "Statistiche";
+"statistics.todays.overview" = "Panoramica di Oggi";
+"statistics.today.single" = "sigaretta";
+"statistics.today.plural" = "sigarette";
+"statistics.no.cigarettes.today.full" = "🎉 Nessuna sigaretta oggi!";
+"statistics.following.plan.full" = "💪 Stai seguendo il tuo piano";
+"statistics.exceeded.goal.full" = "⚠️ Hai superato l'obiettivo di oggi";
+"statistics.cigarettes.unit" = "sigarette";
+"statistics.trend" = "Tendenza";
+"statistics.daily.distribution.full" = "Distribuzione giornaliera";
+"statistics.weekly.trend.full" = "Tendenza settimanale";
+"statistics.no.data" = "Nessun dato";
+"statistics.no.data.subtitle" = "Nessuna sigaretta registrata nel periodo selezionato";
+"statistics.insufficient.data" = "Dati insufficienti";
+"statistics.insufficient.data.subtitle" = "Registra più sigarette per vedere la tendenza";
+"statistics.best.day" = "Giorno migliore";
+"statistics.worst.day" = "Giorno peggiore";
+"statistics.analyzed.period" = "Periodo analizzato";
+"statistics.days.count" = "%d giorni";
+"statistics.cigarettes.count" = "%d sigarette";
+"statistics.average.per.day" = "Media/giorno";
+"statistics.today.label" = "Oggi";
+
+// Time Range Keys
+"time.range.today" = "Oggi";
+"time.range.yesterday" = "Ieri";
+"time.range.week" = "Settimana";
+"time.range.month" = "Mese";
+"time.range.all" = "Tutto il tempo";

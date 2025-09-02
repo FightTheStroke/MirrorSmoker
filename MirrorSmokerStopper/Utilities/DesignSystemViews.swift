@@ -1,4 +1,3 @@
-// filepath: /Users/roberdan/Desktop/MirrorSmoker/MirrorSmokerStopper/Utilities/DesignSystemViews.swift
 //
 //  DesignSystemViews.swift
 //  MirrorSmokerStopper

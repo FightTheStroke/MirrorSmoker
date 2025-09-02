@@ -14,7 +14,7 @@ import SwiftData
 public class WidgetStore {
     public static let shared = WidgetStore()
     
-    private let appGroupID = "group.com.fightthestroke.mirrorsmoker"
+    private let appGroupID = "group.com.mirror-labs.mirrorsmoker"
     public let userDefaults: UserDefaults?
     
     private let fallbackDefaults = UserDefaults.standard
@@ -116,7 +116,7 @@ public class WidgetDataProvider {
     }
     
     private func getRealTodayStats() async -> WidgetTodayStats? {
-        guard let sharedContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.fightthestroke.mirrorsmoker") else {
+        guard let sharedContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.mirror-labs.mirrorsmoker") else {
             print("⚠️ App Group not available, falling back to local container")
             return nil
         }
@@ -178,7 +178,7 @@ public class WidgetDataProvider {
     }
     
     private func addCigaretteToSharedContainer() async -> Bool {
-        guard let sharedContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.fightthestroke.mirrorsmoker") else {
+        guard let sharedContainer = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.com.mirror-labs.mirrorsmoker") else {
             return false
         }
         

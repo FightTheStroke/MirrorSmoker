@@ -117,7 +117,7 @@ struct SettingsView: View {
                                     TextField(NSLocalizedString("settings.daily.cigarettes.example", comment: ""), text: $dailyAverageInput)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .keyboardType(.decimalPad)
-                                        .onChange(of: dailyAverageInput) { _ in hasUnsavedChanges = true }
+                                        .onChange(of: dailyAverageInput) { hasUnsavedChanges = true }
                                     
                                     if !isValidDailyAverage && !dailyAverageInput.isEmpty {
                                         Text(NSLocalizedString("settings.daily.cigarettes.invalid", comment: ""))
@@ -181,7 +181,7 @@ struct SettingsView: View {
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
                                     Toggle(NSLocalizedString("settings.gradual.reduction.toggle", comment: ""), isOn: $enableGradualReduction)
                                         .toggleStyle(SwitchToggleStyle())
-                                        .onChange(of: enableGradualReduction) { _ in hasUnsavedChanges = true }
+                                        .onChange(of: enableGradualReduction) { hasUnsavedChanges = true }
                                     
                                     Text(enableGradualReduction ? 
                                          NSLocalizedString("settings.gradual.reduction.description", comment: "") : 
@@ -287,7 +287,7 @@ struct SettingsView: View {
                                     TextField(NSLocalizedString("settings.name.placeholder", comment: ""), text: $name)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .textInputAutocapitalization(.words)
-                                        .onChange(of: name) { _ in hasUnsavedChanges = true }
+                                        .onChange(of: name) { hasUnsavedChanges = true }
                                 }
                                 
                                 // Birth date - standard DatePicker
@@ -307,7 +307,7 @@ struct SettingsView: View {
                                     )
                                     .datePickerStyle(.compact)
                                     .labelsHidden()
-                                    .onChange(of: birthDate) { _ in hasUnsavedChanges = true }
+                                    .onChange(of: birthDate) { hasUnsavedChanges = true }
                                 }
                                 
                                 // Weight
@@ -322,7 +322,7 @@ struct SettingsView: View {
                                     TextField("0", text: $weight)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .keyboardType(.decimalPad)
-                                        .onChange(of: weight) { _ in hasUnsavedChanges = true }
+                                        .onChange(of: weight) { hasUnsavedChanges = true }
                                         .toolbar {
                                             if #available(iOS 15.0, *) {
                                                 ToolbarItemGroup(placement: .keyboard) {
@@ -378,7 +378,7 @@ struct SettingsView: View {
                                         }
                                     }
                                     .pickerStyle(.segmented)
-                                    .onChange(of: smokingType) { _ in hasUnsavedChanges = true }
+                                    .onChange(of: smokingType) { hasUnsavedChanges = true }
                                 }
                                 
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
@@ -392,7 +392,7 @@ struct SettingsView: View {
                                     TextField("18", value: $startedSmokingAge, formatter: ageFormatter)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .keyboardType(.numberPad)
-                                        .onChange(of: startedSmokingAge) { _ in hasUnsavedChanges = true }
+                                        .onChange(of: startedSmokingAge) { hasUnsavedChanges = true }
                                         .toolbar {
                                             if #available(iOS 15.0, *) {
                                                 ToolbarItemGroup(placement: .keyboard) {

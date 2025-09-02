@@ -33,12 +33,12 @@ To complete the setup, you need to configure the following in Xcode:
 - **Main App Target**:
   - Go to `MirrorSmokerStopper` target → Signing & Capabilities
   - Add "App Groups" capability
-  - Enable group: `group.com.fightthestroke.mirrorsmoker`
+  - Enable group: `group.com.mirror-labs.mirrorsmoker`
 
 - **Widget Extension Target**:
   - Go to `HomeWidget` target → Signing & Capabilities  
   - Add "App Groups" capability
-  - Enable group: `group.com.fightthestroke.mirrorsmoker`
+  - Enable group: `group.com.mirror-labs.mirrorsmoker`
 
 #### 2. Widget Target Dependencies
 - Add the following files to the `HomeWidget` target:

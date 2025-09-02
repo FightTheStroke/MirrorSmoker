@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import os.log
 
 struct TagSelectionRow: View {
     let tag: Tag
@@ -45,9 +46,9 @@ struct TagSelectionRow: View {
                     .foregroundColor(.secondary)
                     .font(.caption)
             }
-            .padding()
-            .background(AppColors.systemGray6)
-            .cornerRadius(12)
+            .padding(DS.Space.md)
+            .background(DS.Colors.backgroundSecondary)
+            .cornerRadius(DS.Size.cardRadius)
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -88,7 +89,7 @@ struct CreateNewTagSheet: View {
                                 tagColor = colorHex
                             }) {
                                 Circle()
-                                    .fill(Color.fromHex(colorHex) ?? .blue)
+                                    .fill(Color(hex: colorHex) ?? DS.Colors.primary)
                                     .frame(width: 40, height: 40)
                                     .overlay(
                                         Circle()
@@ -144,6 +145,8 @@ struct TagSelectorForTimeSheet: View {
     @State private var newTagName = ""
     @State private var newTagColor = "#007AFF"
     
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "TagSelector")
+    
     private var timeRangeText: String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
@@ -177,7 +180,7 @@ struct TagSelectorForTimeSheet: View {
         do {
             return try modelContext.fetch(descriptor)
         } catch {
-            print("Error fetching cigarettes: \(error)")
+            Self.logger.error("Error fetching cigarettes: \(error.localizedDescription)")
             return []
         }
     }
@@ -206,17 +209,17 @@ struct TagSelectorForTimeSheet: View {
                             .foregroundColor(.secondary)
                             .padding(.horizontal)
                             .padding(.vertical, 8)
-                            .background(Color.orange.opacity(0.1))
-                            .cornerRadius(8)
+                            .background(DS.Colors.warning.opacity(0.1))
+                            .cornerRadius(DS.AdaptiveSize.cardRadiusSmall)
                     } else {
                         Text(String(format: NSLocalizedString("tag.selector.cigarettes.count", comment: ""), cigarettesInRange.count, cigarettesInRange.count == 1 ? "" : "s"))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
                 }
-                .padding()
-                .background(AppColors.systemGray6)
-                .cornerRadius(12)
+                .padding(DS.Space.md)
+                .background(DS.Colors.backgroundSecondary)
+                .cornerRadius(DS.Size.cardRadius)
                 
                 // Tag List
                 if allTags.isEmpty {

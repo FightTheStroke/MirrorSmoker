@@ -23,7 +23,7 @@ struct WeeklyChart: View {
                                 .stroke(Color.primary.opacity(0.2), lineWidth: 1)
                         )
                     
-                    // Giorno
+                    // Day
                     Text(dayLabel(date))
                         .font(DS.Text.caption2)
                         .foregroundColor(DS.Colors.textSecondary)

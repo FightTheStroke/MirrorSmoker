@@ -27,8 +27,8 @@ struct ModernCard<Content: View>: View {
         content
             .padding(padding)
             .background(backgroundColor)
-            .cornerRadius(DS.Size.cardRadius)
-            .dsShadow(DS.Shadow.small)
+            .cornerRadius(DS.AdaptiveSize.cardRadius)
+            .dsAdaptiveShadow(.small)
     }
 }
 
@@ -317,7 +317,7 @@ struct ModernStatCard: View {
         .padding(DS.Space.lg)
         .background(DS.Colors.card)
         .clipShape(RoundedRectangle(cornerRadius: DS.Size.cardRadius))
-        .dsShadow(DS.Shadow.small)
+        .dsAdaptiveShadow(.small)
     }
 }
 
@@ -390,7 +390,7 @@ struct ModernFloatingActionButton: View {
                 .frame(width: DS.Size.fabSize, height: DS.Size.fabSize)
                 .background(DS.Colors.buttonPrimary)
                 .clipShape(Circle())
-                .dsShadow(DS.Shadow.medium)
+                .dsAdaptiveShadow(.medium)
         }
         .buttonStyle(PlainButtonStyle())
     }

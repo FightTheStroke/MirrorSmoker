@@ -7,6 +7,95 @@
 
 import SwiftUI
 
+// MARK: - Modern Button Styles (Motion-Aware)
+
+struct DSPrimaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, DS.Space.md)
+            .padding(.horizontal, DS.Space.lg)
+            .background(
+                DS.Colors.buttonPrimary
+                    .opacity(configuration.isPressed ? 0.8 : 1.0)
+            )
+            .foregroundColor(DS.Colors.textInverse)
+            .cornerRadius(DS.Size.buttonRadius)
+            .scaleEffect(shouldAnimate ? (configuration.isPressed ? 0.98 : 1.0) : 1.0)
+            .animation(DS.Animation.fast, value: configuration.isPressed)
+    }
+    
+    private var shouldAnimate: Bool {
+        !UIAccessibility.isReduceMotionEnabled
+    }
+}
+
+struct DSSecondaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, DS.Space.md)
+            .padding(.horizontal, DS.Space.lg)
+            .background(
+                DS.Colors.buttonSecondary
+                    .opacity(configuration.isPressed ? 0.8 : 1.0)
+            )
+            .foregroundColor(DS.Colors.textPrimary)
+            .cornerRadius(DS.Size.buttonRadius)
+            .overlay(
+                RoundedRectangle(cornerRadius: DS.Size.buttonRadius)
+                    .stroke(DS.Colors.separator, lineWidth: 1)
+            )
+            .scaleEffect(shouldAnimate ? (configuration.isPressed ? 0.98 : 1.0) : 1.0)
+            .animation(DS.Animation.fast, value: configuration.isPressed)
+    }
+    
+    private var shouldAnimate: Bool {
+        !UIAccessibility.isReduceMotionEnabled
+    }
+}
+
+struct DSDestructiveButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, DS.Space.md)
+            .padding(.horizontal, DS.Space.lg)
+            .background(
+                DS.Colors.danger
+                    .opacity(configuration.isPressed ? 0.8 : 1.0)
+            )
+            .foregroundColor(DS.Colors.textInverse)
+            .cornerRadius(DS.Size.buttonRadius)
+            .scaleEffect(shouldAnimate ? (configuration.isPressed ? 0.98 : 1.0) : 1.0)
+            .animation(DS.Animation.fast, value: configuration.isPressed)
+    }
+    
+    private var shouldAnimate: Bool {
+        !UIAccessibility.isReduceMotionEnabled
+    }
+}
+
+struct DSFABStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .frame(width: DS.Size.fabSize, height: DS.Size.fabSize)
+            .background(
+                DS.Colors.primary
+                    .opacity(configuration.isPressed ? 0.8 : 1.0)
+            )
+            .foregroundColor(DS.Colors.textInverse)
+            .clipShape(Circle())
+            .scaleEffect(shouldAnimate ? (configuration.isPressed ? 0.95 : 1.0) : 1.0)
+            .dsAdaptiveShadow(.medium)
+            .animation(DS.Animation.bouncy, value: configuration.isPressed)
+    }
+    
+    private var shouldAnimate: Bool {
+        !UIAccessibility.isReduceMotionEnabled
+    }
+}
+
 // MARK: - DSButton
 
 struct DSButton: View {
@@ -14,37 +103,12 @@ struct DSButton: View {
         case primary
         case secondary
         case destructive
-        
-        var backgroundColor: Color {
-            switch self {
-            case .primary: return DS.Colors.buttonPrimary
-            case .secondary: return DS.Colors.buttonSecondary
-            case .destructive: return DS.Colors.danger
-            }
-        }
-        
-        var textColor: Color {
-            switch self {
-            case .primary: return DS.Colors.textInverse
-            case .secondary: return DS.Colors.textPrimary
-            case .destructive: return DS.Colors.textInverse
-            }
-        }
-        
-        var borderColor: Color {
-            switch self {
-            case .primary: return DS.Colors.buttonPrimary
-            case .secondary: return DS.Colors.separator
-            case .destructive: return DS.Colors.danger
-            }
-        }
     }
     
     let title: String
     let icon: String?
     let style: Style
     let action: () -> Void
-    @State private var isPressed = false
     
     init(_ title: String, icon: String? = nil, style: Style = .primary, action: @escaping () -> Void) {
         self.title = title
@@ -63,31 +127,34 @@ struct DSButton: View {
                 Text(title)
                     .fontWeight(.semibold)
             }
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, DS.Space.md)
-            .padding(.horizontal, DS.Space.lg)
-            .background(
-                style.backgroundColor
-                    .opacity(isPressed ? 0.8 : 1.0)
-            )
-            .foregroundColor(style.textColor)
-            .cornerRadius(DS.Size.buttonRadius)
-            .overlay(
-                RoundedRectangle(cornerRadius: DS.Size.buttonRadius)
-                    .stroke(style.borderColor, lineWidth: style == .secondary ? 1 : 0)
-            )
-            .animation(DS.Animation.fast, value: isPressed)
         }
-        .buttonStyle(PlainButtonStyle())
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    isPressed = true
-                }
-                .onEnded { _ in
-                    isPressed = false
-                }
-        )
+        .buttonStyle(buttonStyle)
+    }
+    
+    private var buttonStyle: some ButtonStyle {
+        switch style {
+        case .primary:
+            return AnyButtonStyle(DSPrimaryButtonStyle())
+        case .secondary:
+            return AnyButtonStyle(DSSecondaryButtonStyle())
+        case .destructive:
+            return AnyButtonStyle(DSDestructiveButtonStyle())
+        }
+    }
+}
+
+// Helper to type-erase ButtonStyle
+struct AnyButtonStyle: ButtonStyle {
+    private let _makeBody: (Configuration) -> AnyView
+    
+    init<S: ButtonStyle>(_ style: S) {
+        _makeBody = { configuration in
+            AnyView(style.makeBody(configuration: configuration))
+        }
+    }
+    
+    func makeBody(configuration: Configuration) -> some View {
+        _makeBody(configuration)
     }
 }
 
@@ -132,7 +199,7 @@ struct DSHealthCard: View {
                     .font(.system(size: DS.Size.iconSizeLarge))
                     .foregroundColor(color)
                 
-                if let trend = trend {
+                if trend != nil {
                     Image(systemName: trendIcon)
                         .font(.system(size: DS.Size.iconSizeSmall))
                         .foregroundColor(trendColor)
@@ -161,10 +228,177 @@ struct DSHealthCard: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(DS.Space.md)
+        .padding(DS.AdaptiveSpace.md)
         .background(DS.Colors.cardSecondary)
-        .cornerRadius(DS.Size.cardRadiusSmall)
-        .dsShadow(DS.Shadow.small)
+        .cornerRadius(DS.AdaptiveSize.cardRadiusSmall)
+        .dsAdaptiveShadow(.small)
+    }
+}
+
+// MARK: - Unified DSCard
+
+struct DSCard<Content: View>: View {
+    enum Variant {
+        case plain
+        case bordered
+        case elevated
+    }
+    
+    enum Elevation {
+        case none
+        case small
+        case medium
+        case large
+        
+        var shadowLevel: ShadowLevel {
+            switch self {
+            case .none, .small:
+                return .small
+            case .medium:
+                return .medium
+            case .large:
+                return .large
+            }
+        }
+    }
+    
+    let variant: Variant
+    let elevation: Elevation
+    let interactive: Bool
+    private let content: Content
+    
+    init(
+        variant: Variant = .plain,
+        elevation: Elevation = .small,
+        interactive: Bool = false,
+        @ViewBuilder content: () -> Content
+    ) {
+        self.variant = variant
+        self.elevation = elevation
+        self.interactive = interactive
+        self.content = content()
+    }
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: DS.Space.md) {
+            content
+        }
+        .padding(DS.AdaptiveSpace.md)
+        .background(backgroundColor)
+        .cornerRadius(DS.AdaptiveSize.cardRadius)
+        .overlay(borderOverlay)
+        .dsAdaptiveShadow(elevation.shadowLevel)
+        .scaleEffect(shouldScale ? (interactive ? 0.98 : 1.0) : 1.0)
+        .animation(DS.Animation.fast, value: interactive)
+    }
+    
+    private var backgroundColor: Color {
+        switch variant {
+        case .plain, .bordered:
+            return DS.Colors.card
+        case .elevated:
+            return DS.Colors.card
+        }
+    }
+    
+    @ViewBuilder
+    private var borderOverlay: some View {
+        if variant == .bordered {
+            RoundedRectangle(cornerRadius: DS.Size.cardRadius)
+                .stroke(DS.Colors.separator, lineWidth: 1)
+        }
+    }
+    
+    private var shouldScale: Bool {
+        !UIAccessibility.isReduceMotionEnabled
+    }
+}
+
+// Legacy DSCard for backward compatibility
+struct LegacyDSCard<Content: View>: View {
+    let content: Content
+    
+    init(@ViewBuilder content: () -> Content) {
+        self.content = content()
+    }
+    
+    var body: some View {
+        DSCard(variant: .plain, elevation: .small) {
+            content
+        }
+    }
+}
+
+// MARK: - DSTag Component
+
+struct DSTag: View {
+    enum Style {
+        case filled
+        case outline
+        case subtle
+    }
+    
+    let text: String
+    let style: Style
+    let color: Color
+    
+    init(_ text: String, style: Style = .filled, color: Color = DS.Colors.primary) {
+        self.text = text
+        self.style = style
+        self.color = color
+    }
+    
+    var body: some View {
+        Text(text)
+            .font(DS.Text.caption)
+            .fontWeight(.medium)
+            .padding(.horizontal, DS.Space.sm)
+            .padding(.vertical, DS.Space.xs)
+            .background(backgroundColor)
+            .foregroundColor(textColor)
+            .cornerRadius(DS.Size.tagRadius)
+            .overlay(
+                borderOverlay
+            )
+    }
+    
+    private var backgroundColor: Color {
+        switch style {
+        case .filled:
+            return color
+        case .outline, .subtle:
+            return color.opacity(style == .outline ? 0.1 : 0.05)
+        }
+    }
+    
+    private var textColor: Color {
+        switch style {
+        case .filled:
+            return contrastColor(for: color)
+        case .outline, .subtle:
+            return color
+        }
+    }
+    
+    @ViewBuilder
+    private var borderOverlay: some View {
+        if style == .outline {
+            RoundedRectangle(cornerRadius: DS.Size.tagRadius)
+                .stroke(color, lineWidth: 1)
+        }
+    }
+    
+    private func contrastColor(for backgroundColor: Color) -> Color {
+        let uiColor = UIColor(backgroundColor)
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        
+        let luminance = 0.299 * red + 0.587 * green + 0.114 * blue
+        return luminance > 0.5 ? Color.black : Color.white
     }
 }
 
@@ -253,7 +487,6 @@ struct DSProgressRing: View {
     
     var body: some View {
         ZStack {
-            // Background ring
             Circle()
                 .stroke(
                     color.opacity(0.2),
@@ -261,7 +494,6 @@ struct DSProgressRing: View {
                 )
                 .frame(width: size, height: size)
             
-            // Progress ring
             Circle()
                 .trim(from: 0, to: progress)
                 .stroke(
@@ -278,12 +510,11 @@ struct DSProgressRing: View {
     }
 }
 
-// MARK: - DSFloatingActionButton
+// MARK: - DSFloatingActionButton (Modern ButtonStyle)
 
 struct DSFloatingActionButton: View {
     let action: () -> Void
     let onLongPress: (() -> Void)?
-    @State private var isPressed = false
     
     init(action: @escaping () -> Void, onLongPress: (() -> Void)? = nil) {
         self.action = action
@@ -294,29 +525,13 @@ struct DSFloatingActionButton: View {
         Button(action: action) {
             Image(systemName: "plus")
                 .font(.system(size: DS.Size.iconSizeLarge, weight: .bold))
-                .foregroundColor(DS.Colors.textInverse)
-                .frame(width: DS.Size.fabSize, height: DS.Size.fabSize)
-                .background(
-                    DS.Colors.primary
-                        .opacity(isPressed ? 0.8 : 1.0)
-                )
-                .clipShape(Circle())
-                .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
-                .scaleEffect(isPressed ? 0.95 : 1.0)
-                .animation(DS.Animation.fast, value: isPressed)
         }
-        .buttonStyle(PlainButtonStyle())
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    isPressed = true
-                }
-                .onEnded { _ in
-                    isPressed = false
-                }
-        )
+        .buttonStyle(DSFABStyle())
         .onLongPressGesture(minimumDuration: 0.5) {
             onLongPress?()
         }
+        .accessibilityLabel(NSLocalizedString("a11y.new.cigarette", comment: ""))
+        .accessibilityHint(NSLocalizedString("a11y.new.cigarette.hint", comment: ""))
+        .accessibilityAddTraits(.isButton)
     }
 }

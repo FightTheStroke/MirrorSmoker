@@ -16,10 +16,11 @@ A privacy-first, open-source cigarette tracking app for iOS and watchOS designed
 - **Privacy-first**: All data stays on your devices and iCloud
 
 ### Smart Integrations
-- **Siri support**: "Hey Siri, I smoked a cigarette" in English and Italian
-- **Widget support**: Home screen and Lock screen widgets for quick logging
-- **App Shortcuts**: Custom shortcuts for power users
-- **Watch app**: Native Apple Watch experience with complications
+- **Siri support**: "Hey Siri, I smoked a cigarette" in all supported languages
+- **Widget support**: ✅ Implemented - Small and medium home screen widgets with real-time sync
+- **App Shortcuts**: Custom shortcuts integration with iOS 17+ App Intents
+- **Watch app**: Native Apple Watch experience with sync capabilities
+- **App Groups**: Seamless data synchronization between main app and widget extension
 
 ### Analytics & Insights
 - **Daily/Weekly stats**: Track your progress over time
@@ -29,7 +30,8 @@ A privacy-first, open-source cigarette tracking app for iOS and watchOS designed
 - **Trend analysis**: Monitor your reduction progress
 
 ### Localization
-- **Multi-language**: English and Italian support
+- **Multi-language**: English, Italian, Spanish, French, and German support
+- **Fully localized**: All UI elements, widget text, and Siri integration
 - **Expandable**: Easy to add new languages
 
 ## 📱 Screenshots
@@ -77,6 +79,21 @@ A privacy-first, open-source cigarette tracking app for iOS and watchOS designed
 3. Start logging your cigarettes
 4. Add widgets to your Home screen for quick access
 
+### Widget Setup
+
+The app includes home screen widgets that allow quick cigarette logging:
+
+- **Small Widget**: Shows today's cigarette count with color-coded status and quick add button
+- **Medium Widget**: Displays today's count, last cigarette time, daily average, and add button
+- **Real-time Sync**: Changes in the app appear in widgets instantly and vice versa
+- **Localized**: Widget text adapts to your device language automatically
+
+To add widgets:
+1. Long press on your home screen
+2. Tap the "+" button
+3. Search for "MirrorSmoker Tracker"
+4. Choose your preferred size and add to home screen
+
 ## 🏗️ Architecture
 
 ### Technology Stack
@@ -95,25 +112,43 @@ A privacy-first, open-source cigarette tracking app for iOS and watchOS designed
 ### Project Structure
 ```
 MirrorSmokerStopper/
-├── Models/           # SwiftData models
+├── Models/           # SwiftData models (Cigarette, Tag, UserProfile, Product)
 ├── Views/            # SwiftUI views
 │   ├── Components/   # Reusable UI components
-│   └── Statistics/   # Analytics and charts
+│   ├── Statistics/   # Analytics and charts
+│   └── Settings/     # Settings and configuration views
 ├── Utilities/        # Helper classes and extensions
-├── Resources/        # Localization files
+│   ├── DesignSystem/ # App-wide design system (DS)
+│   ├── AppGroupManager/ # Widget/app data synchronization
+│   └── DateQueryHelpers/ # Date-based query utilities
+├── Resources/        # Localization files (5 languages)
+│   ├── en.lproj/     # English
+│   ├── it.lproj/     # Italian
+│   ├── es.lproj/     # Spanish
+│   ├── fr.lproj/     # French
+│   ├── de.lproj/     # German
+│   └── Fonts/        # JetBrains Mono NL font family
 └── Extensions/       # Swift extensions
 
-Widget/               # Widget extension
-Watch App/           # watchOS app
+HomeWidget/          # Widget extension with App Intents
+├── HomeWidget.swift # Main widget implementation
+├── AddCigaretteIntent.swift # Siri/Shortcuts integration
+└── HomeWidgetBundle.swift # Widget bundle
+
+MirrorSmokerStopper Watch App/ # watchOS companion app
+└── MirrorSmokerStopper Watch App Extension/
 ```
 
 ## 🎨 Design System
 
 The app uses a custom design system (`DS`) that provides:
-- Consistent colors, typography, and spacing
-- Reusable UI components
-- Dark/Light mode support
-- Accessibility features
+- **Typography**: JetBrains Mono NL font family with system font fallbacks
+- **Colors**: Comprehensive color palette with semantic naming
+- **Spacing**: 8pt grid system for consistent layouts  
+- **Components**: Reusable UI components (cards, buttons, forms)
+- **Accessibility**: VoiceOver support with descriptive labels
+- **Responsive**: Adaptive sizing for different screen sizes
+- **Dark/Light mode**: Full theme support
 
 ## 📊 Analytics & Privacy
 

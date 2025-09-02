@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import os.log
 
 struct TagPickerView: View {
     @Binding var selectedTags: [Tag]
@@ -14,6 +15,8 @@ struct TagPickerView: View {
         .blue, .red, .green, .orange, .purple, .pink, .yellow, .gray,
         .indigo, .teal, .mint, .cyan, .brown
     ]
+    
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "TagPickerView")
     
     var body: some View {
         VStack(spacing: DS.Space.md) {
@@ -127,7 +130,7 @@ struct TagPickerView: View {
         do {
             try modelContext.save()
         } catch {
-            print("Error creating tag: \(error)")
+            Self.logger.error("Error creating tag: \(error.localizedDescription)")
         }
     }
 }
@@ -180,11 +183,11 @@ struct CreateTagView: View {
             VStack(spacing: DS.Space.lg) {
                 // Tag name input
                 VStack(alignment: .leading, spacing: DS.Space.sm) {
-                    Text("Nome del tag")
+                    Text(NSLocalizedString("tag.name.label", comment: ""))
                         .font(DS.Text.body)
                         .fontWeight(.medium)
                     
-                    TextField("Esempio: Stress, Social, Pausa", text: $tagName)
+                    TextField(NSLocalizedString("tag.placeholder.example", comment: ""), text: $tagName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .textInputAutocapitalization(.words)
                 }
@@ -192,7 +195,7 @@ struct CreateTagView: View {
                 
                 // Color selection
                 VStack(alignment: .leading, spacing: DS.Space.sm) {
-                    Text("Colore")
+                    Text(NSLocalizedString("color.label", comment: ""))
                         .font(DS.Text.body)
                         .fontWeight(.medium)
                     
@@ -216,7 +219,7 @@ struct CreateTagView: View {
                 
                 // Preview
                 VStack(alignment: .leading, spacing: DS.Space.sm) {
-                    Text("Anteprima")
+                    Text(NSLocalizedString("preview.label", comment: ""))
                         .font(DS.Text.body)
                         .fontWeight(.medium)
                     
@@ -225,7 +228,7 @@ struct CreateTagView: View {
                             .fill(tagColor)
                             .frame(width: 16, height: 16)
                         
-                        Text(tagName.isEmpty ? "Nome tag" : tagName)
+                        Text(tagName.isEmpty ? NSLocalizedString("tag.name.preview", comment: "") : tagName)
                             .font(DS.Text.body)
                             .foregroundColor(DS.Colors.textPrimary)
                         
@@ -239,11 +242,11 @@ struct CreateTagView: View {
                 
                 Spacer()
             }
-            .navigationTitle("Nuovo Tag")
+            .navigationTitle(NSLocalizedString("new.tag.title", comment: ""))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Annulla") {
+                    Button(NSLocalizedString("cancel.button", comment: "")) {
                         isPresented = false
                         tagName = ""
                         tagColor = .blue
@@ -251,7 +254,7 @@ struct CreateTagView: View {
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Salva") {
+                    Button(NSLocalizedString("save.button", comment: "")) {
                         if !tagName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             onSave(tagName, tagColor)
                             tagName = ""
@@ -286,32 +289,4 @@ extension Color {
         return String(format: "#%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
     }
     
-    init?(hex: String) {
-        var hexSanitized = hex.trimmingCharacters(in: .whitespacesAndNewlines)
-        hexSanitized = hexSanitized.replacingOccurrences(of: "#", with: "")
-        
-        var rgb: UInt64 = 0
-        var r: CGFloat = 0.0
-        var g: CGFloat = 0.0
-        var b: CGFloat = 0.0
-        var a: CGFloat = 1.0
-        
-        let length = hexSanitized.count
-        guard Scanner(string: hexSanitized).scanHexInt64(&rgb) else { return nil }
-        
-        if length == 6 {
-            r = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
-            g = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
-            b = CGFloat(rgb & 0x0000FF) / 255.0
-        } else if length == 8 {
-            r = CGFloat((rgb & 0xFF000000) >> 24) / 255.0
-            g = CGFloat((rgb & 0x00FF0000) >> 16) / 255.0
-            b = CGFloat((rgb & 0x0000FF00) >> 8) / 255.0
-            a = CGFloat(rgb & 0x000000FF) / 255.0
-        } else {
-            return nil
-        }
-        
-        self.init(red: r, green: g, blue: b, opacity: a)
-    }
 }

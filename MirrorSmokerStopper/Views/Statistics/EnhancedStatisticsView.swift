@@ -9,11 +9,26 @@ struct EnhancedStatisticsView: View {
     @State private var selectedTimeRange: TimeRange = .week
     
     enum TimeRange: String, CaseIterable {
-        case today = "Oggi"
-        case yesterday = "Ieri"
-        case week = "Settimana"
-        case month = "Mese"
-        case all = "Sempre"
+        case today = "today"
+        case yesterday = "yesterday" 
+        case week = "week"
+        case month = "month"
+        case all = "all"
+        
+        var displayName: String {
+            switch self {
+            case .today:
+                return NSLocalizedString("time.range.today", comment: "")
+            case .yesterday:
+                return NSLocalizedString("time.range.yesterday", comment: "")
+            case .week:
+                return NSLocalizedString("time.range.week", comment: "")
+            case .month:
+                return NSLocalizedString("time.range.month", comment: "")
+            case .all:
+                return NSLocalizedString("time.range.all", comment: "")
+            }
+        }
     }
     
     private var currentProfile: UserProfile? {
@@ -131,18 +146,18 @@ struct EnhancedStatisticsView: View {
             .padding(DS.Space.lg)
         }
         .background(DS.Colors.background)
-        .navigationTitle("Statistiche")
+        .navigationTitle(NSLocalizedString("statistics.title.main", comment: ""))
         .navigationBarTitleDisplayMode(.large)
     }
     
     private var todayOverviewSection: some View {
         DSCard {
             VStack(spacing: DS.Space.md) {
-                DSSectionHeader("Panoramica di Oggi")
+                DSSectionHeader(NSLocalizedString("statistics.todays.overview", comment: ""))
                 
                 HStack(spacing: DS.Space.xl) {
                     VStack(alignment: .leading, spacing: DS.Space.xs) {
-                        Text("Oggi")
+                        Text(NSLocalizedString("statistics.today.label", comment: ""))
                             .font(DS.Text.caption)
                             .foregroundColor(DS.Colors.textSecondary)
                         
@@ -158,7 +173,7 @@ struct EnhancedStatisticsView: View {
                                 .foregroundColor(DS.Colors.textSecondary)
                         }
                         
-                        Text(todayCount == 1 ? "sigaretta" : "sigarette")
+                        Text(todayCount == 1 ? NSLocalizedString("statistics.today.single", comment: "") : NSLocalizedString("statistics.today.plural", comment: ""))
                             .font(DS.Text.caption)
                             .foregroundColor(DS.Colors.textSecondary)
                     }
@@ -196,15 +211,15 @@ struct EnhancedStatisticsView: View {
         Group {
             let target = todayTarget
             if todayCount == 0 {
-                Text("🎉 Giornata senza sigarette!")
+                Text(NSLocalizedString("statistics.no.cigarettes.today.full", comment: ""))
                     .font(DS.Text.caption)
                     .foregroundColor(DS.Colors.success)
             } else if todayCount <= target {
-                Text("💪 Stai rispettando il tuo piano")
+                Text(NSLocalizedString("statistics.following.plan.full", comment: ""))
                     .font(DS.Text.caption)
                     .foregroundColor(DS.Colors.warning)
             } else {
-                Text("⚠️ Hai superato l'obiettivo di oggi")
+                Text(NSLocalizedString("statistics.exceeded.goal.full", comment: ""))
                     .font(DS.Text.caption)
                     .foregroundColor(DS.Colors.danger)
             }
@@ -215,7 +230,7 @@ struct EnhancedStatisticsView: View {
         DSCard {
             VStack(spacing: DS.Space.lg) {
                 HStack {
-                    DSSectionHeader("Statistiche")
+                    DSSectionHeader(NSLocalizedString("statistics.title", comment: ""))
                     Spacer()
                     timeRangePicker
                 }
@@ -225,17 +240,17 @@ struct EnhancedStatisticsView: View {
                     GridItem(.flexible())
                 ], spacing: DS.Space.md) {
                     statCard(
-                        title: "Totale",
+                        title: NSLocalizedString("statistics.total", comment: ""),
                         value: "\(cigarettesForSelectedRange.count)",
-                        subtitle: "sigarette",
+                        subtitle: NSLocalizedString("statistics.cigarettes.unit", comment: ""),
                         color: DS.Colors.primary,
                         icon: "lungs.fill"
                     )
                     
                     statCard(
-                        title: "Media/giorno",
+                        title: NSLocalizedString("statistics.average.per.day", comment: ""),
                         value: String(format: "%.1f", averagePerDaySelectedRange),
-                        subtitle: "sigarette",
+                        subtitle: NSLocalizedString("statistics.cigarettes.unit", comment: ""),
                         color: DS.Colors.info,
                         icon: "chart.bar.fill"
                     )
@@ -247,13 +262,13 @@ struct EnhancedStatisticsView: View {
     private var timeRangePicker: some View {
         Menu {
             ForEach(TimeRange.allCases, id: \.self) { range in
-                Button(range.rawValue) {
+                Button(range.displayName) {
                     selectedTimeRange = range
                 }
             }
         } label: {
             HStack(spacing: DS.Space.xs) {
-                Text(selectedTimeRange.rawValue)
+                Text(selectedTimeRange.displayName)
                     .font(DS.Text.caption)
                     .fontWeight(.medium)
                 Image(systemName: "chevron.down")
@@ -293,7 +308,7 @@ struct EnhancedStatisticsView: View {
     private var chartsSection: some View {
         DSCard {
             VStack(spacing: DS.Space.lg) {
-                DSSectionHeader("Andamento")
+                DSSectionHeader(NSLocalizedString("statistics.trend", comment: ""))
                 barChartView
                 trendLineView
             }
@@ -302,14 +317,14 @@ struct EnhancedStatisticsView: View {
     
     private var barChartView: some View {
         VStack(alignment: .leading, spacing: DS.Space.md) {
-            Text("Distribuzione giornaliera")
+            Text(NSLocalizedString("statistics.daily.distribution.full", comment: ""))
                 .font(DS.Text.body)
                 .fontWeight(.semibold)
             
             if groupedCigarettesByDay.isEmpty {
                 StatisticsEmptyStateView(
-                    title: "Nessun dato",
-                    subtitle: "Nessuna sigaretta registrata nel periodo selezionato",
+                    title: NSLocalizedString("statistics.no.data", comment: ""),
+                    subtitle: NSLocalizedString("statistics.no.data.subtitle", comment: ""),
                     icon: "chart.bar.xaxis"
                 )
             } else {
@@ -342,14 +357,14 @@ struct EnhancedStatisticsView: View {
     
     private var trendLineView: some View {
         VStack(alignment: .leading, spacing: DS.Space.md) {
-            Text("Trend settimanale")
+            Text(NSLocalizedString("statistics.weekly.trend.full", comment: ""))
                 .font(DS.Text.body)
                 .fontWeight(.semibold)
             
             if groupedCigarettesByDay.count < 2 {
                 StatisticsEmptyStateView(
-                    title: "Dati insufficienti",
-                    subtitle: "Registra più sigarette per vedere il trend",
+                    title: NSLocalizedString("statistics.insufficient.data", comment: ""),
+                    subtitle: NSLocalizedString("statistics.insufficient.data.subtitle", comment: ""),
                     icon: "chart.line.uptrend.xyaxis"
                 )
             } else {
@@ -391,23 +406,23 @@ struct EnhancedStatisticsView: View {
     private var detailedStatsSection: some View {
         DSCard {
             VStack(spacing: DS.Space.lg) {
-                DSSectionHeader("Statistiche Dettagliate")
+                DSSectionHeader(NSLocalizedString("statistics.detailed.statistics", comment: ""))
                 VStack(spacing: DS.Space.md) {
                     detailStatRow(
-                        title: "Giorno migliore",
-                        value: highestDay != nil ? "\(highestDay!.count) sigarette" : "N/A",
+                        title: NSLocalizedString("statistics.best.day", comment: ""),
+                        value: highestDay != nil ? "\(highestDay!.count) \(NSLocalizedString("statistics.cigarettes.unit", comment: ""))" : "N/A",
                         date: highestDay?.date,
                         color: DS.Colors.success
                     )
                     detailStatRow(
-                        title: "Giorno peggiore",
-                        value: lowestDay != nil ? "\(lowestDay!.count) sigarette" : "N/A",
+                        title: NSLocalizedString("statistics.worst.day", comment: ""),
+                        value: lowestDay != nil ? "\(lowestDay!.count) \(NSLocalizedString("statistics.cigarettes.unit", comment: ""))" : "N/A",
                         date: lowestDay?.date,
                         color: DS.Colors.danger
                     )
                     detailStatRow(
-                        title: "Periodo analizzato",
-                        value: "\(groupedCigarettesByDay.count) giorni",
+                        title: NSLocalizedString("statistics.analyzed.period", comment: ""),
+                        value: String(format: NSLocalizedString("statistics.days.count", comment: ""), groupedCigarettesByDay.count),
                         color: DS.Colors.info
                     )
                 }

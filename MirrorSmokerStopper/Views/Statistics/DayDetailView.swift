@@ -34,7 +34,7 @@ struct DayDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                // Header con informazioni del giorno
+                // Header with day information
                 VStack(spacing: 12) {
                     HStack {
                         VStack(alignment: .leading) {
@@ -94,7 +94,7 @@ struct DayDetailView: View {
                     .cornerRadius(12)
                 }
                 
-                // Lista dettagliata delle sigarette
+                // Detailed list of cigarettes
                 VStack(alignment: .leading, spacing: 12) {
                     Text(NSLocalizedString("day.detail.details", comment: ""))
                         .font(.headline)

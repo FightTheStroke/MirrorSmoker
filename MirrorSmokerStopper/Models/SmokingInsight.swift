@@ -60,7 +60,7 @@ enum InsightPriority: Int, Codable {
 }
 
 struct SmokingInsight: Codable, Identifiable, Hashable {
-    let id = UUID()
+    var id = UUID()
     let title: String
     let message: String
     let actionable: String
@@ -152,7 +152,7 @@ class InsightEngine {
             let components = calendar.dateComponents([.hour, .minute], from: startOfDay, to: cigarette.timestamp)
             let minutesFromWaking = (components.hour ?? 0) * 60 + (components.minute ?? 0)
             
-            // Considera solo le prime ore del giorno (6-11 AM)
+            // Consider only early hours of the day (6-11 AM)
             if (components.hour ?? 0) >= 6 && (components.hour ?? 0) <= 11 {
                 if morningTimes.isEmpty || minutesFromWaking < morningTimes.min()! + 120 {
                     morningTimes.append(minutesFromWaking)
@@ -272,7 +272,7 @@ class InsightEngine {
         
         let todayCount = cigarettes.filter { calendar.isDate($0.timestamp, inSameDayAs: today) }.count
         let yesterdayCount = cigarettes.filter { calendar.isDate($0.timestamp, inSameDayAs: yesterday) }.count
-        let weekAverage = cigarettes.filter { $0.timestamp >= weekAgo }.count / 7
+        let _ = cigarettes.filter { $0.timestamp >= weekAgo }.count / 7 // weekAverage unused for now
         
         let dailyAverage = profile.calculateDailyAverage(from: cigarettes)
         let target = profile.todayTarget(dailyAverage: dailyAverage)

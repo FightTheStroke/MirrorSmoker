@@ -47,7 +47,7 @@ struct DS {
         static let chart4 = AppColors.chart4
         static let chart5 = AppColors.chart5
         
-        // Additional chart colors
+        // Chart colors (consolidated naming)
         static let chartSecondary = AppColors.chart2
         static let chartTertiary = AppColors.chart3
         
@@ -71,16 +71,36 @@ struct DS {
         static let link = AppColors.link
         static let linkVisited = AppColors.linkVisited
         
-        // Additional colors
-        static let secondary = AppColors.textSecondary
-        static let accent = AppColors.primary
+        // DEPRECATED: Use specific semantic colors instead
+        // static let secondary = AppColors.textSecondary // Use DS.Colors.textSecondary directly
+        // static let accent = AppColors.primary // Use DS.Colors.primary directly
+        
+        // New intermediate warning color
+        static let attention = Color.orange
     }
     
-    // MARK: - Typography (iOS System Fonts)
+    // MARK: - Typography (JetBrains Mono NL + System Fonts)
     struct Text {
+        // Custom font helpers with explicit weights
+        private static func jetBrainsMonoRegular(size: CGFloat) -> Font {
+            Font.custom("JetBrains Mono NL", size: size)
+        }
+        
+        private static func jetBrainsMonoMedium(size: CGFloat) -> Font {
+            Font.custom("JetBrains Mono NL Medium", size: size)
+        }
+        
+        private static func jetBrainsMonoSemiBold(size: CGFloat) -> Font {
+            Font.custom("JetBrains Mono NL SemiBold", size: size)
+        }
+        
+        private static func jetBrainsMonoBold(size: CGFloat) -> Font {
+            Font.custom("JetBrains Mono NL Bold", size: size)
+        }
+        
         // Large text
         static let largeTitle = Font.largeTitle.weight(.bold)
-        static let largeTitle2 = Font.largeTitle.weight(.bold)
+        static let display = jetBrainsMonoBold(size: 34) // Custom font for display
         
         // Titles
         static let title = Font.title.weight(.semibold)
@@ -94,16 +114,19 @@ struct DS {
         // Body text
         static let body = Font.body
         static let bodyBold = Font.body.weight(.semibold)
+        static let bodyMono = jetBrainsMonoRegular(size: 17) // For code/monospace content
         static let callout = Font.callout
         
         // Captions
         static let caption = Font.caption
         static let caption2 = Font.caption2
+        static let captionMono = jetBrainsMonoRegular(size: 12) // For small monospace content
         static let footnote = Font.footnote
         
         // Special
         static let small = Font.caption
         static let micro = Font.caption2
+        static let code = jetBrainsMonoRegular(size: 14) // For inline code
     }
     
     // MARK: - Spacing (8pt Grid System)
@@ -168,27 +191,51 @@ struct DS {
         )
     }
     
-    // MARK: - Animations
+    // MARK: - Animations (Motion-Aware)
     struct Animation {
-        static let fast = SwiftUI.Animation.easeInOut(duration: 0.2)
-        static let medium = SwiftUI.Animation.easeInOut(duration: 0.3)
-        static let slow = SwiftUI.Animation.easeInOut(duration: 0.5)
-        static let spring = SwiftUI.Animation.spring(response: 0.5, dampingFraction: 0.8)
-        static let bouncy = SwiftUI.Animation.spring(response: 0.6, dampingFraction: 0.6)
+        // Basic animations that respect reduce motion
+        static var fast: SwiftUI.Animation {
+            UIAccessibility.isReduceMotionEnabled ? 
+                .linear(duration: 0.1) : .easeInOut(duration: 0.2)
+        }
+        
+        static var medium: SwiftUI.Animation {
+            UIAccessibility.isReduceMotionEnabled ? 
+                .linear(duration: 0.15) : .easeInOut(duration: 0.3)
+        }
+        
+        static var slow: SwiftUI.Animation {
+            UIAccessibility.isReduceMotionEnabled ? 
+                .linear(duration: 0.2) : .easeInOut(duration: 0.5)
+        }
+        
+        // Spring animations - reduced when motion is disabled
+        static var spring: SwiftUI.Animation {
+            UIAccessibility.isReduceMotionEnabled ? 
+                .linear(duration: 0.2) : .spring(response: 0.5, dampingFraction: 0.8)
+        }
+        
+        static var bouncy: SwiftUI.Animation {
+            UIAccessibility.isReduceMotionEnabled ? 
+                .linear(duration: 0.15) : .spring(response: 0.6, dampingFraction: 0.6)
+        }
+        
+        // Decorative animations - disabled when reduce motion is on
+        static var decorative: SwiftUI.Animation? {
+            UIAccessibility.isReduceMotionEnabled ? nil : .spring(response: 0.4, dampingFraction: 0.7)
+        }
     }
 }
 
-// MARK: - Shadow Helper (separate type to avoid nesting name)
+// MARK: - Shadow Helper
 struct DSShadow {
     let color: Color
     let radius: CGFloat
     let x: CGFloat
     let y: CGFloat
     
-    func apply() -> some View {
-        EmptyView()
-            .shadow(color: color, radius: radius, x: x, y: y)
-    }
+    // REMOVED: apply() method was misleading (returned EmptyView)
+    // Use View.dsShadow(_:) extension instead
 }
 
 // MARK: - View Extensions
@@ -200,17 +247,17 @@ extension View {
     func dsCard() -> some View {
         self
             .background(DS.Colors.card)
-            .cornerRadius(DS.Size.cardRadius)
-            .dsShadow(DS.Shadow.small)
+            .cornerRadius(DS.AdaptiveSize.cardRadius)
+            .dsAdaptiveShadow(.small)
     }
     
     func dsTag() -> some View {
         self
-            .padding(.horizontal, DS.Space.sm)
-            .padding(.vertical, DS.Space.xs)
+            .padding(.horizontal, DS.AdaptiveSpace.sm)
+            .padding(.vertical, DS.AdaptiveSpace.xs)
             .background(DS.Colors.tagWork)
             .foregroundColor(DS.Colors.textInverse)
-            .cornerRadius(DS.Size.tagRadius)
+            .cornerRadius(DS.AdaptiveSize.tagRadius)
             .font(DS.Text.caption)
     }
 }

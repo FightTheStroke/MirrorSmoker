@@ -8,11 +8,11 @@
 import SwiftUI
 
 extension Color {
-    /// Create a Color from a hex string
-    static func fromHex(_ hex: String) -> Color? {
+    /// Create a Color from a hex string (e.g. "#FFAA00", "FFAA00", "FA0", "AARRGGBB")
+    init?(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
         var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
+        guard Scanner(string: hex).scanHexInt64(&int) else { return nil }
         let a, r, g, b: UInt64
         switch hex.count {
         case 3: // RGB (12-bit)
@@ -25,7 +25,7 @@ extension Color {
             return nil
         }
         
-        return Color(
+        self = Color(
             .sRGB,
             red: Double(r) / 255,
             green: Double(g) / 255,
@@ -34,7 +34,7 @@ extension Color {
         )
     }
     
-    /// Convert Color to hex string
+    /// Convert Color to hex string (#RRGGBB)
     func toHex() -> String {
         let uiColor = UIColor(self)
         var red: CGFloat = 0

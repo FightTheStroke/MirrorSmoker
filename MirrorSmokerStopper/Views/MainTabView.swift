@@ -10,7 +10,7 @@ struct MainTabView: View {
             }
             .tabItem {
                 Image(systemName: "house")
-                Text("Home")
+                Text(NSLocalizedString("tab.home", comment: ""))
             }
             .tag(0)
             
@@ -19,7 +19,7 @@ struct MainTabView: View {
             }
             .tabItem {
                 Image(systemName: "chart.bar")
-                Text("Statistiche")
+                Text(NSLocalizedString("tab.stats.main", comment: ""))
             }
             .tag(1)
             
@@ -28,7 +28,7 @@ struct MainTabView: View {
             }
             .tabItem {
                 Image(systemName: "gear")
-                Text("Impostazioni")
+                Text(NSLocalizedString("tab.settings.main", comment: ""))
             }
             .tag(2)
         }

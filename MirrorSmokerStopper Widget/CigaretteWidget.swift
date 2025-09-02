@@ -102,7 +102,7 @@ struct CigaretteTimelineProvider: TimelineProvider {
         let snap = WidgetStore.readSnapshot()
         let currentDate = Date()
         let entry = CigaretteTimelineEntry(date: currentDate, todayCount: snap.todayCount, lastCigaretteTime: snap.lastCigaretteTime)
-        // Aggiorna ogni 15 minuti; si aggiorna anche esplicitamente da app/intent
+        // Updates every 15 minutes; also updates explicitly from app/intent
         let next = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate) ?? currentDate.addingTimeInterval(900)
         let timeline = Timeline(entries: [entry], policy: .after(next))
         completion(timeline)

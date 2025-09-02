@@ -9,6 +9,6 @@ import SwiftUI
 
 extension Tag {
     var color: Color {
-        Color.fromHex(colorHex) ?? .red
+        Color(hex: colorHex) ?? .red
     }
 }

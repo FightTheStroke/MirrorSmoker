@@ -8,6 +8,10 @@
 import AppIntents
 import SwiftData
 import SwiftUI
+import os.log
+
+// MARK: - Logger
+private let logger = Logger(subsystem: "com.mirror-labs.mirrorsmoker", category: "SmokingIntents")
 
 // MARK: - Shared Model Container Access
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
@@ -31,7 +35,7 @@ extension AppIntent {
         do {
             return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
-            print("Failed to create ModelContainer in Intent: \(error)")
+            logger.critical("Failed to create ModelContainer in Intent: \(error)")
             // Fallback to in-memory container
             let fallbackConfig = ModelConfiguration(
                 "MirrorSmokerModel_v2_memory",
@@ -52,17 +56,19 @@ extension AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct AddCigaretteIntent: AppIntent {
-    static var title: LocalizedStringResource = "Add Cigarette"
-    static var description = IntentDescription("Record a cigarette you just smoked")
+    static var title: LocalizedStringResource = "intent.add.cigarette.title"
+    static var description = IntentDescription(NSLocalizedString("intent.record.cigarette.description", comment: ""))
     
     static var suggestedInvocationPhrase: String = "I smoked a cigarette"
     
-    @Parameter(title: "Tags", description: "Optional tags to add to this cigarette")
+    @Parameter(title: NSLocalizedString("intent.record.cigarette.tags.title", comment: ""), description: NSLocalizedString("intent.record.cigarette.tags.description", comment: ""))
     var tags: [String]?
     
-    @Parameter(title: "Note", description: "Optional note about this cigarette")
+    @Parameter(title: NSLocalizedString("intent.record.cigarette.note.title", comment: ""), description: NSLocalizedString("intent.record.cigarette.note.description", comment: ""))
     var note: String?
     
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "SmokingIntents")
+
     func perform() async throws -> some IntentResult & ProvidesDialog & ShowsSnippetView {
         let modelContext = ModelContext(sharedModelContainer)
         
@@ -101,8 +107,8 @@ struct AddCigaretteIntent: AppIntent {
         try modelContext.save()
         
         let message = tags?.isEmpty == false ? 
-            "Cigarette recorded with tags: \(tags?.joined(separator: ", ") ?? "")" :
-            "Cigarette recorded successfully"
+            String(format: NSLocalizedString("intent.record.cigarette.response.with.tags", comment: ""), tags?.joined(separator: ", ") ?? "") :
+            NSLocalizedString("intent.record.cigarette.response.success", comment: "")
             
         return .result(dialog: IntentDialog(stringLiteral: message)) {
             CigaretteRecordedView(timestamp: cigarette.timestamp, tags: tags)
@@ -114,10 +120,10 @@ struct AddCigaretteIntent: AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct GetTodayCountIntent: AppIntent {
-    static var title: LocalizedStringResource = "Get Today's Cigarette Count"
-    static var description = IntentDescription("Get the number of cigarettes smoked today")
+    static var title: LocalizedStringResource = "intent.get.count.title"
+    static var description = IntentDescription(NSLocalizedString("intent.today.count.description", comment: ""))
     
-    static var suggestedInvocationPhrase: String = "How many cigarettes did I smoke today"
+    static var suggestedInvocationPhrase: String = NSLocalizedString("intent.today.count.phrase", comment: "")
     
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let modelContext = ModelContext(sharedModelContainer)
@@ -150,7 +156,7 @@ struct GetTodayCountIntent: AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct GetWeeklyStatsIntent: AppIntent {
-    static var title: LocalizedStringResource = "Get Weekly Smoking Stats"
+    static var title: LocalizedStringResource = "intent.get.weekly.stats.title"
     static var description = IntentDescription("Get your smoking statistics for this week")
     
     static var suggestedInvocationPhrase: String = "Show my weekly smoking stats"
@@ -184,7 +190,7 @@ struct GetWeeklyStatsIntent: AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct SetQuitGoalIntent: AppIntent {
-    static var title: LocalizedStringResource = "Set Quit Goal"
+    static var title: LocalizedStringResource = "intent.set.quit.goal.title"
     static var description = IntentDescription("Set your target date to quit smoking")
     
     static var suggestedInvocationPhrase: String = "Set my quit smoking date"
@@ -227,7 +233,7 @@ struct SetQuitGoalIntent: AppIntent {
 
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct GetMotivationIntent: AppIntent {
-    static var title: LocalizedStringResource = "Get Motivation"
+    static var title: LocalizedStringResource = "intent.get.motivation.title"
     static var description = IntentDescription("Get a motivational message to help with quitting smoking")
     
     static var suggestedInvocationPhrase: String = "Give me smoking motivation"

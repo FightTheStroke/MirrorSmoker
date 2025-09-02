@@ -200,3 +200,57 @@
 "time.ago.minutes" = "%dm fa";
 "trend.from.last.week" = "dalla settimana scorsa";
 "trend.same.as.last.week" = "come la settimana scorsa";
+
+// Stringhe Settings mancanti
+"settings.goals.title" = "Obiettivi per Smettere";
+"settings.goals.subtitle" = "Imposta i tuoi obiettivi per smettere di fumare";
+"settings.daily.goal" = "Obiettivo sigarette giornaliere";
+"settings.daily.goal.unit" = "al giorno";
+"settings.quit.date" = "Data obiettivo cessazione";
+"settings.quit.date.not.set" = "Non impostata";
+"settings.gradual.reduction" = "Riduzione graduale";
+"settings.current.target" = "Target giornaliero attuale";
+"settings.current.target.unit" = "oggi";
+"settings.reduction.plan" = "Piano di Riduzione Graduale";
+"settings.reduction.plan.description" = "Riduci gradualmente da %d a 0 sigarette in %d giorni";
+"settings.profile.section" = "Profilo";
+"settings.name.placeholder" = "Il tuo nome";
+"settings.weight.placeholder" = "0";
+"settings.age.start.smoking" = "Età quando hai iniziato a fumare";
+"settings.age.years" = "anni";
+"settings.weight.kg" = "kg";
+"settings.weight.invalid" = "Inserisci un peso valido (1-300 kg)";
+"settings.age.invalid" = "Inserisci un'età valida (10-80 anni)";
+"settings.current.age.info" = "Età attuale";
+"settings.smoking.years.info" = "Anni di fumo";
+"settings.health.info.title" = "Informazioni Salute";
+"settings.health.info.subtitle" = "Informazioni basate sui tuoi dati personali";
+"settings.app.info.title" = "Informazioni App";
+
+// Overview Oggi
+"today.overview.title" = "Progresso di Oggi";
+"today.perfect" = "Perfetto!";
+"today.no.cigarettes" = "Giornata senza sigarette";
+"today.excellent" = "Ottimo lavoro!";
+"today.under.half.goal" = "Sei sotto la metà del tuo obiettivo";
+"today.good.progress" = "Buon progresso";
+"today.approaching.limit" = "Ti stai avvicinando al limite";
+"today.attention" = "Attenzione";
+"today.near.daily.limit" = "Vicino al limite giornaliero";
+"today.goal.exceeded" = "Obiettivo superato";
+"today.try.reduce.tomorrow" = "Prova a ridurre domani";
+"today.goal.cessation" = "Obiettivo cessazione:";
+"today.days.remaining" = "%d giorni rimanenti";
+"today.label" = "Oggi";
+
+// Enhanced Weekly Chart
+"weekly.total" = "Totale Settimanale";
+"daily.average" = "Media Giorn.";
+"cigarettes.plural" = "sigarette";
+
+// Quick Stats
+"days.7" = "7 giorni";
+"per.day" = "al giorno";
+
+// Missing strings from views
+"history.no.history" = "Nessun dato disponibile";

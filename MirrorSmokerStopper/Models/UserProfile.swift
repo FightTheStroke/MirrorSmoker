@@ -48,6 +48,9 @@ final class UserProfile {
     var themePreference: String = "system"
     var lastUpdated: Date = Date()
     
+    var quitDate: Date? // Data target per smettere completamente
+    var enableGradualReduction: Bool = true // Se abilitare la riduzione graduale
+    
     // Computed property for smokingType that handles nil/invalid values gracefully
     var smokingType: SmokingType {
         get {
@@ -71,6 +74,41 @@ final class UserProfile {
         max(0, age - startedSmokingAge)
     }
     
+    func calculateDailyAverage(from cigarettes: [Any]) -> Double {
+        // Questo sarà chiamato dal contesto che ha accesso ai dati
+        // Per ora ritorna un valore di default, verrà sovrascritto
+        return 15.0
+    }
+    
+    func todayTarget(dailyAverage: Double) -> Int {
+        guard enableGradualReduction, let quitDate = quitDate else {
+            return Int(dailyAverage) // Se non c'è piano, usa la media attuale
+        }
+        
+        let calendar = Calendar.current
+        let today = Date()
+        
+        // Se abbiamo già superato la data target, il target è 0
+        if today >= quitDate {
+            return 0
+        }
+        
+        // Calcola i giorni totali del piano e quelli rimanenti
+        let startDate = Date() // Il piano inizia da oggi
+        let totalDays = calendar.dateComponents([.day], from: startDate, to: quitDate).day ?? 1
+        let daysRemaining = calendar.dateComponents([.day], from: today, to: quitDate).day ?? 1
+        
+        if totalDays <= 0 || daysRemaining <= 0 {
+            return 0
+        }
+        
+        // Decrescita lineare: da dailyAverage a 0 in totalDays giorni
+        let dailyReduction = dailyAverage / Double(totalDays)
+        let targetToday = dailyAverage - (dailyReduction * Double(totalDays - daysRemaining))
+        
+        return max(0, Int(ceil(targetToday)))
+    }
+    
     init(
         id: UUID = UUID(),
         name: String = "",
@@ -79,7 +117,9 @@ final class UserProfile {
         smokingType: SmokingType = .cigarettes,
         startedSmokingAge: Int = 18,
         notificationsEnabled: Bool = true,
-        themePreference: String = "system"
+        themePreference: String = "system",
+        quitDate: Date? = nil,
+        enableGradualReduction: Bool = true
     ) {
         self.id = id
         self.name = name
@@ -89,6 +129,8 @@ final class UserProfile {
         self.startedSmokingAge = startedSmokingAge
         self.notificationsEnabled = notificationsEnabled
         self.themePreference = themePreference
+        self.quitDate = quitDate
+        self.enableGradualReduction = enableGradualReduction
         self.lastUpdated = Date()
     }
 }

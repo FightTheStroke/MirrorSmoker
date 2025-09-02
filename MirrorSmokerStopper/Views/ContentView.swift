@@ -38,26 +38,6 @@ struct ContentView: View {
         return formatter.string(from: lastCigarette.timestamp)
     }
     
-    private var weeklyStats: [(date: Date, count: Int)] {
-        let calendar = Calendar.current
-        let now = Date()
-        var stats: [(date: Date, count: Int)] = []
-        
-        for i in 0..<7 {
-            let date = calendar.date(byAdding: .day, value: -i, to: now)!
-            let dayStart = calendar.startOfDay(for: date)
-            let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart)!
-            
-            let dayCount = allCigarettes.filter { cigarette in
-                cigarette.timestamp >= dayStart && cigarette.timestamp < dayEnd
-            }.count
-            
-            stats.append((date: dayStart, count: dayCount))
-        }
-        
-        return stats
-    }
-    
     private var weeklyCount: Int {
         let calendar = Calendar.current
         let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
@@ -90,7 +70,7 @@ struct ContentView: View {
         false
     }
     
-    // MARK: - New Computed Properties for Enhanced UI
+    // MARK: - New Computed Properties for Enhanced UI basate sui veri obiettivi
     
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
@@ -106,19 +86,46 @@ struct ContentView: View {
         }
     }
     
+    private var dailyAverage: Double {
+        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
+        let recentCigarettes = allCigarettes.filter { $0.timestamp >= thirtyDaysAgo }
+        return recentCigarettes.isEmpty ? 0.0 : Double(recentCigarettes.count) / 30.0
+    }
+    
+    private var todayTarget: Int {
+        guard let profile = currentProfile, let quitDate = profile.quitDate else { 
+            return max(1, Int(dailyAverage))
+        }
+        
+        let daysToQuit = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 1
+        if daysToQuit <= 0 { return 0 }
+        
+        let dailyReduction = dailyAverage / Double(daysToQuit)
+        let targetToday = dailyAverage - dailyReduction
+        return max(0, Int(ceil(targetToday)))
+    }
+    
     private var colorForTodayCount: Color {
+        let target = todayTarget
+        
         switch todayCount {
         case 0:
-            return DS.Colors.success
-        case 1...5:
-            return DS.Colors.primary
-        case 6...10:
-            return DS.Colors.warning
-        case 11...15:
-            return DS.Colors.danger
+            return DS.Colors.success // Verde - perfetto!
+        case 1..<Int(Double(target) * 0.5):
+            return DS.Colors.success // Verde - sotto metà obiettivo
+        case Int(Double(target) * 0.5)..<Int(Double(target) * 0.8):
+            return DS.Colors.warning // Giallo - vicino all'obiettivo
+        case Int(Double(target) * 0.8)..<target:
+            return Color.orange // Arancione - molto vicino al limite
+        case target:
+            return DS.Colors.danger // Rosso - ha raggiunto il limite
         default:
-            return DS.Colors.cigarette
+            return DS.Colors.cigarette // Rosso scuro - ha superato l'obiettivo
         }
+    }
+    
+    private var progressPercentage: Double {
+        return min(1.0, Double(todayCount) / Double(todayTarget))
     }
     
     private var timeAgoString: String {
@@ -137,274 +144,402 @@ struct ContentView: View {
         }
     }
     
-    private var weeklyTrendDirection: DSHealthCard.TrendDirection? {
-        let previousWeekCount = allCigarettes.filter { cigarette in
-            let calendar = Calendar.current
-            let twoWeeksAgo = calendar.date(byAdding: .day, value: -14, to: Date())!
-            let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
-            return cigarette.timestamp >= twoWeeksAgo && cigarette.timestamp < oneWeekAgo
-        }.count
-        
-        let currentWeekCount = weeklyCount
-        
-        if previousWeekCount == 0 && currentWeekCount == 0 {
-            return nil
-        } else if previousWeekCount == 0 {
-            return .up
-        } else if currentWeekCount < previousWeekCount {
-            return .down
-        } else if currentWeekCount > previousWeekCount {
-            return .up
-        } else {
-            return .stable
-        }
-    }
-    
-    private var weeklyTrendText: String {
-        guard let trend = weeklyTrendDirection else { return "" }
-        
-        let previousWeekCount = allCigarettes.filter { cigarette in
-            let calendar = Calendar.current
-            let twoWeeksAgo = calendar.date(byAdding: .day, value: -14, to: Date())!
-            let oneWeekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
-            return cigarette.timestamp >= twoWeeksAgo && cigarette.timestamp < oneWeekAgo
-        }.count
-        
-        let difference = abs(weeklyCount - previousWeekCount)
-        
-        switch trend {
-        case .up:
-            return "+\(difference) from last week"
-        case .down:
-            return "-\(difference) from last week"
-        case .stable:
-            return "same as last week"
-        }
-    }
-    
     var body: some View {
+        mainContentView
+    }
+    
+    private var mainContentView: some View {
         ZStack(alignment: .bottomTrailing) {
-            ScrollView {
-                VStack(spacing: DS.Space.lg) {
-                    // Hero section with today's stats
-                    DSCard {
-                        VStack(spacing: DS.Space.lg) {
-                            // Header
-                            HStack {
-                                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text(greeting)
-                                        .font(DS.Text.title2)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(DS.Colors.textPrimary)
-                                    
-                                    Text(currentProfile?.name ?? NSLocalizedString("app.subtitle", comment: ""))
-                                        .font(DS.Text.caption)
-                                        .foregroundStyle(DS.Colors.textSecondary)
-                                }
-                                
-                                Spacer()
-                                
-                                if todayCount > 0 {
-                                    DSProgressRing(
-                                        progress: Double(todayCount) / 20.0,
-                                        size: 50,
-                                        lineWidth: 4,
-                                        color: colorForTodayCount
-                                    )
-                                }
-                            }
-                            
-                            // Today's main stats
-                            HStack(spacing: DS.Space.xl) {
-                                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text(NSLocalizedString("statistics.today", comment: ""))
-                                        .font(DS.Text.caption)
-                                        .foregroundStyle(DS.Colors.textSecondary)
-                                    
-                                    Text("\(todayCount)")
-                                        .font(DS.Text.largeTitle)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(colorForTodayCount)
-                                    
-                                    Text(todayCount == 1 ? NSLocalizedString("cigarette.singular", comment: "") : NSLocalizedString("cigarette.plural", comment: ""))
-                                        .font(DS.Text.caption)
-                                        .foregroundStyle(DS.Colors.textSecondary)
-                                }
-                                
-                                Spacer()
-                                
-                                if todayCount > 0 {
-                                    VStack(alignment: .trailing, spacing: DS.Space.xs) {
-                                        Text(NSLocalizedString("last.one", comment: ""))
-                                            .font(DS.Text.caption)
-                                            .foregroundStyle(DS.Colors.textSecondary)
-                                        
-                                        Text(lastCigaretteTime)
-                                            .font(DS.Text.title3)
-                                            .fontWeight(.semibold)
-                                            .foregroundStyle(DS.Colors.textPrimary)
-                                        
-                                        Text(timeAgoString)
-                                            .font(DS.Text.caption)
-                                            .foregroundStyle(DS.Colors.textSecondary)
-                                    }
-                                }
-                            }
-                            
-                            // Quick action buttons
-                            HStack(spacing: DS.Space.md) {
-                                DSButton(
-                                    NSLocalizedString("button.smoked.one", comment: ""),
-                                    icon: "plus.circle.fill",
-                                    style: .primary
-                                ) {
-                                    addCigarette()
-                                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                                    impact.impactOccurred()
-                                }
-                                
-                                DSButton(
-                                    NSLocalizedString("button.add.with.tags", comment: ""),
-                                    icon: "tag.circle.fill",
-                                    style: .secondary
-                                ) {
-                                    showingTagPicker = true
-                                }
-                            }
-                        }
-                    }
-                    
-                    // Quick stats overview
-                    DSCard {
-                        VStack(spacing: DS.Space.lg) {
-                            DSSectionHeader(NSLocalizedString("quick.stats", comment: ""))
-                            
-                            LazyVGrid(columns: [
-                                GridItem(.flexible()),
-                                GridItem(.flexible()),
-                                GridItem(.flexible())
-                            ], spacing: DS.Space.md) {
-                                DSHealthCard(
-                                    title: NSLocalizedString("stats.this.week", comment: ""),
-                                    value: "\(weeklyCount)",
-                                    subtitle: weeklyTrendText,
-                                    icon: "calendar.badge.clock",
-                                    color: DS.Colors.primary,
-                                    trend: weeklyTrendDirection
-                                )
-                                
-                                DSHealthCard(
-                                    title: NSLocalizedString("stats.this.month", comment: ""),
-                                    value: "\(monthlyCount)",
-                                    subtitle: String(format: "%.1f/day", Double(monthlyCount) / 30.0),
-                                    icon: "chart.bar.xaxis",
-                                    color: DS.Colors.warning,
-                                    trend: nil
-                                )
-                                
-                                DSHealthCard(
-                                    title: NSLocalizedString("stats.total", comment: ""),
-                                    value: "\(allTimeCount)",
-                                    subtitle: NSLocalizedString("all.time", comment: ""),
-                                    icon: "infinity",
-                                    color: DS.Colors.info,
-                                    trend: nil
-                                )
-                            }
-                        }
-                    }
-                    
-                    // Today's cigarettes list
-                    if !todaysCigarettes.isEmpty {
-                        DSCard {
-                            VStack(spacing: DS.Space.lg) {
-                                DSSectionHeader(NSLocalizedString("todays.cigarettes", comment: ""))
-                                
-                                TodayCigarettesList(
-                                    todayCigarettes: todaysCigarettes,
-                                    onDelete: { cigarette in
-                                        deleteCigarette(cigarette)
-                                    },
-                                    onAddTags: { cigarette in
-                                        lastAddedCigarette = cigarette
-                                        showingTagPicker = true
-                                    }
-                                )
-                            }
-                        }
-                    }
-                    
-                    // Weekly chart preview
-                    DSCard {
-                        VStack(spacing: DS.Space.lg) {
-                            HStack {
-                                DSSectionHeader(NSLocalizedString("weekly.chart.title", comment: ""))
-                                Spacer()
-                                
-                                NavigationLink(destination: EnhancedStatisticsView()) {
-                                    Text(NSLocalizedString("view.all", comment: ""))
-                                        .font(DS.Text.caption)
-                                        .foregroundStyle(DS.Colors.primary)
-                                }
-                            }
-                            
-                            EnhancedWeeklyChart(data: weeklyStats.reversed())
-                        }
-                    }
-                }
-                .padding(DS.Space.lg)
+            scrollContent
+            floatingActionButton
+        }
+    }
+    
+    private var scrollContent: some View {
+        ScrollView {
+            VStack(spacing: DS.Space.lg) {
+                todayOverviewSection
+                heroSection
+                quickStatsSection
+                todaysCigarettesSection
             }
-            .background(DS.Colors.background)
-            .sheet(isPresented: $showingSettings) {
-                SettingsView()
-            }
-            .sheet(isPresented: $showingHistory) {
-                HistoryView()
-            }
-            .sheet(isPresented: $showingTagPicker) {
-                NavigationView {
-                    TagPickerView(selectedTags: $selectedTags)
-                        .navigationTitle(NSLocalizedString("select.tags", comment: ""))
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button(NSLocalizedString("done", comment: "")) {
-                                    if let cigarette = lastAddedCigarette {
-                                        updateCigaretteTags(cigarette, tags: selectedTags)
-                                    } else {
-                                        addCigaretteWithTags(selectedTags)
-                                    }
-                                    showingTagPicker = false
-                                    selectedTags.removeAll()
-                                    lastAddedCigarette = nil
+            .padding(DS.Space.lg)
+        }
+        .background(DS.Colors.background)
+        .sheet(isPresented: $showingSettings) {
+            SettingsView()
+        }
+        .sheet(isPresented: $showingHistory) {
+            HistoryView()
+        }
+        .sheet(isPresented: $showingTagPicker) {
+            NavigationView {
+                TagPickerView(selectedTags: $selectedTags)
+                    .navigationTitle(NSLocalizedString("select.tags", comment: ""))
+                    .navigationBarTitleDisplayMode(.inline)
+                    .presentationDetents([.medium, .large])
+                    .presentationDragIndicator(.visible)
+                    .presentationContentInteraction(.scrolls)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(NSLocalizedString("done", comment: "")) {
+                                if let cigarette = lastAddedCigarette {
+                                    updateCigaretteTags(cigarette, tags: selectedTags)
+                                } else {
+                                    addCigaretteWithTags(selectedTags)
                                 }
-                                .fontWeight(.semibold)
+                                showingTagPicker = false
+                                selectedTags.removeAll()
+                                lastAddedCigarette = nil
                             }
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button(NSLocalizedString("cancel", comment: "")) {
-                                    showingTagPicker = false
-                                    selectedTags.removeAll()
-                                    lastAddedCigarette = nil
-                                }
+                            .fontWeight(.semibold)
+                        }
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(NSLocalizedString("cancel", comment: "")) {
+                                showingTagPicker = false
+                                selectedTags.removeAll()
+                                lastAddedCigarette = nil
                             }
                         }
-                }
+                    }
+            }
+            .presentationBackground(.regularMaterial)
+        }
+    }
+    
+    private var heroSection: some View {
+        DSCard {
+            VStack(spacing: DS.Space.lg) {
+                headerSection
+                todayStatsSection
+                actionButtonsSection
+            }
+        }
+    }
+    
+    private var headerSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                Text(greeting)
+                    .font(DS.Text.title2)
+                    .fontWeight(.bold)
+                    .foregroundStyle(DS.Colors.textPrimary)
+                
+                Text(currentProfile?.name ?? NSLocalizedString("app.subtitle", comment: ""))
+                    .font(DS.Text.caption)
+                    .foregroundStyle(DS.Colors.textSecondary)
             }
             
-            // Floating Action Button - POSITIONED ON THE RIGHT
-            DSFloatingActionButton {
+            Spacer()
+            
+            if todayCount > 0 {
+                DSProgressRing(
+                    progress: progressPercentage,
+                    size: 50,
+                    lineWidth: 4,
+                    color: colorForTodayCount
+                )
+            }
+        }
+    }
+    
+    private var todayStatsSection: some View {
+        HStack(spacing: DS.Space.xl) {
+            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                Text(NSLocalizedString("statistics.today", comment: ""))
+                    .font(DS.Text.caption)
+                    .foregroundStyle(DS.Colors.textSecondary)
+                
+                HStack(alignment: .firstTextBaseline, spacing: DS.Space.xs) {
+                    Text("\(todayCount)")
+                        .font(DS.Text.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundStyle(colorForTodayCount)
+                    
+                    Text("/ \(todayTarget)")
+                        .font(DS.Text.title3)
+                        .fontWeight(.medium)
+                        .foregroundStyle(DS.Colors.textSecondary)
+                }
+                
+                Text(todayCount == 1 ? NSLocalizedString("cigarette.singular", comment: "") : NSLocalizedString("cigarette.plural", comment: ""))
+                    .font(DS.Text.caption)
+                    .foregroundStyle(DS.Colors.textSecondary)
+            }
+            
+            Spacer()
+            
+            if todayCount > 0 {
+                VStack(alignment: .trailing, spacing: DS.Space.xs) {
+                    Text(NSLocalizedString("last.one", comment: ""))
+                        .font(DS.Text.caption)
+                        .foregroundStyle(DS.Colors.textSecondary)
+                    
+                    Text(lastCigaretteTime)
+                        .font(DS.Text.title3)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(DS.Colors.textPrimary)
+                    
+                    Text(timeAgoString)
+                        .font(DS.Text.caption)
+                        .foregroundStyle(DS.Colors.textSecondary)
+                }
+            }
+        }
+    }
+    
+    private var actionButtonsSection: some View {
+        HStack(spacing: DS.Space.md) {
+            DSButton(
+                NSLocalizedString("button.smoked.one", comment: ""),
+                icon: "plus.circle.fill",
+                style: .primary
+            ) {
                 addCigarette()
                 let impact = UIImpactFeedbackGenerator(style: .medium)
                 impact.impactOccurred()
-                
-                if askForTagAfterAdding {
-                    lastAddedCigarette = todaysCigarettes.first
-                    showingTagPicker = true
+            }
+            
+            DSButton(
+                NSLocalizedString("button.add.with.tags", comment: ""),
+                icon: "tag.circle.fill",
+                style: .secondary
+            ) {
+                showingTagPicker = true
+            }
+        }
+    }
+    
+    private var todaysCigarettesSection: some View {
+        Group {
+            if !todaysCigarettes.isEmpty {
+                DSCard {
+                    VStack(spacing: DS.Space.lg) {
+                        DSSectionHeader(NSLocalizedString("todays.cigarettes", comment: ""))
+                        TodayCigarettesList(
+                            todayCigarettes: todaysCigarettes,
+                            onDelete: { cigarette in
+                                deleteCigarette(cigarette)
+                            },
+                            onAddTags: { cigarette in
+                                lastAddedCigarette = cigarette
+                                showingTagPicker = true
+                            }
+                        )
+                    }
                 }
             }
-            .padding(.bottom, 100) // Space for tab bar
-            .padding(.trailing, DS.Space.lg)
         }
+    }
+    
+    private var floatingActionButton: some View {
+        DSFloatingActionButton {
+            addCigarette()
+            let impact = UIImpactFeedbackGenerator(style: .medium)
+            impact.impactOccurred()
+            
+            if askForTagAfterAdding {
+                lastAddedCigarette = todaysCigarettes.first
+                showingTagPicker = true
+            }
+        }
+        .padding(.bottom, 100)
+        .padding(.trailing, DS.Space.lg)
+    }
+    
+    // MARK: - View Sections
+    
+    private var todayOverviewSection: some View {
+        DSCard {
+            VStack(spacing: DS.Space.md) {
+                DSSectionHeader("Panoramica di Oggi")
+                
+                HStack(spacing: DS.Space.lg) {
+                    // Progress circle
+                    VStack(spacing: DS.Space.sm) {
+                        ZStack {
+                            DSProgressRing(
+                                progress: progressPercentage,
+                                size: 80,
+                                lineWidth: 8,
+                                color: colorForTodayCount
+                            )
+                            
+                            VStack(spacing: DS.Space.xxs) {
+                                Text("\(todayCount)")
+                                    .font(DS.Text.title2)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(colorForTodayCount)
+                                Text("/ \(todayTarget)")
+                                    .font(DS.Text.caption)
+                                    .foregroundColor(DS.Colors.textSecondary)
+                            }
+                        }
+                        
+                        Text("Oggi")
+                            .font(DS.Text.caption)
+                            .foregroundColor(DS.Colors.textSecondary)
+                    }
+                    
+                    // Status message e info piano
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        statusMessageWithCorrectLogic
+                        
+                        // Mostra la media e il piano se esistono
+                        if dailyAverage > 0 {
+                            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                Text("La tua media: \(String(format: "%.1f", dailyAverage))/giorno")
+                                    .font(DS.Text.caption)
+                                    .foregroundColor(DS.Colors.textSecondary)
+                                
+                                if let quitDate = currentProfile?.quitDate {
+                                    Text("Obiettivo: \(quitDate.formatted(date: .abbreviated, time: .omitted))")
+                                        .font(DS.Text.caption)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(DS.Colors.primary)
+                                    
+                                    let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
+                                    if daysRemaining > 0 {
+                                        Text("\(daysRemaining) giorni al traguardo")
+                                            .font(DS.Text.caption)
+                                            .foregroundColor(DS.Colors.textTertiary)
+                                    } else if daysRemaining == 0 {
+                                        Text("🎯 Oggi è il grande giorno!")
+                                            .font(DS.Text.caption)
+                                            .fontWeight(.semibold)
+                                            .foregroundColor(DS.Colors.success)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    Spacer()
+                }
+            }
+        }
+    }
+    
+    private var statusMessageWithCorrectLogic: some View {
+        Group {
+            let target = todayTarget
+            
+            if todayCount == 0 {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("🎉 Perfetto!")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.success)
+                    Text("Giornata senza sigarette")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else if todayCount < Int(Double(target) * 0.5) {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("💚 Ottimo!")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.success)
+                    Text("Sotto metà dell'obiettivo")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else if todayCount < Int(Double(target) * 0.8) {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("💛 Bene")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.warning)
+                    Text("Stai rispettando il piano")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else if todayCount < target {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("🧡 Attenzione")
+                        .font(DS.Text.headline)
+                        .foregroundColor(Color.orange)
+                    Text("Vicino al limite del piano")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else if todayCount == target {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("🔴 Limite raggiunto")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.danger)
+                    Text("Hai raggiunto l'obiettivo di oggi")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            } else {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    Text("🚨 Fuori piano")
+                        .font(DS.Text.headline)
+                        .foregroundColor(DS.Colors.cigarette)
+                    Text("Hai superato di \(todayCount - target)")
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            }
+        }
+    }
+    
+    private var quickStatsSection: some View {
+        DSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader(NSLocalizedString("quick.stats", comment: ""))
+                
+                LazyVGrid(columns: [
+                    GridItem(.flexible()),
+                    GridItem(.flexible()),
+                    GridItem(.flexible())
+                ], spacing: DS.Space.md) {
+                    quickStatCard(
+                        title: NSLocalizedString("stats.this.week", comment: ""),
+                        value: "\(weeklyCount)",
+                        subtitle: NSLocalizedString("days.7", comment: ""),
+                        color: DS.Colors.primary
+                    )
+                    
+                    quickStatCard(
+                        title: NSLocalizedString("stats.this.month", comment: ""),
+                        value: "\(monthlyCount)",
+                        subtitle: String(format: "%.1f %@", Double(monthlyCount) / 30.0, NSLocalizedString("per.day", comment: "")),
+                        color: DS.Colors.warning
+                    )
+                    
+                    quickStatCard(
+                        title: NSLocalizedString("stats.total", comment: ""),
+                        value: "\(allTimeCount)",
+                        subtitle: NSLocalizedString("all.time", comment: ""),
+                        color: DS.Colors.info
+                    )
+                }
+            }
+        }
+    }
+    
+    private func quickStatCard(title: String, value: String, subtitle: String, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: DS.Space.xs) {
+            Text(title)
+                .font(DS.Text.caption)
+                .foregroundColor(DS.Colors.textSecondary)
+                .lineLimit(2)
+            
+            Text(value)
+                .font(DS.Text.title2)
+                .fontWeight(.bold)
+                .foregroundColor(color)
+            
+            Text(subtitle)
+                .font(DS.Text.caption2)
+                .foregroundColor(DS.Colors.textTertiary)
+                .lineLimit(2)
+            
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity, minHeight: 80, alignment: .topLeading)
+        .padding(DS.Space.sm)
+        .background(DS.Colors.backgroundSecondary)
+        .cornerRadius(DS.Size.cardRadiusSmall)
     }
     
     // MARK: - Private Methods
@@ -493,7 +628,7 @@ struct HistoryView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(colorForCount(stat.count))
                             
-                            Text(stat.count == 1 ? NSLocalizedString("cigarette.singular", comment: "") : NSLocalizedString("cigarettes.plural", comment: ""))
+                            Text(stat.count == 1 ? NSLocalizedString("cigarette.singular", comment: "") : NSLocalizedString("cigarette.plural", comment: ""))
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                         }
@@ -531,4 +666,5 @@ struct ContentView_Previews: PreviewProvider {
             .modelContainer(for: [Cigarette.self, Tag.self, UserProfile.self], inMemory: true)
     }
 }
+
 #endif

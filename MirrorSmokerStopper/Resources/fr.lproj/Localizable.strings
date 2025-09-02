@@ -145,3 +145,97 @@
 "weekly.stats.difference.format" = "%d %@ que la semaine dernière";
 "weekly.stats.less" = "de moins";
 "weekly.stats.more" = "de plus";
+// Smoking types
+"smoking.type.cigarettes" = "Cigarettes";
+"smoking.type.electronic" = "Cigarettes Électroniques";
+"smoking.type.tobacco" = "Tabac";
+
+// Enhanced Weekly Chart
+"weekly.total" = "Total Hebdomadaire";
+"daily.average" = "Moyenne Jour.";
+"cigarettes.plural" = "cigarettes";
+
+// Quick Stats
+"days.7" = "7 jours";
+"per.day" = "par jour";
+
+// Greetings
+"greeting.morning" = "Bonjour";
+"greeting.afternoon" = "Bon Après-midi";
+"greeting.evening" = "Bonsoir";
+"greeting.night" = "Bonsoir";
+
+// Missing strings
+"history.no.history" = "Aucune donnée disponible";
+
+// Smoking types
+"smoking.type.cigarettes" = "Cigarettes";
+"smoking.type.electronic" = "Cigarettes Électroniques";
+"smoking.type.tobacco" = "Tabac";
+
+// New Statistics UI
+"statistics.overview.today" = "Résumé d'Aujourd'hui";
+"statistics.weekly.total" = "Total Hebdomadaire";
+"statistics.daily.average" = "Moyenne Quotidienne";
+"statistics.vs.last.week" = "vs semaine dernière";
+"statistics.vs.average" = "vs Moyenne";
+"statistics.week.goal" = "Objectif Hebdomadaire";
+"statistics.trend.up" = "Augmentation";
+"statistics.trend.down" = "Diminution";
+"statistics.trend.stable" = "Stable";
+"statistics.progress.today" = "Aujourd'hui";
+"statistics.progress.week" = "Semaine";
+"statistics.progress.average" = "Moyenne";
+
+// Dashboard
+"todays.cigarettes" = "Cigarettes d'Aujourd'hui";
+"view.all" = "Voir Tout";
+"all.time" = "total";
+"last.one" = "Dernière";
+"just.now" = "À l'instant";
+"time.ago.hours" = "il y a %dh %dm";
+"time.ago.minutes" = "il y a %dm";
+"trend.from.last.week" = "depuis la semaine dernière";
+"trend.same.as.last.week" = "comme la semaine dernière";
+
+// Settings Goals
+"settings.goals.title" = "Objectifs d'Arrêt";
+"settings.goals.subtitle" = "Définissez vos objectifs pour arrêter de fumer";
+"settings.daily.goal" = "Objectif de cigarettes quotidiennes";
+"settings.daily.goal.unit" = "par jour";
+"settings.quit.date" = "Date objectif de cessation";
+"settings.quit.date.not.set" = "Non définie";
+"settings.gradual.reduction" = "Réduction progressive";
+"settings.current.target" = "Objectif quotidien actuel";
+"settings.current.target.unit" = "aujourd'hui";
+"settings.reduction.plan" = "Plan de Réduction Progressive";
+"settings.reduction.plan.description" = "Réduire progressivement de %d à 0 cigarettes en %d jours";
+"settings.profile.section" = "Profil";
+"settings.name.placeholder" = "Votre nom";
+"settings.weight.placeholder" = "0";
+"settings.age.start.smoking" = "Âge quand vous avez commencé à fumer";
+"settings.age.years" = "ans";
+"settings.weight.kg" = "kg";
+"settings.weight.invalid" = "Entrez un poids valide (1-300 kg)";
+"settings.age.invalid" = "Entrez un âge valide (10-80 ans)";
+"settings.current.age.info" = "Âge actuel";
+"settings.smoking.years.info" = "Années de tabagisme";
+"settings.health.info.title" = "Informations Santé";
+"settings.health.info.subtitle" = "Informations basées sur vos données personnelles";
+"settings.app.info.title" = "Informations sur l'App";
+
+// Today Overview
+"today.overview.title" = "Progrès d'Aujourd'hui";
+"today.perfect" = "Parfait !";
+"today.no.cigarettes" = "Journée sans cigarettes";
+"today.excellent" = "Excellent travail !";
+"today.under.half.goal" = "Vous êtes sous la moitié de votre objectif";
+"today.good.progress" = "Bon progrès";
+"today.approaching.limit" = "Vous approchez de la limite";
+"today.attention" = "Attention";
+"today.near.daily.limit" = "Proche de la limite quotidienne";
+"today.goal.exceeded" = "Objectif dépassé";
+"today.try.reduce.tomorrow" = "Essayez de réduire demain";
+"today.goal.cessation" = "Objectif de cessation :";
+"today.days.remaining" = "%d jours restants";
+"today.label" = "Aujourd'hui";

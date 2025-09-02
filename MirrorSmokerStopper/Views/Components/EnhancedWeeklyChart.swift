@@ -48,10 +48,7 @@ struct EnhancedWeeklyChart: View {
                                 Rectangle()
                                     .fill(
                                         LinearGradient(
-                                            colors: [
-                                                isToday ? DS.Colors.primary : DS.Colors.chartSecondary,
-                                                isToday ? DS.Colors.accent : DS.Colors.chartTertiary.opacity(0.7)
-                                            ],
+                                            colors: gradientColors(for: item.1, isToday: isToday),
                                             startPoint: .bottom,
                                             endPoint: .top
                                         )
@@ -84,24 +81,25 @@ struct EnhancedWeeklyChart: View {
             // Summary stats
             HStack {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text("Weekly Total")
+                    Text(NSLocalizedString("weekly.total", comment: ""))
                         .font(DS.Text.caption)
                         .foregroundStyle(DS.Colors.textSecondary)
                     Text("\(data.map { $1 }.reduce(0, +))")
                         .font(DS.Text.title3)
-                        .foregroundStyle(DS.Colors.primary)
+                        .foregroundStyle(colorForWeeklyTotal(data.map { $1 }.reduce(0, +)))
                         .fontWeight(.bold)
                 }
                 
                 Spacer()
                 
                 VStack(alignment: .trailing, spacing: DS.Space.xs) {
-                    Text("Daily Avg")
+                    Text(NSLocalizedString("daily.average", comment: ""))
                         .font(DS.Text.caption)
                         .foregroundStyle(DS.Colors.textSecondary)
-                    Text(String(format: "%.1f", Double(data.map { $1 }.reduce(0, +)) / 7.0))
+                    let average = Double(data.map { $1 }.reduce(0, +)) / 7.0
+                    Text(String(format: "%.1f", average))
                         .font(DS.Text.title3)
-                        .foregroundStyle(DS.Colors.warning)
+                        .foregroundStyle(colorForDailyAverage(average))
                         .fontWeight(.bold)
                 }
             }
@@ -113,6 +111,62 @@ struct EnhancedWeeklyChart: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE"
         return formatter
+    }
+    
+    private func gradientColors(for count: Int, isToday: Bool) -> [Color] {
+        let baseColors: [Color]
+        
+        switch count {
+        case 0:
+            baseColors = [DS.Colors.backgroundSecondary, DS.Colors.backgroundSecondary]
+        case 1...3:
+            baseColors = [DS.Colors.success, DS.Colors.success.opacity(0.7)] // Verde - molto buono
+        case 4...7:
+            baseColors = [DS.Colors.success, DS.Colors.warning] // Verde a giallo - buono
+        case 8...12:
+            baseColors = [DS.Colors.warning, Color.orange] // Giallo a arancione - attenzione
+        case 13...20:
+            baseColors = [Color.orange, DS.Colors.danger] // Arancione a rosso - male
+        default:
+            baseColors = [DS.Colors.danger, DS.Colors.cigarette] // Rosso intenso - molto male
+        }
+        
+        // Se è oggi, aggiungi un leggero accent
+        if isToday && count > 0 {
+            return baseColors.map { $0.opacity(0.9) }
+        }
+        
+        return baseColors
+    }
+    
+    private func colorForWeeklyTotal(_ total: Int) -> Color {
+        switch total {
+        case 0...20:
+            return DS.Colors.success // Verde - settimana eccellente
+        case 21...35:
+            return DS.Colors.warning // Giallo - settimana discreta
+        case 36...50:
+            return Color.orange // Arancione - settimana preoccupante
+        case 51...70:
+            return DS.Colors.danger // Rosso - settimana problematica
+        default:
+            return DS.Colors.cigarette // Rosso scuro - settimana critica
+        }
+    }
+    
+    private func colorForDailyAverage(_ average: Double) -> Color {
+        switch average {
+        case 0..<3:
+            return DS.Colors.success // Verde - media eccellente
+        case 3..<5:
+            return DS.Colors.warning // Giallo - media accettabile
+        case 5..<7:
+            return Color.orange // Arancione - media preoccupante
+        case 7..<10:
+            return DS.Colors.danger // Rosso - media problematica
+        default:
+            return DS.Colors.cigarette // Rosso scuro - media critica
+        }
     }
 }
 
@@ -193,9 +247,9 @@ struct TrendIndicator: View {
     }
     
     var trendColor: Color {
-        if trend > 0.1 { return DS.Colors.danger }
-        if trend < -0.1 { return DS.Colors.success }
-        return DS.Colors.warning
+        if trend > 0.1 { return DS.Colors.danger } // Più sigarette = male
+        if trend < -0.1 { return DS.Colors.success } // Meno sigarette = bene
+        return DS.Colors.warning // Stabile = neutro
     }
     
     var body: some View {
@@ -224,9 +278,9 @@ struct TrendIndicator: View {
     VStack(spacing: 20) {
         EnhancedWeeklyChart(data: [
             (Date().addingTimeInterval(-6*86400), 3),
-            (Date().addingTimeInterval(-5*86400), 5),
-            (Date().addingTimeInterval(-4*86400), 2),
-            (Date().addingTimeInterval(-3*86400), 7),
+            (Date().addingTimeInterval(-5*86400), 15), // Alto = rosso
+            (Date().addingTimeInterval(-4*86400), 2),  // Basso = verde
+            (Date().addingTimeInterval(-3*86400), 7),  // Medio = giallo
             (Date().addingTimeInterval(-2*86400), 4),
             (Date().addingTimeInterval(-1*86400), 1),
             (Date(), 8)
@@ -236,19 +290,19 @@ struct TrendIndicator: View {
             CircularProgressView(
                 progress: 0.7,
                 color: DS.Colors.primary,
-                label: "Today vs Avg",
-                value: "140%"
+                label: "Today vs Goal",
+                value: "70%"
             )
             
             CircularProgressView(
                 progress: 0.3,
                 color: DS.Colors.success,
-                label: "Week Goal",
+                label: "Weekly Progress",
                 value: "30%"
             )
         }
         
-        TrendIndicator(trend: 0.25, label: "vs last week")
+        TrendIndicator(trend: -0.25, label: "vs last week") // Negative = green = good
     }
     .padding()
 }

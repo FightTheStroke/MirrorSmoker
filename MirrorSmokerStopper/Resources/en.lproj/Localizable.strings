@@ -57,6 +57,32 @@
 "debug.force.sync" = "Force Widget Sync";
 "debug.reset.data" = "Reset Widget Data";
 
+// NEW: Settings Goals
+"settings.goals.title" = "Quit Goals";
+"settings.goals.subtitle" = "Set your goals to quit smoking";
+"settings.daily.goal" = "Daily cigarette goal";
+"settings.daily.goal.unit" = "per day";
+"settings.quit.date" = "Target quit date";
+"settings.quit.date.not.set" = "Not set";
+"settings.gradual.reduction" = "Gradual reduction";
+"settings.current.target" = "Current daily target";
+"settings.current.target.unit" = "today";
+"settings.reduction.plan" = "Gradual Reduction Plan";
+"settings.reduction.plan.description" = "Gradually reduce from %d to 0 cigarettes in %d days";
+"settings.profile.section" = "Profile";
+"settings.name.placeholder" = "Your name";
+"settings.weight.placeholder" = "0";
+"settings.age.start.smoking" = "Age when started smoking";
+"settings.age.years" = "years";
+"settings.weight.kg" = "kg";
+"settings.weight.invalid" = "Enter a valid weight (1-300 kg)";
+"settings.age.invalid" = "Enter a valid age (10-80 years)";
+"settings.current.age.info" = "Current age";
+"settings.smoking.years.info" = "Years smoking";
+"settings.health.info.title" = "Health Information";
+"settings.health.info.subtitle" = "Information based on your personal data";
+"settings.app.info.title" = "App Information";
+
 // ContentView
 "app.title" = "Mirror Smoker";
 "app.subtitle" = "Track and reflect on your smoking habits";
@@ -69,6 +95,22 @@
 "todays.cigarettes" = "Today's Cigarettes";
 "empty.state.title" = "Great! No cigarettes today";
 "empty.state.subtitle" = "Keep it up! Use the + button to log one if needed.";
+
+// NEW: Today Overview
+"today.overview.title" = "Today's Progress";
+"today.perfect" = "Perfect!";
+"today.no.cigarettes" = "Day without cigarettes";
+"today.excellent" = "Excellent work!";
+"today.under.half.goal" = "You're under half your goal";
+"today.good.progress" = "Good progress";
+"today.approaching.limit" = "You're approaching the limit";
+"today.attention" = "Attention";
+"today.near.daily.limit" = "Near daily limit";
+"today.goal.exceeded" = "Goal exceeded";
+"today.try.reduce.tomorrow" = "Try to reduce tomorrow";
+"today.goal.cessation" = "Quit goal:";
+"today.days.remaining" = "%d days remaining";
+"today.label" = "Today";
 
 // Tab Bar
 "tab.home" = "Home";
@@ -196,3 +238,15 @@
 "time.ago.minutes" = "%dm ago";
 "trend.from.last.week" = "from last week";
 "trend.same.as.last.week" = "same as last week";
+
+// Enhanced Weekly Chart
+"weekly.total" = "Weekly Total";
+"daily.average" = "Daily Avg";
+"cigarettes.plural" = "cigarettes";
+
+// Quick Stats
+"days.7" = "7 days";
+"per.day" = "per day";
+
+// Missing strings from views
+"history.no.history" = "No data available";

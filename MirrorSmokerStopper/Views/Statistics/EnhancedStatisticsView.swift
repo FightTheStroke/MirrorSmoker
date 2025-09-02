@@ -1,10 +1,3 @@
-//
-//  EnhancedStatisticsView.swift
-//  MirrorSmokerStopper
-//
-//  Created by Assistant on 09/01/25.
-//
-
 import SwiftUI
 import SwiftData
 
@@ -27,7 +20,6 @@ struct EnhancedStatisticsView: View {
         userProfiles.first
     }
     
-    // MARK: - Computed Properties for Selected Time Range
     private var cigarettesForSelectedRange: [Cigarette] {
         let calendar = Calendar.current
         let now = Date()
@@ -43,14 +35,13 @@ struct EnhancedStatisticsView: View {
             case .month:
                 return calendar.date(byAdding: .month, value: -1, to: now)
             case .all:
-                return nil // No filter
+                return nil
             }
         }()
         
         if let startDate = startDate {
             return allCigarettes.filter { $0.timestamp >= startDate }
         }
-        
         return allCigarettes
     }
     
@@ -59,13 +50,12 @@ struct EnhancedStatisticsView: View {
         let grouped = Dictionary(grouping: cigarettesForSelectedRange) { cigarette in
             calendar.startOfDay(for: cigarette.timestamp)
         }
-        
         return grouped.map { (date, cigarettes) in
             (date: date, count: cigarettes.count)
         }.sorted { $0.date < $1.date }
     }
     
-    private var averagePerDay: Double {
+    private var averagePerDaySelectedRange: Double {
         guard !groupedCigarettesByDay.isEmpty else { return 0 }
         let total = groupedCigarettesByDay.reduce(0) { $0 + $1.count }
         return Double(total) / Double(groupedCigarettesByDay.count)
@@ -79,53 +69,44 @@ struct EnhancedStatisticsView: View {
         groupedCigarettesByDay.min { $0.count < $1.count }
     }
     
-    // MARK: - Today's Overview Data (moved to top)
     private var todaysCigarettes: [Cigarette] {
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
         let tomorrow = calendar.date(byAdding: .day, value: 1, to: today)!
-        
-        return allCigarettes.filter { cigarette in
-            cigarette.timestamp >= today && cigarette.timestamp < tomorrow
-        }
+        return allCigarettes.filter { $0.timestamp >= today && $0.timestamp < tomorrow }
     }
     
     private var todayCount: Int {
         todaysCigarettes.count
     }
     
-    private var dailyAverage: Double {
+    private var dailyAverageLast30Days: Double {
         let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
         let recentCigarettes = allCigarettes.filter { $0.timestamp >= thirtyDaysAgo }
         return recentCigarettes.isEmpty ? 0.0 : Double(recentCigarettes.count) / 30.0
     }
     
-    private var todayTarget: Int {
-        guard let profile = currentProfile, let quitDate = profile.quitDate else { 
-            return max(1, Int(dailyAverage))
+    private var dailyAverageForPlan: Double {
+        if let avg = currentProfile?.dailyAverage, avg > 0 {
+            return avg
         }
-        
-        let daysToQuit = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 1
-        if daysToQuit <= 0 { return 0 }
-        
-        let dailyReduction = dailyAverage / Double(daysToQuit)
-        let targetToday = dailyAverage - dailyReduction
-        return max(0, Int(ceil(targetToday)))
+        return dailyAverageLast30Days
+    }
+    
+    private var todayTarget: Int {
+        guard let profile = currentProfile else { return max(1, Int(dailyAverageForPlan)) }
+        return profile.todayTarget(dailyAverage: dailyAverageForPlan)
     }
     
     private var colorForTodayCount: Color {
         let target = todayTarget
-
         if todayCount == 0 {
             return DS.Colors.success
         }
-        
         if target <= 0 {
             return DS.Colors.cigarette
         }
-        
         let percentage = Double(todayCount) / Double(target)
-        
         if percentage < 0.5 {
             return DS.Colors.success
         } else if percentage < 0.8 {
@@ -142,16 +123,9 @@ struct EnhancedStatisticsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: DS.Space.lg) {
-                // Today's Overview Section (moved to top)
                 todayOverviewSection
-                
-                // Statistics Section (renamed from Quick Stats)
                 statisticsSection
-                
-                // Charts Section
                 chartsSection
-                
-                // Detailed Stats Section
                 detailedStatsSection
             }
             .padding(DS.Space.lg)
@@ -161,7 +135,6 @@ struct EnhancedStatisticsView: View {
         .navigationBarTitleDisplayMode(.large)
     }
     
-    // MARK: - Today's Overview Section (moved to top)
     private var todayOverviewSection: some View {
         DSCard {
             VStack(spacing: DS.Space.md) {
@@ -192,7 +165,6 @@ struct EnhancedStatisticsView: View {
                     
                     Spacer()
                     
-                    // Progress visualization
                     ZStack {
                         Circle()
                             .stroke(DS.Colors.backgroundSecondary, lineWidth: 8)
@@ -215,7 +187,6 @@ struct EnhancedStatisticsView: View {
                     .frame(width: 60, height: 60)
                 }
                 
-                // Status message
                 statusMessageForToday
             }
         }
@@ -224,7 +195,6 @@ struct EnhancedStatisticsView: View {
     private var statusMessageForToday: some View {
         Group {
             let target = todayTarget
-            
             if todayCount == 0 {
                 Text("🎉 Giornata senza sigarette!")
                     .font(DS.Text.caption)
@@ -241,11 +211,9 @@ struct EnhancedStatisticsView: View {
         }
     }
     
-    // MARK: - Statistics Section (renamed from Quick Stats)
     private var statisticsSection: some View {
         DSCard {
             VStack(spacing: DS.Space.lg) {
-                // Integrated time range filters in the header
                 HStack {
                     DSSectionHeader("Statistiche")
                     Spacer()
@@ -261,12 +229,12 @@ struct EnhancedStatisticsView: View {
                         value: "\(cigarettesForSelectedRange.count)",
                         subtitle: "sigarette",
                         color: DS.Colors.primary,
-                        icon: "cigarette.fill"
+                        icon: "lungs.fill"
                     )
                     
                     statCard(
                         title: "Media/giorno",
-                        value: String(format: "%.1f", averagePerDay),
+                        value: String(format: "%.1f", averagePerDaySelectedRange),
                         subtitle: "sigarette",
                         color: DS.Colors.info,
                         icon: "chart.bar.fill"
@@ -307,16 +275,13 @@ struct EnhancedStatisticsView: View {
                     .font(DS.Text.caption)
                     .foregroundColor(DS.Colors.textSecondary)
             }
-            
             Text(value)
                 .font(DS.Text.title2)
                 .fontWeight(.bold)
                 .foregroundColor(color)
-            
             Text(subtitle)
                 .font(DS.Text.caption2)
                 .foregroundColor(DS.Colors.textTertiary)
-            
             Spacer(minLength: 0)
         }
         .frame(maxWidth: .infinity, minHeight: 80, alignment: .topLeading)
@@ -325,16 +290,11 @@ struct EnhancedStatisticsView: View {
         .cornerRadius(DS.Size.cardRadiusSmall)
     }
     
-    // MARK: - Charts Section
     private var chartsSection: some View {
         DSCard {
             VStack(spacing: DS.Space.lg) {
                 DSSectionHeader("Andamento")
-                
-                // Bar Chart
                 barChartView
-                
-                // Trend Line
                 trendLineView
             }
         }
@@ -353,7 +313,6 @@ struct EnhancedStatisticsView: View {
                     icon: "chart.bar.xaxis"
                 )
             } else {
-                // Simple bar chart implementation
                 GeometryReader { geometry in
                     let maxWidth = geometry.size.width
                     let maxCount = groupedCigarettesByDay.map { $0.count }.max() ?? 1
@@ -362,15 +321,12 @@ struct EnhancedStatisticsView: View {
                     HStack(alignment: .bottom, spacing: 2) {
                         ForEach(groupedCigarettesByDay, id: \.date) { item in
                             VStack(spacing: 4) {
-                                // Bar
                                 RoundedRectangle(cornerRadius: 4)
                                     .fill(DS.Colors.cigarette)
                                     .frame(
                                         width: barWidth,
                                         height: max(2, CGFloat(item.count) / CGFloat(maxCount) * 100)
                                     )
-                                
-                                // Date label
                                 Text(item.date, format: .dateTime.day())
                                     .font(DS.Text.caption2)
                                     .foregroundColor(DS.Colors.textSecondary)
@@ -397,19 +353,16 @@ struct EnhancedStatisticsView: View {
                     icon: "chart.line.uptrend.xyaxis"
                 )
             } else {
-                // Simple trend visualization
                 GeometryReader { geometry in
                     let width = geometry.size.width
                     let height = geometry.size.height
                     
                     Path { path in
-                        let points = groupedCigarettesByDay.prefix(7) // Last 7 days
+                        let points = groupedCigarettesByDay.prefix(7)
                         let maxCount = points.map { $0.count }.max() ?? 1
-                        
                         for (index, point) in points.enumerated() {
                             let x = CGFloat(index) * (width / CGFloat(max(1, points.count - 1)))
                             let y = height - CGFloat(point.count) / CGFloat(maxCount) * (height - 20)
-                            
                             if index == 0 {
                                 path.move(to: CGPoint(x: x, y: y))
                             } else {
@@ -419,7 +372,6 @@ struct EnhancedStatisticsView: View {
                     }
                     .stroke(DS.Colors.primary, lineWidth: 3)
                     
-                    // Data points
                     ForEach(Array(groupedCigarettesByDay.prefix(7).enumerated()), id: \.element.date) { index, point in
                         let maxCount = groupedCigarettesByDay.prefix(7).map { $0.count }.max() ?? 1
                         let x = CGFloat(index) * (width / CGFloat(max(1, groupedCigarettesByDay.prefix(7).count - 1)))
@@ -436,12 +388,10 @@ struct EnhancedStatisticsView: View {
         }
     }
     
-    // MARK: - Detailed Stats Section
     private var detailedStatsSection: some View {
         DSCard {
             VStack(spacing: DS.Space.lg) {
                 DSSectionHeader("Statistiche Dettagliate")
-                
                 VStack(spacing: DS.Space.md) {
                     detailStatRow(
                         title: "Giorno migliore",
@@ -449,14 +399,12 @@ struct EnhancedStatisticsView: View {
                         date: highestDay?.date,
                         color: DS.Colors.success
                     )
-                    
                     detailStatRow(
                         title: "Giorno peggiore",
                         value: lowestDay != nil ? "\(lowestDay!.count) sigarette" : "N/A",
                         date: lowestDay?.date,
                         color: DS.Colors.danger
                     )
-                    
                     detailStatRow(
                         title: "Periodo analizzato",
                         value: "\(groupedCigarettesByDay.count) giorni",
@@ -473,16 +421,13 @@ struct EnhancedStatisticsView: View {
                 Text(title)
                     .font(DS.Text.body)
                     .foregroundColor(DS.Colors.textPrimary)
-                
                 if let date = date {
                     Text(date, format: .dateTime.weekday(.wide).day().month())
                         .font(DS.Text.caption)
                         .foregroundColor(DS.Colors.textSecondary)
                 }
             }
-            
             Spacer()
-            
             Text(value)
                 .font(DS.Text.body)
                 .fontWeight(.semibold)
@@ -492,7 +437,6 @@ struct EnhancedStatisticsView: View {
     }
 }
 
-// MARK: - Supporting Views
 struct StatisticsEmptyStateView: View {
     let title: String
     let subtitle: String
@@ -503,12 +447,10 @@ struct StatisticsEmptyStateView: View {
             Image(systemName: icon)
                 .font(.title2)
                 .foregroundColor(DS.Colors.textSecondary)
-            
             Text(title)
                 .font(DS.Text.body)
                 .fontWeight(.semibold)
                 .foregroundColor(DS.Colors.textPrimary)
-            
             Text(subtitle)
                 .font(DS.Text.caption)
                 .foregroundColor(DS.Colors.textSecondary)

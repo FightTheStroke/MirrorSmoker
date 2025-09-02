@@ -132,7 +132,7 @@ class InsightEngine {
         insights.append(contentsOf: analyzeDependencyLevel(cigarettes))
         insights.append(contentsOf: analyzeTimeGaps(cigarettes))
         
-        // Ordina per priorità e ritorna top 3
+        // Sort by priority and return top 3
         return Array(insights.sorted { $0.priority.rawValue > $1.priority.rawValue }.prefix(3))
     }
     
@@ -246,7 +246,7 @@ class InsightEngine {
         
         let frequency = Double(mostUsedTag.value) / Double(recentCigarettes.count)
         
-        if frequency > 0.3 { // Più del 30% delle sigarette ha questo tag
+        if frequency > 0.3 { // More than 30% of cigarettes have this tag
             return [SmokingInsight(
                 title: NSLocalizedString("insight.tag.frequent.title", comment: ""),
                 message: String(format: NSLocalizedString("insight.tag.frequent.message", comment: ""), mostUsedTag.key, Int(frequency * 100)),
@@ -313,7 +313,7 @@ class InsightEngine {
         let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date()) ?? Date()
         let recentCigarettes = cigarettes.filter { $0.timestamp >= weekAgo }
         
-        // Calcola il livello di dipendenza basato su frequenza e pattern temporali
+        // Calculate dependency level based on frequency and temporal patterns
         let dailyAverage = Double(recentCigarettes.count) / 7.0
         
         let dependencyLevel: DependencyLevel

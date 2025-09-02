@@ -128,10 +128,10 @@ struct EnhancedWeeklyChart: View {
         case 13...20:
             baseColors = [Color.orange, DS.Colors.danger] // Arancione a rosso - male
         default:
-            baseColors = [DS.Colors.danger, DS.Colors.cigarette] // Rosso intenso - molto male
+            baseColors = [DS.Colors.danger, DS.Colors.cigarette] // Intense red - very bad
         }
         
-        // Se è oggi, aggiungi un leggero accent
+        // If it's today, add a light accent
         if isToday && count > 0 {
             return baseColors.map { $0.opacity(0.9) }
         }
@@ -247,9 +247,9 @@ struct TrendIndicator: View {
     }
     
     var trendColor: Color {
-        if trend > 0.1 { return DS.Colors.danger } // Più sigarette = male
-        if trend < -0.1 { return DS.Colors.success } // Meno sigarette = bene
-        return DS.Colors.warning // Stabile = neutro
+        if trend > 0.1 { return DS.Colors.danger } // More cigarettes = bad
+        if trend < -0.1 { return DS.Colors.success } // Fewer cigarettes = good
+        return DS.Colors.warning // Stable = neutral
     }
     
     var body: some View {

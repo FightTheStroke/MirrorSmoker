@@ -262,7 +262,7 @@ struct StatisticsView: View {
                         value: "\(cigarettesForSelectedRange.count)",
                         subtitle: "sigarette",
                         color: DS.Colors.primary,
-                        icon: "cigarette.fill"
+                        icon: "lungs.fill"
                     )
                     
                     statCard(

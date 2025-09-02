@@ -282,10 +282,12 @@ struct DSProgressRing: View {
 
 struct DSFloatingActionButton: View {
     let action: () -> Void
+    let onLongPress: (() -> Void)?
     @State private var isPressed = false
     
-    init(action: @escaping () -> Void) {
+    init(action: @escaping () -> Void, onLongPress: (() -> Void)? = nil) {
         self.action = action
+        self.onLongPress = onLongPress
     }
     
     var body: some View {
@@ -313,5 +315,8 @@ struct DSFloatingActionButton: View {
                     isPressed = false
                 }
         )
+        .onLongPressGesture(minimumDuration: 0.5) {
+            onLongPress?()
+        }
     }
 }

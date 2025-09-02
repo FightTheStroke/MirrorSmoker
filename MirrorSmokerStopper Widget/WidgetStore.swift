@@ -17,11 +17,11 @@ public class WidgetStore {
     private let appGroupID = "group.org.mirror-labs.mirrorsmoker"
     public let userDefaults: UserDefaults?
     
-    // Fallback su UserDefaults standard se App Group non disponibile
+    // Fallback to standard UserDefaults if App Group not available
     private let fallbackDefaults = UserDefaults.standard
     
     private init() {
-        // Prova a creare UserDefaults con App Group
+        // Try to create UserDefaults with App Group
         if let groupDefaults = UserDefaults(suiteName: appGroupID) {
             self.userDefaults = groupDefaults
             print("✅ Using App Group: \(appGroupID)")
@@ -31,7 +31,7 @@ public class WidgetStore {
         }
     }
     
-    // MARK: - Computed property per UserDefaults attivi
+    // MARK: - Computed property for active UserDefaults
     private var activeDefaults: UserDefaults {
         return userDefaults ?? fallbackDefaults
     }

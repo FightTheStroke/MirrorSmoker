@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Struct condivisa per rappresentare una sigaretta nei dati del widget
+// Shared struct to represent a cigarette in widget data
 public struct WidgetCigarette: Codable {
     public let timestamp: TimeInterval
     public let note: String
@@ -20,7 +20,7 @@ public struct WidgetCigarette: Codable {
     }
 }
 
-// Extension per convertire tra Cigarette e WidgetCigarette
+// Extension to convert between Cigarette and WidgetCigarette
 extension Cigarette {
     func toWidgetCigarette() -> WidgetCigarette {
         return WidgetCigarette(

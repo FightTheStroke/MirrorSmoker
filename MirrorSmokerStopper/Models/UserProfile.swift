@@ -66,8 +66,8 @@ final class UserProfile {
     var themePreference: String = "system"
     var lastUpdated: Date = Date()
     
-    var quitDate: Date? // Data target per smettere completamente
-    var enableGradualReduction: Bool = true // Se abilitare la riduzione graduale
+    var quitDate: Date? // Target date to quit completely
+    var enableGradualReduction: Bool = true // Whether to enable gradual reduction
     
     // New properties for migration compatibility (using raw values for enums)
     var reductionCurveRaw: String = ReductionCurve.linear.rawValue
@@ -75,7 +75,7 @@ final class UserProfile {
     var healthInsights: String = ""
     var motivationalMessages: String = ""
     var createdAt: Date = Date()
-    var dailyAverage: Double = 0.0 // NEW: Media giornaliera personalizzata
+    var dailyAverage: Double = 0.0 // NEW: Custom daily average
     
     // Computed properties for enum access
     var reductionCurve: ReductionCurve {
@@ -120,14 +120,14 @@ final class UserProfile {
     }
     
     func calculateDailyAverage(from cigarettes: [Any]) -> Double {
-        // Questo sarà chiamato dal contesto che ha accesso ai dati
-        // Per ora ritorna un valore di default, verrà sovrascritto
+        // This will be called from the context that has access to data
+        // For now returns a default value, will be overridden
         return 15.0
     }
     
     func todayTarget(dailyAverage: Double) -> Int {
         guard enableGradualReduction, let quitDate = quitDate else {
-            return Int(dailyAverage) // Se non c'è piano, usa la media attuale
+            return Int(dailyAverage) // If there's no plan, use current average
         }
         
         return improvedTodayTarget(dailyAverage: dailyAverage, quitDate: quitDate)
@@ -138,7 +138,7 @@ final class UserProfile {
         let calendar = Calendar.current
         let today = Date()
         
-        // Se abbiamo già superato la data target, il target è 0
+        // If we've already passed the target date, target is 0
         if today >= quitDate {
             return 0
         }
@@ -150,13 +150,13 @@ final class UserProfile {
             return 0
         }
         
-        // Calcola il livello di dipendenza basato sulla media giornaliera
+        // Calculate dependency level based on daily average
         let dependencyLevel = calculateDependencyLevel(dailyAverage: dailyAverage)
         
-        // Scegli la curva di riduzione basata sulla dipendenza
+        // Choose reduction curve based on dependency
         let reductionCurve = selectReductionCurve(dependencyLevel: dependencyLevel, totalDays: totalDays)
         
-        // Calcola il target personalizzato
+        // Calculate personalized target
         let targetToday = calculatePersonalizedTarget(
             dailyAverage: dailyAverage,
             daysRemaining: daysRemaining,
@@ -203,28 +203,28 @@ final class UserProfile {
         
         switch curve {
         case .linear:
-            // Riduzione lineare standard
+            // Standard linear reduction
             return dailyAverage * (1.0 - progress)
             
         case .exponential:
-            // Riduzione più rapida all'inizio, poi rallenta
+            // Faster reduction at the beginning, then slows down
             let exponentialProgress = pow(progress, 0.7)
             return dailyAverage * (1.0 - exponentialProgress)
             
         case .logarithmic:
-            // Riduzione lenta all'inizio, poi accelera
+            // Slow reduction at the beginning, then accelerates
             let logProgress = progress == 0 ? 0 : log(1 + progress * 9) / log(10)
             return dailyAverage * (1.0 - logProgress)
             
         case .stepped:
-            // Riduzione a gradini per alta dipendenza
+            // Step reduction for high dependency
             let stepSize = totalDays / 5 // 5 steps
             let currentStep = min(4, (totalDays - daysRemaining) / stepSize)
             let reduction = Double(currentStep) / 4.0 * 0.8 // Max 80% reduction in steps
             return dailyAverage * (1.0 - reduction)
             
         case .gentle:
-            // Riduzione molto graduale per bassa dipendenza
+            // Very gradual reduction for low dependency
             let gentleProgress = pow(progress, 1.3)
             return dailyAverage * (1.0 - gentleProgress)
         }

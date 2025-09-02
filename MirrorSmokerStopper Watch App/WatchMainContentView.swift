@@ -22,7 +22,7 @@ struct WatchContentView: View {
         TabView {
             // Main tab - Add cigarette
             VStack(spacing: 12) {
-                Text("Oggi")
+                Text(NSLocalizedString("watch.today", comment: ""))
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
@@ -30,7 +30,7 @@ struct WatchContentView: View {
                     .font(.system(size: 40, weight: .bold, design: .default))
                     .foregroundColor(colorForCount(todayCount))
                 
-                Text("sigarette")
+                Text(NSLocalizedString("watch.cigarettes", comment: ""))
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
@@ -46,26 +46,26 @@ struct WatchContentView: View {
             
             // Quick stats tab
             VStack(spacing: 8) {
-                Text("Statistiche")
+                Text(NSLocalizedString("watch.statistics", comment: ""))
                     .font(.headline)
                 
                 VStack(spacing: 6) {
                     HStack {
-                        Text("Ieri:")
+                        Text(NSLocalizedString("watch.yesterday", comment: ""))
                         Spacer()
                         Text("\(yesterdayCount)")
                             .fontWeight(.semibold)
                     }
                     
                     HStack {
-                        Text("Settimana:")
+                        Text(NSLocalizedString("watch.week", comment: ""))
                         Spacer()
                         Text("\(weekCount)")
                             .fontWeight(.semibold)
                     }
                     
                     HStack {
-                        Text("Media:")
+                        Text(NSLocalizedString("watch.average", comment: ""))
                         Spacer()
                         Text(String(format: "%.1f", weeklyAverage))
                             .fontWeight(.semibold)
@@ -78,7 +78,7 @@ struct WatchContentView: View {
             // Today's cigarettes list tab
             ScrollView {
                 LazyVStack(spacing: 4) {
-                    Text("Oggi")
+                    Text(NSLocalizedString("watch.today", comment: ""))
                         .font(.headline)
                         .padding(.bottom, 4)
                     
@@ -87,7 +87,7 @@ struct WatchContentView: View {
                     }
                     
                     if todayCigarettes.isEmpty {
-                        Text("Nessuna sigaretta")
+                        Text(NSLocalizedString("watch.no.cigarettes", comment: ""))
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .padding()

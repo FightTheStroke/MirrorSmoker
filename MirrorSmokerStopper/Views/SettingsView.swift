@@ -12,7 +12,7 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Query private var profiles: [UserProfile]
-    @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette] // NEED: Per calcolare la media
+    @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette] // For calculating the average
     
     @State private var name = ""
     @State private var birthDate = Date()
@@ -27,7 +27,7 @@ struct SettingsView: View {
     @State private var quitDate: Date?
     @State private var showQuitDatePicker = false
     @State private var enableGradualReduction = true
-    @State private var dailyAverageInput = "" // NEW: Campo per la media giornaliera
+    @State private var dailyAverageInput = "" // Field for daily average input
     
     private var profile: UserProfile? {
         profiles.first
@@ -47,13 +47,13 @@ struct SettingsView: View {
         return Double(recentCigarettes.count) / Double(totalDays)
     }
     
-    // Calcola l'obiettivo di oggi basato sul piano
+    // Calculate today's target based on the plan
     private var todayTarget: Int {
         guard let profile = profile else { return Int(dailyAverageForPlan) }
         return profile.todayTarget(dailyAverage: dailyAverageForPlan)
     }
     
-    // Usa l'input dell'utente o calcola dalla cronologia
+    // Use user input or calculate from history
     private var dailyAverageForPlan: Double {
         if let input = Double(dailyAverageInput), input > 0 {
             return input
@@ -91,38 +91,38 @@ struct SettingsView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: DS.Space.lg) {
-                    // Profile Section - uguale a prima
+                    // Profile Section
                     DSCard {
                         VStack(spacing: DS.Space.lg) {
-                            DSSectionHeader("Profilo Personale")
+                            DSSectionHeader(NSLocalizedString("settings.personal.profile", comment: ""))
                             
                             VStack(spacing: DS.Space.md) {
-                                // Nome
+                                // Name
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
                                     HStack {
                                         Image(systemName: "person.fill")
                                             .foregroundColor(DS.Colors.primary)
                                             .frame(width: 24)
-                                        Text("Nome")
+                                        Text(NSLocalizedString("settings.name.label", comment: ""))
                                             .font(DS.Text.body)
                                     }
-                                    TextField("Il tuo nome", text: $name)
+                                    TextField(NSLocalizedString("settings.name.placeholder", comment: ""), text: $name)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .textInputAutocapitalization(.words)
                                 }
                                 
-                                // Data di nascita
+                                // Birth date
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
                                     HStack {
                                         Image(systemName: "calendar")
                                             .foregroundColor(DS.Colors.info)
                                             .frame(width: 24)
-                                        Text("Data di nascita")
+                                        Text(NSLocalizedString("settings.birth.date.label", comment: ""))
                                             .font(DS.Text.body)
                                     }
                                     Button(action: { showDatePicker = true }) {
                                         HStack {
-                                            Text(currentAge > 0 ? "\(currentAge) anni" : "Seleziona data")
+                                            Text(currentAge > 0 ? String(format: NSLocalizedString("settings.age.years.format", comment: ""), currentAge) : NSLocalizedString("settings.select.date", comment: ""))
                                                 .foregroundColor(currentAge > 0 ? DS.Colors.textPrimary : DS.Colors.textSecondary)
                                             Spacer()
                                             Image(systemName: "chevron.right")
@@ -135,13 +135,13 @@ struct SettingsView: View {
                                     .buttonStyle(PlainButtonStyle())
                                 }
                                 
-                                // Peso
+                                // Weight
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
                                     HStack {
                                         Image(systemName: "scalemass")
                                             .foregroundColor(DS.Colors.health)
                                             .frame(width: 24)
-                                        Text("Peso (kg)")
+                                        Text(NSLocalizedString("settings.weight.label", comment: ""))
                                             .font(DS.Text.body)
                                     }
                                     TextField("0", text: $weight)
@@ -149,7 +149,7 @@ struct SettingsView: View {
                                         .keyboardType(.decimalPad)
                                     
                                     if !isValidWeight && !weight.isEmpty {
-                                        Text("Inserisci un peso valido (1-300 kg)")
+                                        Text(NSLocalizedString("settings.weight.invalid.message", comment: ""))
                                             .font(DS.Text.caption)
                                             .foregroundColor(DS.Colors.danger)
                                     }
@@ -158,10 +158,10 @@ struct SettingsView: View {
                         }
                     }
                     
-                    // Smoking Habits - uguale a prima
+                    // Smoking Habits
                     DSCard {
                         VStack(spacing: DS.Space.lg) {
-                            DSSectionHeader("Abitudini di Fumo")
+                            DSSectionHeader(NSLocalizedString("settings.smoking.habits.section", comment: ""))
                             
                             VStack(spacing: DS.Space.md) {
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
@@ -169,10 +169,10 @@ struct SettingsView: View {
                                         Image(systemName: smokingType.icon)
                                             .foregroundColor(DS.Colors.warning)
                                             .frame(width: 24)
-                                        Text("Tipo di fumo")
+                                        Text(NSLocalizedString("settings.smoking.type.label", comment: ""))
                                             .font(DS.Text.body)
                                     }
-                                    Picker("Tipo", selection: $smokingType) {
+                                    Picker(NSLocalizedString("smoking.type.picker.label", comment: ""), selection: $smokingType) {
                                         ForEach(SmokingType.allCases, id: \.self) { type in
                                             Text(type.displayName).tag(type)
                                         }
@@ -185,7 +185,7 @@ struct SettingsView: View {
                                         Image(systemName: "hourglass.tophalf.filled")
                                             .foregroundColor(DS.Colors.cigarette)
                                             .frame(width: 24)
-                                        Text("Età quando ho iniziato")
+                                        Text(NSLocalizedString("settings.started.smoking.age", comment: ""))
                                             .font(DS.Text.body)
                                     }
                                     TextField("18", value: $startedSmokingAge, formatter: NumberFormatter())
@@ -193,32 +193,32 @@ struct SettingsView: View {
                                         .keyboardType(.numberPad)
                                     
                                     if !isValidAge {
-                                        Text("Inserisci un'età valida (10-80 anni)")
+                                        Text(NSLocalizedString("settings.age.invalid.message", comment: ""))
                                             .font(DS.Text.caption)
                                             .foregroundColor(DS.Colors.danger)
                                     }
                                 }
                                 
-                                // NEW: Campo per la media giornaliera
+                                // Daily average field
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
                                     HStack {
                                         Image(systemName: "chart.bar.fill")
                                             .foregroundColor(DS.Colors.info)
                                             .frame(width: 24)
-                                        Text("Sigarette al giorno (media)")
+                                        Text(NSLocalizedString("settings.daily.cigarettes.label", comment: ""))
                                             .font(DS.Text.body)
                                     }
-                                    TextField("Esempio: 15.5", text: $dailyAverageInput)
+                                    TextField(NSLocalizedString("settings.daily.cigarettes.example", comment: ""), text: $dailyAverageInput)
                                         .textFieldStyle(RoundedBorderTextFieldStyle())
                                         .keyboardType(.decimalPad)
                                     
                                     if !isValidDailyAverage && !dailyAverageInput.isEmpty {
-                                        Text("Inserisci un valore valido (0-100 sigarette/giorno)")
+                                        Text(NSLocalizedString("settings.daily.cigarettes.invalid", comment: ""))
                                             .font(DS.Text.caption)
                                             .foregroundColor(DS.Colors.danger)
                                     }
                                     
-                                    Text("Lascia vuoto per calcolare automaticamente dagli ultimi 30 giorni (\(String(format: "%.1f", calculatedDailyAverage)) sigarette/giorno)")
+                                    Text(String(format: NSLocalizedString("settings.auto.calculate.footer", comment: ""), String(format: "%.1f", calculatedDailyAverage)))
                                         .font(DS.Text.caption)
                                         .foregroundColor(DS.Colors.textSecondary)
                                         .multilineTextAlignment(.leading)
@@ -229,19 +229,19 @@ struct SettingsView: View {
                     
                     DSCard {
                         VStack(spacing: DS.Space.lg) {
-                            DSSectionHeader("Piano di Cessazione", subtitle: "Creeremo automaticamente un piano personalizzato per te")
+                            DSSectionHeader(NSLocalizedString("settings.quit.plan.section", comment: ""), subtitle: NSLocalizedString("settings.quit.plan.subtitle", comment: ""))
                             
                             VStack(spacing: DS.Space.md) {
-                                // Mostra la media attuale calcolata
+                                // Show current calculated average
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
                                     HStack {
                                         Image(systemName: "chart.bar.fill")
                                             .foregroundColor(DS.Colors.info)
                                             .frame(width: 24)
                                         VStack(alignment: .leading) {
-                                            Text("La tua media giornaliera")
+                                            Text(NSLocalizedString("settings.daily.average.title", comment: ""))
                                                 .font(DS.Text.body)
-                                            Text("Calcolata dagli ultimi 30 giorni")
+                                            Text(NSLocalizedString("settings.daily.average.subtitle", comment: ""))
                                                 .font(DS.Text.caption)
                                                 .foregroundColor(DS.Colors.textSecondary)
                                         }
@@ -256,18 +256,18 @@ struct SettingsView: View {
                                     .cornerRadius(8)
                                 }
                                 
-                                // Data quando vuole smettere - QUESTO È L'UNICO CAMPO DA INSERIRE
+                                // Quit date - This is the only field to enter
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
                                     HStack {
                                         Image(systemName: "calendar.badge.clock")
                                             .foregroundColor(DS.Colors.primary)
                                             .frame(width: 24)
-                                        Text("Quando vuoi smettere completamente?")
+                                        Text(NSLocalizedString("settings.when.quit.question", comment: ""))
                                             .font(DS.Text.body)
                                     }
                                     Button(action: { showQuitDatePicker = true }) {
                                         HStack {
-                                            Text(quitDate?.formatted(date: .complete, time: .omitted) ?? "Seleziona una data")
+                                            Text(quitDate?.formatted(date: .complete, time: .omitted) ?? NSLocalizedString("settings.select.date.placeholder", comment: ""))
                                                 .foregroundColor(quitDate != nil ? DS.Colors.textPrimary : DS.Colors.textSecondary)
                                             Spacer()
                                             Image(systemName: "chevron.right")
@@ -280,60 +280,60 @@ struct SettingsView: View {
                                     .buttonStyle(PlainButtonStyle())
                                 }
                                 
-                                // Toggle per piano graduale
+                                // Gradual plan toggle
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    Toggle("Usa riduzione graduale (consigliato)", isOn: $enableGradualReduction)
+                                    Toggle(NSLocalizedString("settings.gradual.reduction.toggle", comment: ""), isOn: $enableGradualReduction)
                                         .toggleStyle(SwitchToggleStyle())
                                     
                                     Text(enableGradualReduction ? 
-                                         "Ridurremo gradualmente il numero di sigarette fino ad arrivare a zero" : 
-                                         "Stop immediato alla data selezionata")
+                                         NSLocalizedString("settings.gradual.reduction.description", comment: "") : 
+                                         NSLocalizedString("settings.immediate.stop.description", comment: ""))
                                         .font(DS.Text.caption)
                                         .foregroundColor(DS.Colors.textSecondary)
                                 }
                                 
-                                // PREVIEW DEL PIANO se la data è selezionata
+                                // Plan preview if date is selected
                                 if let quitDate = quitDate, enableGradualReduction {
                                     let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
                                     let dailyReduction = dailyAverageForPlan / Double(max(daysRemaining, 1))
                                     
                                     VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                        Text("Anteprima del tuo piano:")
+                                        Text(NSLocalizedString("settings.plan.preview", comment: ""))
                                             .font(DS.Text.body)
                                             .fontWeight(.semibold)
                                             .foregroundColor(DS.Colors.primary)
                                         
                                         VStack(alignment: .leading, spacing: DS.Space.xs) {
                                             HStack {
-                                                Text("• Inizi da:")
+                                                Text(NSLocalizedString("settings.plan.starting.from", comment: ""))
                                                 Spacer()
                                                 Text("\(String(format: "%.1f", dailyAverageForPlan)) sigarette/giorno")
                                                     .fontWeight(.medium)
                                             }
                                             HStack {
-                                                Text("• Arrivi a:")
+                                                Text(NSLocalizedString("settings.plan.reaching", comment: ""))
                                                 Spacer()
-                                                Text("0 sigarette/giorno")
+                                                Text(NSLocalizedString("settings.plan.zero.cigarettes", comment: ""))
                                                     .fontWeight(.medium)
                                                     .foregroundColor(DS.Colors.success)
                                             }
                                             HStack {
-                                                Text("• In:")
+                                                Text(NSLocalizedString("settings.plan.in.days", comment: ""))
                                                 Spacer()
-                                                Text("\(daysRemaining) giorni")
+                                                Text(String(format: NSLocalizedString("settings.plan.days.count", comment: ""), daysRemaining))
                                                     .fontWeight(.medium)
                                             }
                                             HStack {
-                                                Text("• Riduzione giornaliera:")
+                                                Text(NSLocalizedString("settings.plan.daily.reduction", comment: ""))
                                                 Spacer()
-                                                Text("-\(String(format: "%.2f", dailyReduction)) sigarette")
+                                                Text(String(format: NSLocalizedString("settings.plan.reduction.amount", comment: ""), String(format: "%.2f", dailyReduction)))
                                                     .fontWeight(.medium)
                                                     .foregroundColor(DS.Colors.warning)
                                             }
                                             HStack {
-                                                Text("• Obiettivo di oggi:")
+                                                Text(NSLocalizedString("settings.plan.todays.goal", comment: ""))
                                                 Spacer()
-                                                Text("\(todayTarget) sigarette")
+                                                Text(String(format: NSLocalizedString("settings.plan.cigarettes.count", comment: ""), todayTarget))
                                                     .fontWeight(.bold)
                                                     .foregroundColor(DS.Colors.primary)
                                             }
@@ -341,21 +341,21 @@ struct SettingsView: View {
                                         .font(DS.Text.caption)
                                         
                                         if daysRemaining <= 0 {
-                                            Text("⚠️ La data selezionata è troppo vicina. Seleziona una data più lontana per un piano graduale efficace.")
+                                            Text(NSLocalizedString("settings.plan.date.too.close", comment: ""))
                                                 .font(DS.Text.caption)
                                                 .foregroundColor(DS.Colors.danger)
                                                 .padding(DS.Space.sm)
                                                 .background(DS.Colors.danger.opacity(0.1))
                                                 .cornerRadius(8)
                                         } else if daysRemaining < 7 {
-                                            Text("💡 Piano intensivo: riduzione rapida in pochi giorni. Potresti considerare una data più lontana per un piano più graduale.")
+                                            Text(NSLocalizedString("settings.plan.intensive", comment: ""))
                                                 .font(DS.Text.caption)
                                                 .foregroundColor(DS.Colors.warning)
                                                 .padding(DS.Space.sm)
                                                 .background(DS.Colors.warning.opacity(0.1))
                                                 .cornerRadius(8)
                                         } else {
-                                            Text("✅ Piano ben bilanciato! Riduzione graduale sostenibile nel tempo.")
+                                            Text(NSLocalizedString("settings.plan.balanced", comment: ""))
                                                 .font(DS.Text.caption)
                                                 .foregroundColor(DS.Colors.success)
                                                 .padding(DS.Space.sm)
@@ -373,7 +373,7 @@ struct SettingsView: View {
                     
                     // Save Button
                     DSButton(
-                        "Salva Piano di Cessazione", 
+                        NSLocalizedString("settings.save.quit.plan", comment: ""), 
                         icon: "checkmark.circle.fill",
                         style: canSave ? .primary : .secondary
                     ) {
@@ -389,7 +389,7 @@ struct SettingsView: View {
                     if currentAge > 0 && !weight.isEmpty && isValidWeight {
                         DSCard {
                             VStack(spacing: DS.Space.lg) {
-                                DSSectionHeader("Informazioni sulla Salute")
+                                DSSectionHeader(NSLocalizedString("settings.health.info.section", comment: ""))
                                 HealthInsightsView(
                                     age: currentAge,
                                     weight: Double(weight) ?? 0,
@@ -403,9 +403,9 @@ struct SettingsView: View {
                     // App Info - uguale a prima
                     DSCard {
                         VStack(spacing: DS.Space.lg) {
-                            DSSectionHeader("Informazioni App")
+                            DSSectionHeader(NSLocalizedString("settings.app.info.section", comment: ""))
                             HStack {
-                                Text("Versione")
+                                Text(NSLocalizedString("settings.version.label", comment: ""))
                                 Spacer()
                                 Text(appVersion)
                                     .foregroundColor(DS.Colors.textSecondary)
@@ -416,7 +416,7 @@ struct SettingsView: View {
                 .padding(DS.Space.lg)
             }
             .background(DS.Colors.background)
-            .navigationTitle("Impostazioni")
+            .navigationTitle(NSLocalizedString("settings.title", comment: ""))
             .navigationBarTitleDisplayMode(.large)
         }
         .onAppear {
@@ -426,7 +426,7 @@ struct SettingsView: View {
             }
         }
         .sheet(isPresented: $showDatePicker) {
-            DatePickerView(selectedDate: $birthDate, isPresented: $showDatePicker, title: "Data di nascita")
+            DatePickerView(selectedDate: $birthDate, isPresented: $showDatePicker, title: NSLocalizedString("date.picker.title.birth", comment: ""))
         }
         .sheet(isPresented: $showQuitDatePicker) {
             DatePickerView(
@@ -435,16 +435,16 @@ struct SettingsView: View {
                     set: { quitDate = $0 }
                 ),
                 isPresented: $showQuitDatePicker,
-                title: "Quando vuoi smettere?",
+                title: NSLocalizedString("date.picker.title.quit", comment: ""),
                 minimumDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())
             )
         }
-        .alert("Piano Salvato", isPresented: $showingSaveConfirmation) {
+        .alert(NSLocalizedString("plan.saved.title", comment: ""), isPresented: $showingSaveConfirmation) {
             Button("OK") { 
                 dismiss()
             }
         } message: {
-            Text("Il tuo piano di cessazione è stato salvato con successo")
+            Text(NSLocalizedString("plan.saved.message", comment: ""))
         }
     }
     
@@ -515,7 +515,7 @@ struct SettingsView: View {
             try modelContext.save()
             showingSaveConfirmation = true
         } catch {
-            print("Errore salvataggio profilo: \(error)")
+            print(NSLocalizedString("error.saving.profile", comment: ""), error)
         }
     }
 }
@@ -553,10 +553,10 @@ struct DatePickerView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Annulla") { isPresented = false }
+                    Button(NSLocalizedString("date.picker.cancel", comment: "")) { isPresented = false }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Fine") { isPresented = false }
+                    Button(NSLocalizedString("date.picker.done", comment: "")) { isPresented = false }
                         .fontWeight(.semibold)
                 }
             }
@@ -574,9 +574,9 @@ struct HealthInsightsView: View {
         VStack(spacing: DS.Space.md) {
             if weight > 0 {
                 DSHealthCard(
-                    title: "Informazioni Generali",
+                    title: NSLocalizedString("health.general.info", comment: ""),
                     value: String(format: "%.0f kg", weight),
-                    subtitle: "\(age) anni, \(String(format: "%.0f", weight)) kg",
+                    subtitle: String(format: NSLocalizedString("settings.health.insights.age.weight.format", comment: ""), age, weight),
                     icon: "figure.stand",
                     color: DS.Colors.health,
                     trend: nil
@@ -584,18 +584,18 @@ struct HealthInsightsView: View {
             }
             
             DSHealthCard(
-                title: "Durata del Fumo",
+                title: NSLocalizedString("health.smoking.duration", comment: ""),
                 value: "\(yearsSmokingSince)",
-                subtitle: "anni",
+                subtitle: NSLocalizedString("health.smoking.duration.years", comment: ""),
                 icon: "exclamationmark.triangle.fill",
                 color: DS.Colors.warning,
                 trend: .stable
             )
             
             DSHealthCard(
-                title: "Ricordati",
+                title: NSLocalizedString("health.remember", comment: ""),
                 value: smokingType.displayName,
-                subtitle: "È sempre un buon momento per smettere",
+                subtitle: NSLocalizedString("health.good.time.to.quit", comment: ""),
                 icon: "heart.fill",
                 color: DS.Colors.danger,
                 trend: nil

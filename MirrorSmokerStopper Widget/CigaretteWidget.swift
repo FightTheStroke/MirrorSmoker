@@ -31,7 +31,7 @@ struct CigaretteWidgetEntryView: View {
             HStack(spacing: 6) {
                 Image(systemName: "lungs")
                     .foregroundColor(.red)
-                Text("Today")
+                Text(NSLocalizedString("widget.today", comment: ""))
                     .font(.caption2)
                     .foregroundColor(.secondary)
                 Spacer()
@@ -58,7 +58,7 @@ struct CigaretteWidgetEntryView: View {
                 .minimumScaleFactor(0.6)
                 .lineLimit(1)
             
-            Text("Last: \(entry.lastCigaretteTime)")
+            Text(String(format: NSLocalizedString("widget.last.time.format", comment: ""), entry.lastCigaretteTime))
                 .font(.caption2)
                 .foregroundColor(.secondary)
                 .lineLimit(1)
@@ -69,7 +69,7 @@ struct CigaretteWidgetEntryView: View {
 }
 
 private extension View {
-    // iOS 17: containerBackground; iOS 16: fallback neutro
+    // iOS 17: containerBackground; iOS 16: neutral fallback
     @ViewBuilder
     func applyWidgetBackground() -> some View {
         if #available(iOS 17.0, *) {

@@ -5,7 +5,6 @@ struct MainTabView: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            // Home Tab
             NavigationView {
                 ContentView()
             }
@@ -15,7 +14,6 @@ struct MainTabView: View {
             }
             .tag(0)
             
-            // Statistics Tab
             NavigationView {
                 EnhancedStatisticsView()
             }
@@ -25,17 +23,6 @@ struct MainTabView: View {
             }
             .tag(1)
             
-            // History Tab
-            NavigationView {
-                HistoryView()
-            }
-            .tabItem {
-                Image(systemName: "clock")
-                Text("Cronologia")
-            }
-            .tag(2)
-            
-            // Settings Tab
             NavigationView {
                 SettingsView()
             }
@@ -43,7 +30,7 @@ struct MainTabView: View {
                 Image(systemName: "gear")
                 Text("Impostazioni")
             }
-            .tag(3)
+            .tag(2)
         }
         .accentColor(DS.Colors.primary)
     }

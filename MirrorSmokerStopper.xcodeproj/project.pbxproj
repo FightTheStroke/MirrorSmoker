@@ -1,0 +1,1063 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A9F5E4C72E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A9F5E4C62E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A9F5E5032E65FBB4004181D9 /* CODE_OF_CONDUCT.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E4FD2E65FBB4004181D9 /* CODE_OF_CONDUCT.md */; };
+		A9F5E5042E65FBB4004181D9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E4FF2E65FBB4004181D9 /* LICENSE */; };
+		A9F5E5052E65FBB4004181D9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E5002E65FBB4004181D9 /* README.md */; };
+		A9F5E5062E65FBB4004181D9 /* Roadmap.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E5012E65FBB4004181D9 /* Roadmap.md */; };
+		A9F5E5072E65FBB4004181D9 /* SECURITY.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E5022E65FBB4004181D9 /* SECURITY.md */; };
+		A9F5E5092E65FBB4004181D9 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E4FE2E65FBB4004181D9 /* CONTRIBUTING.md */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A9F5E4B12E65FBA5004181D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9F5E49B2E65FBA3004181D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9F5E4A22E65FBA4004181D9;
+			remoteInfo = MirrorSmokerStopper;
+		};
+		A9F5E4BB2E65FBA5004181D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9F5E49B2E65FBA3004181D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9F5E4A22E65FBA4004181D9;
+			remoteInfo = MirrorSmokerStopper;
+		};
+		A9F5E4C82E65FBA5004181D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9F5E49B2E65FBA3004181D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9F5E4C52E65FBA5004181D9;
+			remoteInfo = "MirrorSmokerStopper Watch App";
+		};
+		A9F5E4D62E65FBA6004181D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9F5E49B2E65FBA3004181D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9F5E4C52E65FBA5004181D9;
+			remoteInfo = "MirrorSmokerStopper Watch App";
+		};
+		A9F5E4E02E65FBA6004181D9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9F5E49B2E65FBA3004181D9 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A9F5E4C52E65FBA5004181D9;
+			remoteInfo = "MirrorSmokerStopper Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A9F5E4EC2E65FBA6004181D9 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				A9F5E4C72E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E58D2E65FEFE004181D9 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		A9F5E4A32E65FBA4004181D9 /* MirrorSmokerStopper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MirrorSmokerStopper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9F5E4B02E65FBA5004181D9 /* MirrorSmokerStopperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MirrorSmokerStopperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9F5E4BA2E65FBA5004181D9 /* MirrorSmokerStopperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MirrorSmokerStopperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9F5E4C62E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "MirrorSmokerStopper Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9F5E4D52E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MirrorSmokerStopper Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9F5E4DF2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "MirrorSmokerStopper Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9F5E4FD2E65FBB4004181D9 /* CODE_OF_CONDUCT.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CODE_OF_CONDUCT.md; sourceTree = "<group>"; };
+		A9F5E4FE2E65FBB4004181D9 /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
+		A9F5E4FF2E65FBB4004181D9 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		A9F5E5002E65FBB4004181D9 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A9F5E5012E65FBB4004181D9 /* Roadmap.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Roadmap.md; sourceTree = "<group>"; };
+		A9F5E5022E65FBB4004181D9 /* SECURITY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SECURITY.md; sourceTree = "<group>"; };
+		A9F5E5742E65FEFD004181D9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A9F5E5762E65FEFD004181D9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		A9B839612E66099E00B0254B /* Exceptions for "MirrorSmokerStopper" folder in "MirrorSmokerStopper" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = A9F5E4A22E65FBA4004181D9 /* MirrorSmokerStopper */;
+		};
+		A9F5E56D2E65FD9A004181D9 /* Exceptions for "MirrorSmokerStopper" folder in "MirrorSmokerStopper Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Models/Cigarette.swift,
+				Models/HourRange.swift,
+				Models/Product.swift,
+				Models/SharedModels.swift,
+				Models/Tag.swift,
+				Models/UserProfile.swift,
+			);
+			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		A9F5E4A52E65FBA4004181D9 /* MirrorSmokerStopper */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A9B839612E66099E00B0254B /* Exceptions for "MirrorSmokerStopper" folder in "MirrorSmokerStopper" target */,
+				A9F5E56D2E65FD9A004181D9 /* Exceptions for "MirrorSmokerStopper" folder in "MirrorSmokerStopper Watch App" target */,
+			);
+			path = MirrorSmokerStopper;
+			sourceTree = "<group>";
+		};
+		A9F5E4B32E65FBA5004181D9 /* MirrorSmokerStopperTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MirrorSmokerStopperTests;
+			sourceTree = "<group>";
+		};
+		A9F5E4BD2E65FBA5004181D9 /* MirrorSmokerStopperUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = MirrorSmokerStopperUITests;
+			sourceTree = "<group>";
+		};
+		A9F5E4CA2E65FBA5004181D9 /* MirrorSmokerStopper Watch App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "MirrorSmokerStopper Watch App";
+			sourceTree = "<group>";
+		};
+		A9F5E4D82E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "MirrorSmokerStopper Watch AppTests";
+			sourceTree = "<group>";
+		};
+		A9F5E4E22E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "MirrorSmokerStopper Watch AppUITests";
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A9F5E4A02E65FBA4004181D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4AD2E65FBA5004181D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4B72E65FBA5004181D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4C32E65FBA5004181D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4D22E65FBA6004181D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4DC2E65FBA6004181D9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A9F5E49A2E65FBA3004181D9 = {
+			isa = PBXGroup;
+			children = (
+				A9F5E4A52E65FBA4004181D9 /* MirrorSmokerStopper */,
+				A9F5E4B32E65FBA5004181D9 /* MirrorSmokerStopperTests */,
+				A9F5E4BD2E65FBA5004181D9 /* MirrorSmokerStopperUITests */,
+				A9F5E4CA2E65FBA5004181D9 /* MirrorSmokerStopper Watch App */,
+				A9F5E4D82E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests */,
+				A9F5E4E22E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */,
+				A9F5E5732E65FEFD004181D9 /* Frameworks */,
+				A9F5E4A42E65FBA4004181D9 /* Products */,
+				A9F5E4FD2E65FBB4004181D9 /* CODE_OF_CONDUCT.md */,
+				A9F5E4FE2E65FBB4004181D9 /* CONTRIBUTING.md */,
+				A9F5E4FF2E65FBB4004181D9 /* LICENSE */,
+				A9F5E5002E65FBB4004181D9 /* README.md */,
+				A9F5E5012E65FBB4004181D9 /* Roadmap.md */,
+				A9F5E5022E65FBB4004181D9 /* SECURITY.md */,
+			);
+			sourceTree = "<group>";
+		};
+		A9F5E4A42E65FBA4004181D9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A9F5E4A32E65FBA4004181D9 /* MirrorSmokerStopper.app */,
+				A9F5E4B02E65FBA5004181D9 /* MirrorSmokerStopperTests.xctest */,
+				A9F5E4BA2E65FBA5004181D9 /* MirrorSmokerStopperUITests.xctest */,
+				A9F5E4C62E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app */,
+				A9F5E4D52E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests.xctest */,
+				A9F5E4DF2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A9F5E5732E65FEFD004181D9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A9F5E5742E65FEFD004181D9 /* WidgetKit.framework */,
+				A9F5E5762E65FEFD004181D9 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A9F5E4A22E65FBA4004181D9 /* MirrorSmokerStopper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9F5E4ED2E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper" */;
+			buildPhases = (
+				A9F5E49F2E65FBA4004181D9 /* Sources */,
+				A9F5E4A02E65FBA4004181D9 /* Frameworks */,
+				A9F5E4A12E65FBA4004181D9 /* Resources */,
+				A9F5E4EC2E65FBA6004181D9 /* Embed Watch Content */,
+				A9F5E58D2E65FEFE004181D9 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9F5E4C92E65FBA5004181D9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A9F5E4A52E65FBA4004181D9 /* MirrorSmokerStopper */,
+			);
+			name = MirrorSmokerStopper;
+			packageProductDependencies = (
+			);
+			productName = MirrorSmokerStopper;
+			productReference = A9F5E4A32E65FBA4004181D9 /* MirrorSmokerStopper.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A9F5E4AF2E65FBA5004181D9 /* MirrorSmokerStopperTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9F5E4F02E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopperTests" */;
+			buildPhases = (
+				A9F5E4AC2E65FBA5004181D9 /* Sources */,
+				A9F5E4AD2E65FBA5004181D9 /* Frameworks */,
+				A9F5E4AE2E65FBA5004181D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9F5E4B22E65FBA5004181D9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A9F5E4B32E65FBA5004181D9 /* MirrorSmokerStopperTests */,
+			);
+			name = MirrorSmokerStopperTests;
+			packageProductDependencies = (
+			);
+			productName = MirrorSmokerStopperTests;
+			productReference = A9F5E4B02E65FBA5004181D9 /* MirrorSmokerStopperTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A9F5E4B92E65FBA5004181D9 /* MirrorSmokerStopperUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9F5E4F32E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopperUITests" */;
+			buildPhases = (
+				A9F5E4B62E65FBA5004181D9 /* Sources */,
+				A9F5E4B72E65FBA5004181D9 /* Frameworks */,
+				A9F5E4B82E65FBA5004181D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9F5E4BC2E65FBA5004181D9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A9F5E4BD2E65FBA5004181D9 /* MirrorSmokerStopperUITests */,
+			);
+			name = MirrorSmokerStopperUITests;
+			packageProductDependencies = (
+			);
+			productName = MirrorSmokerStopperUITests;
+			productReference = A9F5E4BA2E65FBA5004181D9 /* MirrorSmokerStopperUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9F5E4E92E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper Watch App" */;
+			buildPhases = (
+				A9F5E4C22E65FBA5004181D9 /* Sources */,
+				A9F5E4C32E65FBA5004181D9 /* Frameworks */,
+				A9F5E4C42E65FBA5004181D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A9F5E4CA2E65FBA5004181D9 /* MirrorSmokerStopper Watch App */,
+			);
+			name = "MirrorSmokerStopper Watch App";
+			packageProductDependencies = (
+			);
+			productName = "MirrorSmokerStopper Watch App";
+			productReference = A9F5E4C62E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		A9F5E4D42E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9F5E4F62E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper Watch AppTests" */;
+			buildPhases = (
+				A9F5E4D12E65FBA6004181D9 /* Sources */,
+				A9F5E4D22E65FBA6004181D9 /* Frameworks */,
+				A9F5E4D32E65FBA6004181D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9F5E4D72E65FBA6004181D9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A9F5E4D82E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests */,
+			);
+			name = "MirrorSmokerStopper Watch AppTests";
+			packageProductDependencies = (
+			);
+			productName = "MirrorSmokerStopper Watch AppTests";
+			productReference = A9F5E4D52E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		A9F5E4DE2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A9F5E4F92E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper Watch AppUITests" */;
+			buildPhases = (
+				A9F5E4DB2E65FBA6004181D9 /* Sources */,
+				A9F5E4DC2E65FBA6004181D9 /* Frameworks */,
+				A9F5E4DD2E65FBA6004181D9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A9F5E4E12E65FBA6004181D9 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				A9F5E4E22E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */,
+			);
+			name = "MirrorSmokerStopper Watch AppUITests";
+			packageProductDependencies = (
+			);
+			productName = "MirrorSmokerStopper Watch AppUITests";
+			productReference = A9F5E4DF2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A9F5E49B2E65FBA3004181D9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					A9F5E4A22E65FBA4004181D9 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					A9F5E4AF2E65FBA5004181D9 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = A9F5E4A22E65FBA4004181D9;
+					};
+					A9F5E4B92E65FBA5004181D9 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = A9F5E4A22E65FBA4004181D9;
+					};
+					A9F5E4C52E65FBA5004181D9 = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					A9F5E4D42E65FBA6004181D9 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = A9F5E4C52E65FBA5004181D9;
+					};
+					A9F5E4DE2E65FBA6004181D9 = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = A9F5E4C52E65FBA5004181D9;
+					};
+				};
+			};
+			buildConfigurationList = A9F5E49E2E65FBA3004181D9 /* Build configuration list for PBXProject "MirrorSmokerStopper" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				de,
+				es,
+				it,
+				fr,
+			);
+			mainGroup = A9F5E49A2E65FBA3004181D9;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = A9F5E4A42E65FBA4004181D9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A9F5E4A22E65FBA4004181D9 /* MirrorSmokerStopper */,
+				A9F5E4AF2E65FBA5004181D9 /* MirrorSmokerStopperTests */,
+				A9F5E4B92E65FBA5004181D9 /* MirrorSmokerStopperUITests */,
+				A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */,
+				A9F5E4D42E65FBA6004181D9 /* MirrorSmokerStopper Watch AppTests */,
+				A9F5E4DE2E65FBA6004181D9 /* MirrorSmokerStopper Watch AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A9F5E4A12E65FBA4004181D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A9F5E5032E65FBB4004181D9 /* CODE_OF_CONDUCT.md in Resources */,
+				A9F5E5042E65FBB4004181D9 /* LICENSE in Resources */,
+				A9F5E5052E65FBB4004181D9 /* README.md in Resources */,
+				A9F5E5062E65FBB4004181D9 /* Roadmap.md in Resources */,
+				A9F5E5072E65FBB4004181D9 /* SECURITY.md in Resources */,
+				A9F5E5092E65FBB4004181D9 /* CONTRIBUTING.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4AE2E65FBA5004181D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4B82E65FBA5004181D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4C42E65FBA5004181D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4D32E65FBA6004181D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4DD2E65FBA6004181D9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A9F5E49F2E65FBA4004181D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4AC2E65FBA5004181D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4B62E65FBA5004181D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4C22E65FBA5004181D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4D12E65FBA6004181D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A9F5E4DB2E65FBA6004181D9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A9F5E4B22E65FBA5004181D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9F5E4A22E65FBA4004181D9 /* MirrorSmokerStopper */;
+			targetProxy = A9F5E4B12E65FBA5004181D9 /* PBXContainerItemProxy */;
+		};
+		A9F5E4BC2E65FBA5004181D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9F5E4A22E65FBA4004181D9 /* MirrorSmokerStopper */;
+			targetProxy = A9F5E4BB2E65FBA5004181D9 /* PBXContainerItemProxy */;
+		};
+		A9F5E4C92E65FBA5004181D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
+			targetProxy = A9F5E4C82E65FBA5004181D9 /* PBXContainerItemProxy */;
+		};
+		A9F5E4D72E65FBA6004181D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
+			targetProxy = A9F5E4D62E65FBA6004181D9 /* PBXContainerItemProxy */;
+		};
+		A9F5E4E12E65FBA6004181D9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
+			targetProxy = A9F5E4E02E65FBA6004181D9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		A9F5E4E72E65FBA6004181D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		A9F5E4E82E65FBA6004181D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		A9F5E4EA2E65FBA6004181D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWatch;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MirrorSmokerStopper Watch App/MirrorSmokerStopper Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mirror-labs.MirrorSmokerStopper";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		A9F5E4EB2E65FBA6004181D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWatch;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "MirrorSmokerStopper Watch App/MirrorSmokerStopper Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mirror-labs.MirrorSmokerStopper";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+		A9F5E4EE2E65FBA6004181D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MirrorSmokerStopper/MirrorSmokerStopper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MirrorSmokerStopper/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A9F5E4EF2E65FBA6004181D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = MirrorSmokerStopper/MirrorSmokerStopper.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MirrorSmokerStopper/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A9F5E4F12E65FBA6004181D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopperTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MirrorSmokerStopper.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MirrorSmokerStopper";
+			};
+			name = Debug;
+		};
+		A9F5E4F22E65FBA6004181D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopperTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MirrorSmokerStopper.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MirrorSmokerStopper";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A9F5E4F42E65FBA6004181D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopperUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MirrorSmokerStopper;
+			};
+			name = Debug;
+		};
+		A9F5E4F52E65FBA6004181D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopperUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MirrorSmokerStopper;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A9F5E4F72E65FBA6004181D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MirrorSmokerStopper Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MirrorSmokerStopper Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		A9F5E4F82E65FBA6004181D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MirrorSmokerStopper Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/MirrorSmokerStopper Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+		A9F5E4FA2E65FBA6004181D9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "MirrorSmokerStopper Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Debug;
+		};
+		A9F5E4FB2E65FBA6004181D9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 93T3LG4NPG;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mirror-labs.MirrorSmokerStopper-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "MirrorSmokerStopper Watch App";
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 11.5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A9F5E49E2E65FBA3004181D9 /* Build configuration list for PBXProject "MirrorSmokerStopper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9F5E4E72E65FBA6004181D9 /* Debug */,
+				A9F5E4E82E65FBA6004181D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9F5E4E92E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9F5E4EA2E65FBA6004181D9 /* Debug */,
+				A9F5E4EB2E65FBA6004181D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9F5E4ED2E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9F5E4EE2E65FBA6004181D9 /* Debug */,
+				A9F5E4EF2E65FBA6004181D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9F5E4F02E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopperTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9F5E4F12E65FBA6004181D9 /* Debug */,
+				A9F5E4F22E65FBA6004181D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9F5E4F32E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopperUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9F5E4F42E65FBA6004181D9 /* Debug */,
+				A9F5E4F52E65FBA6004181D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9F5E4F62E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9F5E4F72E65FBA6004181D9 /* Debug */,
+				A9F5E4F82E65FBA6004181D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A9F5E4F92E65FBA6004181D9 /* Build configuration list for PBXNativeTarget "MirrorSmokerStopper Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A9F5E4FA2E65FBA6004181D9 /* Debug */,
+				A9F5E4FB2E65FBA6004181D9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A9F5E49B2E65FBA3004181D9 /* Project object */;
+}

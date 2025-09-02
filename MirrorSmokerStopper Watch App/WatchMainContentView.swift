@@ -20,7 +20,7 @@ struct WatchContentView: View {
     
     var body: some View {
         TabView {
-            // Tab principale - Aggiungi sigaretta
+            // Main tab - Add cigarette
             VStack(spacing: 12) {
                 Text("Oggi")
                     .font(.caption)
@@ -44,7 +44,7 @@ struct WatchContentView: View {
             }
             .background(Color.black)
             
-            // Tab statistiche rapide
+            // Quick stats tab
             VStack(spacing: 8) {
                 Text("Statistiche")
                     .font(.headline)
@@ -75,7 +75,7 @@ struct WatchContentView: View {
             }
             .background(Color.black)
             
-            // Tab lista sigarette di oggi
+            // Today's cigarettes list tab
             ScrollView {
                 LazyVStack(spacing: 4) {
                     Text("Oggi")

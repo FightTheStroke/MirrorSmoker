@@ -13,8 +13,6 @@ struct HistorySection: View {
     var dailyStats: [(date: Date, count: Int)] = []
     var cigarettes: [Cigarette] = []
     
-
-    
     var body: some View {
         DSCard {
             VStack(spacing: DS.Space.md) {

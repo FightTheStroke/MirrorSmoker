@@ -10,7 +10,7 @@ import SwiftData
 
 @main
 struct MirrorSmokerStopperApp: App {
-    // ModelContainer condiviso
+    // Shared ModelContainer
     private static let sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Cigarette.self,
@@ -19,7 +19,7 @@ struct MirrorSmokerStopperApp: App {
             Product.self
         ])
         
-        // Configuration for local storage only (no ClouHai ragione, mi scuso per la confusione. Ti spiego esattamente il problema e cosa devo fare:
+        // Configuration for local storage only (no CloudKit)
        
         let configuration = ModelConfiguration(
             schema: schema,

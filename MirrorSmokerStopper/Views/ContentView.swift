@@ -391,7 +391,7 @@ struct ContentView: View {
                 }
             }
             
-            // Floating Action Button - POSIZIONATO A DESTRA
+            // Floating Action Button - POSITIONED ON THE RIGHT
             DSFloatingActionButton {
                 addCigarette()
                 let impact = UIImpactFeedbackGenerator(style: .medium)
@@ -402,7 +402,7 @@ struct ContentView: View {
                     showingTagPicker = true
                 }
             }
-            .padding(.bottom, 100) // Spazio per tab bar
+            .padding(.bottom, 100) // Space for tab bar
             .padding(.trailing, DS.Space.lg)
         }
     }

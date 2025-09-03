@@ -14,7 +14,8 @@ final class DesignSystemTests: XCTestCase {
     func testDSColors() {
         // Test that all DS colors are defined
         XCTAssertNotNil(DS.Colors.primary)
-        XCTAssertNotNil(DS.Colors.secondary)
+        XCTAssertNotNil(DS.Colors.primaryLight)
+        XCTAssertNotNil(DS.Colors.primaryDark)
         XCTAssertNotNil(DS.Colors.background)
         XCTAssertNotNil(DS.Colors.backgroundSecondary)
         XCTAssertNotNil(DS.Colors.textPrimary)
@@ -25,6 +26,7 @@ final class DesignSystemTests: XCTestCase {
         XCTAssertNotNil(DS.Colors.danger)
         XCTAssertNotNil(DS.Colors.info)
         XCTAssertNotNil(DS.Colors.cigarette)
+        XCTAssertNotNil(DS.Colors.health)
     }
     
     func testDSSpace() {

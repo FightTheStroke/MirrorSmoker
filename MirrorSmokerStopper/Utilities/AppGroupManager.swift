@@ -22,11 +22,23 @@ struct AppGroupManager {
             return nil
         }
         
-        let storeURL = url.appendingPathComponent("MirrorSmoker.sqlite")
+        let storeURL = url.appendingPathComponent("MirrorSmokerModel_v2.store")
         
         do {
-            let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .automatic)
-            return try ModelContainer(for: Cigarette.self, Tag.self, UserProfile.self, configurations: config)
+            let schema = Schema([
+                Cigarette.self,
+                Tag.self,
+                UserProfile.self,
+                Product.self,
+                UrgeLog.self
+            ])
+            let config = ModelConfiguration(
+                "MirrorSmokerModel_v2",
+                schema: schema,
+                url: storeURL,
+                cloudKitDatabase: .automatic
+            )
+            return try ModelContainer(for: schema, configurations: [config])
         } catch {
             print("❌ Failed to create shared model container: \(error)")
             return nil

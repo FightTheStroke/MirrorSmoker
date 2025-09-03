@@ -110,6 +110,7 @@ struct EnhancedWeeklyChart: View {
     private var dayFormatter: DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEE"
+        formatter.locale = Locale.current
         return formatter
     }
     
@@ -302,7 +303,7 @@ struct TrendIndicator: View {
             )
         }
         
-        TrendIndicator(trend: -0.25, label: "vs last week") // Negative = green = good
+        TrendIndicator(trend: -0.25, label: NSLocalizedString("vs.last.week", comment: "Comparison with last week")) // Negative = green = good
     }
     .padding()
 }

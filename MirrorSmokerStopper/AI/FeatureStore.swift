@@ -120,7 +120,7 @@ class FeatureStore: ObservableObject {
         
         let calendar = Calendar.current
         var streak = 0
-        var currentDate = calendar.startOfDay(for: Date())
+        let currentDate = calendar.startOfDay(for: Date())
         
         // Check each day backwards until we find a day with cigarettes
         for dayOffset in 0..<30 { // Check max 30 days

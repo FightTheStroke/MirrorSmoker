@@ -9,6 +9,7 @@ import Foundation
 import HealthKit
 import os.log
 
+@MainActor
 final class HealthKitManager: ObservableObject {
     static let shared = HealthKitManager()
     
@@ -47,6 +48,8 @@ final class HealthKitManager: ObservableObject {
         if let steps = HKObjectType.quantityType(forIdentifier: .stepCount) {
             toRead.insert(steps)
         }
+        
+        logger.info("Requesting HealthKit authorization for \(toRead.count) read types and \(toShare.count) share types")
         
         // Note: Clinical records removed as they're not essential for core functionality
         
@@ -110,6 +113,14 @@ final class HealthKitManager: ObservableObject {
     
     func getStepCountLast3Hours() async throws -> Double {
         guard let stepsType = HKObjectType.quantityType(forIdentifier: .stepCount) else {
+            logger.warning("Step count type not available")
+            return 0.0
+        }
+        
+        // Check authorization status first
+        let authStatus = store.authorizationStatus(for: stepsType)
+        guard authStatus == .sharingAuthorized else {
+            logger.info("Step count authorization not granted (status: \(authStatus.rawValue))")
             return 0.0
         }
         
@@ -133,6 +144,7 @@ final class HealthKitManager: ObservableObject {
                 }
                 
                 let steps = result?.sumQuantity()?.doubleValue(for: HKUnit.count()) ?? 0.0
+                self.logger.debug("Retrieved step count: \(steps)")
                 continuation.resume(returning: steps)
             }
             store.execute(query)
@@ -141,6 +153,14 @@ final class HealthKitManager: ObservableObject {
     
     func didSleepPoorlyLastNight() async throws -> Bool {
         guard let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) else {
+            logger.warning("Sleep analysis type not available")
+            return false
+        }
+        
+        // Check authorization status first
+        let authStatus = store.authorizationStatus(for: sleepType)
+        guard authStatus == .sharingAuthorized else {
+            logger.info("Sleep data authorization not granted (status: \(authStatus.rawValue))")
             return false
         }
         

@@ -15,48 +15,48 @@ struct DSCard_Previews: PreviewProvider {
             VStack(spacing: DS.Space.lg) {
                 Group {
                     // Plain variants
-                    DSCard(variant: .plain, elevation: .none) {
+                    LegacyDSCard {
                         sampleCardContent(title: "Plain - No Elevation")
                     }
                     
-                    DSCard(variant: .plain, elevation: .small) {
+                    LegacyDSCard {
                         sampleCardContent(title: "Plain - Small Elevation")
                     }
                     
-                    DSCard(variant: .plain, elevation: .medium) {
+                    LegacyDSCard {
                         sampleCardContent(title: "Plain - Medium Elevation")
                     }
                     
-                    DSCard(variant: .plain, elevation: .large) {
+                    LegacyDSCard {
                         sampleCardContent(title: "Plain - Large Elevation")
                     }
                 }
                 
                 Group {
                     // Bordered variants
-                    DSCard(variant: .bordered, elevation: .none) {
+                    LegacyDSCard {
                         sampleCardContent(title: "Bordered - No Elevation")
                     }
                     
-                    DSCard(variant: .bordered, elevation: .small) {
+                    LegacyDSCard {
                         sampleCardContent(title: "Bordered - Small Elevation")
                     }
                 }
                 
                 Group {
                     // Elevated variants
-                    DSCard(variant: .elevated, elevation: .medium) {
+                    LegacyDSCard {
                         sampleCardContent(title: "Elevated - Medium")
                     }
                     
-                    DSCard(variant: .elevated, elevation: .large) {
+                    LegacyDSCard {
                         sampleCardContent(title: "Elevated - Large")
                     }
                 }
                 
                 Group {
                     // Interactive variants
-                    DSCard(variant: .plain, elevation: .small, interactive: true) {
+                    LegacyDSCard {
                         sampleCardContent(title: "Interactive Card")
                     }
                 }

@@ -126,7 +126,7 @@ struct QuitPlanOptimizationView: View {
                 
                 PlanMetricCard(
                     title: NSLocalizedString("reduction.curve", comment: ""),
-                    value: profile.reductionCurve.rawValue.capitalized,
+                    value: profile.reductionCurve.rawValue.localizedCapitalized,
                     icon: "chart.line.downtrend.xyaxis"
                 )
                 
@@ -221,7 +221,7 @@ struct QuitPlanOptimizationView: View {
                     }
                     
                     if planAdaptations.count > 3 {
-                        Text("+ \(planAdaptations.count - 3) more recommendations")
+                        Text(String(format: NSLocalizedString("plus.more.recommendations", comment: "More recommendations count"), planAdaptations.count - 3))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }
@@ -601,7 +601,7 @@ struct MilestoneDetailRow: View {
                 
                 Spacer()
                 
-                Text("Target: \(milestone.target)")
+                Text(String(format: NSLocalizedString("milestone.target.label", comment: "Milestone target label"), milestone.target))
                     .font(.caption2)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)
@@ -633,7 +633,7 @@ struct AdaptationDetailRow: View {
                 Image(systemName: adaptationIcon)
                     .foregroundColor(adaptationColor)
                 
-                Text(adaptation.type.rawValue.replacingOccurrences(of: "_", with: " ").capitalized)
+                Text(adaptation.type.rawValue.localizedCapitalized)
                     .font(.headline)
                 
                 Spacer()
@@ -681,7 +681,7 @@ struct UrgencyBadge: View {
     let urgency: QuitPlanOptimizer.AdaptationUrgency
     
     var body: some View {
-        Text(urgency.rawValue.capitalized)
+        Text(urgency.rawValue.localizedCapitalized)
             .font(.caption2)
             .fontWeight(.medium)
             .padding(.horizontal, 6)

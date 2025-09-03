@@ -25,7 +25,8 @@ class PersistenceController {
             Cigarette.self,
             Tag.self,
             UserProfile.self,
-            Product.self
+            Product.self,
+            UrgeLog.self
         ])
         
         // First, try to initialize with the App Group container
@@ -33,8 +34,14 @@ class PersistenceController {
             self.modelContainer = appGroupContainer
             Self.logger.info("✅ Successfully initialized with App Group shared container.")
             
-            // Perform migration check on the shared container
-            Self.performDataMigrationIfNeeded(to: self.modelContainer)
+            // Verify database integrity before proceeding
+            if Self.verifyDatabaseIntegrity(container: self.modelContainer) {
+                Self.logger.info("✅ Database integrity verified.")
+                Self.performDataMigrationIfNeeded(to: self.modelContainer)
+            } else {
+                Self.logger.error("❌ Database corruption detected. Attempting recovery...")
+                Self.repairCorruptedDatabase(container: self.modelContainer, schema: schema)
+            }
             
         } else {
             Self.logger.warning("⚠️ App Group not available. Falling back to a local-only container.")
@@ -44,8 +51,14 @@ class PersistenceController {
                 self.modelContainer = localContainer
                 Self.logger.info("✅ Successfully initialized with local container.")
                 
-                // Perform migration check on the local container
-                Self.performDataMigrationIfNeeded(to: self.modelContainer)
+                // Verify database integrity before proceeding
+                if Self.verifyDatabaseIntegrity(container: self.modelContainer) {
+                    Self.logger.info("✅ Database integrity verified.")
+                    Self.performDataMigrationIfNeeded(to: self.modelContainer)
+                } else {
+                    Self.logger.error("❌ Database corruption detected. Attempting recovery...")
+                    Self.repairCorruptedDatabase(container: self.modelContainer, schema: schema)
+                }
                 
             } else {
                 // As a last resort, use an in-memory container
@@ -78,7 +91,24 @@ class PersistenceController {
             return try ModelContainer(for: schema, configurations: [configuration])
         } catch {
             logger.error("❌ Failed to create local ModelContainer: \(error.localizedDescription)")
-            return nil
+            
+            // If CloudKit fails, try without CloudKit as fallback
+            logger.info("🔄 Attempting to create container without CloudKit...")
+            let fallbackConfiguration = ModelConfiguration(
+                "MirrorSmokerModel_v2_local",
+                schema: schema,
+                isStoredInMemoryOnly: false
+                // No cloudKitDatabase parameter = local only
+            )
+            
+            do {
+                let container = try ModelContainer(for: schema, configurations: [fallbackConfiguration])
+                logger.info("✅ Successfully created local-only container")
+                return container
+            } catch {
+                logger.error("❌ Even local-only container failed: \(error.localizedDescription)")
+                return nil
+            }
         }
     }
     
@@ -227,5 +257,173 @@ class PersistenceController {
             // Mark as complete anyway to avoid repeated checks on fresh installs.
             UserDefaults.standard.set(true, forKey: migrationCompletedKey)
         }
+    }
+    
+    // MARK: - Database Integrity & Recovery
+    
+    /// Verifies database integrity by checking if essential tables exist and are accessible.
+    private static func verifyDatabaseIntegrity(container: ModelContainer) -> Bool {
+        logger.info("🔍 Verifying database integrity...")
+        
+        do {
+            let context = ModelContext(container)
+            
+            // Test basic fetch operations for core entities
+            var cigaretteTest = FetchDescriptor<Cigarette>()
+            cigaretteTest.fetchLimit = 1
+            _ = try context.fetch(cigaretteTest)
+            
+            var userProfileTest = FetchDescriptor<UserProfile>()
+            userProfileTest.fetchLimit = 1
+            _ = try context.fetch(userProfileTest)
+            
+            var tagTest = FetchDescriptor<Tag>()
+            tagTest.fetchLimit = 1
+            _ = try context.fetch(tagTest)
+            
+            logger.info("✅ Database integrity check passed.")
+            return true
+            
+        } catch {
+            logger.error("❌ Database integrity check failed: \(error.localizedDescription)")
+            
+            // Check for specific table missing errors
+            let errorDescription = error.localizedDescription.lowercased()
+            if errorDescription.contains("no such table") {
+                logger.error("💥 Critical: Database tables are missing. Database needs to be reset.")
+            } else if errorDescription.contains("database is locked") {
+                logger.error("🔒 Database is locked. May resolve on retry.")
+            } else if errorDescription.contains("database disk image is malformed") {
+                logger.error("💥 Database file is corrupted beyond repair.")
+            }
+            
+            return false
+        }
+    }
+    
+    /// Attempts to repair a corrupted database by backing up existing data and creating a fresh database.
+    private static func repairCorruptedDatabase(container: ModelContainer, schema: Schema) {
+        logger.info("🔧 Starting database repair process...")
+        
+        // Create a backup timestamp
+        let timestamp = ISO8601DateFormatter().string(from: Date())
+        logger.info("📅 Repair timestamp: \(timestamp)")
+        
+        do {
+            // Try to salvage any data that can be read
+            let context = ModelContext(container)
+            var salvageableData: (cigarettes: [Cigarette], tags: [Tag], profiles: [UserProfile], products: [Product]) = ([], [], [], [])
+            
+            // Attempt to salvage data from each table if possible
+            salvageableData.cigarettes = (try? context.fetch(FetchDescriptor<Cigarette>())) ?? []
+            salvageableData.tags = (try? context.fetch(FetchDescriptor<Tag>())) ?? []
+            salvageableData.profiles = (try? context.fetch(FetchDescriptor<UserProfile>())) ?? []
+            salvageableData.products = (try? context.fetch(FetchDescriptor<Product>())) ?? []
+            
+            let totalSalvaged = salvageableData.cigarettes.count + salvageableData.tags.count + 
+                               salvageableData.profiles.count + salvageableData.products.count
+            
+            logger.info("💾 Salvaged \(totalSalvaged) items from corrupted database")
+            
+            // Force reset database by creating new configuration
+            resetDatabaseFiles()
+            
+            // Create fresh database with salvaged data
+            if totalSalvaged > 0 {
+                logger.info("🔄 Recreating database with salvaged data...")
+                let newContext = ModelContext(container)
+                
+                // Reinsert salvaged data
+                salvageableData.cigarettes.forEach { newContext.insert($0) }
+                salvageableData.tags.forEach { newContext.insert($0) }
+                salvageableData.profiles.forEach { newContext.insert($0) }
+                salvageableData.products.forEach { newContext.insert($0) }
+                
+                try newContext.save()
+                logger.info("✅ Database repair completed with \(totalSalvaged) recovered items")
+            } else {
+                logger.info("🆕 Created fresh empty database")
+            }
+            
+            // Set repair flag to track this event
+            UserDefaults.standard.set(timestamp, forKey: "LastDatabaseRepair")
+            UserDefaults.standard.set(true, forKey: "DatabaseRepairedSuccessfully")
+            
+        } catch {
+            logger.error("❌ Database repair failed: \(error.localizedDescription)")
+            
+            // As last resort, force create empty database
+            logger.info("🚨 Forcing complete database reset...")
+            resetDatabaseFiles()
+            UserDefaults.standard.set(timestamp, forKey: "LastDatabaseReset")
+            UserDefaults.standard.set(false, forKey: "DatabaseRepairedSuccessfully")
+        }
+    }
+    
+    /// Removes existing database files to force recreation.
+    private static func resetDatabaseFiles() {
+        logger.info("🗑️ Resetting database files...")
+        
+        // Get app group container path
+        if let appGroupURL = AppGroupManager.sharedContainer {
+            let databasePaths = [
+                appGroupURL.appendingPathComponent("MirrorSmokerModel_v2.store"),
+                appGroupURL.appendingPathComponent("MirrorSmokerModel_v2.store-wal"),
+                appGroupURL.appendingPathComponent("MirrorSmokerModel_v2.store-shm"),
+                // Old files to clean up
+                appGroupURL.appendingPathComponent("MirrorSmoker.sqlite"),
+                appGroupURL.appendingPathComponent("MirrorSmoker.sqlite-wal"),
+                appGroupURL.appendingPathComponent("MirrorSmoker.sqlite-shm")
+            ]
+            
+            for path in databasePaths {
+                if FileManager.default.fileExists(atPath: path.path) {
+                    try? FileManager.default.removeItem(at: path)
+                    logger.info("🗑️ Removed: \(path.lastPathComponent)")
+                }
+            }
+        }
+        
+        // Also check app's documents directory
+        if let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
+            let localPaths = [
+                documentsURL.appendingPathComponent("MirrorSmokerModel_v2.store"),
+                documentsURL.appendingPathComponent("MirrorSmokerModel_v2.store-wal"),
+                documentsURL.appendingPathComponent("MirrorSmokerModel_v2.store-shm")
+            ]
+            
+            for path in localPaths {
+                if FileManager.default.fileExists(atPath: path.path) {
+                    try? FileManager.default.removeItem(at: path)
+                    logger.info("🗑️ Removed local: \(path.lastPathComponent)")
+                }
+            }
+        }
+        
+        logger.info("✅ Database files reset completed")
+    }
+    
+    /// Force cleanup of CloudKit-related files and caches
+    static func forceCloudKitReset() {
+        logger.info("☁️ Forcing CloudKit reset...")
+        
+        // Clear CloudKit cache and reset files
+        resetDatabaseFiles()
+        
+        // Clear UserDefaults related to CloudKit
+        let cloudKitKeys = [
+            "com.apple.coredata.cloudkit.zone.com.fightthestroke.MirrorSmokerStopper.MirrorSmokerModel_v2",
+            "NSPersistentHistoryToken",
+            "CloudKitLastSyncToken"
+        ]
+        
+        for key in cloudKitKeys {
+            UserDefaults.standard.removeObject(forKey: key)
+        }
+        
+        // Reset CloudKit state
+        UserDefaults.standard.set(true, forKey: "ForceCloudKitReset")
+        
+        logger.info("✅ CloudKit reset completed")
     }
 }

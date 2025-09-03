@@ -1,329 +1,92 @@
-# Mirror Smoker Roadmap 🗺️
+# Implementation Roadmap: MirrorSmokerStopper (iOS 17+ / watchOS 8+)
+**Version 4.0 - Full Technical & Business Blueprint**
 
-This document outlines the development roadmap for Mirror Smoker, organized by milestones with clear deliverables and timelines.
+## 1. Vision & Architecture
 
-## 📋 Current Status
+This document is the technical and product guide to transform **MirrorSmokerStopper** into a state-of-the-art, motivational, and intelligent companion for quitting smoking. The goal is an app that is **beautiful to use**, **highly effective**, and fully leverages the technological capabilities of **iOS 26** and **watchOS 12**, while maintaining a sustainable business model.
 
-**Version**: 1.0 (Development)  
-**Target Release**: Q2 2024  
-**Platform Support**: iOS 17.0+, watchOS 10.0+
+### 1.1. Monetization Strategy: Freemium Model
+Based on industry best practices for wellness and habit-change apps, we will adopt a **Freemium** model. This provides a powerful, free-forever core experience to all users, with an optional subscription (`MirrorSmokerStopper Pro`) that unlocks advanced, highly personalized features.
 
----
+- **Free Tier (Core App):** Provides all essential tools for tracking and basic progress monitoring. The goal is to deliver genuine value and build user trust.
+- **Premium Tier (Pro Subscription):** Offers advanced AI-powered coaching, deep analytics, and powerful motivational tools for users who are highly committed and want the best possible support system.
 
-## 🎯 Milestone 1 — Core Foundation ✅
-**Status**: Completed  
-**Target**: Q1 2024
-
-### Data Layer
-- [x] SwiftData models: `Cigarette`, `Tag`, `UserProfile`, `Product`
-- [x] CloudKit integration for cross-device synchronization
-- [x] Data persistence and migration handling
-- [x] Real-time sync between iOS and watchOS
-
-### Core UI
-- [x] Main tracking interface with one-tap logging
-- [x] Tag system with color-coded categories
-- [x] SwiftUI-based design system (`DS`)
-- [x] Dark/Light mode support
-- [x] Basic accessibility features
-
-### Tagging System
-- [x] TagPicker UI with create/select functionality
-- [x] Color palette for tag visualization
-- [x] Tag display in today's cigarette list
-- [x] Swipe gestures for tag management
-- [x] Tag-based analytics foundation
-
-### Device Integration
-- [x] ConnectivityManager for iOS ↔ watchOS sync
-- [x] Real-time data synchronization
-- [x] Tag upsert and conflict resolution
-- [x] Background sync capabilities
-
-### Localization
-- [x] English and Italian language support
-- [x] Localization infrastructure
-- [x] Key string management system
+### 1.2. Navigation & App Structure Redesign
+The app's navigation will be reorganized to support the freemium model and improve user flow:
+- **Tab 1: "Today" (`TodayView`)**: The daily dashboard.
+- **Tab 2: "Progress" (`ProgressView`)**: The visual story of the user's success.
+- **Tab 3: "Plan & Profile" (`PlanView`)**: The personal control center.
 
 ---
 
-## 🚀 Milestone 2 — Smart Features (In Progress)
-**Status**: 80% Complete  
-**Target**: Q2 2024
+## 2. Phase 1: Foundational Project Updates
 
-### App Intents & Siri
-- [x] AddCigaretteIntent implementation
-- [x] "Hey Siri, I smoked a cigarette" support (EN/IT)
-- [x] App Shortcuts integration
-- [ ] Enhanced Siri phrases with tag parameters
-- [ ] Shortcut donations for frequently used actions
-- [ ] Voice-driven tag selection
+### 2.1. Project Configuration
+- **iOS Target:** `Base SDK: Latest iOS (iOS 26)`, `Deployment Target: 17.0`.
+- **watchOS Target:** `Base SDK: Latest watchOS (watchOS 12)`, `Deployment Target: 8.0`.
 
-### Widget System
-- [x] Home Screen widget with today's count
-- [x] Quick add functionality from widget
-- [x] WidgetStore for data management
-- [ ] Lock Screen widget support (iOS 16+)
-- [ ] Widget configuration options
-- [ ] Multiple widget sizes and layouts
+### 2.2. Design System (`DS`) Enhancement for iOS 26
+- **File: `Utilities/DesignSystem.swift`**: Implement the `.liquidGlassBackground()` modifier.
+- **File: `Utilities/DesignSystemComponents.swift`**: Add a `.glass` variant to `DSCard` and update all components to support the new aesthetic.
 
-### watchOS App
-- [x] Native Apple Watch app
-- [x] WatchContentView implementation
-- [x] Sync with iOS app
-- [ ] Watch complications
-- [ ] Haptic feedback improvements
-- [ ] Standalone functionality (without iPhone)
-
-### Analytics Foundation
-- [x] Basic daily/weekly statistics
-- [x] Advanced analytics (weekday/hour patterns)
-- [x] Tag-based insights
-- [ ] Trend analysis algorithms
-- [ ] Pattern recognition improvements
-- [ ] Export functionality
+### 2.3. Privacy & Capabilities
+- **`MirrorSmokerStopper.entitlements`**: Enable **HealthKit**.
+- **`Info.plist`**: Add usage descriptions for HealthKit and Notifications.
 
 ---
 
-## 📊 Milestone 3 — Advanced Analytics & Insights
-**Status**: Planning  
-**Target**: Q3 2024
+## 3. Phase 2: Core Experience & UI/UX Redesign (Free Tier)
 
-### Enhanced Analytics
-- [ ] Machine learning-based pattern recognition
-- [ ] Predictive analytics for high-risk times
-- [ ] Correlation analysis between tags and frequency
-- [ ] Weekly/monthly trend reports
-- [ ] Comparative analytics (week-over-week, etc.)
+This phase focuses on building a best-in-class free experience.
 
-### Visualization Improvements
-- [ ] Interactive charts with drill-down capabilities
-- [ ] Heat map visualizations for time patterns
-- [ ] Tag correlation matrices
-- [ ] Progress tracking with visual indicators
-- [ ] Customizable dashboard
+### 3.1. New Core Feature: Cost & Purchase Tracking
+- **Goal:** Allow users to track their spending on tobacco products to make the "Financial Savings" metric accurate and impactful.
+- **Implementation:**
+  - **Data Model:** Extend `SwiftData` with a `Purchase` model (`date: Date`, `amount: Double`, `currency: String`).
+  - **Intents:** Create a `LogPurchaseIntent` for quick logging via Shortcuts or Siri.
+  - **UI:** Add a "Log Purchase" button in the `TodayView`, possibly in a context menu on the main FAB. The financial data will directly feed the "Savings" card.
 
-### Data Export & Sharing
-- [ ] CSV/JSON export functionality
-- [ ] Health app integration
-- [ ] Sharing insights with healthcare providers
-- [ ] Anonymous data insights (opt-in)
-- [ ] Backup and restore functionality
+### 3.2. Redesign "Plan & Profile" (`PlanView`)
+- **Components:**
+  - **1. `ProfileHeaderView`:** User's name and their core motivation ("My Why").
+  - **2. `DSCard(variant: .glass)` for "My Quit Plan":** Quit date and method setup.
+  - **3. `DSCard(variant: .glass)` "Upgrade to Pro":** A visually appealing, non-intrusive card that clearly communicates the benefits of the Pro subscription. Tapping it will present the paywall.
+  - **4. `DSCard(variant: .glass)` for "Connected Services":** HealthKit permission management.
 
-### Motivation Engine
-- [ ] Personalized motivation messages
-- [ ] Achievement system and badges
-- [ ] Streak tracking and celebrations
-- [ ] Goal setting and progress monitoring
-- [ ] Reminder system based on patterns
+### 3.3. Redesign "Progress" (`ProgressView`)
+- **Components:**
+  - **1. `MilestoneCarouselView`:** A horizontal carousel celebrating key achievements (e.g., "24 Hours Smoke-Free"). **The first few milestones are free; advanced ones are a Pro feature.**
+  - **2. `DSCard(variant: .glass)` "Financial Savings":** A clear view of money saved, now based on actual user-inputted purchase data.
+  - **3. `DSCard(variant: .glass)` "General Trend":** A simple line chart showing cigarettes per day for the last 7 days. **(Advanced analytics are Pro).**
+
+### 3.4. Modernize "Today" (`TodayView`)
+- **Components:**
+  - **1. `HeroHeaderView`:** Daily progress ring and time since last cigarette.
+  - **2. `TodayCigarettesList`:** The core tracking list.
+  - **3. `DSCard(variant: .glass)` showing a static, curated "Tip of the Day" from a local library.** (AI tips are Pro).
 
 ---
 
-## 👤 Milestone 4 — User Profiles & Personalization
-**Status**: Planning  
-**Target**: Q4 2024
+## 4. Phase 3: Monetization & Business Logic
 
-### Profile System
-- [ ] Comprehensive ProfileView interface
-- [ ] User demographics (age, gender, smoking history)
-- [ ] Smoking goals and targets
-- [ ] Personal preferences and settings
-- [ ] Profile photo and customization
+### 4.1. StoreKit Integration
+- **Implementation:**
+  - Integrate `StoreKit 2` to manage subscriptions (`monthly` and `yearly` options) and one-time purchases.
+  - Create a `StoreManager` class to handle transactions, validate receipts, and check subscription status.
+  - Implement a secure way to store the user's premium status locally (e.g., `UserDefaults` or a secure keychain entry).
 
-### Authentication
-- [ ] Sign in with Apple integration
-- [ ] Secure profile synchronization
-- [ ] Privacy-first account management
-- [ ] Optional anonymous usage
-- [ ] Account deletion and data privacy
+### 4.2. Paywall UI
+- **Goal:** Design a beautiful, compelling, and transparent paywall.
+- **Implementation:**
+  - Create a `PaywallView` presented modally.
+  - **Content:**
+    - A clear headline: "Unlock Your Full Potential with MirrorSmokerStopper Pro".
+    - A bulleted list of Pro features, each with a clear icon and benefit-driven description (e.g., "Personalized AI Coach," "Deep Health Analytics").
+    - Social proof or testimonials (if available).
+    - Clear pricing for monthly and yearly plans, highlighting the savings on the annual option.
+    - Buttons for purchasing, restoring purchases, and closing the view.
+    - A link to privacy policy and terms of service.
 
-### Product Catalog
-- [ ] Curated cigarette brand database
-- [ ] Custom product creation
-- [ ] Product-specific analytics
-- [ ] Cost tracking per product
-- [ ] Product recommendation system
-
-### Personalization
-- [ ] Customizable app themes
-- [ ] Personal goal setting
-- [ ] Notification preferences
-- [ ] Widget personalization
-- [ ] Analytics dashboard customization
-
----
-
-## 🎮 Milestone 5 — Gamification & Engagement
-**Status**: Concept  
-**Target**: Q1 2025
-
-### Achievement System
-- [ ] Streak-based achievements
-- [ ] Reduction milestone badges
-- [ ] Weekly/monthly challenges
-- [ ] Social achievements (optional)
-- [ ] Progress celebration animations
-
-### Goal Setting & Tracking
-- [ ] Personal reduction goals
-- [ ] Daily/weekly targets
-- [ ] Goal adjustment recommendations
-- [ ] Progress visualization
-- [ ] Success story sharing
-
-### Engagement Features
-- [ ] Daily check-in system
-- [ ] Mood tracking correlation
-- [ ] Mindfulness integration
-- [ ] Alternative activity suggestions
-- [ ] Community features (optional)
-
----
-
-## 🔧 Milestone 6 — Polish & Performance
-**Status**: Ongoing  
-**Target**: Continuous
-
-### Performance Optimization
-- [ ] Core Data query optimization
-- [ ] UI rendering improvements
-- [ ] Memory usage optimization
-- [ ] Battery life improvements
-- [ ] Sync performance enhancements
-
-### Accessibility
-- [ ] VoiceOver support improvements
-- [ ] Dynamic Type support
-- [ ] High contrast mode support
-- [ ] Voice Control compatibility
-- [ ] Reduced motion preferences
-
-### Quality Assurance
-- [ ] Comprehensive unit test suite
-- [ ] UI automation tests
-- [ ] Performance testing
-- [ ] Accessibility testing
-- [ ] Localization testing
-
-### Developer Experience
-- [ ] Code documentation improvements
-- [ ] Architecture documentation
-- [ ] Contribution guidelines
-- [ ] Development environment setup
-- [ ] CI/CD pipeline implementation
-
----
-
-## 🌟 Future Considerations
-**Timeline**: 2025+
-
-### Advanced Features
-- [ ] Apple Health integration
-- [ ] HealthKit data sharing
-- [ ] Shortcuts app automation
-- [ ] CarPlay support
-- [ ] macOS companion app
-
-### AI/ML Integration
-- [ ] Smoking pattern prediction
-- [ ] Personalized intervention timing
-- [ ] Risk assessment algorithms
-- [ ] Behavioral change recommendations
-- [ ] Natural language processing for notes
-
-### Community Features
-- [ ] Anonymous community support
-- [ ] Success story sharing
-- [ ] Peer motivation system
-- [ ] Healthcare provider integration
-- [ ] Research participation (opt-in)
-
----
-
-## 🧪 Testing & Quality Assurance
-
-### Current Testing Strategy
-- [x] Manual testing on iOS and watchOS devices
-- [x] Basic unit tests for core functionality
-- [ ] Automated UI testing suite
-- [ ] Performance benchmarking
-- [ ] Accessibility audit
-
-### Planned Testing Improvements
-- [ ] Swift Testing framework adoption
-- [ ] Continuous integration pipeline
-- [ ] Device farm testing
-- [ ] Beta testing program
-- [ ] Crash reporting and analytics
-
----
-
-## 📈 Success Metrics
-
-### User Engagement
-- Daily/weekly active users
-- Feature adoption rates
-- Session duration and frequency
-- Widget usage statistics
-- Siri integration usage
-
-### Health Impact
-- Average daily cigarette reduction
-- User-reported quit attempts
-- Long-term engagement retention
-- Goal achievement rates
-- User satisfaction surveys
-
-### Technical Performance
-- App crash rates
-- Sync reliability metrics
-- Performance benchmarks
-- Battery usage optimization
-- User-reported issues
-
----
-
-## 🤝 Community & Contributions
-
-### Open Source Goals
-- [ ] Comprehensive documentation
-- [ ] Contributor onboarding guide
-- [ ] Code review guidelines
-- [ ] Feature request process
-- [ ] Bug bounty program
-
-### Community Building
-- [ ] Developer documentation site
-- [ ] Community Discord/Slack
-- [ ] Regular development updates
-- [ ] User feedback collection
-- [ ] Feature voting system
-
----
-
-## 📅 Release Schedule
-
-### Version 1.0 (Q2 2024)
-- Core tracking functionality
-- Basic analytics
-- iOS and watchOS apps
-- Widget and Siri support
-
-### Version 1.1 (Q3 2024)
-- Advanced analytics
-- Enhanced UI/UX
-- Performance improvements
-- Additional languages
-
-### Version 2.0 (Q4 2024)
-- User profiles
-- Gamification features
-- Advanced integrations
-- Community features
-
----
-
-*This roadmap is subject to change based on user feedback, technical constraints, and community contributions. We welcome input and suggestions from the community.*
-
-**Last Updated**: [Current Date]  
-**Next Review**: Monthly
+### 4.3. Feature Gating
+- Implement checks throughout the app to determine if a feature should be enabled or show a "Pro" badge.
+- **Example:**

@@ -24,7 +24,7 @@ struct InsightCard: View {
     }
     
     var body: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(alignment: .leading, spacing: DS.Space.sm) {
                 // Header
                 HStack(spacing: DS.Space.sm) {
@@ -154,16 +154,19 @@ struct InsightCard: View {
     }
     
     private func showActionSheet() {
-        let _ = ActionSheet.Button.default(Text(NSLocalizedString("dismiss.button", comment: ""))) {
+        // This is a placeholder for a potential future implementation.
+        // The current design uses direct buttons in the UI.
+        _ = ActionSheet.Button.default(Text(NSLocalizedString("dismiss.button", comment: ""))) {
             onDismiss?()
             Self.logger.info("Insight dismissed by user.")
         }
-        let _ = ActionSheet.Button.default(Text(NSLocalizedString("take.action.button", comment: ""))) {
+        _ = ActionSheet.Button.default(Text(NSLocalizedString("take.action.button", comment: ""))) {
             onActionTaken?()
             Self.logger.info("Insight action taken by user.")
         }
         
-        // TODO: Complete ActionSheet implementation if needed
+        // To use this, you would present an ActionSheet with these buttons.
+        // For example: .actionSheet(isPresented: $showingSheet) { ActionSheet(title: Text("..."), buttons: [dismissButton, actionButton, .cancel()]) }
     }
 }
 

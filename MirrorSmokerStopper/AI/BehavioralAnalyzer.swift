@@ -21,7 +21,19 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
     // MARK: - Analysis Results
     
     struct BehavioralInsight: Codable, Sendable, Identifiable {
-        let id = UUID()
+        let id: UUID
+        
+        init(type: InsightType, title: String, description: String, confidence: Double, actionableRecommendations: [String], date: Date = Date()) {
+            self.id = UUID()
+            self.type = type
+            self.title = title
+            self.description = description
+            self.confidence = confidence
+            self.actionableRecommendations = actionableRecommendations
+            self.detectedAt = date
+            self.riskScore = 0.5
+            self.supportingData = [:]
+        }
         let type: InsightType
         let title: String
         let description: String
@@ -208,13 +220,7 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
                     NSLocalizedString("behavioral.recommendation.time.replacement", comment: "Practice deep breathing during peak craving times"),
                     NSLocalizedString("behavioral.recommendation.time.schedule", comment: "Schedule important tasks during your peak smoking hours")
                 ],
-                riskScore: min(0.9, peakPercentage / 40.0),
-                detectedAt: Date(),
-                supportingData: [
-                    "peak_hour": Double(mainPeakHour),
-                    "peak_percentage": peakPercentage,
-                    "total_cigarettes": Double(totalCigarettes)
-                ]
+                date: Date()
             ))
         }
         
@@ -240,13 +246,7 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
                     NSLocalizedString("behavioral.recommendation.weekend.social", comment: "Identify and avoid smoking social situations"),
                     NSLocalizedString("behavioral.recommendation.weekend.routine", comment: "Maintain weekday routines on weekends")
                 ],
-                riskScore: min(0.8, Double(weekendAvg - weekdayAvg) / 10.0),
-                detectedAt: Date(),
-                supportingData: [
-                    "weekday_avg": Double(weekdayAvg),
-                    "weekend_avg": Double(weekendAvg),
-                    "difference": Double(weekendAvg - weekdayAvg)
-                ]
+                date: Date()
             ))
         }
         
@@ -278,14 +278,7 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
                 title: String(format: NSLocalizedString("behavioral.insight.trigger.title", comment: "Trigger pattern: %@"), trigger),
                 description: String(format: NSLocalizedString("behavioral.insight.trigger.description", comment: "%@ triggers %.0f%% of your smoking"), trigger, percentage),
                 confidence: min(0.9, percentage / 50.0),
-                actionableRecommendations: generateTriggerRecommendations(trigger: trigger),
-                riskScore: min(0.9, percentage / 30.0),
-                detectedAt: Date(),
-                supportingData: [
-                    "trigger": Double(count),
-                    "percentage": percentage,
-                    "total_tagged": Double(totalWithTags)
-                ]
+                actionableRecommendations: generateTriggerRecommendations(trigger: trigger)
             ))
         }
         
@@ -317,13 +310,6 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
                         String(format: NSLocalizedString("behavioral.recommendation.streak.prepare", comment: "Prepare coping strategies for %@"), commonPattern.trigger),
                         String(format: NSLocalizedString("behavioral.recommendation.streak.avoid", comment: "Avoid %@ situations at %d:00"), commonPattern.trigger, commonPattern.timeOfDay),
                         NSLocalizedString("behavioral.recommendation.streak.support", comment: "Have support ready during vulnerable times")
-                    ],
-                    riskScore: min(0.8, Double(commonPattern.frequency) / 10.0),
-                    detectedAt: Date(),
-                    supportingData: [
-                        "average_streak": averageStreak,
-                        "longest_streak": Double(longestStreak),
-                        "relapse_frequency": Double(commonPattern.frequency)
                     ]
                 ))
             }
@@ -355,12 +341,6 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
                     NSLocalizedString("behavioral.recommendation.social.alternative", comment: "Find non-smoking social activities"),
                     NSLocalizedString("behavioral.recommendation.social.support", comment: "Tell friends about your quit plan"),
                     NSLocalizedString("behavioral.recommendation.social.escape", comment: "Practice polite ways to decline smoking invitations")
-                ],
-                riskScore: min(0.7, socialPercentage / 50.0),
-                detectedAt: Date(),
-                supportingData: [
-                    "social_percentage": socialPercentage,
-                    "social_count": Double(socialCigarettes.count)
                 ]
             ))
         }
@@ -398,12 +378,7 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
                     String(format: NSLocalizedString("behavioral.recommendation.environment.avoid", comment: "Limit time spent in %@ when possible"), location),
                     NSLocalizedString("behavioral.recommendation.environment.replacement", comment: "Create new positive associations with this space")
                 ],
-                riskScore: min(0.8, percentage / 40.0),
-                detectedAt: Date(),
-                supportingData: [
-                    "location_percentage": percentage,
-                    "location_count": Double(count)
-                ]
+                date: Date()
             ))
         }
         
@@ -442,14 +417,7 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
                     NSLocalizedString("behavioral.recommendation.regression.support", comment: "Reach out for additional support"),
                     NSLocalizedString("behavioral.recommendation.regression.gentle", comment: "Be patient with yourself - setbacks are normal")
                 ],
-                riskScore: min(0.9, Double(increase) / 10.0),
-                detectedAt: Date(),
-                supportingData: [
-                    "last_week": Double(lastWeek),
-                    "previous_week": Double(previousWeek),
-                    "increase": Double(increase),
-                    "target": Double(weeklyTarget)
-                ]
+                date: Date()
             ))
         }
         
@@ -529,7 +497,6 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
         
         var streaks: [Int] = []
         var currentStreak = 0
-        var lastDate: Date?
         
         let dateRange = generateDateRange(from: sortedCigarettes.first!.timestamp, to: Date())
         

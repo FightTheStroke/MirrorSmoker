@@ -7,19 +7,28 @@ struct AdvancedAnalyticsView: View {
     @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette]
     @State private var selectedChart: ChartType = .weekly
     
-    enum ChartType: String, CaseIterable, Identifiable {
-        case weekly = "settimanale"
-        case monthly = "mensile"
+    enum ChartType: CaseIterable, Identifiable {
+        case weekly
+        case monthly
         
-        var id: String { self.rawValue }
+        var id: Self { self }
+        
+        var displayName: String {
+            switch self {
+            case .weekly:
+                return "stats.weekly".local()
+            case .monthly:
+                return "stats.monthly".local()
+            }
+        }
     }
     
     var body: some View {
         NavigationStack {
             VStack {
-                Picker(NSLocalizedString("stats.chartType", comment: ""), selection: $selectedChart) {
+                Picker("stats.chartType".local(), selection: $selectedChart) {
                     ForEach(ChartType.allCases) { chartType in
-                        Text(NSLocalizedString("stats.\(chartType.rawValue)", comment: "")).tag(chartType)
+                        Text(chartType.displayName).tag(chartType)
                     }
                 }
                 .pickerStyle(.segmented)
@@ -37,7 +46,7 @@ struct AdvancedAnalyticsView: View {
                 }
             }
             .background(Color(.systemGroupedBackground))
-            .navigationTitle(NSLocalizedString("stats.advanced", comment: ""))
+            .navigationTitle("stats.advanced".local())
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -75,7 +84,7 @@ struct MonthlyStatsView: View {
     
     var body: some View {
         VStack(spacing: 16) {
-            Text(NSLocalizedString("monthly.stats.last.6.months", comment: ""))
+            Text("monthly.stats.last.6.months".local())
                 .font(.title2)
                 .fontWeight(.bold)
             
@@ -85,7 +94,7 @@ struct MonthlyStatsView: View {
                         Text(data.month, format: .dateTime.month(.wide).year())
                             .font(.headline)
                         
-                        Text("\(data.count) \(NSLocalizedString("cigarettes", comment: ""))")
+                        Text("cigarettes".local(with: data.count))
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }

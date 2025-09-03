@@ -17,8 +17,8 @@ struct CigaretteWidget: Widget {
         StaticConfiguration(kind: kind, provider: CigaretteTimelineProvider()) { entry in
             CigaretteWidgetEntryView(entry: entry)
         }
-        .configurationDisplayName("Cigarette Tracker")
-        .description("Track your daily cigarette consumption")
+        .configurationDisplayName(NSLocalizedString("widget.displayName", comment: "Widget display name"))
+        .description(NSLocalizedString("widget.description", comment: "Widget description"))
         .supportedFamilies([.systemSmall])
     }
 }
@@ -42,7 +42,7 @@ struct CigaretteWidgetEntryView: View {
                             .foregroundColor(.red)
                     }
                     .buttonStyle(PlainButtonStyle())
-                    .accessibilityLabel("Quick add")
+                    .accessibilityLabel(NSLocalizedString("widget.quickAdd.a11y", comment: "Accessibility label for quick add button"))
                 } else {
                     Image(systemName: "plus.circle.fill")
                         .foregroundColor(.red)

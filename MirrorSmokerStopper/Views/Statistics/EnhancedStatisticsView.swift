@@ -18,15 +18,15 @@ struct EnhancedStatisticsView: View {
         var displayName: String {
             switch self {
             case .today:
-                return NSLocalizedString("time.range.today", comment: "")
+                return "time.range.today".local()
             case .yesterday:
-                return NSLocalizedString("time.range.yesterday", comment: "")
+                return "time.range.yesterday".local()
             case .week:
-                return NSLocalizedString("time.range.week", comment: "")
+                return "time.range.week".local()
             case .month:
-                return NSLocalizedString("time.range.month", comment: "")
+                return "time.range.month".local()
             case .all:
-                return NSLocalizedString("time.range.all", comment: "")
+                return "time.range.all".local()
             }
         }
     }
@@ -146,34 +146,34 @@ struct EnhancedStatisticsView: View {
             .padding(DS.Space.lg)
         }
         .background(DS.Colors.background)
-        .navigationTitle(NSLocalizedString("statistics.title.main", comment: ""))
+        .navigationTitle("statistics.title.main".local())
         .navigationBarTitleDisplayMode(.large)
     }
     
     private var todayOverviewSection: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(spacing: DS.Space.md) {
-                DSSectionHeader(NSLocalizedString("statistics.todays.overview", comment: ""))
+                DSSectionHeader("statistics.todays.overview".local())
                 
                 HStack(spacing: DS.Space.xl) {
                     VStack(alignment: .leading, spacing: DS.Space.xs) {
-                        Text(NSLocalizedString("statistics.today.label", comment: ""))
+                        Text("statistics.today.label".local())
                             .font(DS.Text.caption)
                             .foregroundColor(DS.Colors.textSecondary)
                         
                         HStack(alignment: .firstTextBaseline, spacing: DS.Space.xs) {
                             Text("\(todayCount)")
-                                .font(DS.Text.largeTitle)
+                                .font(DS.Text.display)
                                 .fontWeight(.bold)
                                 .foregroundColor(colorForTodayCount)
                             
-                            Text("/ \(todayTarget)")
-                                .font(DS.Text.title3)
+                            Text("statistics.target.format".local(with: todayTarget))
+                                .font(DS.Text.title2)
                                 .fontWeight(.medium)
                                 .foregroundColor(DS.Colors.textSecondary)
                         }
                         
-                        Text(todayCount == 1 ? NSLocalizedString("statistics.today.single", comment: "") : NSLocalizedString("statistics.today.plural", comment: ""))
+                        Text(todayCount == 1 ? "statistics.today.single".local() : "statistics.today.plural".local())
                             .font(DS.Text.caption)
                             .foregroundColor(DS.Colors.textSecondary)
                     }
@@ -182,12 +182,20 @@ struct EnhancedStatisticsView: View {
                     
                     ZStack {
                         Circle()
-                            .stroke(DS.Colors.backgroundSecondary, lineWidth: 8)
+                            .stroke(DS.Colors.glassSecondary, lineWidth: 8)
                         
                         Circle()
                             .trim(from: 0.0, to: min(1.0, Double(todayCount) / Double(max(1, todayTarget))))
-                            .stroke(colorForTodayCount, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                            .stroke(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [colorForTodayCount.opacity(0.7), colorForTodayCount]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                ),
+                                style: StrokeStyle(lineWidth: 8, lineCap: .round)
+                            )
                             .rotationEffect(.degrees(-90))
+                            .animation(DS.Animation.glass, value: todayCount)
                         
                         VStack(spacing: DS.Space.xxs) {
                             Text("\(todayCount)")
@@ -211,15 +219,15 @@ struct EnhancedStatisticsView: View {
         Group {
             let target = todayTarget
             if todayCount == 0 {
-                Text(NSLocalizedString("statistics.no.cigarettes.today.full", comment: ""))
+                Text("statistics.no.cigarettes.today.full".local())
                     .font(DS.Text.caption)
                     .foregroundColor(DS.Colors.success)
             } else if todayCount <= target {
-                Text(NSLocalizedString("statistics.following.plan.full", comment: ""))
+                Text("statistics.following.plan.full".local())
                     .font(DS.Text.caption)
                     .foregroundColor(DS.Colors.warning)
             } else {
-                Text(NSLocalizedString("statistics.exceeded.goal.full", comment: ""))
+                Text("statistics.exceeded.goal.full".local())
                     .font(DS.Text.caption)
                     .foregroundColor(DS.Colors.danger)
             }
@@ -227,10 +235,10 @@ struct EnhancedStatisticsView: View {
     }
     
     private var statisticsSection: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(spacing: DS.Space.lg) {
                 HStack {
-                    DSSectionHeader(NSLocalizedString("statistics.title", comment: ""))
+                    DSSectionHeader("statistics.title".local())
                     Spacer()
                     timeRangePicker
                 }
@@ -240,17 +248,17 @@ struct EnhancedStatisticsView: View {
                     GridItem(.flexible())
                 ], spacing: DS.Space.md) {
                     statCard(
-                        title: NSLocalizedString("statistics.total", comment: ""),
+                        title: "statistics.total".local(),
                         value: "\(cigarettesForSelectedRange.count)",
-                        subtitle: NSLocalizedString("statistics.cigarettes.unit", comment: ""),
+                        subtitle: "statistics.cigarettes.unit".local(),
                         color: DS.Colors.primary,
                         icon: "lungs.fill"
                     )
                     
                     statCard(
-                        title: NSLocalizedString("statistics.average.per.day", comment: ""),
+                        title: "statistics.average.per.day".local(),
                         value: String(format: "%.1f", averagePerDaySelectedRange),
-                        subtitle: NSLocalizedString("statistics.cigarettes.unit", comment: ""),
+                        subtitle: "statistics.cigarettes.unit".local(),
                         color: DS.Colors.info,
                         icon: "chart.bar.fill"
                     )
@@ -276,7 +284,7 @@ struct EnhancedStatisticsView: View {
             }
             .padding(.horizontal, DS.Space.sm)
             .padding(.vertical, DS.Space.xs)
-            .background(DS.Colors.backgroundSecondary)
+            .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
             .cornerRadius(8)
         }
     }
@@ -301,14 +309,14 @@ struct EnhancedStatisticsView: View {
         }
         .frame(maxWidth: .infinity, minHeight: 80, alignment: .topLeading)
         .padding(DS.Space.sm)
-        .background(DS.Colors.backgroundSecondary)
+        .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
         .cornerRadius(DS.Size.cardRadiusSmall)
     }
     
     private var chartsSection: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(spacing: DS.Space.lg) {
-                DSSectionHeader(NSLocalizedString("statistics.trend", comment: ""))
+                DSSectionHeader("statistics.trend".local())
                 barChartView
                 trendLineView
             }
@@ -317,14 +325,14 @@ struct EnhancedStatisticsView: View {
     
     private var barChartView: some View {
         VStack(alignment: .leading, spacing: DS.Space.md) {
-            Text(NSLocalizedString("statistics.daily.distribution.full", comment: ""))
+            Text("statistics.daily.distribution.full".local())
                 .font(DS.Text.body)
                 .fontWeight(.semibold)
             
             if groupedCigarettesByDay.isEmpty {
                 StatisticsEmptyStateView(
-                    title: NSLocalizedString("statistics.no.data", comment: ""),
-                    subtitle: NSLocalizedString("statistics.no.data.subtitle", comment: ""),
+                    title: "statistics.no.data".local(),
+                    subtitle: "statistics.no.data.subtitle".local(),
                     icon: "chart.bar.xaxis"
                 )
             } else {
@@ -337,11 +345,19 @@ struct EnhancedStatisticsView: View {
                         ForEach(groupedCigarettesByDay, id: \.date) { item in
                             VStack(spacing: 4) {
                                 RoundedRectangle(cornerRadius: 4)
-                                    .fill(DS.Colors.cigarette)
+                                    .fill(
+                                        LinearGradient(
+                                            gradient: Gradient(colors: [DS.Colors.cigarette.opacity(0.7), DS.Colors.cigarette]),
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
                                     .frame(
                                         width: barWidth,
                                         height: max(2, CGFloat(item.count) / CGFloat(maxCount) * 100)
                                     )
+                                    .animation(DS.Animation.glass, value: item.count)
+                                
                                 Text(item.date, format: .dateTime.day())
                                     .font(DS.Text.caption2)
                                     .foregroundColor(DS.Colors.textSecondary)
@@ -351,20 +367,22 @@ struct EnhancedStatisticsView: View {
                     .frame(height: 120)
                 }
                 .frame(height: 150)
+                .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
+                .cornerRadius(DS.Size.cardRadiusSmall)
             }
         }
     }
     
     private var trendLineView: some View {
         VStack(alignment: .leading, spacing: DS.Space.md) {
-            Text(NSLocalizedString("statistics.weekly.trend.full", comment: ""))
+            Text("statistics.weekly.trend.full".local())
                 .font(DS.Text.body)
                 .fontWeight(.semibold)
             
             if groupedCigarettesByDay.count < 2 {
                 StatisticsEmptyStateView(
-                    title: NSLocalizedString("statistics.insufficient.data", comment: ""),
-                    subtitle: NSLocalizedString("statistics.insufficient.data.subtitle", comment: ""),
+                    title: "statistics.insufficient.data".local(),
+                    subtitle: "statistics.insufficient.data.subtitle".local(),
                     icon: "chart.line.uptrend.xyaxis"
                 )
             } else {
@@ -372,30 +390,45 @@ struct EnhancedStatisticsView: View {
                     let width = geometry.size.width
                     let height = geometry.size.height
                     
-                    Path { path in
-                        let points = groupedCigarettesByDay.prefix(7)
-                        let maxCount = points.map { $0.count }.max() ?? 1
-                        for (index, point) in points.enumerated() {
-                            let x = CGFloat(index) * (width / CGFloat(max(1, points.count - 1)))
-                            let y = height - CGFloat(point.count) / CGFloat(maxCount) * (height - 20)
-                            if index == 0 {
-                                path.move(to: CGPoint(x: x, y: y))
-                            } else {
-                                path.addLine(to: CGPoint(x: x, y: y))
+                    ZStack {
+                        // Background
+                        RoundedRectangle(cornerRadius: DS.Size.cardRadiusSmall)
+                            .fill(DS.Colors.glassSecondary)
+                        
+                        // Path
+                        Path { path in
+                            let points = groupedCigarettesByDay.prefix(7)
+                            let maxCount = points.map { $0.count }.max() ?? 1
+                            for (index, point) in points.enumerated() {
+                                let x = CGFloat(index) * (width / CGFloat(max(1, points.count - 1)))
+                                let y = height - CGFloat(point.count) / CGFloat(maxCount) * (height - 20)
+                                if index == 0 {
+                                    path.move(to: CGPoint(x: x, y: y))
+                                } else {
+                                    path.addLine(to: CGPoint(x: x, y: y))
+                                }
                             }
                         }
-                    }
-                    .stroke(DS.Colors.primary, lineWidth: 3)
-                    
-                    ForEach(Array(groupedCigarettesByDay.prefix(7).enumerated()), id: \.element.date) { index, point in
-                        let maxCount = groupedCigarettesByDay.prefix(7).map { $0.count }.max() ?? 1
-                        let x = CGFloat(index) * (width / CGFloat(max(1, groupedCigarettesByDay.prefix(7).count - 1)))
-                        let y = height - CGFloat(point.count) / CGFloat(maxCount) * (height - 20)
+                        .stroke(
+                            LinearGradient(
+                                gradient: Gradient(colors: [DS.Colors.primary.opacity(0.7), DS.Colors.primary]),
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ),
+                            lineWidth: 3
+                        )
                         
-                        Circle()
-                            .fill(DS.Colors.primary)
-                            .frame(width: 8, height: 8)
-                            .position(x: x, y: y)
+                        ForEach(Array(groupedCigarettesByDay.prefix(7).enumerated()), id: \.element.date) { index, point in
+                            let maxCount = groupedCigarettesByDay.prefix(7).map { $0.count }.max() ?? 1
+                            let x = CGFloat(index) * (width / CGFloat(max(1, groupedCigarettesByDay.prefix(7).count - 1)))
+                            let y = height - CGFloat(point.count) / CGFloat(maxCount) * (height - 20)
+                            
+                            Circle()
+                                .fill(DS.Colors.primary)
+                                .frame(width: 8, height: 8)
+                                .position(x: x, y: y)
+                                .animation(DS.Animation.glass, value: point.count)
+                        }
                     }
                 }
                 .frame(height: 150)
@@ -404,25 +437,25 @@ struct EnhancedStatisticsView: View {
     }
     
     private var detailedStatsSection: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(spacing: DS.Space.lg) {
-                DSSectionHeader(NSLocalizedString("statistics.detailed.statistics", comment: ""))
+                DSSectionHeader("statistics.detailed.statistics".local())
                 VStack(spacing: DS.Space.md) {
                     detailStatRow(
-                        title: NSLocalizedString("statistics.best.day", comment: ""),
-                        value: highestDay != nil ? "\(highestDay!.count) \(NSLocalizedString("statistics.cigarettes.unit", comment: ""))" : "N/A",
+                        title: "statistics.best.day".local(),
+                        value: highestDay != nil ? "\("statistics.cigarettes.unit".local(with: highestDay!.count))" : "N/A",
                         date: highestDay?.date,
                         color: DS.Colors.success
                     )
                     detailStatRow(
-                        title: NSLocalizedString("statistics.worst.day", comment: ""),
-                        value: lowestDay != nil ? "\(lowestDay!.count) \(NSLocalizedString("statistics.cigarettes.unit", comment: ""))" : "N/A",
+                        title: "statistics.worst.day".local(),
+                        value: lowestDay != nil ? "\("statistics.cigarettes.unit".local(with: lowestDay!.count))" : "N/A",
                         date: lowestDay?.date,
                         color: DS.Colors.danger
                     )
                     detailStatRow(
-                        title: NSLocalizedString("statistics.analyzed.period", comment: ""),
-                        value: String(format: NSLocalizedString("statistics.days.count", comment: ""), groupedCigarettesByDay.count),
+                        title: "statistics.analyzed.period".local(),
+                        value: "statistics.days.count".local(with: groupedCigarettesByDay.count),
                         color: DS.Colors.info
                     )
                 }
@@ -449,6 +482,8 @@ struct EnhancedStatisticsView: View {
                 .foregroundColor(color)
         }
         .padding(.vertical, DS.Space.sm)
+        .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
+        .cornerRadius(DS.Size.cardRadiusSmall)
     }
 }
 
@@ -462,17 +497,19 @@ struct StatisticsEmptyStateView: View {
             Image(systemName: icon)
                 .font(.title2)
                 .foregroundColor(DS.Colors.textSecondary)
-            Text(title)
+            Text(title.local())
                 .font(DS.Text.body)
                 .fontWeight(.semibold)
                 .foregroundColor(DS.Colors.textPrimary)
-            Text(subtitle)
+            Text(subtitle.local())
                 .font(DS.Text.caption)
                 .foregroundColor(DS.Colors.textSecondary)
                 .multilineTextAlignment(.center)
         }
         .padding()
         .frame(maxWidth: .infinity)
+        .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
+        .cornerRadius(DS.Size.cardRadiusSmall)
     }
 }
 

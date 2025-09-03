@@ -37,24 +37,20 @@ final class TagTests: XCTestCase {
         XCTAssertNotEqual(tag.id, UUID())
         XCTAssertEqual(tag.name, "")
         XCTAssertEqual(tag.colorHex, "#007AFF")
-        XCTAssertLessThanOrEqual(Date().timeIntervalSince(tag.createdAt), 1.0)
     }
     
     func testTagCustomInitialization() {
         let customID = UUID()
-        let customDate = Date().addingTimeInterval(-3600)
         
         let tag = Tag(
             id: customID,
             name: "Test Tag",
-            colorHex: "#FF0000",
-            createdAt: customDate
+            colorHex: "#FF0000"
         )
         
         XCTAssertEqual(tag.id, customID)
         XCTAssertEqual(tag.name, "Test Tag")
         XCTAssertEqual(tag.colorHex, "#FF0000")
-        XCTAssertEqual(tag.createdAt, customDate)
     }
     
     func testTagColorProperty() {

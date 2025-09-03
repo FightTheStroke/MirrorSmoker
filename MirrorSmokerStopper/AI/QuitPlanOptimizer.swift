@@ -82,51 +82,45 @@ final class QuitPlanOptimizer: ObservableObject, Sendable {
         
         logger.info("Generating optimized quit plan for user profile")
         
-        do {
-            // Collect comprehensive features
-            let features = await featureStore.collect(from: modelContext, userProfile: profile)
-            let healthContext = await collectHealthContext(profile: profile)
-            let behavioralPatterns = await analyzeBehavioralPatterns(cigarettes: currentCigarettes)
-            let riskAssessment = await assessQuitRisk(profile: profile, features: features)
-            
-            // Generate base recommendation
-            let baseRecommendation = await generateBaseRecommendation(
-                profile: profile,
-                features: features,
-                healthContext: healthContext,
-                behavioralPatterns: behavioralPatterns,
-                riskAssessment: riskAssessment
+        // Collect comprehensive features
+        let features = await featureStore.collect(from: modelContext, userProfile: profile)
+        let healthContext = await collectHealthContext(profile: profile)
+        let behavioralPatterns = await analyzeBehavioralPatterns(cigarettes: currentCigarettes)
+        let riskAssessment = await assessQuitRisk(profile: profile, features: features)
+        
+        // Generate base recommendation
+        let baseRecommendation = await generateBaseRecommendation(
+            profile: profile,
+            features: features,
+            healthContext: healthContext,
+            behavioralPatterns: behavioralPatterns,
+            riskAssessment: riskAssessment
+        )
+        
+        // Apply AI optimization based on iOS version
+        let optimizationContext = OptimizationContext(
+            profile: profile,
+            features: features,
+            healthContext: healthContext,
+            behavioralPatterns: behavioralPatterns,
+            riskAssessment: riskAssessment
+        )
+        
+        let optimizedRecommendation: OptimizationRecommendation
+        if #available(iOS 26, *) {
+            optimizedRecommendation = await applyAIOptimization(
+                baseRecommendation: baseRecommendation,
+                context: optimizationContext
             )
-            
-            // Apply AI optimization based on iOS version
-            let optimizationContext = OptimizationContext(
-                profile: profile,
-                features: features,
-                healthContext: healthContext,
-                behavioralPatterns: behavioralPatterns,
-                riskAssessment: riskAssessment
+        } else {
+            optimizedRecommendation = await applyFallbackOptimization(
+                baseRecommendation: baseRecommendation,
+                context: optimizationContext
             )
-            
-            let optimizedRecommendation: OptimizationRecommendation
-            if #available(iOS 26, *) {
-                optimizedRecommendation = await applyAIOptimization(
-                    baseRecommendation: baseRecommendation,
-                    context: optimizationContext
-                )
-            } else {
-                optimizedRecommendation = await applyFallbackOptimization(
-                    baseRecommendation: baseRecommendation,
-                    context: optimizationContext
-                )
-            }
-            
-            logger.info("Generated optimized quit plan with confidence: \(optimizedRecommendation.confidenceScore)")
-            return optimizedRecommendation
-            
-        } catch {
-            logger.error("Failed to generate optimized plan: \(error.localizedDescription)")
-            return generateFallbackPlan(for: profile, currentCigarettes: currentCigarettes)
         }
+        
+        logger.info("Generated optimized quit plan with confidence: \(optimizedRecommendation.confidenceScore)")
+        return optimizedRecommendation
     }
     
     /// Evaluate current plan performance and suggest adaptations
@@ -182,8 +176,8 @@ final class QuitPlanOptimizer: ObservableObject, Sendable {
         }
         
         // Check for health indicators requiring medical consultation
-        if let healthContext = try? await collectHealthContext(profile: profile),
-           healthContext.hasHighRiskIndicators {
+        let healthContext = await collectHealthContext(profile: profile)
+        if healthContext.hasHighRiskIndicators {
             adaptations.append(PlanAdaptation(
                 type: .medicalConsultation,
                 reason: "Health indicators suggest medical support needed",
@@ -420,7 +414,7 @@ struct QuitRiskAssessment: Codable, Sendable {
     let overallRiskScore: Double // 0.0 = low risk, 1.0 = high risk
 }
 
-struct OptimizationContext: Sendable {
+struct OptimizationContext {
     let profile: UserProfile
     let features: CoachFeatures
     let healthContext: HealthContext

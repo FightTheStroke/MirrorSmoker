@@ -150,6 +150,7 @@ struct TagSelectorForTimeSheet: View {
     private var timeRangeText: String {
         let formatter = DateFormatter()
         formatter.timeStyle = .short
+        formatter.locale = Locale.current
         
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: selectedDate)
@@ -162,6 +163,7 @@ struct TagSelectorForTimeSheet: View {
     private var dateText: String {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
+        formatter.locale = Locale.current
         return formatter.string(from: selectedDate)
     }
     

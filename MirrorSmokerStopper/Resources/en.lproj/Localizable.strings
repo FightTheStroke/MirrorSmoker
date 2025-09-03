@@ -782,6 +782,45 @@
 "settings.delete.all.data" = "Delete All Data";
 "settings.are.you.sure" = "Are you sure?";
 "settings.delete.warning" = "This will permanently delete all your smoking data. This action cannot be undone.";
+"settings.plan.cigarettes.per.day.format" = "%.1f cigarettes/day";
+"error" = "Error";
+"loading" = "Loading...";
+"save" = "Save";
+"cancel" = "Cancel";
+
+// Advanced FAB
+"fab.add.cigarette" = "Add cigarette";
+"fab.add.cigarette.hint" = "Tap to add quickly, long press to add with tags";
+
+// Tag Selection
+"tags.select.title" = "Select Tags";
+"tags.add.cigarette.with" = "Add cigarette with tags";
+"tags.selected.count" = "%d tags selected";
+"tags.create.new" = "Create New";
+"tags.selected" = "Selected Tags";
+"tags.empty.title" = "No tags yet";
+"tags.empty.subtitle" = "Create your first tag to categorize your cigarettes";
+"tags.create.first" = "Create First Tag";
+"tags.name" = "Tag Name";
+"tags.name.placeholder" = "Enter tag name";
+"tags.color" = "Tag Color";
+"tags.create.title" = "Create Tag";
+
+// Cigarette saved notification
+"cigarette.saved.title" = "Cigarette Added";
+"cigarette.saved.message" = "Successfully recorded";
+"cigarette.saved.with.tags" = "Cigarette added with %d tags";
+
+// Cigarette row actions
+"no.tags" = "No tags";
+"tags" = "Tags";
+"delete" = "Delete";
+"edit.tags" = "Edit Tags";
+"delete.cigarette.confirmation" = "Delete Cigarette";
+"delete.cigarette.confirmation.message" = "Are you sure you want to delete this cigarette? This action cannot be undone.";
+
+// General
+"done" = "Done";
 
 // MainTabView
 "tab.home" = "Home";
@@ -910,6 +949,22 @@
 "keep.momentum.advice" = "Keep this momentum going. What did you do differently today?";
 "view.all.milestones.format" = "View All %d Milestones";
 "milestone.target.format" = "Target: %@";
+
+// HealthKit Permission Modal
+"healthkit.permission.title" = "Enhance Your Quit Journey";
+"healthkit.permission.explanation" = "MirrorSmokerStopper can provide more personalized coaching by accessing some of your Health data. All analysis happens on your device - nothing is shared.";
+"healthkit.steps.title" = "Activity";
+"healthkit.steps.description" = "Track movement patterns to suggest better timing for cravings";
+"healthkit.sleep.title" = "Sleep";
+"healthkit.sleep.description" = "Understand how sleep quality affects your smoking habits";
+"healthkit.mindfulness.title" = "Mindfulness";
+"healthkit.mindfulness.description" = "Log meditation sessions as healthy alternatives";
+"healthkit.heart.title" = "Heart Rate";
+"healthkit.heart.description" = "Monitor stress levels to predict smoking triggers";
+"healthkit.privacy.assurance" = "All data stays on your device. Nothing is shared with external services.";
+"healthkit.allow.access" = "Allow Health Access";
+"healthkit.maybe.later" = "Maybe Later";
+"close" = "Close";
 
 // InsightCard
 "health.insight.default" = "Health Insight";

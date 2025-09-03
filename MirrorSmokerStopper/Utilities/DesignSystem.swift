@@ -77,6 +77,12 @@ struct DS {
         
         // New intermediate warning color
         static let attention = Color.orange
+        
+        // Liquid Glass Colors
+        static let glassPrimary = Color.white.opacity(0.6)
+        static let glassSecondary = Color.white.opacity(0.4)
+        static let glassTertiary = Color.white.opacity(0.2)
+        static let glassQuaternary = Color.black.opacity(0.1)
     }
     
     // MARK: - Typography (JetBrains Mono NL + System Fonts)
@@ -189,6 +195,14 @@ struct DS {
             x: 0,
             y: 8
         )
+        
+        // Liquid Glass Shadows
+        static let glass = DSShadow(
+            color: Color.black.opacity(0.1),
+            radius: 20,
+            x: 0,
+            y: 8
+        )
     }
     
     // MARK: - Animations (Motion-Aware)
@@ -224,6 +238,12 @@ struct DS {
         static var decorative: SwiftUI.Animation? {
             UIAccessibility.isReduceMotionEnabled ? nil : .spring(response: 0.4, dampingFraction: 0.7)
         }
+        
+        // Liquid Glass Animations
+        static var glass: SwiftUI.Animation {
+            UIAccessibility.isReduceMotionEnabled ? 
+                .linear(duration: 0.1) : .interactiveSpring(response: 0.4, dampingFraction: 0.7, blendDuration: 0.2)
+        }
     }
 }
 
@@ -234,7 +254,7 @@ struct DSShadow {
     let x: CGFloat
     let y: CGFloat
     
-    // REMOVED: apply() method was misleading (returned EmptyView)
+    
     // Use View.dsShadow(_:) extension instead
 }
 
@@ -259,5 +279,64 @@ extension View {
             .foregroundColor(DS.Colors.textInverse)
             .cornerRadius(DS.AdaptiveSize.tagRadius)
             .font(DS.Text.caption)
+    }
+    
+    // Liquid Glass Extensions
+    func liquidGlassBackground(backgroundColor: Color = DS.Colors.glassPrimary, borderColor: Color = DS.Colors.glassQuaternary) -> some View {
+        self
+            .background(
+                RoundedRectangle(cornerRadius: DS.Size.cardRadius)
+                    .fill(backgroundColor)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: DS.Size.cardRadius)
+                            .stroke(borderColor, lineWidth: 0.5)
+                    )
+                    .blur(radius: 0.5)
+            )
+            .background(
+                VisualEffectView { _ in }
+                .mask(
+                    RoundedRectangle(cornerRadius: DS.Size.cardRadius)
+                )
+                .blur(radius: 10)
+            )
+    }
+    
+    func liquidGlassButtonBackground(backgroundColor: Color = DS.Colors.glassPrimary, borderColor: Color = DS.Colors.glassQuaternary) -> some View {
+        self
+            .background(
+                RoundedRectangle(cornerRadius: DS.Size.buttonRadius)
+                    .fill(backgroundColor)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: DS.Size.buttonRadius)
+                            .stroke(borderColor, lineWidth: 0.5)
+                    )
+                    .blur(radius: 0.5)
+            )
+    }
+    
+    func liquidGlassCard(elevation: DSShadow = DS.Shadow.glass) -> some View {
+        self
+            .liquidGlassBackground()
+            .dsShadow(elevation)
+    }
+}
+
+// MARK: - Visual Effect View for Liquid Glass
+struct VisualEffectView<Content: View>: UIViewRepresentable {
+    var content: (UIVisualEffectView) -> Content
+    
+    init(@ViewBuilder content: @escaping (UIVisualEffectView) -> Content) {
+        self.content = content
+    }
+    
+    func makeUIView(context: Context) -> UIVisualEffectView {
+        let view = UIVisualEffectView()
+        view.effect = UIBlurEffect(style: .systemUltraThinMaterial)
+        return view
+    }
+    
+    func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+        // Update if needed
     }
 }

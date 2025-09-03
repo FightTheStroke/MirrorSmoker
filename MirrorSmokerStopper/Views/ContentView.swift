@@ -11,9 +11,9 @@ struct ContentView: View {
     @Query private var allTags: [Tag]
     
     @State private var showingSettings = false
-    @State private var showingTagPicker = false
-    @State private var selectedTags: [Tag] = []
-    @State private var lastAddedCigarette: Cigarette?
+    @State private var showingTagSelection = false
+    @State private var showingCigaretteSavedNotification = false
+    @State private var lastSavedCigaretteTagCount = 0
     @State private var insightsViewModel = InsightsViewModel()
     
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "ContentView")
@@ -31,7 +31,7 @@ struct ContentView: View {
     
     private var lastCigaretteTime: String {
         guard let lastCigarette = todaysCigarettes.first else {
-            return "--:--"
+            return "no.cigarettes.placeholder".local()
         }
         let formatter = DateFormatter()
         formatter.timeStyle = .short
@@ -61,10 +61,10 @@ struct ContentView: View {
     private var greeting: String {
         let hour = Calendar.current.component(.hour, from: Date())
         switch hour {
-        case 5..<12: return NSLocalizedString("greeting.morning", comment: "")
-        case 12..<17: return NSLocalizedString("greeting.afternoon", comment: "")
-        case 17..<22: return NSLocalizedString("greeting.evening", comment: "")
-        default: return NSLocalizedString("greeting.night", comment: "")
+        case 5..<12: return "greeting.morning".local()
+        case 12..<17: return "greeting.afternoon".local()
+        case 17..<22: return "greeting.evening".local()
+        default: return "greeting.night".local()
         }
     }
     
@@ -111,93 +111,61 @@ struct ContentView: View {
         let interval = Date().timeIntervalSince(lastCigarette.timestamp)
         let hours = Int(interval) / 3600
         let minutes = (Int(interval) % 3600) / 60
-        if hours > 0 { return String(format: NSLocalizedString("time.ago.hours.minutes", comment: ""), hours, minutes) }
-        else if minutes > 0 { return String(format: NSLocalizedString("time.ago.minutes", comment: ""), minutes) }
-        else { return NSLocalizedString("time.just.now", comment: "") }
+        if hours > 0 { return String(format: "time.ago.hours.minutes".local(), hours, minutes) }
+        else if minutes > 0 { return String(format: "time.ago.minutes".local(), minutes) }
+        else { return "time.just.now".local() }
     }
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
-            List {
-                Section {
-                    VStack(spacing: DS.Space.lg) {
-                        heroSection
-                        quickStatsSection
-                        todaysInsightSection
-                    }
-                    .listRowBackground(Color.clear)
+            ScrollView {
+                LazyVStack(spacing: DS.Space.lg) {
+                    heroSection
+                    quickStatsSection
+                    todaysInsightSection
+                    todayCigarettesSection
                 }
-                
-                TodayCigarettesList(
-                    todayCigarettes: todaysCigarettes,
-                    onDelete: { cigarette in
-                        deleteCigarette(cigarette)
-                    },
-                    onAddTags: { cigarette in
-                        lastAddedCigarette = cigarette
-                        selectedTags.removeAll()
-                        showingTagPicker = true
-                    }
-                )
+                .padding(DS.Space.lg)
             }
-            .listStyle(.plain)
             .background(DS.Colors.background)
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
             }
-            .sheet(isPresented: $showingTagPicker) {
-                NavigationView {
-                    TagPickerView(selectedTags: $selectedTags)
-                        .navigationTitle(NSLocalizedString("select.tags", comment: ""))
-                        .navigationBarTitleDisplayMode(.inline)
-                        .presentationDetents([.medium, .large])
-                        .presentationDragIndicator(.visible)
-                        .presentationContentInteraction(.scrolls)
-                        .toolbar {
-                            ToolbarItem(placement: .navigationBarTrailing) {
-                                Button(NSLocalizedString("done", comment: "")) {
-                                    if let cigarette = lastAddedCigarette {
-                                        updateCigaretteTags(cigarette, tags: selectedTags)
-                                    } else {
-                                        addCigaretteWithTags(selectedTags)
-                                    }
-                                    showingTagPicker = false
-                                    selectedTags.removeAll()
-                                    lastAddedCigarette = nil
-                                }
-                                .fontWeight(.semibold)
-                            }
-                            ToolbarItem(placement: .navigationBarLeading) {
-                                Button(NSLocalizedString("cancel", comment: "")) {
-                                    showingTagPicker = false
-                                    selectedTags.removeAll()
-                                    lastAddedCigarette = nil
-                                }
-                            }
-                        }
+            .sheet(isPresented: $showingTagSelection) {
+                TagSelectionSheet { selectedTags in
+                    addCigaretteWithTags(selectedTags)
                 }
-                .presentationBackground(.regularMaterial)
             }
             
-            DSFloatingActionButton(
-                action: {
-                    addCigarette()
-                    let impact = UIImpactFeedbackGenerator(style: .medium)
-                    impact.impactOccurred()
+            AdvancedFloatingActionButton(
+                quickAction: {
+                    Self.logger.debug("FAB quick action triggered")
+                    addCigaretteQuickly()
                 },
-                onLongPress: {
-                    lastAddedCigarette = nil
-                    selectedTags.removeAll()
-                    showingTagPicker = true
+                longPressAction: {
+                    Self.logger.debug("FAB long press action triggered")
+                    showTagSelection()
                 }
             )
-            .padding(.bottom, 60)
+            .padding(.bottom, 90) // Increased padding to clear tab bar
             .padding(.trailing, DS.Space.lg)
+            .zIndex(1000) // Ensure it's on top
+            .allowsHitTesting(true)
         }
+        .overlay(
+            CigaretteSavedNotification(
+                tagCount: lastSavedCigaretteTagCount,
+                isShowing: $showingCigaretteSavedNotification
+            )
+            .padding(.top, 60),
+            alignment: .top
+        )
+        .navigationTitle("")
+        .navigationBarHidden(true)
     }
     
     private var heroSection: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(spacing: DS.Space.lg) {
                 headerSection
                 todayStatsSection
@@ -210,23 +178,23 @@ struct ContentView: View {
         HStack {
             VStack(alignment: .leading, spacing: DS.Space.xs) {
                 Text(greeting)
-                    .font(DS.Text.title2)
+                    .font(DS.Text.title)
                     .fontWeight(.bold)
                     .foregroundStyle(DS.Colors.textPrimary)
                 
-                Text(currentProfile?.name ?? NSLocalizedString("app.subtitle", comment: ""))
-                    .font(DS.Text.caption)
+                Text(currentProfile?.name ?? "app.subtitle".local())
+                    .font(DS.Text.body)
                     .foregroundStyle(DS.Colors.textSecondary)
             }
             Spacer()
             if todayCount > 0 {
                 DSProgressRing(
                     progress: progressPercentage,
-                    size: 50,
-                    lineWidth: 4,
+                    size: 60,
+                    lineWidth: 6,
                     color: colorForTodayCount
                 )
-                .accessibilityLabel(String(format: NSLocalizedString("a11y.progress.ring", comment: ""), "\(todayCount)", "\(todayTarget)"))
+                .accessibilityLabel(String(format: "a11y.progress.ring".local(), "\(todayCount)", "\(todayTarget)"))
                 .accessibilityValue(Text("\(Int(progressPercentage * 100))%"))
             }
         }
@@ -235,25 +203,25 @@ struct ContentView: View {
     private var todayStatsSection: some View {
         HStack(spacing: DS.Space.xl) {
             VStack(alignment: .leading, spacing: DS.Space.xs) {
-                Text(NSLocalizedString("statistics.today", comment: ""))
+                Text("statistics.today".local())
                     .font(DS.Text.caption)
                     .foregroundStyle(DS.Colors.textSecondary)
                 
                 HStack(alignment: .firstTextBaseline, spacing: DS.Space.xs) {
                     Text("\(todayCount)")
-                        .font(DS.Text.largeTitle)
+                        .font(DS.Text.display)
                         .fontWeight(.bold)
                         .foregroundStyle(colorForTodayCount)
                     
                     Text("/ \(todayTarget)")
-                        .font(DS.Text.title3)
+                        .font(DS.Text.title2)
                         .fontWeight(.medium)
                         .foregroundStyle(DS.Colors.textSecondary)
                 }
                 .accessibilityElement(children: .combine)
-                .accessibilityLabel(String(format: NSLocalizedString("a11y.today.count.and.target", comment: ""), todayCount, todayTarget))
+                .accessibilityLabel(String(format: "a11y.today.count.and.target".local(), todayCount, todayTarget))
                 
-                Text(todayCount == 1 ? NSLocalizedString("cigarette.singular", comment: "") : NSLocalizedString("cigarette.plural", comment: ""))
+                Text(todayCount == 1 ? "cigarette.singular".local() : "cigarette.plural".local())
                     .font(DS.Text.caption)
                     .foregroundStyle(DS.Colors.textSecondary)
             }
@@ -262,7 +230,7 @@ struct ContentView: View {
             
             if todayCount > 0 {
                 VStack(alignment: .trailing, spacing: DS.Space.xs) {
-                    Text(NSLocalizedString("last.one", comment: ""))
+                    Text("last.one".local())
                         .font(DS.Text.caption)
                         .foregroundStyle(DS.Colors.textSecondary)
                     
@@ -270,7 +238,7 @@ struct ContentView: View {
                         .font(DS.Text.title3)
                         .fontWeight(.semibold)
                         .foregroundStyle(DS.Colors.textPrimary)
-                        .accessibilityLabel(String(format: NSLocalizedString("a11y.cigarette.time", comment: ""), lastCigaretteTime))
+                        .accessibilityLabel(String(format: "a11y.cigarette.time".local(), lastCigaretteTime))
                     
                     Text(timeAgoString)
                         .font(DS.Text.caption)
@@ -287,23 +255,23 @@ struct ContentView: View {
                 statusMessageWithCorrectLogic
                 if dailyAverageForPlan > 0 {
                     VStack(alignment: .leading, spacing: DS.Space.xs) {
-                        Text(String(format: NSLocalizedString("daily.average.format.personal", comment: ""), dailyAverageForPlan))
+                        Text(String(format: "daily.average.format.personal".local(), dailyAverageForPlan))
                             .font(DS.Text.caption)
                             .foregroundColor(DS.Colors.textSecondary)
                         
                         if let quitDate = currentProfile?.quitDate {
-                            Text(String(format: NSLocalizedString("quit.goal.format.personal", comment: ""), quitDate.formatted(date: .abbreviated, time: .omitted)))
+                            Text(String(format: "quit.goal.format.personal".local(), quitDate.formatted(date: .abbreviated, time: .omitted)))
                                 .font(DS.Text.caption)
                                 .fontWeight(.semibold)
                                 .foregroundColor(DS.Colors.primary)
                             
                             let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
                             if daysRemaining > 0 {
-                                Text(String(format: NSLocalizedString("days.to.goal.format.personal", comment: ""), daysRemaining))
+                                Text(String(format: "days.to.goal.format.personal".local(), daysRemaining))
                                     .font(DS.Text.caption)
                                     .foregroundColor(DS.Colors.textTertiary)
                             } else if daysRemaining == 0 {
-                                Text(NSLocalizedString("today.is.quit.day.personal", comment: ""))
+                                Text("today.is.quit.day.personal".local())
                                     .font(DS.Text.caption)
                                     .fontWeight(.semibold)
                                     .foregroundColor(DS.Colors.success)
@@ -317,28 +285,28 @@ struct ContentView: View {
     }
     
     private var quickStatsSection: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(spacing: DS.Space.lg) {
-                DSSectionHeader(NSLocalizedString("quick.stats", comment: ""))
+                DSSectionHeader("quick.stats".local())
                 LazyVGrid(columns: [
                     GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())
                 ], spacing: DS.Space.md) {
                     quickStatCard(
-                        title: NSLocalizedString("stats.this.week", comment: ""),
+                        title: "stats.this.week".local(),
                         value: "\(weeklyCount)",
-                        subtitle: NSLocalizedString("days.7", comment: ""),
+                        subtitle: "days.7".local(),
                         color: DS.Colors.primary
                     )
                     quickStatCard(
-                        title: NSLocalizedString("stats.this.month", comment: ""),
+                        title: "stats.this.month".local(),
                         value: "\(monthlyCount)",
-                        subtitle: String(format: "%.1f %@", Double(monthlyCount) / 30.0, NSLocalizedString("per.day", comment: "")),
+                        subtitle: String(format: "stats.per.day.format".local(), String(format: "%.1f", Double(monthlyCount) / 30.0)),
                         color: DS.Colors.warning
                     )
                     quickStatCard(
-                        title: NSLocalizedString("stats.total", comment: ""),
+                        title: "stats.total".local(),
                         value: "\(allTimeCount)",
-                        subtitle: NSLocalizedString("all.time", comment: ""),
+                        subtitle: "all.time".local(),
                         color: DS.Colors.info
                     )
                 }
@@ -367,7 +335,7 @@ struct ContentView: View {
         }
         .frame(maxWidth: .infinity, minHeight: 80, alignment: .topLeading)
         .padding(DS.Space.sm)
-        .background(DS.Colors.backgroundSecondary)
+        .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
         .cornerRadius(DS.Size.cardRadiusSmall)
         .accessibilityElement(children: .combine)
         .accessibilityLabel("\(title): \(value), \(subtitle)")
@@ -396,30 +364,65 @@ struct ContentView: View {
         }
     }
     
-    private func addCigarette(tags: [Tag]? = nil) {
+    private var todayCigarettesSection: some View {
+        TodayCigarettesList(
+            todayCigarettes: todaysCigarettes,
+            onDelete: { cigarette in
+                deleteCigarette(cigarette)
+            }
+        )
+    }
+    
+    // MARK: - Actions
+    
+    private func addCigaretteQuickly() {
+        addCigarette(tags: nil, tagCount: 0)
+        Self.logger.info("Quick cigarette added without tags")
+    }
+    
+    private func showTagSelection() {
+        showingTagSelection = true
+        Self.logger.info("Opening tag selection for cigarette")
+    }
+    
+    private func addCigarette(tags: [Tag]? = nil, tagCount: Int) {
         let newCigarette = Cigarette(timestamp: Date(), note: "", tags: tags)
         modelContext.insert(newCigarette)
+        
         do { 
             try modelContext.save()
+            
             // Update widget
             WidgetCenter.shared.reloadAllTimelines()
+            
+            // Show success notification
+            lastSavedCigaretteTagCount = tagCount
+            showingCigaretteSavedNotification = true
+            
+            Self.logger.info("Cigarette saved with \(tagCount) tags")
+            
         } catch { 
             Self.logger.error("Error saving cigarette: \(error.localizedDescription)")
         }
     }
     
     private func addCigaretteWithTags(_ tags: [Tag]) {
-        addCigarette(tags: tags.isEmpty ? nil : tags)
-    }
-    
-    private func updateCigaretteTags(_ cigarette: Cigarette, tags: [Tag]) {
-        cigarette.tags = tags.isEmpty ? nil : tags
-        do { try modelContext.save() } catch { Self.logger.error("Error updating cigarette tags: \(error.localizedDescription)") }
+        addCigarette(tags: tags.isEmpty ? nil : tags, tagCount: tags.count)
     }
     
     private func deleteCigarette(_ cigarette: Cigarette) {
         modelContext.delete(cigarette)
-        do { try modelContext.save() } catch { Self.logger.error("Error deleting cigarette: \(error.localizedDescription)") }
+        do { 
+            try modelContext.save() 
+            
+            // Update widget
+            WidgetCenter.shared.reloadAllTimelines()
+            
+            Self.logger.info("Cigarette deleted")
+            
+        } catch { 
+            Self.logger.error("Error deleting cigarette: \(error.localizedDescription)") 
+        }
     }
     
     private var statusMessageWithCorrectLogic: some View {
@@ -427,33 +430,33 @@ struct ContentView: View {
             let target = todayTarget
             if todayCount == 0 {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text(NSLocalizedString("perfect.no.cigarettes.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.success)
-                    Text(NSLocalizedString("no.cigarettes.today.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text("perfect.no.cigarettes.personal".local()).font(DS.Text.headline).foregroundColor(DS.Colors.success)
+                    Text("no.cigarettes.today.personal".local()).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else if todayCount < Int(Double(target) * 0.5) {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text(NSLocalizedString("excellent.under.half.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.success)
-                    Text(NSLocalizedString("under.half.goal.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text("excellent.under.half.personal".local()).font(DS.Text.headline).foregroundColor(DS.Colors.success)
+                    Text("under.half.goal.personal".local()).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else if todayCount < Int(Double(target) * 0.8) {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text(NSLocalizedString("good.following.plan.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.warning)
-                    Text(NSLocalizedString("following.plan.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text("good.following.plan.personal".local()).font(DS.Text.headline).foregroundColor(DS.Colors.warning)
+                    Text("following.plan.personal".local()).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else if todayCount < target {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text(NSLocalizedString("attention.near.limit.personal", comment: "")).font(DS.Text.headline).foregroundColor(Color.orange)
-                    Text(NSLocalizedString("near.plan.limit.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text("attention.near.limit.personal".local()).font(DS.Text.headline).foregroundColor(Color.orange)
+                    Text("near.plan.limit.personal".local()).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else if todayCount == target {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text(NSLocalizedString("limit.reached.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.danger)
-                    Text(NSLocalizedString("daily.goal.reached.personal", comment: "")).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text("limit.reached.personal".local()).font(DS.Text.headline).foregroundColor(DS.Colors.danger)
+                    Text("daily.goal.reached.personal".local()).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             } else {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    Text(NSLocalizedString("over.plan.personal", comment: "")).font(DS.Text.headline).foregroundColor(DS.Colors.cigarette)
-                    Text(String(format: NSLocalizedString("exceeded.by.format.personal", comment: ""), todayCount - target)).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
+                    Text("over.plan.personal".local()).font(DS.Text.headline).foregroundColor(DS.Colors.cigarette)
+                    Text(String(format: "exceeded.by.format.personal".local(), todayCount - target)).font(DS.Text.caption).foregroundColor(DS.Colors.textSecondary)
                 }
             }
         }

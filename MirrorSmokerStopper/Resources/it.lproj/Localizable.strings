@@ -979,3 +979,32 @@
 "reset.ai.warning" = "This will reset all AI coaching settings to their default values. This cannot be undone.";
 "ai.coaching.system" = "AI Coaching System";
 "ios26.compatibility.message" = "Advanced AI coaching features require iOS 26 and compatible hardware. Basic quit support remains available on all iOS versions.";
+
+// AI Coach Integration Phase 2
+"coach.daily.tip" = "Consiglio del Giorno";
+"coach.action.tips" = "Suggerimenti pratici:";
+"coach.new.tip" = "Nuovo consiglio";
+"coach.category.motivation" = "Motivazione";
+"coach.category.encouragement" = "Incoraggiamento"; 
+"coach.category.guidance" = "Guida";
+"coach.category.support" = "Supporto";
+
+// Coach Messages
+"coach.perfect.day.message" = "Incredibile! Stai vivendo una giornata perfetta senza fumo. Questo dimostra una forza di volontà incredibile e impegno verso il tuo percorso di salute.";
+"coach.doing.well.message" = "Stai andando eccezionalmente bene oggi! Rimani ben sotto il tuo obiettivo, il che dimostra grande consapevolezza e controllo.";
+"coach.on.track.message" = "Sei sulla buona strada con il tuo obiettivo oggi. È il momento perfetto per praticare la mindfulness e rimanere presente nelle tue scelte.";
+"coach.over.target.message" = "Oggi è stata una giornata impegnativa, ed è completamente normale nel tuo percorso per smettere. Ogni momento è una possibilità per fare una scelta più sana.";
+
+// Coach Action Tips
+"coach.tip.celebrate" = "Prenditi un momento per celebrare questo risultato";
+"coach.tip.plan.triggers" = "Pianifica come gestire i potenziali trigger del pomeriggio";
+"coach.tip.reward.yourself" = "Considera una ricompensa sana per questo successo";
+"coach.tip.keep.routine" = "Continua a seguire la routine che sta funzionando";
+"coach.tip.stay.aware" = "Rimani consapevole di cosa ti sta aiutando a riuscire";
+"coach.tip.track.triggers" = "Nota eventuali schemi nei tempi o nelle situazioni";
+"coach.tip.mindful.moments" = "Fai 3 respiri consapevoli prima della prossima voglia";
+"coach.tip.breathing.exercise" = "Prova la tecnica di respirazione 4-7-8";
+"coach.tip.alternative.activity" = "Tieni pronta la tua attività alternativa preferita";
+"coach.tip.no.judgment" = "Sii gentile con te stesso - domani è un nuovo inizio";
+"coach.tip.reset.tomorrow" = "Usa stasera per pianificare il successo di domani";
+"coach.tip.identify.trigger" = "Identifica cosa ha scatenato le sigarette extra";

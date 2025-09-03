@@ -838,6 +838,35 @@
 "status.exceed.target" = "Above target - take a breath";
 "last.cigarette.time" = "Last:";
 
+// AI Coach Integration Phase 2
+"coach.daily.tip" = "Daily Tip";
+"coach.action.tips" = "Action tips:";
+"coach.new.tip" = "New tip";
+"coach.category.motivation" = "Motivation";
+"coach.category.encouragement" = "Encouragement"; 
+"coach.category.guidance" = "Guidance";
+"coach.category.support" = "Support";
+
+// Coach Messages
+"coach.perfect.day.message" = "Amazing! You're having a perfect smoke-free day. This shows incredible willpower and commitment to your health journey.";
+"coach.doing.well.message" = "You're doing exceptionally well today! You're staying well under your target, which shows great self-awareness and control.";
+"coach.on.track.message" = "You're on track with your goal today. This is the perfect time to practice mindfulness and stay present with your choices.";
+"coach.over.target.message" = "Today has been challenging, and that's completely normal in your quit journey. Every moment is a chance to make a healthier choice.";
+
+// Coach Action Tips
+"coach.tip.celebrate" = "Take a moment to celebrate this achievement";
+"coach.tip.plan.triggers" = "Plan how to handle potential afternoon triggers";
+"coach.tip.reward.yourself" = "Consider a healthy reward for this success";
+"coach.tip.keep.routine" = "Keep following the routine that's working";
+"coach.tip.stay.aware" = "Stay aware of what's helping you succeed";
+"coach.tip.track.triggers" = "Notice any patterns in timing or situations";
+"coach.tip.mindful.moments" = "Take 3 mindful breaths before the next craving";
+"coach.tip.breathing.exercise" = "Try the 4-7-8 breathing technique";
+"coach.tip.alternative.activity" = "Have your go-to alternative activity ready";
+"coach.tip.no.judgment" = "Be kind to yourself - tomorrow is a fresh start";
+"coach.tip.reset.tomorrow" = "Use tonight to plan tomorrow's success";
+"coach.tip.identify.trigger" = "Identify what triggered the extra cigarettes";
+
 // ContentView
 "add.cigarette.title" = "Add Cigarette";
 "note.optional" = "Note (optional)";

@@ -1207,3 +1207,18 @@
 "status.on.track" = "Sur la bonne voie - reste concentré";
 "status.exceed.target" = "Au-dessus de l'objectif - respire un coup";
 "last.cigarette.time" = "Dernière :";
+
+// AI Coach Integration Phase 2
+"coach.daily.tip" = "Conseil du Jour";
+"coach.action.tips" = "Conseils pratiques:";
+"coach.new.tip" = "Nouveau conseil";
+"coach.category.motivation" = "Motivation";
+"coach.category.encouragement" = "Encouragement"; 
+"coach.category.guidance" = "Guidance";
+"coach.category.support" = "Soutien";
+
+// Coach Messages (Key ones)
+"coach.perfect.day.message" = "Incroyable ! Tu passes une journée parfaite sans fumée. Cela montre une volonté incroyable et un engagement envers ta santé.";
+"coach.doing.well.message" = "Tu te débrouilles exceptionnellement bien aujourd'hui ! Tu restes bien en dessous de ton objectif.";
+"coach.on.track.message" = "Tu es sur la bonne voie avec ton objectif aujourd'hui. C'est le moment parfait pour pratiquer la pleine conscience.";
+"coach.over.target.message" = "Aujourd'hui a été difficile, et c'est complètement normal dans ton parcours d'arrêt. Chaque moment est une chance de faire un choix plus sain.";

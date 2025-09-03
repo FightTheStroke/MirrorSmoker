@@ -123,6 +123,7 @@ struct ContentView: View {
             ScrollView {
                 LazyVStack(spacing: DS.Space.lg) {
                     heroSection
+                    coachMessageSection
                     quickStatsSection
                     todaysInsightSection
                     todayCigarettesSection
@@ -181,6 +182,15 @@ struct ContentView: View {
             userProfile: currentProfile,
             colorForTodayCount: colorForTodayCount,
             progressPercentage: progressPercentage,
+            timeAgoString: timeAgoString
+        )
+    }
+    
+    private var coachMessageSection: some View {
+        CoachMessageCard(
+            todayCount: todayCount,
+            todayTarget: todayTarget,
+            dailyAverage: dailyAverageForPlan,
             timeAgoString: timeAgoString
         )
     }

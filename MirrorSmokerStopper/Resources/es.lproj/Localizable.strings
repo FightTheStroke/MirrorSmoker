@@ -1167,3 +1167,34 @@
 "status.on.track" = "En buen camino - mantente atento";
 "status.exceed.target" = "Por encima del objetivo - respira hondo";
 "last.cigarette.time" = "Último:";
+
+// AI Coach Integration Phase 2
+"coach.daily.tip" = "Consejo Diario";
+"coach.category.motivation" = "Motivación";
+"coach.category.encouragement" = "Ánimo";
+"coach.category.guidance" = "Orientación";
+"coach.category.support" = "Apoyo";
+
+// Coach Messages
+"coach.perfect.day.message" = "¡Increíble! ¡Un día perfecto sin fumar! 🎉 Estás mostrando verdadera fuerza y determinación.";
+"coach.doing.well.message" = "¡Estás haciendo un gran progreso! Te mantienes por debajo de tu objetivo diario - eso es un gran logro.";
+"coach.on.track.message" = "¡Vas por buen camino! Te acercas a tu objetivo diario, pero puedes lograrlo.";
+"coach.over.target.message" = "Hoy fue un día difícil, pero mañana es un nuevo comienzo. Cada paso cuenta en tu journey.";
+
+// Coach Action Tips
+"coach.action.tips" = "Consejos de Acción";
+"coach.tip.celebrate" = "Celebra este éxito - ¡te lo mereces!";
+"coach.tip.plan.triggers" = "Planifica para los desencadenantes de mañana";
+"coach.tip.reward.yourself" = "Recompénsate por esta gran victoria";
+"coach.tip.keep.routine" = "Mantén tu rutina - está funcionando";
+"coach.tip.stay.aware" = "Mantente consciente de tus desencadenantes";
+"coach.tip.track.triggers" = "Registra lo que ayudó hoy";
+"coach.tip.mindful.moments" = "Toma momentos conscientes cuando sientas ansias";
+"coach.tip.breathing.exercise" = "Prueba un ejercicio de respiración 4-7-8";
+"coach.tip.alternative.activity" = "Encuentra una actividad alternativa saludable";
+"coach.tip.no.judgment" = "No seas demasiado duro contigo mismo";
+"coach.tip.reset.tomorrow" = "Mañana es una nueva oportunidad para empezar de nuevo";
+"coach.tip.identify.trigger" = "Identifica qué fue difícil hoy";
+
+// Coach Actions
+"coach.new.tip" = "Nuevo Consejo";

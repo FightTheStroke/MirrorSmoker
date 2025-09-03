@@ -1005,6 +1005,86 @@
 "quit.plan.countdown.title" = "Conto alla Rovescia per la Libertà";
 "quit.plan.day.remaining" = "giorno rimanente";
 "quit.plan.days.remaining" = "giorni rimanenti";
+
+// Phase 5: AI Coach System - JITAI & Advanced Coaching
+"coaching.intensity.gentle" = "Delicata";
+"coaching.intensity.moderate" = "Moderata";
+"coaching.intensity.intensive" = "Intensiva";
+
+"tip.category.motivation" = "Motivazione";
+"tip.category.trigger.awareness" = "Consapevolezza dei Trigger";
+"tip.category.habit.change" = "Cambio Abitudini";
+"tip.category.mindfulness" = "Mindfulness";
+"tip.category.social.support" = "Supporto Sociale";
+
+"time.morning" = "Mattina";
+"time.afternoon" = "Pomeriggio";
+"time.evening" = "Sera";
+"time.night" = "Notte";
+
+"progress.celebration" = "Celebrazione";
+"progress.encouragement" = "Incoraggiamento";
+"progress.intervention" = "Intervento";
+"progress.gentle.reminder" = "Promemoria Delicato";
+
+"intervention.preemptive" = "Preventivo";
+"intervention.realtime" = "In tempo reale";
+"intervention.postevent" = "Post-evento";
+
+"pattern.frequency.daily" = "Giornaliero";
+"pattern.frequency.weekly" = "Settimanale";
+"pattern.frequency.situational" = "Situazionale";
+"pattern.frequency.occasional" = "Occasionale";
+
+"trigger.type.emotional" = "Emotivo";
+"trigger.type.social" = "Sociale";
+"trigger.type.situational" = "Situazionale";
+"trigger.type.temporal" = "Temporale";
+"trigger.type.physical" = "Fisico";
+
+"trigger.intensity.low" = "Bassa";
+"trigger.intensity.moderate" = "Moderata";
+"trigger.intensity.high" = "Alta";
+"trigger.intensity.severe" = "Grave";
+
+"motivation.category.health" = "Salute";
+"motivation.category.family" = "Famiglia";
+"motivation.category.financial" = "Finanziaria";
+"motivation.category.freedom" = "Libertà";
+"motivation.category.appearance" = "Aspetto";
+"motivation.category.social" = "Sociale";
+
+// JITAI Intervention Messages
+"jitai.action.breathe" = "Respira";
+"jitai.action.distract" = "Distraiti";
+"jitai.action.remind" = "Ricordami";
+"jitai.action.dismiss" = "Non Ora";
+
+"jitai.emotional.high.title" = "Emozioni Intense Rilevate";
+"jitai.emotional.high.body" = "Stai provando emozioni intense. Prendiamoci un momento per respirare e trovare un modo più sano per gestirle.";
+"jitai.emotional.moderate.title" = "Momento Emotivo";
+"jitai.emotional.moderate.body" = "Fai un respiro profondo. Ricorda i tuoi obiettivi e perché sei in questo viaggio.";
+
+"jitai.social.title" = "Situazione Sociale";
+"jitai.social.body" = "La pressione sociale può essere difficile. Hai la forza per fare la scelta giusta.";
+
+"jitai.situational.title" = "Trigger Familiare";
+"jitai.situational.body" = "Ti trovi in una situazione che prima ti portava a fumare. È la tua occasione per creare un nuovo schema più sano.";
+
+"jitai.temporal.morning.title" = "Buongiorno!";
+"jitai.temporal.morning.body" = "Inizia la giornata con forza. Ricorda il tuo impegno per una salute migliore.";
+
+"jitai.temporal.afternoon.title" = "Check-in Pomeridiano";
+"jitai.temporal.afternoon.body" = "Come va la giornata? Mantieni il focus sui tuoi obiettivi.";
+
+"jitai.temporal.evening.title" = "Riflessione Serale";
+"jitai.temporal.evening.body" = "Rifletti sui progressi che hai fatto oggi. Stai andando benissimo!";
+
+"jitai.temporal.night.title" = "Notte Serena";
+"jitai.temporal.night.body" = "Concludi la giornata con una nota positiva. Domani è un'altra opportunità per avere successo.";
+
+"jitai.physical.title" = "Trigger Fisico";
+"jitai.physical.body" = "Il tuo corpo potrebbe aspettarsi la nicotina, ma sta diventando più forte ogni giorno senza di essa.";
 "ai.quit.plan.optimizer.title" = "AI Quit Plan Optimizer";
 "ai.powered.quit.plan.optimization" = "AI-Powered Quit Plan Optimization";
 "get.personalized.recommendations" = "Get personalized recommendations based on your smoking patterns, health data, and behavioral analysis";

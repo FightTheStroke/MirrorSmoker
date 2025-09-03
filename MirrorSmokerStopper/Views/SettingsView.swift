@@ -131,9 +131,13 @@ struct SettingsViewFixed: View {
                     }
                 }
             }
-            .navigationTitle("settings.title".local())
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("settings.title".local())
+                        .font(DS.Text.title)
+                        .foregroundColor(DS.Colors.textPrimary)
+                }
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(action: { showingHelpView = true }) {
                         Image(systemName: "questionmark.circle")

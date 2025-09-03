@@ -71,7 +71,7 @@
 "empty.state.subtitle" = "Continua così! Usa il pulsante + per registrarne una se necessario.";
 
 // Tab Bar
-"tab.home" = "Home";
+"tab.today" = "Oggi";
 "tab.stats" = "Statistiche";
 "tab.settings" = "Impostazioni";
 
@@ -591,7 +591,7 @@
 "settings.delete.warning" = "Questo eliminerà permanentemente tutti i tuoi dati di fumo. Questa azione non può essere annullata.";
 
 // MainTabView
-"tab.home" = "Home";
+"tab.today" = "Oggi";
 "tab.stats" = "Statistiche";
 "tab.settings" = "Impostazioni";
 
@@ -765,8 +765,8 @@
 "daily.goal.reached.personal" = "You've reached today's goal";
 "over.plan.personal" = "🚨 Over plan";
 "exceeded.by.format.personal" = "You exceeded by %d";
-"tab.stats.main" = "Statistics";
-"tab.settings.main" = "Settings";
+"tab.progress" = "Progresso";
+"tab.plan.profile" = "Piano & Profilo";
 "statistics.register.more" = "Record more cigarettes to see the trend";
 "statistics.following.your.plan" = "💪 You're following your plan";
 "statistics.exceeded.goal.today" = "⚠️ You exceeded today's goal";

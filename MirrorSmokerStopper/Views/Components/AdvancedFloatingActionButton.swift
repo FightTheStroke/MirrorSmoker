@@ -180,7 +180,7 @@ struct AdvancedFloatingActionButton: View {
 
     // MARK: - Enhanced Gesture Handling
 
-    private var longPressTimer: Timer?
+    @State private var longPressTimer: Timer?
 
     private func handleDragChanged(_ translation: CGSize) {
         if !isDetectingLongPress {

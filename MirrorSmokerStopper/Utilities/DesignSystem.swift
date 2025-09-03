@@ -13,35 +13,35 @@ struct DS {
         // === PRIMARY BRAND COLORS ===
 
         // Primary action color (motivational blue)
-        static let primary = Color(hex: "#3B82F6")
-        static let primaryLight = Color(hex: "#60A5FA")
-        static let primaryDark = Color(hex: "#2563EB")
+        static let primary = Color(hex: "#3B82F6")!
+        static let primaryLight = Color(hex: "#60A5FA")!
+        static let primaryDark = Color(hex: "#2563EB")!
 
         // === SMOKING CESSATION SEMANTIC COLORS ===
 
         // CIGARETTE CONSUMPTION LEVELS (ORIENTAZIONE POSITIVA)
         // Rosso scuro = Critico (alto consumo) → Verde = Eccellente (basso/prossimo quota)
-        static let smokingProgressCritical = Color(hex: "#DC2626")    // <1% target, critic
-        static let smokingProgressHigh = Color(hex: "#EF4444")        // 80-99% target, alto rischio
-        static let smokingProgressWarning = Color(hex: "#F97316")      // 60-79% target, attenzione
-        static let smokingProgressCaution = Color(hex: "#EAB308")      // 40-59% target, cautela
-        static let smokingProgressModerate = Color(hex: "#84CC16")     // 20-39% target, moderato
-        static let smokingProgressGood = Color(hex: "#22C55E")         // 10-19% target, buono
-        static let smokingProgressExcellent = Color(hex: "#16A34A")    // 0-9% target, eccellente
+        static let smokingProgressCritical = Color(hex: "#DC2626")!    // <1% target, critic
+        static let smokingProgressHigh = Color(hex: "#EF4444")!        // 80-99% target, alto rischio
+        static let smokingProgressWarning = Color(hex: "#F97316")!      // 60-79% target, attenzione
+        static let smokingProgressCaution = Color(hex: "#EAB308")!      // 40-59% target, cautela
+        static let smokingProgressModerate = Color(hex: "#84CC16")!     // 20-39% target, moderato
+        static let smokingProgressGood = Color(hex: "#22C55E")!         // 10-19% target, buono
+        static let smokingProgressExcellent = Color(hex: "#16A34A")!    // 0-9% target, eccellente
 
         // PERFECT DAY ACHIEVEMENTS (verdi scuri per successo)
-        static let achievementPerfectDay = Color(hex: "#166534")      // 0 sigarette = perfetto!
-        static let achievementQuotaMet = Color(hex: "#15803D")         // Controllo <= quota
+        static let achievementPerfectDay = Color(hex: "#166534")!      // 0 sigarette = perfetto!
+        static let achievementQuotaMet = Color(hex: "#15803D")!         // Controllo <= quota
 
         // HEALTH IMPROVEMENT COLORS (verdi per benefici salute)
-        static let healthImprovementExcellent = Color(hex: "#16A34A") // Miglioramento eccellente
-        static let healthImprovement = Color(hex: "#22C55E")           // Miglioramento buono
-        static let healthDecline = Color(hex: "#DC2626")               // Peggioramento
+        static let healthImprovementExcellent = Color(hex: "#16A34A")! // Miglioramento eccellente
+        static let healthImprovement = Color(hex: "#22C55E")!           // Miglioramento buono
+        static let healthDecline = Color(hex: "#DC2626")!               // Peggioramento
 
         // === BEHAVIORAL CUES ===
-        static let motivationInspiring = Color(hex: "#7C3AED")        // Viola per motivazione
-        static let habitTrigger = Color(hex: "#EA580C")               // Arancione per trigger
-        static let urgeManagement = Color(hex: "#059669")             // Verde acqua per gest.urges
+        static let motivationInspiring = Color(hex: "#7C3AED")!        // Viola per motivazione
+        static let habitTrigger = Color(hex: "#EA580C")!               // Arancione per trigger
+        static let urgeManagement = Color(hex: "#059669")!             // Verde acqua per gest.urges
 
         // === LEGACY SEMANTIC COLORS (mapped to smoking semantic) ===
         static let success = smokingProgressExcellent     // Riutilizzo per compatibilità
@@ -51,16 +51,16 @@ struct DS {
 
         // === BACKGROUND HIERARCHY ===
         static let background = Color.white
-        static let backgroundSecondary = Color(hex: "#F8FAFC")
-        static let backgroundTertiary = Color(hex: "#F1F5F9")
+        static let backgroundSecondary = Color(hex: "#F8FAFC")!
+        static let backgroundTertiary = Color(hex: "#F1F5F9")!
         static let card = Color.white
-        static let cardSecondary = Color(hex: "#F8FAFC")
-        static let separator = Color(hex: "#E2E8F0")
+        static let cardSecondary = Color(hex: "#F8FAFC")!
+        static let separator = Color(hex: "#E2E8F0")!
 
         // === TEXT HIERARCHY ===
-        static let textPrimary = Color(hex: "#0F172A")
-        static let textSecondary = Color(hex: "#475569")
-        static let textTertiary = Color(hex: "#64748B")
+        static let textPrimary = Color(hex: "#0F172A")!
+        static let textSecondary = Color(hex: "#475569")!
+        static let textTertiary = Color(hex: "#64748B")!
         static let textInverse = Color.white
 
         // === GLASS MORPHISM COLORS (enhanced for smoking cessation app) ===
@@ -71,8 +71,8 @@ struct DS {
 
         // === INTERACTIVE COLORS ===
         static let buttonPrimary = primary
-        static let buttonSecondary = Color(hex: "#E2E8F0")
-        static let buttonDisabled = Color(hex: "#CBD5E1")
+        static let buttonSecondary = Color(hex: "#E2E8F0")!
+        static let buttonDisabled = Color(hex: "#CBD5E1")!
         static let link = primaryDark
         static let linkVisited = primaryDark.opacity(0.8)
 
@@ -80,7 +80,7 @@ struct DS {
         // Linea principale: fumo attuale vs target (semantica di progresso)
         static let chartCigaretteCount = smokingProgressHigh       // Rosso per sigarette contate
         static let chartTargetLine = smokingProgressGood            // Verde per linea obiettivo
-        static let chartAverageLine = Color(hex: "#64748B")          // Grigio neutro per media
+        static let chartAverageLine = Color(hex: "#64748B")!          // Grigio neutro per media
         static let chartTrendPositive = smokingProgressExcellent   // Verde per trend positivo (diminuzione)
         static let chartTrendNegative = smokingProgressCritical    // Rosso per trend negativo (aumento)
 
@@ -89,9 +89,9 @@ struct DS {
         static let chartTertiary = healthImprovement               // Verde per benefici salute
 
         // === TAG COLORS (context-aware smoking situations) ===
-        static let tagWork = Color(hex: "#8B5CF6")                  // Viola per lavoro
-        static let tagStress = Color(hex: "#F59E0B")                // Giallo arancione per stress
-        static let tagSocial = Color(hex: "#06B6D4")                // Ciano per sociale
+        static let tagWork = Color(hex: "#8B5CF6")!                  // Viola per lavoro
+        static let tagStress = Color(hex: "#F59E0B")!                // Giallo arancione per stress
+        static let tagSocial = Color(hex: "#06B6D4")!                // Ciano per sociale
         static let tagHealth = smokingProgressExcellent            // Verde per salute
 
         // === STATUS COLORS (mapped to smoking context) ===
@@ -102,7 +102,7 @@ struct DS {
 
         // === BACKWARD COMPATIBILITY COLORS ===
         static let cigarette = smokingProgressHigh                 // Legacy from old AppColors
-        static let smoke = Color(hex: "#9CA3AF")                    // Grigio neutro per fumo
+        static let smoke = Color(hex: "#9CA3AF")!                    // Grigio neutro per fumo
         static let health = healthImprovement                       // Salute mapped
         static let progress = smokingProgressGood                  // Progress mapped
 
@@ -114,7 +114,7 @@ struct DS {
         static let chart5 = primaryDark                            // Motivational trend - Legacy naming
 
         // === SPECIAL COLORS ===
-        static let attention = Color(hex: "#F59E0B")               // Arancione per attenzione
+        static let attention = Color(hex: "#F59E0B")!               // Arancione per attenzione
         static let motivation = motivationInspiring                // Aliasă per motivazione
     }
     
@@ -462,11 +462,15 @@ extension View {
         self.shadow(color: shadow.color, radius: shadow.radius, x: shadow.x, y: shadow.y)
     }
     
+    func dsAdaptiveShadow(_ shadow: DSShadow) -> some View {
+        self.shadow(color: shadow.color, radius: shadow.radius, x: shadow.x, y: shadow.y)
+    }
+    
     func dsCard() -> some View {
         self
             .background(DS.Colors.card)
             .cornerRadius(DS.AdaptiveSize.cardRadius)
-            .dsAdaptiveShadow(.small)
+            .dsAdaptiveShadow(DS.AdaptiveShadow.small)
     }
     
     func dsTag() -> some View {
@@ -773,32 +777,6 @@ extension View {
     }
 }
 
-// MARK: - Color Hex Extension (for backward compatibility)
-extension Color {
-    init(hex: String) {
-        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
-        var int: UInt64 = 0
-        Scanner(string: hex).scanHexInt64(&int)
-        let a, r, g, b: UInt64
-        switch hex.count {
-        case 3: // RGB (12-bit)
-            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
-            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
-            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
-        default:
-            (a, r, g, b) = (1, 1, 1, 0)
-        }
-        self.init(
-            .sRGB,
-            red: Double(r) / 255,
-            green: Double(g) / 255,
-            blue:  Double(b) / 255,
-            opacity: Double(a) / 255
-        )
-    }
-}
 
 // MARK: - Visual Effect View for Liquid Glass
 struct VisualEffectView<Content: View>: UIViewRepresentable {

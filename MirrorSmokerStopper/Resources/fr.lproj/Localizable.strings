@@ -71,7 +71,7 @@
 "empty.state.subtitle" = "Continuez comme ça ! Utilisez le bouton + pour en enregistrer une si besoin.";
 
 // Tab Bar
-"tab.home" = "Accueil";
+"tab.today" = "Aujourd'hui";
 "tab.stats" = "Statistiques";
 "tab.settings" = "Paramètres";
 
@@ -425,7 +425,7 @@
 "empty.state.subtitle" = "Continuez comme ça ! Utilisez le bouton + pour en enregistrer une si besoin.";
 
 // Tab Bar
-"tab.home" = "Accueil";
+"tab.today" = "Aujourd'hui";
 "tab.stats" = "Statistiques";
 "tab.settings" = "Paramètres";
 
@@ -951,8 +951,8 @@
 "daily.goal.reached.personal" = "You've reached today's goal";
 "over.plan.personal" = "🚨 Over plan";
 "exceeded.by.format.personal" = "You exceeded by %d";
-"tab.stats.main" = "Statistics";
-"tab.settings.main" = "Settings";
+"tab.progress" = "Progrès";
+"tab.plan.profile" = "Plan & Profil";
 "statistics.register.more" = "Record more cigarettes to see the trend";
 "statistics.following.your.plan" = "💪 You're following your plan";
 "statistics.exceeded.goal.today" = "⚠️ You exceeded today's goal";

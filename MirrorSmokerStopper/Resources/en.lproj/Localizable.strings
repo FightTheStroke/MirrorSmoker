@@ -113,7 +113,7 @@
 "today.label" = "Today";
 
 // Tab Bar
-"tab.home" = "Home";
+"tab.today" = "Today";
 "tab.stats" = "Stats";
 "tab.settings" = "Settings";
 
@@ -641,8 +641,8 @@
 "time.range.all" = "All time";
 
 // Main tab updated labels
-"tab.stats.main" = "Statistics";
-"tab.settings.main" = "Settings";
+"tab.progress" = "Progress";
+"tab.plan.profile" = "Plan & Profile";
 
 // Time ranges and statistics
 "time.range.today" = "Today";
@@ -823,7 +823,7 @@
 "done" = "Done";
 
 // MainTabView
-"tab.home" = "Home";
+"tab.today" = "Today";
 "tab.stats" = "Stats";
 "tab.settings" = "Settings";
 

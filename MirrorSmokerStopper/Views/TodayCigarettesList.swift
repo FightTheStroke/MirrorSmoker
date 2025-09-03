@@ -54,7 +54,7 @@ struct TodayCigarettesList: View {
                 }
             }
             .cornerRadius(DS.AdaptiveSize.cardRadius)
-            .dsAdaptiveShadow(.large)
+            .dsAdaptiveShadow(DS.AdaptiveShadow.large)
         }
     }
 }

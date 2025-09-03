@@ -71,7 +71,7 @@
 "empty.state.subtitle" = "Weiter so! Verwende die +-Taste, um bei Bedarf eine zu protokollieren.";
 
 // Tab Bar
-"tab.home" = "Start";
+"tab.today" = "Heute";
 "tab.stats" = "Statistiken";
 "tab.settings" = "Einstellungen";
 
@@ -239,7 +239,7 @@
 "todays.cigarettes" = "Heutige Zigaretten";
 "empty.state.title" = "Super! Heute keine Zigaretten";
 "empty.state.subtitle" = "Weiter so! Verwende die +-Taste, um bei Bedarf eine zu protokollieren.";
-"tab.home" = "Start";
+"tab.today" = "Heute";
 "tab.stats" = "Statistiken";
 "tab.settings" = "Einstellungen";
 "statistics.title" = "Statistiken";
@@ -789,8 +789,8 @@
 "daily.goal.reached.personal" = "You've reached today's goal";
 "over.plan.personal" = "🚨 Over plan";
 "exceeded.by.format.personal" = "You exceeded by %d";
-"tab.stats.main" = "Statistics";
-"tab.settings.main" = "Settings";
+"tab.progress" = "Fortschritt";
+"tab.plan.profile" = "Plan & Profil";
 "statistics.register.more" = "Record more cigarettes to see the trend";
 "statistics.following.your.plan" = "💪 You're following your plan";
 "statistics.exceeded.goal.today" = "⚠️ You exceeded today's goal";

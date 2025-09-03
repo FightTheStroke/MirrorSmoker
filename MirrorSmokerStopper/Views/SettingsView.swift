@@ -727,11 +727,12 @@ struct SettingsViewFixed: View {
             
             // Reset ALL form data to initial state
             name = ""
-            age = ""
-            packPrice = ""
-            cigarettesPerPack = "20"
-            dailyLimit = ""
-            enableNotifications = true
+            birthDate = Date()
+            weight = ""
+            smokingType = SmokingType.cigarettes
+            startedSmokingAge = 18
+            dailyAverageInput = ""
+            quitDate = nil
             enableGradualReduction = true
             hasUnsavedChanges = false
             

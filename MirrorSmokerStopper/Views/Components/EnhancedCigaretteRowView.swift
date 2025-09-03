@@ -146,7 +146,7 @@ struct EnhancedCigaretteRowView: View {
     }
     
     // MARK: - Tags Display
-    
+
     @ViewBuilder
     private var tagsDisplay: some View {
         if let tags = cigarette.tags, !tags.isEmpty {
@@ -154,10 +154,11 @@ struct EnhancedCigaretteRowView: View {
                 ForEach(tags.prefix(3), id: \.id) { tag in
                     tagChip(tag: tag)
                 }
-                
+
                 if tags.count > 3 {
-                    Text("plus.more.tags".local(with: tags.count - 3))
+                    Text("+\(tags.count - 3)")
                         .font(DS.Text.caption2)
+                        .fontWeight(.medium)
                         .padding(.horizontal, DS.Space.xs)
                         .padding(.vertical, 2)
                         .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
@@ -166,10 +167,8 @@ struct EnhancedCigaretteRowView: View {
                 }
             }
         } else {
-            // No tags indicator
-            Text("no.tags".local())
-                .font(DS.Text.caption)
-                .foregroundColor(DS.Colors.textSecondary)
+            // EMPTY WHEN NO TAGS = CLEAN DESIGN!
+            EmptyView()
         }
     }
     

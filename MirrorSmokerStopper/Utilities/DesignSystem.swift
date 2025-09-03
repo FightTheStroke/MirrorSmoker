@@ -120,21 +120,37 @@ struct DS {
     
     // MARK: - Typography (JetBrains Mono NL + System Fonts)
     struct Text {
-        // Custom font helpers with explicit weights
+        // Custom font helpers with explicit weights and system fallbacks
         private static func jetBrainsMonoRegular(size: CGFloat) -> Font {
-            Font.custom("JetBrains Mono NL", size: size)
+            if UIFont(name: "JetBrains Mono NL", size: size) != nil {
+                return Font.custom("JetBrains Mono NL", size: size)
+            } else {
+                return Font.system(size: size, weight: .regular, design: .monospaced)
+            }
         }
         
         private static func jetBrainsMonoMedium(size: CGFloat) -> Font {
-            Font.custom("JetBrains Mono NL Medium", size: size)
+            if UIFont(name: "JetBrains Mono NL Medium", size: size) != nil {
+                return Font.custom("JetBrains Mono NL Medium", size: size)
+            } else {
+                return Font.system(size: size, weight: .medium, design: .monospaced)
+            }
         }
         
         private static func jetBrainsMonoSemiBold(size: CGFloat) -> Font {
-            Font.custom("JetBrains Mono NL SemiBold", size: size)
+            if UIFont(name: "JetBrains Mono NL SemiBold", size: size) != nil {
+                return Font.custom("JetBrains Mono NL SemiBold", size: size)
+            } else {
+                return Font.system(size: size, weight: .semibold, design: .monospaced)
+            }
         }
         
         private static func jetBrainsMonoBold(size: CGFloat) -> Font {
-            Font.custom("JetBrains Mono NL Bold", size: size)
+            if UIFont(name: "JetBrains Mono NL Bold", size: size) != nil {
+                return Font.custom("JetBrains Mono NL Bold", size: size)
+            } else {
+                return Font.system(size: size, weight: .bold, design: .monospaced)
+            }
         }
         
         // Large text - All JetBrains Mono

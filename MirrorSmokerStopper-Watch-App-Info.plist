@@ -13,10 +13,10 @@
 	</array>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Fonts/JetBrainsMonoNL-Regular.ttf</string>
-		<string>Fonts/JetBrainsMonoNL-Medium.ttf</string>
-		<string>Fonts/JetBrainsMonoNL-SemiBold.ttf</string>
-		<string>Fonts/JetBrainsMonoNL-Bold.ttf</string>
+		<string>JetBrainsMonoNL-Regular.ttf</string>
+		<string>JetBrainsMonoNL-Medium.ttf</string>
+		<string>JetBrainsMonoNL-SemiBold.ttf</string>
+		<string>JetBrainsMonoNL-Bold.ttf</string>
 	</array>
 </dict>
 </plist>

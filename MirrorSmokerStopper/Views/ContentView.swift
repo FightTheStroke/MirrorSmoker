@@ -9,10 +9,12 @@ struct ContentView: View {
     @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette]
     @Query private var userProfiles: [UserProfile]
     @Query private var allTags: [Tag]
+    @Query private var allPurchases: [Purchase] // Add this query
     
     @State private var showingSettings = false
     @State private var showingTagSelection = false
     @State private var showingCigaretteSavedNotification = false
+    @State private var showingPurchaseSheet = false // Add this state
     @State private var lastSavedCigaretteTagCount = 0
     @State private var insightsViewModel = InsightsViewModel()
     
@@ -136,6 +138,9 @@ struct ContentView: View {
                     addCigaretteWithTags(selectedTags)
                 }
             }
+            .sheet(isPresented: $showingPurchaseSheet) { // Add this sheet
+                PurchaseLoggingSheet()
+            }
             
             AdvancedFloatingActionButton(
                 quickAction: {
@@ -145,21 +150,25 @@ struct ContentView: View {
                 longPressAction: {
                     Self.logger.debug("FAB long press action triggered")
                     showTagSelection()
+                },
+                logPurchaseAction: { // Add this action
+                    Self.logger.debug("FAB log purchase action triggered")
+                    showingPurchaseSheet = true
                 }
             )
             .padding(.bottom, 90) // Increased padding to clear tab bar
             .padding(.trailing, DS.Space.lg)
             .zIndex(1000) // Ensure it's on top
             .allowsHitTesting(true)
-        }
-        .overlay(
+            
             CigaretteSavedNotification(
                 tagCount: lastSavedCigaretteTagCount,
                 isShowing: $showingCigaretteSavedNotification
             )
-            .padding(.top, 60),
-            alignment: .top
-        )
+            .padding(.top, 60)
+            .accessibilityElement(children: .ignore)
+            .accessibilityHidden(true)
+        }
         .navigationTitle("")
         .navigationBarHidden(true)
     }
@@ -187,16 +196,14 @@ struct ContentView: View {
                     .foregroundStyle(DS.Colors.textSecondary)
             }
             Spacer()
-            if todayCount > 0 {
-                DSProgressRing(
-                    progress: progressPercentage,
-                    size: 60,
-                    lineWidth: 6,
-                    color: colorForTodayCount
-                )
-                .accessibilityLabel(String(format: "a11y.progress.ring".local(), "\(todayCount)", "\(todayTarget)"))
-                .accessibilityValue(Text("\(Int(progressPercentage * 100))%"))
-            }
+            DSProgressRing(
+                progress: progressPercentage,
+                size: 60,
+                lineWidth: 6,
+                color: colorForTodayCount
+            )
+            .accessibilityLabel(String(format: "a11y.progress.ring".local(), "\(todayCount)", "\(todayTarget)"))
+            .accessibilityValue(Text("\(Int(progressPercentage * 100))%"))
         }
     }
     
@@ -469,6 +476,180 @@ struct ContentView_Previews: PreviewProvider {
             ContentView()
                 .modelContainer(for: [Cigarette.self, Tag.self, UserProfile.self], inMemory: true)
         }
+    }
+}
+
+// MARK: - Purchase Logging Sheet
+struct PurchaseLoggingSheet: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    
+    @State private var productName = ""
+    @State private var amountString = ""
+    @State private var currencyCode = "USD"
+    @State private var quantity = 1
+    @State private var errorMessage: String?
+    @State private var isSaving = false
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(spacing: DS.Space.lg) {
+                    LegacyDSCard {
+                        VStack(spacing: DS.Space.md) {
+                            DSSectionHeader(
+                                "Log Purchase",
+                                subtitle: "Record your tobacco product purchase"
+                            )
+                            
+                            VStack(spacing: DS.Space.md) {
+                                // Product Name
+                                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                    Text("Product Name")
+                                        .font(DS.Text.body)
+                                        .foregroundColor(DS.Colors.textPrimary)
+                                    
+                                    TextField("e.g. Marlboro Red", text: $productName)
+                                        .textFieldStyle(DSTextFieldStyle())
+                                        .autocapitalization(.words)
+                                }
+                                
+                                // Amount
+                                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                    Text("Amount")
+                                        .font(DS.Text.body)
+                                        .foregroundColor(DS.Colors.textPrimary)
+                                    
+                                    TextField("0.00", text: $amountString)
+                                        .textFieldStyle(DSTextFieldStyle())
+                                        .keyboardType(.decimalPad)
+                                }
+                                
+                                // Currency
+                                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                    Text("Currency")
+                                        .font(DS.Text.body)
+                                        .foregroundColor(DS.Colors.textPrimary)
+                                    
+                                    TextField("USD", text: $currencyCode)
+                                        .textFieldStyle(DSTextFieldStyle())
+                                        .autocapitalization(.allCharacters)
+                                        .onChange(of: currencyCode) { _, newValue in
+                                            currencyCode = newValue.uppercased()
+                                        }
+                                }
+                                
+                                // Quantity
+                                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                    Text("Quantity")
+                                        .font(DS.Text.body)
+                                        .foregroundColor(DS.Colors.textPrimary)
+                                    
+                                    HStack {
+                                        Button(action: {
+                                            quantity = max(1, quantity - 1)
+                                        }) {
+                                            Image(systemName: "minus")
+                                                .font(.title2)
+                                                .foregroundColor(DS.Colors.primary)
+                                                .frame(width: 44, height: 44)
+                                                .background(DS.Colors.glassSecondary)
+                                                .clipShape(Circle())
+                                        }
+                                        
+                                        Text("\(quantity)")
+                                            .font(DS.Text.title2)
+                                            .fontWeight(.semibold)
+                                            .frame(minWidth: 40, alignment: .center)
+                                        
+                                        Button(action: {
+                                            quantity = min(99, quantity + 1)
+                                        }) {
+                                            Image(systemName: "plus")
+                                                .font(.title2)
+                                                .foregroundColor(DS.Colors.primary)
+                                                .frame(width: 44, height: 44)
+                                                .background(DS.Colors.glassSecondary)
+                                                .clipShape(Circle())
+                                        }
+                                    }
+                                    .frame(maxWidth: .infinity)
+                                }
+                            }
+                        }
+                    }
+                    
+                    if let errorMessage = errorMessage {
+                        HStack {
+                            Image(systemName: "exclamationmark.triangle")
+                                .foregroundColor(DS.Colors.danger)
+                            Text(errorMessage)
+                                .font(DS.Text.caption)
+                                .foregroundColor(DS.Colors.danger)
+                            Spacer()
+                        }
+                        .padding()
+                        .background(DS.Colors.danger.opacity(0.1))
+                        .cornerRadius(DS.Size.cardRadiusSmall)
+                    }
+                }
+                .padding(DS.Space.lg)
+            }
+            .navigationTitle("Log Purchase")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        savePurchase()
+                    }
+                    .disabled(productName.isEmpty || amountString.isEmpty || isSaving)
+                }
+            }
+        }
+    }
+    
+    private func savePurchase() {
+        guard !productName.isEmpty, !amountString.isEmpty else {
+            errorMessage = "Please fill in all fields"
+            return
+        }
+        
+        guard let amount = Double(amountString) else {
+            errorMessage = "Please enter a valid amount"
+            return
+        }
+        
+        guard amount > 0 else {
+            errorMessage = "Amount must be greater than zero"
+            return
+        }
+        
+        isSaving = true
+        errorMessage = nil
+        
+        let purchase = Purchase()
+        purchase.timestamp = Date()
+        purchase.productName = productName
+        purchase.setAmountFromCurrency(amount)
+        purchase.currencyCode = currencyCode.uppercased()
+        purchase.quantity = quantity
+        
+        modelContext.insert(purchase)
+        
+        do {
+            try modelContext.save()
+            dismiss()
+        } catch {
+            errorMessage = "Failed to save purchase: \(error.localizedDescription)"
+        }
+        
+        isSaving = false
     }
 }
 #endif

@@ -5,6 +5,7 @@ struct EnhancedStatisticsView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette]
     @Query private var userProfiles: [UserProfile]
+    @Query(sort: \Purchase.timestamp, order: .reverse) private var allPurchases: [Purchase] // Add this query
     
     @State private var selectedTimeRange: TimeRange = .week
     
@@ -135,10 +136,53 @@ struct EnhancedStatisticsView: View {
         }
     }
     
+    // Add this computed property for financial savings
+    private var totalSpentInSelectedRange: Double {
+        let calendar = Calendar.current
+        let now = Date()
+        
+        let startDate: Date? = {
+            switch selectedTimeRange {
+            case .today:
+                return calendar.startOfDay(for: now)
+            case .yesterday:
+                return calendar.startOfDay(for: calendar.date(byAdding: .day, value: -1, to: now)!)
+            case .week:
+                return calendar.date(byAdding: .day, value: -7, to: now)
+            case .month:
+                return calendar.date(byAdding: .month, value: -1, to: now)
+            case .all:
+                return nil
+            }
+        }()
+        
+        var filteredPurchases = allPurchases
+        if let startDate = startDate {
+            filteredPurchases = allPurchases.filter { $0.timestamp >= startDate }
+        }
+        
+        return filteredPurchases.reduce(0) { total, purchase in
+            total + (purchase.amountInCurrency * Double(purchase.quantity))
+        }
+    }
+    
+    // Add this computed property for potential savings
+    private var potentialSavingsInSelectedRange: Double {
+        // Calculate potential savings based on cigarettes not smoked
+        // This is a simplified calculation - in a real app you might want more sophisticated logic
+        let cigarettesPerPack = 20.0
+        let averagePricePerPack = 10.0 // This should come from user data or defaults
+        
+        let cigarettesSaved = max(0, Int(dailyAverageForPlan * Double(groupedCigarettesByDay.count)) - cigarettesForSelectedRange.count)
+        let packsSaved = Double(cigarettesSaved) / cigarettesPerPack
+        return packsSaved * averagePricePerPack
+    }
+    
     var body: some View {
         ScrollView {
             VStack(spacing: DS.Space.lg) {
                 todayOverviewSection
+                financialSavingsSection // Add this section
                 statisticsSection
                 chartsSection
                 detailedStatsSection
@@ -167,7 +211,7 @@ struct EnhancedStatisticsView: View {
                                 .fontWeight(.bold)
                                 .foregroundColor(colorForTodayCount)
                             
-                            Text("statistics.target.format".local(with: todayTarget))
+                            Text("/ \(todayTarget)")
                                 .font(DS.Text.title2)
                                 .fontWeight(.medium)
                                 .foregroundColor(DS.Colors.textSecondary)
@@ -443,19 +487,19 @@ struct EnhancedStatisticsView: View {
                 VStack(spacing: DS.Space.md) {
                     detailStatRow(
                         title: "statistics.best.day".local(),
-                        value: highestDay != nil ? "\("statistics.cigarettes.unit".local(with: highestDay!.count))" : "N/A",
+                        value: highestDay != nil ? "\(highestDay!.count)" : "N/A",
                         date: highestDay?.date,
                         color: DS.Colors.success
                     )
                     detailStatRow(
                         title: "statistics.worst.day".local(),
-                        value: lowestDay != nil ? "\("statistics.cigarettes.unit".local(with: lowestDay!.count))" : "N/A",
+                        value: lowestDay != nil ? "\(lowestDay!.count)" : "N/A",
                         date: lowestDay?.date,
                         color: DS.Colors.danger
                     )
                     detailStatRow(
                         title: "statistics.analyzed.period".local(),
-                        value: "statistics.days.count".local(with: groupedCigarettesByDay.count),
+                        value: "\(groupedCigarettesByDay.count)",
                         color: DS.Colors.info
                     )
                 }
@@ -484,6 +528,68 @@ struct EnhancedStatisticsView: View {
         .padding(.vertical, DS.Space.sm)
         .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
         .cornerRadius(DS.Size.cardRadiusSmall)
+    }
+    
+    // Add this new section
+    private var financialSavingsSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader("Financial Savings")
+                
+                VStack(spacing: DS.Space.xl) {
+                    // Money Spent
+                    HStack {
+                        VStack(alignment: .leading, spacing: DS.Space.xs) {
+                            Text("Money Spent")
+                                .font(DS.Text.caption)
+                                .foregroundColor(DS.Colors.textSecondary)
+                            
+                            Text(formatCurrency(totalSpentInSelectedRange, "USD"))
+                                .font(DS.Text.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(DS.Colors.danger)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "dollarsign.circle.fill")
+                            .font(.system(size: 32))
+                            .foregroundColor(DS.Colors.danger)
+                    }
+                    
+                    Divider()
+                        .background(DS.Colors.glassQuaternary)
+                    
+                    // Money Saved
+                    HStack {
+                        VStack(alignment: .leading, spacing: DS.Space.xs) {
+                            Text("Money Saved")
+                                .font(DS.Text.caption)
+                                .foregroundColor(DS.Colors.textSecondary)
+                            
+                            Text(formatCurrency(potentialSavingsInSelectedRange, "USD"))
+                                .font(DS.Text.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(DS.Colors.success)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "dollarsign.circle.fill")
+                            .font(.system(size: 32))
+                            .foregroundColor(DS.Colors.success)
+                    }
+                }
+            }
+        }
+    }
+    
+    // Add this helper method
+    private func formatCurrency(_ amount: Double, _ currencyCode: String) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = currencyCode
+        return formatter.string(from: NSNumber(value: amount)) ?? "\(String(format: "%.2f", amount)) \(currencyCode)"
     }
 }
 

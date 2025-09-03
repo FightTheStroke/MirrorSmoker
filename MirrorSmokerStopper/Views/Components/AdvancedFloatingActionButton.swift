@@ -6,170 +6,107 @@
 //
 
 import SwiftUI
-import os.log
 
 struct AdvancedFloatingActionButton: View {
-    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "AdvancedFAB")
-    
     let quickAction: () -> Void
     let longPressAction: () -> Void
+    let logPurchaseAction: (() -> Void)? // Add this parameter
     
-    @State private var isPressed = false
-    @State private var rotationAngle: Double = 0
-    @State private var isLongPressing = false
-    @State private var longPressTimer: Timer?
-    @State private var showRippleEffect = false
+    @State private var showingMenu = false
     
-    private let longPressDuration: Double = 0.6
+    init(
+        quickAction: @escaping () -> Void,
+        longPressAction: @escaping () -> Void,
+        logPurchaseAction: (() -> Void)? = nil // Add this parameter
+    ) {
+        self.quickAction = quickAction
+        self.longPressAction = longPressAction
+        self.logPurchaseAction = logPurchaseAction
+    }
     
     var body: some View {
-        ZStack {
-            // Ripple effect for long press
-            if showRippleEffect {
-                Circle()
-                    .stroke(DS.Colors.primary, lineWidth: 2)
-                    .scaleEffect(isLongPressing ? 1.3 : 1.0)
-                    .opacity(isLongPressing ? 0.0 : 0.7)
-                    .frame(width: 56, height: 56)
-                    .animation(.easeOut(duration: longPressDuration), value: isLongPressing)
+        VStack {
+            if showingMenu {
+                // Log Purchase Button
+                if logPurchaseAction != nil {
+                    Button(action: {
+                        showingMenu = false
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            logPurchaseAction?()
+                        }
+                    }) {
+                        VStack(spacing: 4) {
+                            Image(systemName: "dollarsign.circle.fill")
+                                .font(.title2)
+                            Text("Log Purchase")
+                                .font(.caption)
+                                .fontWeight(.medium)
+                        }
+                        .frame(width: 80)
+                        .padding(.vertical, 8)
+                        .background(DS.Colors.glassSecondary)
+                        .foregroundColor(DS.Colors.textPrimary)
+                        .cornerRadius(12)
+                    }
+                    .transition(.scale)
+                }
+                
+                // Tagged Cigarette Button
+                Button(action: {
+                    showingMenu = false
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                        longPressAction()
+                    }
+                }) {
+                    VStack(spacing: 4) {
+                        Image(systemName: "tag.circle.fill")
+                            .font(.title2)
+                        Text("Tagged")
+                            .font(.caption)
+                            .fontWeight(.medium)
+                    }
+                    .frame(width: 80)
+                    .padding(.vertical, 8)
+                    .background(DS.Colors.glassSecondary)
+                    .foregroundColor(DS.Colors.textPrimary)
+                    .cornerRadius(12)
+                }
+                .transition(.scale)
             }
             
-            Button(action: {}) {
+            // Main FAB
+            Button(action: {
+                if showingMenu {
+                    showingMenu = false
+                } else {
+                    quickAction()
+                }
+            }) {
                 ZStack {
-                    // Background gradient
                     Circle()
-                        .fill(
-                            LinearGradient(
-                                colors: isPressed ? 
-                                    [DS.Colors.danger.opacity(0.8), DS.Colors.danger] : 
-                                    [DS.Colors.danger, DS.Colors.danger.opacity(0.9)],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                        .frame(width: 56, height: 56)
+                        .fill(DS.Colors.primary)
+                        .frame(width: DS.Size.fabSize, height: DS.Size.fabSize)
+                        .shadow(color: DS.Colors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
                     
-                    // Icon with animation
-                    Image(systemName: isLongPressing ? "tag.fill" : "plus")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                        .rotationEffect(.degrees(rotationAngle))
-                        .animation(.easeInOut(duration: 0.3), value: isLongPressing)
+                    if showingMenu {
+                        Image(systemName: "xmark")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(.white)
+                    } else {
+                        Image(systemName: "plus")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(.white)
+                    }
                 }
             }
-            .buttonStyle(PlainButtonStyle())
-            .scaleEffect(isPressed ? 0.95 : 1.0)
-            .animation(.easeInOut(duration: 0.1), value: isPressed)
-            .shadow(
-                color: DS.Colors.danger.opacity(isPressed ? 0.3 : 0.4),
-                radius: isPressed ? 4 : 8,
-                x: 0,
-                y: isPressed ? 2 : 4
-            )
-            .gesture(
-                DragGesture(minimumDistance: 0)
-                    .onChanged { _ in
-                        if !isPressed {
-                            withAnimation(.easeInOut(duration: 0.1)) {
-                                isPressed = true
-                            }
-                            startLongPressTimer()
-                        }
-                    }
-                    .onEnded { _ in
-                        stopLongPressTimer()
-                        
-                        withAnimation(.easeInOut(duration: 0.1)) {
-                            isPressed = false
-                        }
-                        
-                        if isLongPressing {
-                            // Long press completed - show tag selection
-                            triggerLongPressAction()
-                        } else {
-                            // Quick tap - add cigarette immediately
-                            triggerQuickAction()
-                        }
-                        
-                        resetLongPressState()
-                    }
-            )
-            .accessibilityLabel("fab.add.cigarette".local())
-            .accessibilityHint("fab.add.cigarette.hint".local())
-        }
-    }
-    
-    private func startLongPressTimer() {
-        longPressTimer?.invalidate()
-        
-        // Show ripple effect
-        showRippleEffect = true
-        
-        longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressDuration, repeats: false) { _ in
-            if isPressed {
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    isLongPressing = true
-                    rotationAngle += 45
+            .onLongPressGesture(minimumDuration: 0.3) {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                    showingMenu = true
                 }
-                
-                // Strong haptic feedback for long press
-                let impact = UIImpactFeedbackGenerator(style: .heavy)
-                impact.impactOccurred()
-                
-                Self.logger.info("Long press detected - will show tag selection")
             }
         }
-    }
-    
-    private func stopLongPressTimer() {
-        longPressTimer?.invalidate()
-        longPressTimer = nil
-    }
-    
-    private func triggerQuickAction() {
-        // Light haptic feedback for quick tap
-        let impact = UIImpactFeedbackGenerator(style: .medium)
-        impact.impactOccurred()
-        
-        withAnimation(.easeInOut(duration: 0.3)) {
-            rotationAngle += 90
-        }
-        
-        Self.logger.info("Quick tap - adding cigarette without tags")
-        
-        // Small delay for better UX
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            quickAction()
+        .onTapGesture {
+            // Dismiss menu when tapping outside
         }
     }
-    
-    private func triggerLongPressAction() {
-        Self.logger.info("Long press completed - opening tag selection")
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            longPressAction()
-        }
-    }
-    
-    private func resetLongPressState() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            withAnimation(.easeInOut(duration: 0.2)) {
-                isLongPressing = false
-                showRippleEffect = false
-            }
-        }
-    }
-}
-
-#Preview {
-    AdvancedFloatingActionButton(
-        quickAction: {
-            print("Quick action")
-        },
-        longPressAction: {
-            print("Long press action")
-        }
-    )
-    .padding(50)
 }

@@ -42,9 +42,10 @@ This phase focuses on building a best-in-class free experience.
 ### 3.1. New Core Feature: Cost & Purchase Tracking
 - **Goal:** Allow users to track their spending on tobacco products to make the "Financial Savings" metric accurate and impactful.
 - **Implementation:**
-  - **Data Model:** Extend `SwiftData` with a `Purchase` model (`date: Date`, `amount: Double`, `currency: String`).
+  - **Data Model:** Extend `SwiftData` with a `Purchase` model (`date: Date`, `amountInCents: Int`, `currencyCode: String`, `productName: String`, `quantity: Int`).
   - **Intents:** Create a `LogPurchaseIntent` for quick logging via Shortcuts or Siri.
-  - **UI:** Add a "Log Purchase" button in the `TodayView`, possibly in a context menu on the main FAB. The financial data will directly feed the "Savings" card.
+  - **UI:** Add a "Log Purchase" button in the `TodayView`, accessible through the FAB context menu. The financial data will directly feed the "Savings" card.
+  - **Status:** ✅ Implemented
 
 ### 3.2. Redesign "Plan & Profile" (`PlanView`)
 - **Components:**

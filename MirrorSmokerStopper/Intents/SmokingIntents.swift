@@ -21,7 +21,8 @@ extension AppIntent {
             Cigarette.self,
             Tag.self,
             UserProfile.self,
-            Product.self
+            Product.self,
+            Purchase.self  // Add Purchase model to schema
         ])
         
         // Use the same versioned configuration as the main app

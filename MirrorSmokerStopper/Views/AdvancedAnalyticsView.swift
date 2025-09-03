@@ -94,7 +94,7 @@ struct MonthlyStatsView: View {
                         Text(data.month, format: .dateTime.month(.wide).year())
                             .font(.headline)
                         
-                        Text("cigarettes".local(with: data.count))
+                        Text(data.count == 1 ? "cigarette.singular".local() : "cigarette.plural".local())
                             .font(.caption)
                             .foregroundColor(.secondary)
                     }

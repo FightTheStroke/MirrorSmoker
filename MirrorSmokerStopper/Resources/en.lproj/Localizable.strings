@@ -827,6 +827,17 @@
 "tab.stats" = "Stats";
 "tab.settings" = "Settings";
 
+// Hero Section Phase 2
+"hero.subtitle.default" = "Let's track your progress today";
+"today.cigarettes.short" = "today";
+"today.target" = "Target";
+"today.remaining" = "Remaining";
+"status.perfect.day" = "Perfect smoke-free day! 🎉";
+"status.doing.great" = "You're doing great! Keep it up";
+"status.on.track" = "On track - stay mindful";
+"status.exceed.target" = "Above target - take a breath";
+"last.cigarette.time" = "Last:";
+
 // ContentView
 "add.cigarette.title" = "Add Cigarette";
 "note.optional" = "Note (optional)";

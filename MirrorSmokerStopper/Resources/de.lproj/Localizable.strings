@@ -1034,3 +1034,14 @@
 "reset.ai.warning" = "This will reset all AI coaching settings to their default values. This cannot be undone.";
 "ai.coaching.system" = "AI Coaching System";
 "ios26.compatibility.message" = "Advanced AI coaching features require iOS 26 and compatible hardware. Basic quit support remains available on all iOS versions.";
+
+// Hero Section Phase 2
+"hero.subtitle.default" = "Lass uns heute deinen Fortschritt verfolgen";
+"today.cigarettes.short" = "heute";
+"today.target" = "Ziel";
+"today.remaining" = "Übrig";
+"status.perfect.day" = "Perfekter rauchfreier Tag! 🎉";
+"status.doing.great" = "Du machst das großartig! Mach weiter so";
+"status.on.track" = "Auf dem richtigen Weg - bleib aufmerksam";
+"status.exceed.target" = "Über dem Ziel - atme tief durch";
+"last.cigarette.time" = "Letzte:";

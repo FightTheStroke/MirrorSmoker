@@ -595,6 +595,17 @@
 "tab.stats" = "Statistiche";
 "tab.settings" = "Impostazioni";
 
+// Hero Section Phase 2
+"hero.subtitle.default" = "Monitoriamo i tuoi progressi oggi";
+"today.cigarettes.short" = "oggi";
+"today.target" = "Obiettivo";
+"today.remaining" = "Rimangono";
+"status.perfect.day" = "Giornata perfetta senza fumo! 🎉";
+"status.doing.great" = "Stai andando alla grande! Continua così";
+"status.on.track" = "Sulla buona strada - mantieni la concentrazione";
+"status.exceed.target" = "Oltre l'obiettivo - fai un respiro";
+"last.cigarette.time" = "Ultima:";
+
 // ContentView
 "add.cigarette.title" = "Aggiungi Sigaretta";
 "note.optional" = "Nota (opzionale)";

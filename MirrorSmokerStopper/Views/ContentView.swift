@@ -174,13 +174,15 @@ struct ContentView: View {
     }
     
     private var heroSection: some View {
-        LegacyDSCard {
-            VStack(spacing: DS.Space.lg) {
-                headerSection
-                todayStatsSection
-                todayOverviewContent
-            }
-        }
+        TodayHeroSection(
+            todayCount: todayCount,
+            todayTarget: todayTarget,
+            dailyAverage: dailyAverageForPlan,
+            userProfile: currentProfile,
+            colorForTodayCount: colorForTodayCount,
+            progressPercentage: progressPercentage,
+            timeAgoString: timeAgoString
+        )
     }
     
     private var headerSection: some View {

@@ -702,11 +702,11 @@
 "settings.weight.label" = "Weight (kg)";
 "settings.smoking.habits.section" = "Smoking Habits";
 "settings.smoking.type.label" = "Type of smoking";
-"settings.started.smoking.age" = "Age when I started";
-"settings.select.date.placeholder" = "Select a date";
-"settings.gradual.reduction.toggle" = "Use gradual reduction (recommended)";
-"settings.gradual.reduction.description" = "We will gradually reduce the number of cigarettes until reaching zero";
-"settings.immediate.stop.description" = "Immediate stop on selected date";
+"settings.started.smoking.age" = "Età quando ho iniziato";
+"settings.select.date.placeholder" = "Seleziona una data";
+"settings.gradual.reduction.toggle" = "Usa riduzione graduale (raccomandato)";
+"settings.gradual.reduction.description" = "Ridurremo gradualmente il numero di sigarette fino ad arrivare a zero";
+"settings.immediate.stop.description" = "Stop immediato alla data selezionata";
 "settings.save.quit.plan" = "Save Quit Plan";
 "settings.health.info.section" = "Health Information";
 "settings.app.info.section" = "App Information";

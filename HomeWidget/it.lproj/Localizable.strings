@@ -1,0 +1,31 @@
+// HomeWidget Localization - Italiano
+"widget.display.name" = "MirrorSmoker Tracker";
+"widget.description" = "Traccia le sigarette e visualizza i progressi giornalieri dalla schermata principale";
+"widget.today" = "Oggi";
+"widget.daily.avg" = "Media Giorn.";
+"widget.add" = "Aggiungi";
+"widget.last" = "Ultima";
+"widget.no.cigarettes.today" = "Nessuna sigaretta oggi";
+"widget.last.at" = "Ultima alle";
+"widget.just.now" = "Proprio ora";
+"widget.minutes.ago" = "%d min fa";
+"widget.hours.ago" = "%dh fa";
+"widget.smoked.today" = "Fumate Oggi";
+"widget.add.cigarette" = "Aggiungi Sigaretta";
+"widget.last.time.format" = "Ultima: %@";
+
+// Widget Intents
+"widget.intent.add.cigarette" = "Aggiungi Sigaretta";
+"widget.intent.add.cigarette.description" = "Aggiungi una sigaretta dal widget";
+"widget.intent.success" = "Sigaretta aggiunta con successo";
+"widget.intent.error.add.failed" = "Errore nell'aggiungere sigaretta";
+
+// Accessibility
+"widget.a11y.today.count" = "%d sigarette oggi";
+"widget.a11y.today.cigarettes" = "%d sigarette fumate oggi";
+"widget.a11y.great.job" = "Ottimo lavoro! Nessuna sigaretta oggi";
+"widget.a11y.add.cigarette" = "Aggiungi sigaretta";
+"widget.a11y.add.cigarette.hint" = "Tocca due volte per aggiungere una sigaretta";
+"widget.a11y.no.cigarettes.today" = "Nessuna sigaretta oggi";
+"widget.a11y.last.cigarette.time" = "Ultima sigaretta: %@";
+"widget.a11y.daily.average" = "Media giornaliera: %.1f sigarette";

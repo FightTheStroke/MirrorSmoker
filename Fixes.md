@@ -359,8 +359,7 @@ struct Text {
 ```swift
 // TodayView_HeroSection.swift
 struct HeroSection: View {
-    @Query private var profiles: [UserProfile]
-    let todayCount: Int
+    @Query private var profiles: [UserProfile]ci sono     let todayCount: Int
     let todayTarget: Int
     let dailyAverage: Double
 

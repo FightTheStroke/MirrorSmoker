@@ -29,14 +29,12 @@ struct EnhancedCigaretteRowView: View {
             // Main cigarette row content
             cigaretteRowContent
                 .offset(x: dragOffset)
-                .liquidGlassBackground(backgroundColor: DS.Colors.glassPrimary)
                 .animation(.interactiveSpring(response: 0.4, dampingFraction: 0.7), value: dragOffset)
             
             // Action buttons (hidden behind)
             if showingActions {
                 actionButtons
                     .frame(width: actionWidth)
-                    .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
                     .transition(.move(edge: .trailing))
             }
         }

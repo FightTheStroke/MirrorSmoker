@@ -4,58 +4,107 @@ import SwiftData
 struct TodayCigarettesList: View {
     var todayCigarettes: [Cigarette] = []
     var onDelete: (Cigarette) -> Void = { _ in }
+    var onAddTags: (Cigarette) -> Void = { _ in }
     
     var body: some View {
-        VStack(spacing: 0) {
-            // Header with card styling
-            VStack(spacing: 0) {
-                HStack {
-                    Text(NSLocalizedString("todays.cigarettes", comment: ""))
+        VStack(alignment: .leading, spacing: DS.Space.md) {
+            // Header
+            HStack {
+                Text(NSLocalizedString("todays.cigarettes", comment: ""))
+                    .font(DS.Text.headline)
+                    .foregroundColor(DS.Colors.textPrimary)
+                Spacer()
+                Text("\(todayCigarettes.count)")
+                    .font(DS.Text.title3)
+                    .fontWeight(.semibold)
+                    .foregroundColor(DS.Colors.primary)
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(String(format: NSLocalizedString("a11y.todays.cigarettes.count", comment: ""), todayCigarettes.count))
+            
+            if todayCigarettes.isEmpty {
+                // Empty state
+                VStack(spacing: DS.Space.md) {
+                    Image(systemName: "lungs")
+                        .font(.system(size: 48))
+                        .foregroundColor(DS.Colors.textSecondary)
+                    
+                    Text(NSLocalizedString("empty.state.title", comment: ""))
                         .font(DS.Text.headline)
                         .foregroundColor(DS.Colors.textPrimary)
-                    Spacer()
-                    Text("\(todayCigarettes.count)")
-                        .font(DS.Text.title3)
-                        .fontWeight(.semibold)
-                        .foregroundColor(DS.Colors.primary)
+                    
+                    Text(NSLocalizedString("empty.state.subtitle", comment: ""))
+                        .font(DS.Text.body)
+                        .foregroundColor(DS.Colors.textSecondary)
+                        .multilineTextAlignment(.center)
                 }
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel(String(format: NSLocalizedString("a11y.todays.cigarettes.count", comment: ""), todayCigarettes.count))
-                .padding(DS.AdaptiveSpace.md)
-                .liquidGlassBackground(backgroundColor: DS.Colors.glassPrimary)
-                .cornerRadius(DS.AdaptiveSize.cardRadiusSmall)
-                
-                if todayCigarettes.isEmpty {
-                    // Empty state
-                    DSEmptyStateView(
-                        title: NSLocalizedString("empty.state.title", comment: ""),
-                        subtitle: NSLocalizedString("empty.state.subtitle", comment: ""),
-                        icon: "lungs"
-                    )
-                    .padding(.vertical, DS.Space.lg)
-                } else {
-                    // Cigarettes list with proper spacing
-                    LazyVStack(spacing: 0) {
-                        ForEach(todayCigarettes, id: \.id) { cigarette in
-                            EnhancedCigaretteRowView(
-                                cigarette: cigarette,
-                                onDelete: { onDelete(cigarette) }
-                            )
-                            .liquidGlassBackground(backgroundColor: DS.Colors.glassPrimary)
-                            
-                            // Divider between rows (except last)
-                            if cigarette.id != todayCigarettes.last?.id {
-                                Divider()
-                                    .background(DS.Colors.glassQuaternary)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, DS.Space.xl)
+            } else {
+                // Simple List - no custom shit
+                List {
+                    ForEach(todayCigarettes, id: \.id) { cigarette in
+                        SimpleCigaretteRowView(cigarette: cigarette)
+                            .swipeActions(edge: .trailing) {
+                                Button("delete".local(), role: .destructive) {
+                                    onDelete(cigarette)
+                                }
                             }
+                            .swipeActions(edge: .leading) {
+                                Button("add.tags".local()) {
+                                    onAddTags(cigarette)
+                                }
+                                .tint(.blue)
+                            }
+                    }
+                }
+                .listStyle(.plain)
+                .frame(height: CGFloat(todayCigarettes.count * 50))
+            }
+        }
+        .padding(DS.Space.md)
+        .background(DS.Colors.card)
+        .cornerRadius(DS.AdaptiveSize.cardRadius)
+    }
+}
+
+// Simple row without custom shit
+struct SimpleCigaretteRowView: View {
+    let cigarette: Cigarette
+    
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(cigarette.timestamp, style: .time)
+                    .font(DS.Text.headline)
+                    .foregroundColor(DS.Colors.textPrimary)
+                
+                if let tags = cigarette.tags, !tags.isEmpty {
+                    HStack(spacing: 4) {
+                        ForEach(Array(tags.prefix(3)), id: \.id) { tag in
+                            Text(tag.name)
+                                .font(DS.Text.micro)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .background(Color(hex: tag.colorHex) ?? DS.Colors.primary)
+                                .foregroundColor(.white)
+                                .cornerRadius(8)
+                        }
+                        if tags.count > 3 {
+                            Text("+\(tags.count - 3)")
+                                .font(DS.Text.micro)
+                                .foregroundColor(DS.Colors.textSecondary)
                         }
                     }
-                    .padding(.bottom, DS.Space.sm)
                 }
             }
-            .cornerRadius(DS.AdaptiveSize.cardRadius)
-            .dsAdaptiveShadow(DS.AdaptiveShadow.large)
+            
+            Spacer()
+            
+            Image(systemName: "cigarette")
+                .foregroundColor(DS.Colors.cigarette)
         }
+        .contentShape(Rectangle())
     }
 }
 

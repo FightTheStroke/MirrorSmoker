@@ -1,0 +1,31 @@
+// HomeWidget Localization - Deutsch
+"widget.display.name" = "MirrorSmoker Tracker";
+"widget.description" = "Verfolgen Sie Zigaretten und sehen Sie tägliche Fortschritte vom Startbildschirm aus";
+"widget.today" = "Heute";
+"widget.daily.avg" = "Tagesdurch.";
+"widget.add" = "Hinzufügen";
+"widget.last" = "Letzte";
+"widget.no.cigarettes.today" = "Keine Zigaretten heute";
+"widget.last.at" = "Letzte um";
+"widget.just.now" = "Gerade eben";
+"widget.minutes.ago" = "vor %d Min";
+"widget.hours.ago" = "vor %dh";
+"widget.smoked.today" = "Heute Geraucht";
+"widget.add.cigarette" = "Zigarette Hinzufügen";
+"widget.last.time.format" = "Letzte: %@";
+
+// Widget Intents
+"widget.intent.add.cigarette" = "Zigarette Hinzufügen";
+"widget.intent.add.cigarette.description" = "Eine Zigarette über das Widget hinzufügen";
+"widget.intent.success" = "Zigarette erfolgreich hinzugefügt";
+"widget.intent.error.add.failed" = "Fehler beim Hinzufügen der Zigarette";
+
+// Accessibility
+"widget.a11y.today.count" = "%d Zigaretten heute";
+"widget.a11y.today.cigarettes" = "%d Zigaretten heute geraucht";
+"widget.a11y.great.job" = "Großartige Arbeit! Keine Zigaretten heute";
+"widget.a11y.add.cigarette" = "Zigarette hinzufügen";
+"widget.a11y.add.cigarette.hint" = "Doppeltippen um eine Zigarette hinzuzufügen";
+"widget.a11y.no.cigarettes.today" = "Keine Zigaretten heute";
+"widget.a11y.last.cigarette.time" = "Letzte Zigarette: %@";
+"widget.a11y.daily.average" = "Tagesdurchschnitt: %.1f Zigaretten";

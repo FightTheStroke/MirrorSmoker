@@ -715,11 +715,11 @@
 "settings.quit.plan.subtitle" = "We will automatically create a personalized plan for you";
 "settings.daily.average.title" = "Your daily average";
 "settings.daily.average.subtitle" = "Calculated from last 30 days";
-"settings.when.quit.question" = "When do you want to quit completely?";
-"settings.select.date.placeholder" = "Select a date";
-"settings.gradual.reduction.toggle" = "Use gradual reduction (recommended)";
-"settings.gradual.reduction.description" = "We will gradually reduce the number of cigarettes until reaching zero";
-"settings.immediate.stop.description" = "Immediate stop on selected date";
+"settings.when.quit.question" = "Wann möchten Sie vollständig aufhören?";
+"settings.select.date.placeholder" = "Wählen Sie ein Datum";
+"settings.gradual.reduction.toggle" = "Schrittweise Reduzierung verwenden (empfohlen)";
+"settings.gradual.reduction.description" = "Wir werden die Anzahl der Zigaretten schrittweise auf Null reduzieren";
+"settings.immediate.stop.description" = "Sofortiger Stopp am ausgewählten Datum";
 "settings.save.quit.plan" = "Save Quit Plan";
 "settings.health.info.section" = "Health Information";
 "settings.app.info.section" = "App Information";

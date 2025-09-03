@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var showingCigaretteSavedNotification = false
     @State private var showingPurchaseSheet = false // Add this state
     @State private var lastSavedCigaretteTagCount = 0
+    @State private var selectedCigaretteForTags: Cigarette? = nil
     @State private var insightsViewModel = InsightsViewModel()
     
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "ContentView")
@@ -136,7 +137,20 @@ struct ContentView: View {
             }
             .sheet(isPresented: $showingTagSelection) {
                 TagSelectionSheet { selectedTags in
-                    addCigaretteWithTags(selectedTags)
+                    if let cigarette = selectedCigaretteForTags {
+                        // Adding tags to existing cigarette
+                        cigarette.tags = selectedTags
+                        do {
+                            try modelContext.save()
+                            Self.logger.info("Tags added to existing cigarette")
+                        } catch {
+                            Self.logger.error("Error adding tags to cigarette: \(error.localizedDescription)")
+                        }
+                        selectedCigaretteForTags = nil
+                    } else {
+                        // Creating new cigarette with tags
+                        addCigaretteWithTags(selectedTags)
+                    }
                 }
             }
             .sheet(isPresented: $showingPurchaseSheet) { // Add this sheet
@@ -388,6 +402,10 @@ struct ContentView: View {
             todayCigarettes: todaysCigarettes,
             onDelete: { cigarette in
                 deleteCigarette(cigarette)
+            },
+            onAddTags: { cigarette in
+                selectedCigaretteForTags = cigarette
+                showingTagSelection = true
             }
         )
     }

@@ -74,7 +74,7 @@ struct AdvancedFloatingActionButton: View {
             if logPurchaseAction != nil {
                 actionButton(
                     icon: "dollarsign.circle.fill",
-                    title: "Log Purchase",
+                    title: "fab.log.purchase".local(),
                     action: {
                         dismissMenu(withDelay: true) {
                             logPurchaseAction?()
@@ -87,7 +87,7 @@ struct AdvancedFloatingActionButton: View {
             // Tagged Cigarette Button
             actionButton(
                 icon: "tag.circle.fill",
-                title: "Tagged",
+                title: "fab.tagged".local(),
                 action: {
                     dismissMenu(withDelay: true) {
                         longPressAction()

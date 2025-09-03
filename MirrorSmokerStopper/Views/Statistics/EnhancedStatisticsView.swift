@@ -534,13 +534,13 @@ struct EnhancedStatisticsView: View {
     private var financialSavingsSection: some View {
         LegacyDSCard {
             VStack(spacing: DS.Space.lg) {
-                DSSectionHeader("Financial Savings")
+                DSSectionHeader("statistics.financial.savings".local())
                 
                 VStack(spacing: DS.Space.xl) {
                     // Money Spent
                     HStack {
                         VStack(alignment: .leading, spacing: DS.Space.xs) {
-                            Text("Money Spent")
+                            Text("statistics.money.spent".local())
                                 .font(DS.Text.caption)
                                 .foregroundColor(DS.Colors.textSecondary)
                             
@@ -563,7 +563,7 @@ struct EnhancedStatisticsView: View {
                     // Money Saved
                     HStack {
                         VStack(alignment: .leading, spacing: DS.Space.xs) {
-                            Text("Money Saved")
+                            Text("statistics.money.saved".local())
                                 .font(DS.Text.caption)
                                 .foregroundColor(DS.Colors.textSecondary)
                             

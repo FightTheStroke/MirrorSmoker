@@ -126,8 +126,8 @@ struct ContentView: View {
                     heroSection
                     coachMessageSection
                     quickStatsSection
-                    todaysInsightSection
                     todayCigarettesSection
+                    todaysInsightSection
                 }
                 .padding(DS.Space.lg)
             }
@@ -166,7 +166,7 @@ struct ContentView: View {
                     Self.logger.debug("FAB long press action triggered")
                     showTagSelection()
                 },
-                logPurchaseAction: { // Add this action
+                logPurchaseAction: {
                     Self.logger.debug("FAB log purchase action triggered")
                     showingPurchaseSheet = true
                 }
@@ -528,40 +528,40 @@ struct PurchaseLoggingSheet: View {
                     LegacyDSCard {
                         VStack(spacing: DS.Space.md) {
                             DSSectionHeader(
-                                "Log Purchase",
-                                subtitle: "Record your tobacco product purchase"
+                                "purchase.log.title".local(),
+                                subtitle: "purchase.log.subtitle".local()
                             )
                             
                             VStack(spacing: DS.Space.md) {
                                 // Product Name
                                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text("Product Name")
+                                    Text("purchase.product.name".local())
                                         .font(DS.Text.body)
                                         .foregroundColor(DS.Colors.textPrimary)
                                     
-                                    TextField("e.g. Marlboro Red", text: $productName)
+                                    TextField("purchase.product.placeholder".local(), text: $productName)
                                         .textFieldStyle(DSTextFieldStyle())
                                         .autocapitalization(.words)
                                 }
                                 
                                 // Amount
                                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text("Amount")
+                                    Text("purchase.amount".local())
                                         .font(DS.Text.body)
                                         .foregroundColor(DS.Colors.textPrimary)
                                     
-                                    TextField("0.00", text: $amountString)
+                                    TextField("purchase.amount.placeholder".local(), text: $amountString)
                                         .textFieldStyle(DSTextFieldStyle())
                                         .keyboardType(.decimalPad)
                                 }
                                 
                                 // Currency
                                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text("Currency")
+                                    Text("purchase.currency".local())
                                         .font(DS.Text.body)
                                         .foregroundColor(DS.Colors.textPrimary)
                                     
-                                    TextField("USD", text: $currencyCode)
+                                    TextField("purchase.currency.placeholder".local(), text: $currencyCode)
                                         .textFieldStyle(DSTextFieldStyle())
                                         .autocapitalization(.allCharacters)
                                         .onChange(of: currencyCode) { _, newValue in
@@ -571,7 +571,7 @@ struct PurchaseLoggingSheet: View {
                                 
                                 // Quantity
                                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text("Quantity")
+                                    Text("purchase.quantity".local())
                                         .font(DS.Text.body)
                                         .foregroundColor(DS.Colors.textPrimary)
                                     
@@ -625,17 +625,17 @@ struct PurchaseLoggingSheet: View {
                 }
                 .padding(DS.Space.lg)
             }
-            .navigationTitle("Log Purchase")
+            .navigationTitle("purchase.log.title".local())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button("cancel".local()) {
                         dismiss()
                     }
                 }
                 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
+                    Button("save".local()) {
                         savePurchase()
                     }
                     .disabled(productName.isEmpty || amountString.isEmpty || isSaving)
@@ -646,17 +646,17 @@ struct PurchaseLoggingSheet: View {
     
     private func savePurchase() {
         guard !productName.isEmpty, !amountString.isEmpty else {
-            errorMessage = "Please fill in all fields"
+            errorMessage = "purchase.error.fill.fields".local()
             return
         }
         
         guard let amount = Double(amountString) else {
-            errorMessage = "Please enter a valid amount"
+            errorMessage = "purchase.error.valid.amount".local()
             return
         }
         
         guard amount > 0 else {
-            errorMessage = "Amount must be greater than zero"
+            errorMessage = "purchase.error.amount.positive".local()
             return
         }
         
@@ -676,7 +676,7 @@ struct PurchaseLoggingSheet: View {
             try modelContext.save()
             dismiss()
         } catch {
-            errorMessage = "Failed to save purchase: \(error.localizedDescription)"
+            errorMessage = String(format: "purchase.error.save".local(), error.localizedDescription)
         }
         
         isSaving = false

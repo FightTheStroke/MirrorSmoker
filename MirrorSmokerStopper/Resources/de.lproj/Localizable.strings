@@ -1076,3 +1076,29 @@
 
 // Coach Actions
 "coach.new.tip" = "Neuer Tipp";
+
+// Purchase Logging
+"purchase.log.title" = "Kauf Erfassen";
+"purchase.log.subtitle" = "Erfassen Sie Ihren Tabakprodukt-Kauf";
+"purchase.product.name" = "Produktname";
+"purchase.product.placeholder" = "z.B. Marlboro Rot";
+"purchase.amount" = "Betrag";
+"purchase.amount.placeholder" = "0,00";
+"purchase.currency" = "Währung";
+"purchase.currency.placeholder" = "EUR";
+"purchase.quantity" = "Anzahl";
+"purchase.error.fill.fields" = "Bitte füllen Sie alle Felder aus";
+"purchase.error.valid.amount" = "Bitte geben Sie einen gültigen Betrag ein";
+"purchase.error.amount.positive" = "Betrag muss größer als Null sein";
+"purchase.error.save" = "Fehler beim Speichern des Kaufs: %@";
+
+// FAB Actions
+"fab.log.purchase" = "Kauf Erfassen";
+"fab.tagged" = "Mit Tags";
+
+// Statistics
+"statistics.financial.savings" = "Finanzielle Einsparungen";
+
+// More Statistics
+"statistics.money.spent" = "Geld Ausgegeben";
+"statistics.money.saved" = "Geld Gespart";

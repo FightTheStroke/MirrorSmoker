@@ -1008,3 +1008,29 @@
 "coach.tip.no.judgment" = "Sii gentile con te stesso - domani è un nuovo inizio";
 "coach.tip.reset.tomorrow" = "Usa stasera per pianificare il successo di domani";
 "coach.tip.identify.trigger" = "Identifica cosa ha scatenato le sigarette extra";
+
+// Purchase Logging
+"purchase.log.title" = "Registra Acquisto";
+"purchase.log.subtitle" = "Registra l'acquisto del tuo prodotto del tabacco";
+"purchase.product.name" = "Nome Prodotto";
+"purchase.product.placeholder" = "es. Marlboro Rosse";
+"purchase.amount" = "Importo";
+"purchase.amount.placeholder" = "0,00";
+"purchase.currency" = "Valuta";
+"purchase.currency.placeholder" = "EUR";
+"purchase.quantity" = "Quantità";
+"purchase.error.fill.fields" = "Compila tutti i campi";
+"purchase.error.valid.amount" = "Inserisci un importo valido";
+"purchase.error.amount.positive" = "L'importo deve essere maggiore di zero";
+"purchase.error.save" = "Errore nel salvare l'acquisto: %@";
+
+// FAB Actions
+"fab.log.purchase" = "Registra Acquisto";
+"fab.tagged" = "Con Tag";
+
+// Statistics
+"statistics.financial.savings" = "Risparmi Economici";
+
+// More Statistics
+"statistics.money.spent" = "Soldi Spesi";
+"statistics.money.saved" = "Soldi Risparmiati";

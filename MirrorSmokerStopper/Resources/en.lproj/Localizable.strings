@@ -1145,3 +1145,29 @@
 "analyze.patterns" = "Analyze Patterns";
 "behavioral.insights" = "Behavioral Insights";
 "refresh" = "Refresh";
+
+// Purchase Logging
+"purchase.log.title" = "Log Purchase";
+"purchase.log.subtitle" = "Record your tobacco product purchase";
+"purchase.product.name" = "Product Name";
+"purchase.product.placeholder" = "e.g. Marlboro Red";
+"purchase.amount" = "Amount";
+"purchase.amount.placeholder" = "0.00";
+"purchase.currency" = "Currency";
+"purchase.currency.placeholder" = "USD";
+"purchase.quantity" = "Quantity";
+"purchase.error.fill.fields" = "Please fill in all fields";
+"purchase.error.valid.amount" = "Please enter a valid amount";
+"purchase.error.amount.positive" = "Amount must be greater than zero";
+"purchase.error.save" = "Failed to save purchase: %@";
+
+// FAB Actions
+"fab.log.purchase" = "Log Purchase";
+"fab.tagged" = "Tagged";
+
+// Statistics
+"statistics.financial.savings" = "Financial Savings";
+
+// More Statistics
+"statistics.money.spent" = "Money Spent";
+"statistics.money.saved" = "Money Saved";

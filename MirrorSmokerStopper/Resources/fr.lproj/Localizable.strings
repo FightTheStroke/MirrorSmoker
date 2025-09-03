@@ -1222,3 +1222,29 @@
 "coach.doing.well.message" = "Tu te débrouilles exceptionnellement bien aujourd'hui ! Tu restes bien en dessous de ton objectif.";
 "coach.on.track.message" = "Tu es sur la bonne voie avec ton objectif aujourd'hui. C'est le moment parfait pour pratiquer la pleine conscience.";
 "coach.over.target.message" = "Aujourd'hui a été difficile, et c'est complètement normal dans ton parcours d'arrêt. Chaque moment est une chance de faire un choix plus sain.";
+
+// Purchase Logging
+"purchase.log.title" = "Enregistrer Achat";
+"purchase.log.subtitle" = "Enregistrez votre achat de produit de tabac";
+"purchase.product.name" = "Nom du Produit";
+"purchase.product.placeholder" = "ex. Marlboro Rouge";
+"purchase.amount" = "Montant";
+"purchase.amount.placeholder" = "0,00";
+"purchase.currency" = "Devise";
+"purchase.currency.placeholder" = "EUR";
+"purchase.quantity" = "Quantité";
+"purchase.error.fill.fields" = "Veuillez remplir tous les champs";
+"purchase.error.valid.amount" = "Veuillez saisir un montant valide";
+"purchase.error.amount.positive" = "Le montant doit être supérieur à zéro";
+"purchase.error.save" = "Échec de l'enregistrement de l'achat: %@";
+
+// FAB Actions
+"fab.log.purchase" = "Enregistrer Achat";
+"fab.tagged" = "Avec Étiquettes";
+
+// Statistics
+"statistics.financial.savings" = "Économies Financières";
+
+// More Statistics
+"statistics.money.spent" = "Argent Dépensé";
+"statistics.money.saved" = "Argent Économisé";

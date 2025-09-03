@@ -949,6 +949,54 @@
 "coach.tip.reset.tomorrow" = "Use tonight to plan tomorrow's success";
 "coach.tip.identify.trigger" = "Identify what triggered the extra cigarettes";
 
+// My Why Editor - Phase 4
+"motivation.my.why" = "My Why";
+"motivation.description" = "Your personal motivation for quitting";
+"motivation.placeholder" = "Write your unique reasons for quitting smoking...\n\nExample: I want to be healthy for my children, save money for vacation, feel free from addiction...";
+"motivation.show.templates" = "Show templates";
+"motivation.clear" = "Clear";
+"motivation.templates.title" = "Get inspired";
+"motivation.templates.subtitle" = "Choose a template to get started, then make it your own:";
+"motivation.empty.title" = "Define your why";
+"motivation.empty.subtitle" = "Your personal motivation is the most powerful tool in your quit journey.";
+
+// Motivation Templates
+"motivation.template.family.title" = "For my family";
+"motivation.template.family.text" = "I want to be a healthier, better version of myself for my family. I want to be present for every moment and not worry them about my health.";
+"motivation.template.family.preview" = "Being present and healthy for loved ones";
+
+"motivation.template.health.title" = "For my health";
+"motivation.template.health.text" = "I deserve to breathe freely, have more energy, and reduce my risk of serious diseases. My body is my temple and I want to treat it with respect.";
+"motivation.template.health.preview" = "Better breathing, energy, and disease prevention";
+
+"motivation.template.money.title" = "For financial freedom";
+"motivation.template.money.text" = "I could save thousands of dollars every year by not smoking. That money could go towards my dreams, travels, or securing my future.";
+"motivation.template.money.preview" = "Saving money for dreams and future security";
+
+"motivation.template.freedom.title" = "For freedom";
+"motivation.template.freedom.text" = "I want to be free from addiction. Free to go anywhere without worrying about when I can smoke next. Free to be myself without depending on cigarettes.";
+"motivation.template.freedom.preview" = "Freedom from addiction and dependency";
+
+"motivation.template.future.title" = "For my future self";
+"motivation.template.future.text" = "I'm quitting for the person I want to become. Someone who is strong, healthy, and in control of their choices. My future self will thank me for this decision.";
+"motivation.template.future.preview" = "Becoming the best version of yourself";
+
+// Visual Quit Plan - Phase 4
+"quit.plan.title" = "Your Quit Plan";
+"quit.plan.subtitle" = "Personalized strategy for success";
+"quit.plan.target.date" = "Target quit date";
+"quit.plan.gradual.reduction" = "Gradual reduction";
+"quit.plan.gradual.description" = "Gradually reduce smoking until quit date";
+"quit.plan.active" = "Active";
+"quit.plan.inactive" = "Cold Turkey";
+"quit.plan.visualization" = "Reduction Timeline";
+"quit.plan.starting" = "Starting";
+"quit.plan.days" = "Days";
+"quit.plan.ending" = "Target";
+"quit.plan.countdown.title" = "Countdown to Freedom";
+"quit.plan.day.remaining" = "day remaining";
+"quit.plan.days.remaining" = "days remaining";
+
 // ContentView
 "add.cigarette.title" = "Add Cigarette";
 "note.optional" = "Note (optional)";

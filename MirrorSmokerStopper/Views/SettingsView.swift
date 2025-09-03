@@ -122,8 +122,9 @@ struct SettingsViewFixed: View {
                     ScrollView {
                         LazyVStack(spacing: DS.Space.lg) {
                             personalProfileSection
+                            myWhySection
                             smokingHabitsSection
-                            quitPlanSection
+                            visualQuitPlanSection
                             if shouldShowHealthInfo {
                                 healthInsightsSection
                             }
@@ -724,9 +725,17 @@ struct SettingsViewFixed: View {
             
             try modelContext.save()
             
-            // Reset form
-            await loadProfileData()
+            // Reset ALL form data to initial state
+            name = ""
+            age = ""
+            packPrice = ""
+            cigarettesPerPack = "20"
+            dailyLimit = ""
+            enableNotifications = true
+            enableGradualReduction = true
             hasUnsavedChanges = false
+            
+            Self.logger.info("Form data reset to initial state")
             
             Self.logger.info("All user data deleted successfully")
             
@@ -744,6 +753,18 @@ struct SettingsViewFixed: View {
             await loadProfileData()
         }
         hasUnsavedChanges = false
+    }
+    
+    // MARK: - Phase 4 Sections
+    private var myWhySection: some View {
+        MyWhyEditor()
+    }
+    
+    private var visualQuitPlanSection: some View {
+        VisualQuitPlan(
+            quitDate: .constant(Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date()),
+            enableGradualReduction: $enableGradualReduction
+        )
     }
 }
 

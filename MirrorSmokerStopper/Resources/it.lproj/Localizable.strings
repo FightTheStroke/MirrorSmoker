@@ -957,6 +957,54 @@
 "behavioral.recommendation.generic.identify" = "Identify early warning signs of %@ triggers";
 "behavioral.recommendation.generic.alternative" = "Create healthy alternatives for %@ situations";
 "behavioral.recommendation.generic.avoid" = "Avoid or minimize %@ triggers when possible";
+
+// My Why Editor - Phase 4
+"motivation.my.why" = "Il Mio Perché";
+"motivation.description" = "La tua motivazione personale per smettere";
+"motivation.placeholder" = "Scrivi le tue ragioni personali per smettere di fumare...\n\nEsempio: Voglio essere in salute per i miei figli, risparmiare soldi per le vacanze, sentirmi libero dalla dipendenza...";
+"motivation.show.templates" = "Mostra modelli";
+"motivation.clear" = "Cancella";
+"motivation.templates.title" = "Lasciati ispirare";
+"motivation.templates.subtitle" = "Scegli un modello per iniziare, poi personalizzalo:";
+"motivation.empty.title" = "Definisci il tuo perché";
+"motivation.empty.subtitle" = "La tua motivazione personale è lo strumento più potente nel tuo percorso per smettere.";
+
+// Motivation Templates
+"motivation.template.family.title" = "Per la mia famiglia";
+"motivation.template.family.text" = "Voglio essere una versione più sana e migliore di me stesso per la mia famiglia. Voglio essere presente in ogni momento e non preoccuparli per la mia salute.";
+"motivation.template.family.preview" = "Essere presente e in salute per le persone care";
+
+"motivation.template.health.title" = "Per la mia salute";
+"motivation.template.health.text" = "Merito di respirare liberamente, avere più energia e ridurre il rischio di malattie gravi. Il mio corpo è il mio tempio e voglio trattarlo con rispetto.";
+"motivation.template.health.preview" = "Respirazione migliore, energia e prevenzione malattie";
+
+"motivation.template.money.title" = "Per la libertà finanziaria";
+"motivation.template.money.text" = "Potrei risparmiare migliaia di euro ogni anno non fumando. Quei soldi potrebbero andare verso i miei sogni, viaggi o per assicurare il mio futuro.";
+"motivation.template.money.preview" = "Risparmiare soldi per sogni e sicurezza futura";
+
+"motivation.template.freedom.title" = "Per la libertà";
+"motivation.template.freedom.text" = "Voglio essere libero dalla dipendenza. Libero di andare ovunque senza preoccuparmi di quando potrò fumare. Libero di essere me stesso senza dipendere dalle sigarette.";
+"motivation.template.freedom.preview" = "Libertà dalla dipendenza e subordinazione";
+
+"motivation.template.future.title" = "Per il mio futuro";
+"motivation.template.future.text" = "Smetto per la persona che voglio diventare. Qualcuno che è forte, sano e in controllo delle proprie scelte. Il mio futuro io mi ringrazierà per questa decisione.";
+"motivation.template.future.preview" = "Diventare la migliore versione di te stesso";
+
+// Visual Quit Plan - Phase 4
+"quit.plan.title" = "Il Tuo Piano";
+"quit.plan.subtitle" = "Strategia personalizzata per il successo";
+"quit.plan.target.date" = "Data obiettivo";
+"quit.plan.gradual.reduction" = "Riduzione graduale";
+"quit.plan.gradual.description" = "Riduci gradualmente il fumo fino alla data obiettivo";
+"quit.plan.active" = "Attivo";
+"quit.plan.inactive" = "Brusco";
+"quit.plan.visualization" = "Timeline di Riduzione";
+"quit.plan.starting" = "Inizio";
+"quit.plan.days" = "Giorni";
+"quit.plan.ending" = "Obiettivo";
+"quit.plan.countdown.title" = "Conto alla Rovescia per la Libertà";
+"quit.plan.day.remaining" = "giorno rimanente";
+"quit.plan.days.remaining" = "giorni rimanenti";
 "ai.quit.plan.optimizer.title" = "AI Quit Plan Optimizer";
 "ai.powered.quit.plan.optimization" = "AI-Powered Quit Plan Optimization";
 "get.personalized.recommendations" = "Get personalized recommendations based on your smoking patterns, health data, and behavioral analysis";

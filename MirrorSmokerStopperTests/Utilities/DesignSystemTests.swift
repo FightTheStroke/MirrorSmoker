@@ -61,10 +61,10 @@ final class DesignSystemTests: XCTestCase {
         XCTAssertGreaterThan(size.cardRadius, 8)
         XCTAssertLessThan(size.cardRadius, 20)
         
-        // Test icon sizes
-        XCTAssertGreaterThan(size.iconSize, 16)
-        XCTAssertLessThan(size.iconSize, 32)
-        XCTAssertGreaterThan(size.iconSizeLarge, size.iconSize)
+        // Test icon sizes (now in DS.Size)
+        XCTAssertGreaterThan(DS.Size.iconSize, 16)
+        XCTAssertLessThan(DS.Size.iconSize, 32)
+        XCTAssertGreaterThan(DS.Size.iconSizeLarge, DS.Size.iconSize)
     }
     
     func testDSText() {

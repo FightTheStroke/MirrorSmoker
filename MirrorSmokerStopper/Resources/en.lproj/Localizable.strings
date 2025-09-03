@@ -724,6 +724,7 @@
 
 // Main tab updated labels
 "tab.progress" = "Progress";
+"tab.journey" = "Journey";
 "tab.plan.profile" = "Plan & Profile";
 
 // Time ranges and statistics
@@ -1076,6 +1077,55 @@
 
 "jitai.physical.title" = "Physical Trigger";
 "jitai.physical.body" = "Your body might be expecting nicotine, but it's getting stronger every day without it.";
+
+// Phase 6: Wellness Journey - Gamified Journey
+"journey.title" = "Your Wellness Journey";
+"journey.welcome.title" = "Welcome to Your Wellness Journey";
+"journey.welcome.subtitle" = "Track your progress, unlock achievements, and celebrate every milestone on your path to freedom";
+"journey.progress.title" = "Overall Progress";
+"journey.progress.description" = "Your journey towards complete wellness and freedom from smoking";
+"journey.achievements.title" = "Recent Achievements";
+"journey.achievements.empty.title" = "Start Your Journey";
+"journey.achievements.empty.subtitle" = "Complete your first milestone to unlock your first achievement";
+"journey.next.milestone.title" = "Next Milestone";
+"journey.milestone.coming.soon" = "Coming Soon";
+"journey.no.milestone" = "You're doing amazing! Keep up the great work.";
+"journey.insights.title" = "Journey Insights";
+"journey.insights.loading" = "Analyzing your progress...";
+
+// Achievement Categories
+"achievement.category.milestone" = "Milestone";
+"achievement.category.consistency" = "Consistency";
+"achievement.category.health" = "Health";
+"achievement.category.social" = "Social";
+"achievement.category.savings" = "Savings";
+"achievement.category.willpower" = "Willpower";
+"achievement.category.knowledge" = "Knowledge";
+
+// Achievement Rarities
+"achievement.rarity.common" = "Common";
+"achievement.rarity.uncommon" = "Uncommon";
+"achievement.rarity.rare" = "Rare";
+"achievement.rarity.epic" = "Epic";
+"achievement.rarity.legendary" = "Legendary";
+
+// Specific Achievements
+"achievement.first.hour.title" = "First Hour Hero";
+"achievement.first.hour.description" = "Completed your first smoke-free hour";
+"achievement.first.day.title" = "Day One Champion";
+"achievement.first.day.description" = "Completed your first full smoke-free day";
+"achievement.first.week.title" = "Week One Warrior";
+"achievement.first.week.description" = "Completed your first smoke-free week";
+"achievement.consistency.champion.title" = "Consistency Champion";
+"achievement.consistency.champion.description" = "Maintained consistency for 7 days";
+"achievement.money.saver.title" = "Money Saver";
+"achievement.money.saver.description" = "Saved €100 by not smoking";
+
+// Journey Insights
+"journey.insight.smoke.free.time" = "Every hour smoke-free strengthens your commitment";
+"journey.insight.achievements.earned" = "Your achievements show real progress";
+"journey.insight.halfway.point" = "You're over halfway to your next major milestone!";
+"journey.insight.keep.going" = "You're building incredible momentum - keep going!";
 
 // ContentView
 "add.cigarette.title" = "Add Cigarette";

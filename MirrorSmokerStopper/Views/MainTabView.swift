@@ -24,13 +24,22 @@ struct MainTabView: View {
             .tag(1)
             
             NavigationView {
+                WellnessJourneyMap()
+            }
+            .tabItem {
+                Image(systemName: "map")
+                Text(NSLocalizedString("tab.journey", comment: ""))
+            }
+            .tag(2)
+            
+            NavigationView {
                 SettingsView()
             }
             .tabItem {
                 Image(systemName: "person.crop.circle")
                 Text(NSLocalizedString("tab.plan.profile", comment: ""))
             }
-            .tag(2)
+            .tag(3)
         }
         .accentColor(DS.Colors.primary)
     }

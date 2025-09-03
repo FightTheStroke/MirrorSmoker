@@ -777,6 +777,7 @@
 "over.plan.personal" = "🚨 Over plan";
 "exceeded.by.format.personal" = "You exceeded by %d";
 "tab.progress" = "Progresso";
+"tab.journey" = "Viaggio";
 "tab.plan.profile" = "Piano & Profilo";
 "statistics.register.more" = "Record more cigarettes to see the trend";
 "statistics.following.your.plan" = "💪 You're following your plan";
@@ -1085,6 +1086,55 @@
 
 "jitai.physical.title" = "Trigger Fisico";
 "jitai.physical.body" = "Il tuo corpo potrebbe aspettarsi la nicotina, ma sta diventando più forte ogni giorno senza di essa.";
+
+// Phase 6: Wellness Journey - Gamified Journey
+"journey.title" = "Il Tuo Viaggio del Benessere";
+"journey.welcome.title" = "Benvenuto nel Tuo Viaggio del Benessere";
+"journey.welcome.subtitle" = "Traccia i tuoi progressi, sblocca traguardi e celebra ogni pietra miliare nel tuo cammino verso la libertà";
+"journey.progress.title" = "Progresso Complessivo";
+"journey.progress.description" = "Il tuo viaggio verso il completo benessere e la libertà dal fumo";
+"journey.achievements.title" = "Traguardi Recenti";
+"journey.achievements.empty.title" = "Inizia il Tuo Viaggio";
+"journey.achievements.empty.subtitle" = "Completa la tua prima pietra miliare per sbloccare il primo traguardo";
+"journey.next.milestone.title" = "Prossima Pietra Miliare";
+"journey.milestone.coming.soon" = "Prossimamente";
+"journey.no.milestone" = "Stai andando alla grande! Continua così.";
+"journey.insights.title" = "Intuizioni del Viaggio";
+"journey.insights.loading" = "Analizziamo i tuoi progressi...";
+
+// Achievement Categories
+"achievement.category.milestone" = "Pietra Miliare";
+"achievement.category.consistency" = "Costanza";
+"achievement.category.health" = "Salute";
+"achievement.category.social" = "Sociale";
+"achievement.category.savings" = "Risparmi";
+"achievement.category.willpower" = "Forza di Volontà";
+"achievement.category.knowledge" = "Conoscenza";
+
+// Achievement Rarities
+"achievement.rarity.common" = "Comune";
+"achievement.rarity.uncommon" = "Non Comune";
+"achievement.rarity.rare" = "Raro";
+"achievement.rarity.epic" = "Epico";
+"achievement.rarity.legendary" = "Leggendario";
+
+// Specific Achievements
+"achievement.first.hour.title" = "Eroe della Prima Ora";
+"achievement.first.hour.description" = "Completata la tua prima ora senza fumare";
+"achievement.first.day.title" = "Campione del Primo Giorno";
+"achievement.first.day.description" = "Completato il tuo primo giorno intero senza fumare";
+"achievement.first.week.title" = "Guerriero della Prima Settimana";
+"achievement.first.week.description" = "Completata la tua prima settimana senza fumare";
+"achievement.consistency.champion.title" = "Campione di Costanza";
+"achievement.consistency.champion.description" = "Mantenuta la costanza per 7 giorni";
+"achievement.money.saver.title" = "Risparmiatore";
+"achievement.money.saver.description" = "Risparmiati €100 non fumando";
+
+// Journey Insights
+"journey.insight.smoke.free.time" = "Ogni ora senza fumare rafforza il tuo impegno";
+"journey.insight.achievements.earned" = "I tuoi traguardi mostrano veri progressi";
+"journey.insight.halfway.point" = "Sei oltre la metà del cammino verso il prossimo grande traguardo!";
+"journey.insight.keep.going" = "Stai costruendo un incredibile slancio - continua così!";
 "ai.quit.plan.optimizer.title" = "AI Quit Plan Optimizer";
 "ai.powered.quit.plan.optimization" = "AI-Powered Quit Plan Optimization";
 "get.personalized.recommendations" = "Get personalized recommendations based on your smoking patterns, health data, and behavioral analysis";

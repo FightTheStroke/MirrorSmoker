@@ -49,30 +49,45 @@ struct DS {
         static let danger = smokingProgressCritical       // Alto rischio vs quota giornaliera
         static let info = primary                         // Info usa brand primary
 
-        // === BACKGROUND HIERARCHY ===
-        static let background = Color.white
-        static let backgroundSecondary = Color(hex: "#F8FAFC")!
-        static let backgroundTertiary = Color(hex: "#F1F5F9")!
-        static let card = Color.white
-        static let cardSecondary = Color(hex: "#F8FAFC")!
-        static let separator = Color(hex: "#E2E8F0")!
+        // === BACKGROUND HIERARCHY (Dark Mode Adaptive) ===
+        static let background = Color(UIColor.systemBackground)
+        static let backgroundSecondary = Color(UIColor.secondarySystemBackground)
+        static let backgroundTertiary = Color(UIColor.tertiarySystemBackground)
+        static let card = Color(UIColor.systemBackground)
+        static let cardSecondary = Color(UIColor.secondarySystemBackground)
+        static let separator = Color(UIColor.separator)
 
-        // === TEXT HIERARCHY ===
-        static let textPrimary = Color(hex: "#0F172A")!
-        static let textSecondary = Color(hex: "#475569")!
-        static let textTertiary = Color(hex: "#64748B")!
-        static let textInverse = Color.white
+        // === TEXT HIERARCHY (Dark Mode Adaptive) ===
+        static let textPrimary = Color(UIColor.label)
+        static let textSecondary = Color(UIColor.secondaryLabel)
+        static let textTertiary = Color(UIColor.tertiaryLabel)
+        static let textInverse = Color(UIColor.systemBackground)
 
-        // === GLASS MORPHISM COLORS (enhanced for smoking cessation app) ===
-        static let glassPrimary = Color.white.opacity(0.4)     // Semi-transparent glass
-        static let glassSecondary = Color.white.opacity(0.2)   // Lighter glass
-        static let glassTertiary = Color.white.opacity(0.1)    // Very light glass
-        static let glassQuaternary = Color.black.opacity(0.05) // Subtle border
+        // === GLASS MORPHISM COLORS (Dark Mode Adaptive) ===
+        private static var isDarkMode: Bool {
+            UITraitCollection.current.userInterfaceStyle == .dark
+        }
+        
+        static var glassPrimary: Color {
+            isDarkMode ? Color.black.opacity(0.3) : Color.white.opacity(0.4)
+        }
+        
+        static var glassSecondary: Color {
+            isDarkMode ? Color.black.opacity(0.2) : Color.white.opacity(0.2)
+        }
+        
+        static var glassTertiary: Color {
+            isDarkMode ? Color.black.opacity(0.1) : Color.white.opacity(0.1)
+        }
+        
+        static var glassQuaternary: Color {
+            isDarkMode ? Color.white.opacity(0.1) : Color.black.opacity(0.05)
+        }
 
-        // === INTERACTIVE COLORS ===
+        // === INTERACTIVE COLORS (Dark Mode Adaptive) ===
         static let buttonPrimary = primary
-        static let buttonSecondary = Color(hex: "#E2E8F0")!
-        static let buttonDisabled = Color(hex: "#CBD5E1")!
+        static let buttonSecondary = Color(UIColor.secondarySystemFill)
+        static let buttonDisabled = Color(UIColor.quaternaryLabel)
         static let link = primaryDark
         static let linkVisited = primaryDark.opacity(0.8)
 

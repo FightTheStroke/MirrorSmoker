@@ -68,14 +68,10 @@ struct PersonalizedGreeting: View {
         VStack(spacing: DS.Space.sm) {
             HStack {
                 VStack(alignment: .leading, spacing: DS.Space.xs) {
-                    HStack(spacing: DS.Space.xs) {
-                        Text(motivationalEmoji)
-                            .font(.system(size: 24))
-                        Text(greeting)
-                            .font(DS.Text.largeTitle)
-                            .fontWeight(.bold)
-                            .foregroundStyle(DS.Colors.textPrimary)
-                    }
+                    Text(greeting)
+                        .font(DS.Text.largeTitle)
+                        .fontWeight(.bold)
+                        .foregroundStyle(DS.Colors.textPrimary)
                     
                     if let name = userProfile?.name, !name.isEmpty {
                         Text(name)
@@ -123,7 +119,7 @@ struct ProgressRingSection: View {
                 )
                 
                 VStack(spacing: 2) {
-                    Text("\\(todayCount)")
+                    Text("\(todayCount)")
                         .font(DS.Text.largeTitle)
                         .fontWeight(.bold)
                         .foregroundStyle(color)
@@ -138,7 +134,7 @@ struct ProgressRingSection: View {
                     Text("today.target".local())
                         .font(DS.Text.caption)
                         .foregroundStyle(DS.Colors.textSecondary)
-                    Text("\\(todayTarget)")
+                    Text("\(todayTarget)")
                         .font(DS.Text.title)
                         .foregroundStyle(DS.Colors.textPrimary)
                 }
@@ -147,7 +143,7 @@ struct ProgressRingSection: View {
                     Text("today.remaining".local())
                         .font(DS.Text.caption)
                         .foregroundStyle(DS.Colors.textSecondary)
-                    Text("\\(max(0, todayTarget - todayCount))")
+                    Text("\(max(0, todayTarget - todayCount))")
                         .font(DS.Text.title)
                         .foregroundStyle(todayCount <= todayTarget ? DS.Colors.success : DS.Colors.danger)
                 }

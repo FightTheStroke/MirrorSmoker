@@ -116,6 +116,13 @@
 			);
 			target = A96040B42E675A840042AE8B /* HomeWidgetExtension */;
 		};
+		A96042222E6895EF0042AE8B /* Exceptions for "MirrorSmokerStopper Watch App" folder in "MirrorSmokerStopper Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"MirrorSmokerStopper-Watch-App-Info.plist",
+			);
+			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
+		};
 		A9B839612E66099E00B0254B /* Exceptions for "MirrorSmokerStopper" folder in "MirrorSmokerStopper" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -167,6 +174,9 @@
 		};
 		A9F5E4CA2E65FBA5004181D9 /* MirrorSmokerStopper Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A96042222E6895EF0042AE8B /* Exceptions for "MirrorSmokerStopper Watch App" folder in "MirrorSmokerStopper Watch App" target */,
+			);
 			path = "MirrorSmokerStopper Watch App";
 			sourceTree = "<group>";
 		};
@@ -851,6 +861,7 @@
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MirrorSmokerStopper-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mirror-labs.MirrorSmokerStopper";
@@ -881,6 +892,7 @@
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "MirrorSmokerStopper-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mirror-labs.MirrorSmokerStopper";
@@ -914,10 +926,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MirrorSmokerStopper/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "MirrorSmokerStopper uses Health data to track your smoking cessation progress and provide better insights.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "MirrorSmokerStopper updates Health data to track your smoking cessation progress.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
@@ -952,10 +967,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MirrorSmokerStopper/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "MirrorSmokerStopper uses Health data to track your smoking cessation progress and provide better insights.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "MirrorSmokerStopper updates Health data to track your smoking cessation progress.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = armv7;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 18.5;

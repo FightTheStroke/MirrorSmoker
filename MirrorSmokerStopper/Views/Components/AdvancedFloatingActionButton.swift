@@ -40,28 +40,31 @@ struct AdvancedFloatingActionButton: View {
     }
 
     var body: some View {
-        ZStack(alignment: .bottomTrailing) {
+        ZStack {
             // Menu overlay piò ampio per dismiss
             if showingMenu {
                 Color.black.opacity(0.1)
-                    .ignoresSafeArea()
                     .onTapGesture { dismissMenu() }
             }
 
-            // Menu espandibile con opzioni
-            if showingMenu {
-                menuOptions
-                    .padding(.bottom, visualButtonSize + DS.AdaptiveSpace.lg)
-                    .zIndex(1)
+            VStack {
+                // Menu espandibile con opzioni
+                if showingMenu {
+                    menuOptions
+                        .transition(.scale.combined(with: .opacity))
+                }
+                
+                Spacer()
+                
+                // Main FAB con gesture migliorata
+                HStack {
+                    Spacer()
+                    mainFAB
+                }
             }
-
-            // Main FAB con gesture migliorata
-            mainFAB
-                .zIndex(2)
         }
-        .frame(width: gestureAreaSize, height: gestureAreaSize, alignment: .bottomTrailing)
+        .frame(width: gestureAreaSize, height: gestureAreaSize)
         .padding(DS.AdaptiveSpace.lg)
-        .ignoresSafeArea()
     }
 
     // MARK: - Menu Options
@@ -173,8 +176,6 @@ struct AdvancedFloatingActionButton: View {
                     }
                 }
             }
-            // Haptic feedback quando chiuso
-            .disabled(showingMenu)
         }
     }
 

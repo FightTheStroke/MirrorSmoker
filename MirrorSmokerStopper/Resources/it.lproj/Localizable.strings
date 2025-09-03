@@ -635,22 +635,22 @@
 "widget.add.cigarette" = "Aggiungi Sigaretta";
 
 
-/* AUTO-ADDED MISSING KEYS - TODO: TRANSLATE */
-"settings.daily.cigarettes.average" = "Daily cigarettes (average)";
-"settings.daily.cigarettes.validation" = "Enter a valid value (0-100 cigarettes/day)";
-"settings.daily.average.calculated" = "Your daily average";
-"settings.daily.average.calculated.subtitle" = "Calculated from last 30 days";
-"settings.quit.date.question" = "When do you want to quit completely?";
-"settings.plan.preview" = "Preview of your plan:";
-"settings.plan.starting.from" = "• Starting from:";
-"settings.plan.reaching" = "• Reaching:";
-"settings.plan.zero.cigarettes" = "0 cigarettes/day";
+/* CHIAVI TRADOTTE */
+"settings.daily.cigarettes.average" = "Media sigarette giornaliere";
+"settings.daily.cigarettes.validation" = "Inserisci un valore valido (0-100 sigarette/giorno)";
+"settings.daily.average.calculated" = "La tua media giornaliera";
+"settings.daily.average.calculated.subtitle" = "Calcolata dagli ultimi 30 giorni";
+"settings.quit.date.question" = "Quando vuoi smettere completamente?";
+"settings.plan.preview" = "Anteprima del tuo piano:";
+"settings.plan.starting.from" = "• Partendo da:";
+"settings.plan.reaching" = "• Raggiungendo:";
+"settings.plan.zero.cigarettes" = "0 sigarette/giorno";
 "settings.plan.in.days" = "• In:";
-"settings.plan.days.count" = "%d days";
-"settings.plan.daily.reduction" = "• Daily reduction:";
-"settings.plan.reduction.amount" = "-%@ cigarettes";
-"settings.plan.todays.goal" = "• Today's goal:";
-"settings.plan.cigarettes.count" = "%d cigarettes";
+"settings.plan.days.count" = "%d giorni";
+"settings.plan.daily.reduction" = "• Riduzione giornaliera:";
+"settings.plan.reduction.amount" = "-%@ sigarette";
+"settings.plan.todays.goal" = "• Obiettivo di oggi:";
+"settings.plan.cigarettes.count" = "%d sigarette";
 "settings.plan.date.too.close" = "⚠️ The selected date is too close. Select a later date for an effective gradual plan.";
 "settings.plan.intensive" = "💡 Intensive plan: rapid reduction in few days. You might consider a later date for a more gradual plan.";
 "settings.plan.balanced" = "✅ Well-balanced plan! Sustainable gradual reduction over time.";

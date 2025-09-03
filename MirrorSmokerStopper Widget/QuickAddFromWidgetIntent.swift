@@ -10,13 +10,13 @@ import AppIntents
 import WidgetKit
 
 struct QuickAddFromWidgetIntent: AppIntent {
-    static var title: LocalizedStringResource = "Quick Add Cigarette"
-    static var description = IntentDescription("Quickly add a cigarette entry")
+    static var title: LocalizedStringResource = "widget.quick.add.cigarette"
+    static var description = IntentDescription("widget.quick.add.description")
     
-    @Parameter(title: "Note", description: "Optional note for the cigarette")
+    @Parameter(title: "widget.note.title", description: "widget.note.description")
     var note: String?
     
-    @Parameter(title: "Tags", description: "Optional tags for the cigarette")
+    @Parameter(title: "widget.tags.title", description: "widget.tags.description")
     var tags: [String]?
     
     func perform() async throws -> some IntentResult {

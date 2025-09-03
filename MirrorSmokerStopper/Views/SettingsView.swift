@@ -10,7 +10,7 @@ import SwiftData
 import os.log
 
 struct SettingsView: View {
-    private static let logger = Logger(subsystem: "com.mirror-labs.mirrorsmoker", category: "SettingsView")
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "SettingsView")
     
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -25,6 +25,7 @@ struct SettingsView: View {
     @State private var showingSaveConfirmation = false
     @State private var hasLoadedProfile = false
     @State private var showDebugPanel = false
+    @State private var showingDeleteDataAlert = false
     @State private var hasUnsavedChanges = false
     @State private var showingHelpView = false
     
@@ -484,6 +485,29 @@ struct SettingsView: View {
                             }
                         }
                     }
+                    
+                    // Debug Section
+                    DSCard {
+                        VStack(spacing: DS.Space.lg) {
+                            DSSectionHeader(NSLocalizedString("settings.debug", comment: ""))
+                            
+                            Button(action: {
+                                showingDeleteDataAlert = true
+                            }) {
+                                HStack {
+                                    Image(systemName: "trash.fill")
+                                        .foregroundColor(DS.Colors.danger)
+                                    Text(NSLocalizedString("settings.delete.all.data", comment: ""))
+                                        .foregroundColor(DS.Colors.danger)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(DS.Colors.textSecondary)
+                                }
+                                .padding(.vertical, 4)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                    }
                 }
                 .padding(DS.Space.lg)
             }
@@ -550,6 +574,14 @@ struct SettingsView: View {
         } message: {
             Text(NSLocalizedString("plan.saved.message", comment: ""))
         }
+        .alert(NSLocalizedString("settings.are.you.sure", comment: ""), isPresented: $showingDeleteDataAlert) {
+            Button(NSLocalizedString("settings.delete.all.data", comment: ""), role: .destructive) { 
+                deleteAllData()
+            }
+            Button(NSLocalizedString("cancel", comment: ""), role: .cancel) { }
+        } message: {
+            Text(NSLocalizedString("settings.delete.warning", comment: ""))
+        }
         .onAppear {
             // Reset unsaved changes when view appears
             hasUnsavedChanges = false
@@ -585,6 +617,58 @@ struct SettingsView: View {
         // Load daily average if present
         if profile.dailyAverage > 0 {
             dailyAverageInput = String(format: "%.1f", profile.dailyAverage)
+        }
+    }
+    
+    @MainActor
+    private func deleteAllData() {
+        do {
+            // Delete all cigarettes
+            let cigaretteDescriptor = FetchDescriptor<Cigarette>()
+            let cigarettes = try modelContext.fetch(cigaretteDescriptor)
+            for cigarette in cigarettes {
+                modelContext.delete(cigarette)
+            }
+            
+            // Delete all tags
+            let tagDescriptor = FetchDescriptor<Tag>()
+            let tags = try modelContext.fetch(tagDescriptor)
+            for tag in tags {
+                modelContext.delete(tag)
+            }
+            
+            // Delete all user profiles
+            let profileDescriptor = FetchDescriptor<UserProfile>()
+            let profiles = try modelContext.fetch(profileDescriptor)
+            for profile in profiles {
+                modelContext.delete(profile)
+            }
+            
+            // Delete all products
+            let productDescriptor = FetchDescriptor<Product>()
+            let products = try modelContext.fetch(productDescriptor)
+            for product in products {
+                modelContext.delete(product)
+            }
+            
+            // Delete all urge logs
+            let urgeLogDescriptor = FetchDescriptor<UrgeLog>()
+            let urgeLogs = try modelContext.fetch(urgeLogDescriptor)
+            for urgeLog in urgeLogs {
+                modelContext.delete(urgeLog)
+            }
+            
+            // Save changes
+            try modelContext.save()
+            
+            // Reset the view state
+            loadProfileData()
+            hasUnsavedChanges = false
+            
+            Self.logger.info("All user data deleted successfully")
+            
+        } catch {
+            Self.logger.error("Failed to delete all data: \(error.localizedDescription)")
         }
     }
     

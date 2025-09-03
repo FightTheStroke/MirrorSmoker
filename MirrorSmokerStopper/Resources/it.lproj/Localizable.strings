@@ -421,6 +421,23 @@
 "intent.motivation.message.4" = "Il tuo io futuro ti ringrazierà per la scelta che fai adesso.";
 "intent.motivation.message.5" = "Ogni giorno senza fumo è un giorno in cui il tuo corpo diventa più sano.";
 "intent.motivation.message.6" = "L'impulso di fumare è temporaneo, ma i benefici di smettere sono permanenti.";
+
+// Urge Log
+"urge.outcome.pending" = "In attesa";
+"urge.outcome.resisted" = "Resistito";
+"urge.outcome.smoked" = "Fumato";
+"urge.outcome.partial" = "Parzialmente Resistito";
+"urge.intensity.low" = "Bassa";
+"urge.intensity.medium" = "Media";
+"urge.intensity.high" = "Alta";
+"urge.intensity.extreme" = "Estrema";
+"urge.intensity.unknown" = "Sconosciuta";
+
+// JITAI Notifications
+"jitai.notification.title" = "Coach";
+"jitai.action.understood" = "Capito!";
+"jitai.action.more.help" = "Più aiuto";
+"jitai.action.dismiss" = "Non ora";
 "widget.intent.success" = "Sigaretta aggiunta con successo";
 "widget.intent.error.add.failed" = "Impossibile aggiungere la sigaretta. Riprova.";
 

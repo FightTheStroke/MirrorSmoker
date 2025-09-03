@@ -31,6 +31,86 @@ class WidgetCigarette {
     }
 }
 
+// MARK: - Widget Today Stats
+struct WidgetTodayStats {
+    let todayCount: Int
+    let dailyAverage: Double
+    let lastCigaretteTime: Date?
+    
+    static let fallback = WidgetTodayStats(
+        todayCount: 0,
+        dailyAverage: 0.0,
+        lastCigaretteTime: nil
+    )
+    
+    // Status color based on count vs average
+    var statusColor: String {
+        if todayCount == 0 {
+            return "#28A745" // Green
+        } else if Double(todayCount) <= dailyAverage * 0.8 {
+            return "#007AFF" // Blue - below average
+        } else if Double(todayCount) <= dailyAverage {
+            return "#FFC107" // Yellow - at average
+        } else {
+            return "#DC3545" // Red - above average
+        }
+    }
+    
+    // Formatted string for last cigarette time
+    var lastCigaretteFormatted: String {
+        guard let lastTime = lastCigaretteTime else {
+            return NSLocalizedString("widget.no.cigarettes.today", comment: "")
+        }
+        
+        let now = Date()
+        let interval = now.timeIntervalSince(lastTime)
+        
+        if interval < 3600 { // Less than 1 hour
+            let minutes = Int(interval / 60)
+            if minutes < 1 {
+                return NSLocalizedString("widget.just.now", comment: "")
+            }
+            return String(format: NSLocalizedString("widget.minutes.ago", comment: ""), minutes)
+        } else if interval < 86400 { // Less than 1 day
+            let hours = Int(interval / 3600)
+            return String(format: NSLocalizedString("widget.hours.ago", comment: ""), hours)
+        } else {
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            formatter.timeStyle = .short
+            return formatter.string(from: lastTime)
+        }
+    }
+}
+
+// MARK: - Color Extension
+extension Color {
+    init(_ hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: // RGB (12-bit)
+            (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: // RGB (24-bit)
+            (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: // ARGB (32-bit)
+            (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default:
+            (a, r, g, b) = (1, 1, 1, 0)
+        }
+        
+        self.init(
+            .sRGB,
+            red: Double(r) / 255,
+            green: Double(g) / 255,
+            blue:  Double(b) / 255,
+            opacity: Double(a) / 255
+        )
+    }
+}
+
 // MARK: - Widget Entry
 struct CigaretteEntry: TimelineEntry {
     let date: Date

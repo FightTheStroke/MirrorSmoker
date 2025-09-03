@@ -70,5 +70,9 @@
 		<string>JetBrainsMonoNL-SemiBold.ttf</string>
 		<string>JetBrainsMonoNL-Bold.ttf</string>
 	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>MirrorSmokerStopper uses Health data (e.g., medications, activity, sleep) to tailor on-device quit coaching. Data stays on device.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>MirrorSmokerStopper can write relevant Health data you opt into (e.g., mindful minutes) to support your quit journey.</string>
 </dict>
 </plist>

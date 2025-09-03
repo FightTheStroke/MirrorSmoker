@@ -409,6 +409,23 @@
 "intent.motivation.message.4" = "Your future self will thank you for the choice you make right now.";
 "intent.motivation.message.5" = "Every day smoke-free is a day your body gets healthier.";
 "intent.motivation.message.6" = "The urge to smoke is temporary, but the benefits of quitting are permanent.";
+
+// Urge Log
+"urge.outcome.pending" = "Pending";
+"urge.outcome.resisted" = "Resisted";
+"urge.outcome.smoked" = "Smoked";
+"urge.outcome.partial" = "Partially Resisted";
+"urge.intensity.low" = "Low";
+"urge.intensity.medium" = "Medium";
+"urge.intensity.high" = "High";
+"urge.intensity.extreme" = "Extreme";
+"urge.intensity.unknown" = "Unknown";
+
+// JITAI Notifications
+"jitai.notification.title" = "Coach";
+"jitai.action.understood" = "Got it!";
+"jitai.action.more.help" = "More help";
+"jitai.action.dismiss" = "Not now";
 "widget.intent.success" = "Cigarette added successfully";
 "widget.intent.error.add.failed" = "Failed to add cigarette. Please try again.";
 "settings.daily.average.calculated" = "Your daily average";
@@ -780,9 +797,119 @@
 // TagPickerView  
 "create.new.tag" = "Create New Tag";
 "tag.name.field" = "Tag Name";
+
+// AISettingsView - Additional hardcoded strings
+"system.status" = "System Status";
+"ai.coaching" = "AI Coaching";
+"behavioral.analysis" = "Behavioral Analysis";
+"quit.plan.optimization" = "Quit Plan Optimization";
+"healthkit.integration" = "HealthKit Integration";
+"ai.features" = "AI Features";
+"ai.coaching.description" = "AI coaching provides personalized tips and interventions based on your smoking patterns. All processing happens on-device.";
+"coaching.frequency" = "Coaching Frequency";
+"daily.coaching.limit" = "Daily Coaching Limit";
+"risk.sensitivity" = "Risk Sensitivity";
+"coaching.behavior" = "Coaching Behavior";
+"coaching.behavior.description" = "Higher frequency provides more support but may be more intrusive. The system respects quiet hours and daily limits.";
+"privacy.level" = "Privacy Level";
+"privacy.data.usage" = "Privacy & Data Usage";
+"privacy.description" = "All data processing happens on-device. No information is shared with external services.";
+"healthkit.data" = "HealthKit Data";
+"healthkit.data.description" = "Sleep, activity, medications";
+"location.analysis" = "Location Analysis";
+"location.analysis.description" = "General location patterns";
+"detailed.behavioral.analysis" = "Detailed Behavioral Analysis";
+"detailed.behavioral.analysis.description" = "Advanced pattern recognition";
+"quiet.hours" = "Quiet Hours";
+"start.time" = "Start Time";
+"end.time" = "End Time";
+"current.status" = "Current Status";
+"quiet" = "Quiet";
+"active" = "Active";
+"notification.schedule" = "Notification Schedule";
+"notification.schedule.description" = "Quiet hours prevent coaching notifications during sleep and other focused times.";
+"quit.plan.optimization" = "Quit Plan Optimization";
+"behavioral.insights" = "Behavioral Insights";
+"view.configuration.report" = "View Configuration Report";
+"advanced.features" = "Advanced Features";
+"reset.to.defaults" = "Reset to Defaults";
+"export.configuration" = "Export Configuration";
+"configuration.management" = "Configuration Management";
+"configuration.management.description" = "Reset will restore all AI coaching settings to their default values.";
+"reset.configuration" = "Reset Configuration";
+"no.behavioral.insights.yet" = "No Behavioral Insights Yet";
+"start.logging.message" = "Start logging your smoking to get personalized behavioral insights and recommendations.";
+"analyze.patterns" = "Analyze Patterns";
+"refresh" = "Refresh";
+"recommended.actions" = "Recommended Actions:";
+"low.risk" = "Low Risk";
+"medium.risk" = "Medium Risk";
+"high.risk" = "High Risk";
+"critical.risk" = "Critical";
+
+// QuitPlanOptimizationView - Additional hardcoded strings
+"view.details" = "View Details";
+"recommendation" = "Recommendation";
+"quit.date" = "Quit Date";
+"approach" = "Approach";
+"risk.factors" = "Risk Factors";
+"support.strategies" = "Support Strategies";
+"personalized.milestones" = "Personalized Milestones";
+"ai.recommendation" = "AI Recommendation";
+"apply" = "Apply";
+"plan.performance" = "Plan Performance";
+"confidence" = "Confidence:";
+"apply.this.suggestion" = "Apply This Suggestion";
+"no.performance.issues" = "No performance issues detected. Keep up the great work!";
+"todays.target" = "Today's Target";
+
+// Widget Localization
+"widget.quick.add.cigarette" = "Quick Add Cigarette";
+"widget.quick.add.description" = "Quickly add a cigarette entry";
+"widget.note.title" = "Note";
+"widget.note.description" = "Optional note for the cigarette";
+"widget.tags.title" = "Tags";
+"widget.tags.description" = "Optional tags for the cigarette";
+"widget.today" = "Today";
+"widget.add" = "Add";
+"widget.daily.avg" = "Daily Avg";
+"widget.display.name" = "Cigarette Tracker";
+"widget.description" = "Track your daily cigarette count and add new entries quickly.";
+"widget.a11y.today.count" = "%d cigarettes today";
+"widget.a11y.today.cigarettes" = "%d cigarettes smoked today";
+"widget.a11y.great.job" = "Great job! No cigarettes today";
+"widget.a11y.add.cigarette" = "Add cigarette";
+"widget.a11y.add.cigarette.hint" = "Double-tap to add a cigarette entry";
+"widget.a11y.no.cigarettes.today" = "No cigarettes today";
+"widget.a11y.last.cigarette.time" = "Last cigarette: %@";
+"widget.a11y.daily.average" = "Daily average: %.1f cigarettes";
+"widget.intent.add.cigarette" = "Add Cigarette";
+"widget.intent.add.cigarette.description" = "Add a cigarette entry from the widget";
+"widget.intent.success" = "Cigarette added successfully";
+"added.from.widget" = "Added from widget";
+"widget.intent.error.add.failed" = "Failed to add cigarette";
+"widget.no.cigarettes.today" = "None today";
+"widget.just.now" = "Just now";
+"widget.minutes.ago" = "%d min ago";
+"widget.hours.ago" = "%dh ago";
+
 "tag.name.example" = "e.g., Stress";
 "tag.color.field" = "Tag Color";
 "select.tags.title" = "Select Tags";
+
+// Additional hardcoded strings found
+"available.ios26" = "Available on iOS 26+";
+"requires.ios26" = "Requires iOS 26";
+"start" = "Start";
+"end" = "End";
+"analyzing.behavioral.patterns" = "Analyzing behavioral patterns...";
+"early.morning.smoking.message" = "You smoke your first cigarette 15 minutes after waking. Research shows this indicates high nicotine dependence.";
+"delay.first.cigarette.advice" = "Try delaying your first cigarette by 15-30 minutes tomorrow. Even small delays can reduce dependency.";
+"great.progress.title" = "Great Progress!";
+"fewer.cigarettes.yesterday.message" = "You smoked 3 fewer cigarettes than yesterday!";
+"keep.momentum.advice" = "Keep this momentum going. What did you do differently today?";
+"view.all.milestones.format" = "View All %d Milestones";
+"milestone.target.format" = "Target: %@";
 
 // InsightCard
 "health.insight.default" = "Health Insight";
@@ -798,3 +925,128 @@
 // HomeWidget
 "widget.smoked.today" = "Smoked Today";
 "widget.add.cigarette" = "Add Cigarette";
+
+// AI Configuration
+"ai.config.frequency.minimal" = "Minimal";
+"ai.config.frequency.balanced" = "Balanced";
+"ai.config.frequency.proactive" = "Proactive";
+"ai.config.frequency.minimal.desc" = "Only high-risk situations";
+"ai.config.frequency.balanced.desc" = "Regular coaching with smart timing";
+"ai.config.frequency.proactive.desc" = "Frequent support and insights";
+
+"ai.config.privacy.minimal" = "Minimal";
+"ai.config.privacy.standard" = "Standard";
+"ai.config.privacy.enhanced" = "Enhanced";
+"ai.config.privacy.minimal.desc" = "Basic smoking data only";
+"ai.config.privacy.standard.desc" = "Smoking data + basic patterns";
+"ai.config.privacy.enhanced.desc" = "Full behavioral analysis with HealthKit";
+
+"ai.config.validation.ios26" = "AI coaching requires iOS 26";
+"ai.config.validation.healthkit.privacy" = "HealthKit requires enhanced privacy level";
+"ai.config.validation.quiet.hours" = "Quiet hours start and end cannot be the same";
+"ai.config.validation.notifications" = "Daily notifications must be between 1 and 10";
+
+// Behavioral Insights
+"behavioral.insight.time.peak.title" = "Peak smoking time detected";
+"behavioral.insight.time.peak.description" = "You smoke %.0f%% of your cigarettes around %d:00";
+"behavioral.insight.weekend.title" = "Weekend smoking spike";
+"behavioral.insight.weekend.description" = "You smoke %d more cigarettes on weekends";
+"behavioral.insight.trigger.title" = "Trigger pattern: %@";
+"behavioral.insight.trigger.description" = "%@ triggers %.0f%% of your smoking";
+"behavioral.insight.streak.title" = "Streak breaking pattern";
+"behavioral.insight.streak.description" = "Your streaks often end due to %@ at %d:00";
+"behavioral.insight.social.title" = "Social smoking pattern";
+"behavioral.insight.social.description" = "%.0f%% of your smoking happens in social situations";
+"behavioral.insight.environment.title" = "Environmental trigger: %@";
+"behavioral.insight.environment.description" = "%.0f%% of your smoking happens at %@";
+"behavioral.insight.regression.title" = "Progress regression detected";
+"behavioral.insight.regression.description" = "Smoking increased by %d cigarettes this week";
+
+// Behavioral Recommendations
+"behavioral.recommendation.time.avoid" = "Plan alternative activities for %d:00-%d:00";
+"behavioral.recommendation.time.replacement" = "Practice deep breathing during peak craving times";
+"behavioral.recommendation.time.schedule" = "Schedule important tasks during your peak smoking hours";
+"behavioral.recommendation.weekend.plan" = "Plan smoke-free weekend activities";
+"behavioral.recommendation.weekend.social" = "Identify and avoid smoking social situations";
+"behavioral.recommendation.weekend.routine" = "Maintain weekday routines on weekends";
+"behavioral.recommendation.streak.prepare" = "Prepare coping strategies for %@";
+"behavioral.recommendation.streak.avoid" = "Avoid %@ situations at %d:00";
+"behavioral.recommendation.streak.support" = "Have support ready during vulnerable times";
+"behavioral.recommendation.social.alternative" = "Find non-smoking social activities";
+"behavioral.recommendation.social.support" = "Tell friends about your quit plan";
+"behavioral.recommendation.social.escape" = "Practice polite ways to decline smoking invitations";
+"behavioral.recommendation.environment.modify" = "Modify your %@ environment to reduce triggers";
+"behavioral.recommendation.environment.avoid" = "Limit time spent in %@ when possible";
+"behavioral.recommendation.environment.replacement" = "Create new positive associations with this space";
+"behavioral.recommendation.regression.reassess" = "Review what changed in your routine this week";
+"behavioral.recommendation.regression.support" = "Reach out for additional support";
+"behavioral.recommendation.regression.gentle" = "Be patient with yourself - setbacks are normal";
+
+// Trigger-specific recommendations
+"behavioral.recommendation.stress.breathing" = "Practice 4-7-8 breathing when stressed";
+"behavioral.recommendation.stress.exercise" = "Take a 5-minute walk when feeling stressed";
+"behavioral.recommendation.stress.mindfulness" = "Use a mindfulness app for stress management";
+"behavioral.recommendation.boredom.activities" = "Keep a list of 5-minute activities handy";
+"behavioral.recommendation.boredom.hobby" = "Start a new hobby that keeps your hands busy";
+"behavioral.recommendation.boredom.productive" = "Turn boredom into productive micro-tasks";
+"behavioral.recommendation.generic.identify" = "Identify early warning signs of %@ triggers";
+"behavioral.recommendation.generic.alternative" = "Create healthy alternatives for %@ situations";
+"behavioral.recommendation.generic.avoid" = "Avoid or minimize %@ triggers when possible";
+
+// AI Settings and Quit Plan Optimization
+"ai.quit.plan.optimizer.title" = "AI Quit Plan Optimizer";
+"ai.powered.quit.plan.optimization" = "AI-Powered Quit Plan Optimization";
+"get.personalized.recommendations" = "Get personalized recommendations based on your smoking patterns, health data, and behavioral analysis";
+"current.plan" = "Current Plan";
+"active" = "Active";
+"inactive" = "Inactive";
+"quit.date" = "Quit Date";
+"not.set" = "Not set";
+"reduction.curve" = "Reduction Curve";
+"daily.average" = "Daily Average";
+"ai.optimization" = "AI Optimization";
+"generate.optimized.plan" = "Generate Optimized Plan";
+"evaluate.current.performance" = "Evaluate Current Performance";
+"analyzing.your.data" = "Analyzing your data...";
+"plan.performance" = "Plan Performance";
+"no.performance.data" = "No performance data available yet. Complete a few more days to get personalized insights.";
+"recommended.milestones" = "Recommended Milestones";
+"target.format" = "Target: %@";
+"recommendation" = "Recommendation";
+"personalized.milestones" = "Personalized Milestones";
+"no.performance.issues" = "No performance issues detected. Keep up the great work!";
+"confidence" = "Confidence:";
+"view.details" = "View Details";
+"view.all.milestones" = "View All %d Milestones";
+"ai.recommendation" = "AI Recommendation";
+"cancel" = "Cancel";
+"apply" = "Apply";
+"plan.performance.title" = "Plan Performance";
+"apply.this.suggestion" = "Apply This Suggestion";
+
+// AI Settings
+"ai.coaching.settings" = "AI Coaching Settings";
+"configuration.report" = "Configuration Report";
+"done" = "Done";
+"reset" = "Reset";
+"cancel" = "Cancel";
+"reset.ai.warning" = "This will reset all AI coaching settings to their default values. This cannot be undone.";
+"ai.coaching.system" = "AI Coaching System";
+"ios26.compatibility.message" = "Advanced AI coaching features require iOS 26 and compatible hardware. Basic quit support remains available on all iOS versions.";
+"system.status" = "System Status";
+"ai.features" = "AI Features";
+"ai.coaching.description" = "AI coaching provides personalized tips and interventions based on your smoking patterns. All processing happens on-device.";
+"daily.coaching.limit" = "Daily Coaching Limit";
+"risk.sensitivity" = "Risk Sensitivity";
+"coaching.behavior" = "Coaching Behavior";
+"coaching.behavior.description" = "Higher frequency provides more support but may be more intrusive. The system respects quiet hours and daily limits.";
+"privacy.data.usage" = "Privacy & Data Usage";
+"privacy.description" = "All data processing happens on-device. No information is shared with external services.";
+"start.time" = "Start Time";
+"end.time" = "End Time";
+"view.configuration.report" = "View Configuration Report";
+"reset.to.defaults" = "Reset to Defaults";
+"export.configuration" = "Export Configuration";
+"analyze.patterns" = "Analyze Patterns";
+"behavioral.insights" = "Behavioral Insights";
+"refresh" = "Refresh";

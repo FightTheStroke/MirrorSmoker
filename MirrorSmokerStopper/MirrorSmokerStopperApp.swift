@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import UserNotifications
 import os.log
 
 @main
@@ -14,8 +15,12 @@ struct MirrorSmokerStopperApp: App {
             MainTabView()
                 // Inject the managed model container into the environment.
                 .modelContainer(persistenceController.modelContainer)
+                .task {
+                    await setupAICoaching()
+                }
                 .onAppear {
                     setupWidgetSync()
+                    setupNotificationCategories()
                 }
         }
     }
@@ -40,6 +45,38 @@ struct MirrorSmokerStopperApp: App {
             // No explicit action needed here, as @Query handles the refresh.
         }
     }
+    
+    // MARK: - AI Coaching Setup
+    
+    private func setupAICoaching() async {
+        Self.logger.info("Setting up AI coaching system")
+        
+        // Request HealthKit authorization (deferred, non-blocking)
+        Task {
+            do {
+                try await HealthKitManager.shared.requestAuthorization()
+                Self.logger.info("HealthKit authorization completed")
+            } catch {
+                Self.logger.info("HealthKit authorization skipped or failed: \(error.localizedDescription)")
+                // Continue without HealthKit - the app should work with fallback data
+            }
+        }
+        
+        // Set up JITAI evaluation
+        Task {
+            let jitaiPlanner = JITAIPlanner.shared
+            jitaiPlanner.scheduleBackgroundEvaluation()
+            
+            // Initial evaluation
+            await jitaiPlanner.evaluateAndNotify()
+            Self.logger.info("JITAI system initialized")
+        }
+    }
+    
+    private func setupNotificationCategories() {
+        JITAIPlanner.setupNotificationCategories()
+        Self.logger.info("Notification categories configured")
+    }
 }
 
 // A simple view to display critical errors.
@@ -62,4 +99,8 @@ struct ErrorView: View {
                 .padding(.horizontal)
         }
     }
+}
+
+#Preview {
+    MainTabView()
 }

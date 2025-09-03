@@ -11,7 +11,7 @@ import SwiftUI
 import os.log
 
 // MARK: - Logger
-private let logger = Logger(subsystem: "com.mirror-labs.mirrorsmoker", category: "SmokingIntents")
+private let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "SmokingIntents")
 
 // MARK: - Shared Model Container Access
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
@@ -57,14 +57,14 @@ extension AppIntent {
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct AddCigaretteIntent: AppIntent {
     static var title: LocalizedStringResource = "intent.add.cigarette.title"
-    static var description = IntentDescription(NSLocalizedString("intent.record.cigarette.description", comment: ""))
+    static var description = IntentDescription(stringLiteral: "Record a cigarette you just smoked")
     
     static var suggestedInvocationPhrase: String = "I smoked a cigarette"
     
-    @Parameter(title: NSLocalizedString("intent.record.cigarette.tags.title", comment: ""), description: NSLocalizedString("intent.record.cigarette.tags.description", comment: ""))
+    @Parameter(title: LocalizedStringResource("intent.record.cigarette.tags.title", defaultValue: "Tags"), description: LocalizedStringResource("intent.record.cigarette.tags.description", defaultValue: "Optional tags to categorize this cigarette"))
     var tags: [String]?
     
-    @Parameter(title: NSLocalizedString("intent.record.cigarette.note.title", comment: ""), description: NSLocalizedString("intent.record.cigarette.note.description", comment: ""))
+    @Parameter(title: LocalizedStringResource("intent.record.cigarette.note.title", defaultValue: "Note"), description: LocalizedStringResource("intent.record.cigarette.note.description", defaultValue: "Optional note about this cigarette"))
     var note: String?
     
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "SmokingIntents")
@@ -107,8 +107,8 @@ struct AddCigaretteIntent: AppIntent {
         try modelContext.save()
         
         let message = tags?.isEmpty == false ? 
-            String(format: NSLocalizedString("intent.record.cigarette.response.with.tags", comment: ""), tags?.joined(separator: ", ") ?? "") :
-            NSLocalizedString("intent.record.cigarette.response.success", comment: "")
+            "Cigarette recorded with tags: \(tags?.joined(separator: ", ") ?? "")" :
+            "Cigarette recorded successfully"
             
         return .result(dialog: IntentDialog(stringLiteral: message)) {
             CigaretteRecordedView(timestamp: cigarette.timestamp, tags: tags)
@@ -121,9 +121,9 @@ struct AddCigaretteIntent: AppIntent {
 @available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
 struct GetTodayCountIntent: AppIntent {
     static var title: LocalizedStringResource = "intent.get.count.title"
-    static var description = IntentDescription(NSLocalizedString("intent.today.count.description", comment: ""))
+    static var description = IntentDescription(stringLiteral: "Get the number of cigarettes you've smoked today")
     
-    static var suggestedInvocationPhrase: String = NSLocalizedString("intent.today.count.phrase", comment: "")
+    static var suggestedInvocationPhrase: String = "How many cigarettes today"
     
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let modelContext = ModelContext(sharedModelContainer)
@@ -195,7 +195,7 @@ struct SetQuitGoalIntent: AppIntent {
     
     static var suggestedInvocationPhrase: String = "Set my quit smoking date"
     
-    @Parameter(title: "Quit Date", description: "When do you want to quit smoking?")
+    @Parameter(title: LocalizedStringResource("Quit Date", defaultValue: "Quit Date"), description: LocalizedStringResource("When do you want to quit smoking?", defaultValue: "When do you want to quit smoking?"))
     var quitDate: Date
     
     func perform() async throws -> some IntentResult & ProvidesDialog {
@@ -253,67 +253,5 @@ struct GetMotivationIntent: AppIntent {
         let randomMessage = motivationalMessages.randomElement() ?? motivationalMessages[0]
         
         return .result(dialog: IntentDialog(stringLiteral: randomMessage))
-    }
-}
-
-// MARK: - App Shortcuts Provider
-
-@available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
-struct SmokingAppShortcutsProvider: AppShortcutsProvider {
-    static var appShortcuts: [AppShortcut] {
-        AppShortcut(
-            intent: AddCigaretteIntent(),
-            phrases: [
-                "I smoked with \(.applicationName)",
-                "Record cigarette in \(.applicationName)",
-                "Log smoke in \(.applicationName)"
-            ],
-            shortTitle: "Record Cigarette",
-            systemImageName: "plus.circle"
-        )
-        
-        AppShortcut(
-            intent: GetTodayCountIntent(),
-            phrases: [
-                "How many cigarettes today in \(.applicationName)",
-                "Today's count in \(.applicationName)",
-                "Show today's smoking in \(.applicationName)"
-            ],
-            shortTitle: "Today's Count",
-            systemImageName: "number"
-        )
-        
-        AppShortcut(
-            intent: GetWeeklyStatsIntent(),
-            phrases: [
-                "Weekly smoking stats in \(.applicationName)",
-                "Show my week in \(.applicationName)",
-                "This week's progress in \(.applicationName)"
-            ],
-            shortTitle: "Weekly Stats",
-            systemImageName: "chart.bar"
-        )
-        
-        AppShortcut(
-            intent: GetMotivationIntent(),
-            phrases: [
-                "Motivate me in \(.applicationName)",
-                "Help me quit smoking with \(.applicationName)",
-                "I need motivation in \(.applicationName)"
-            ],
-            shortTitle: "Get Motivation",
-            systemImageName: "heart.fill"
-        )
-        
-        AppShortcut(
-            intent: SetQuitGoalIntent(),
-            phrases: [
-                "Set quit goal in \(.applicationName)",
-                "Set my quit date in \(.applicationName)",
-                "Plan to quit in \(.applicationName)"
-            ],
-            shortTitle: "Set Quit Goal",
-            systemImageName: "target"
-        )
     }
 }

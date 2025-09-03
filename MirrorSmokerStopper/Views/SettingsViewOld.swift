@@ -106,7 +106,7 @@ struct SettingsView: View {
                 VStack(spacing: DS.Space.lg) {
                     // Quit Plan Section - moved to top
                     LegacyDSCard {
-                        VStack(spacing: DS.Space.lg) {
+                        VStack(alignment: .leading, spacing: DS.Space.lg) {
                             DSSectionHeader(NSLocalizedString("settings.quit.plan.section", comment: ""), subtitle: NSLocalizedString("settings.quit.plan.subtitle", comment: ""))
                             
                             VStack(spacing: DS.Space.md) {
@@ -276,10 +276,10 @@ struct SettingsView: View {
                     
                     // Profile Section
                     LegacyDSCard {
-                        VStack(spacing: DS.Space.lg) {
+                        VStack(alignment: .leading, spacing: DS.Space.lg) {
                             DSSectionHeader(NSLocalizedString("settings.personal.profile", comment: ""))
                             
-                            VStack(spacing: DS.Space.md) {
+                            VStack(alignment: .leading, spacing: DS.Space.md) {
                                 // Name
                                 VStack(alignment: .leading, spacing: DS.Space.sm) {
                                     HStack {

@@ -111,7 +111,13 @@ struct SettingsViewFixed: View {
                     .ignoresSafeArea()
                 
                 if isLoading {
-                    ProgressView("loading".local())
+                    VStack(spacing: DS.Space.md) {
+                        ProgressView()
+                            .scaleEffect(1.2)
+                        Text("loading".local())
+                            .font(DS.Text.body)
+                            .foregroundColor(DS.Colors.textSecondary)
+                    }
                 } else {
                     ScrollView {
                         LazyVStack(spacing: DS.Space.lg) {

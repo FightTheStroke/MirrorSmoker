@@ -124,8 +124,8 @@ struct ContentView: View {
             ScrollView {
                 LazyVStack(spacing: DS.Space.lg) {
                     heroSection
-                    coachMessageSection
                     quickStatsSection
+                    coachMessageSection
                     todayCigarettesSection
                     todaysInsightSection
                 }
@@ -176,11 +176,15 @@ struct ContentView: View {
             .zIndex(1000) // Ensure it's on top
             .allowsHitTesting(true)
             
-            CigaretteSavedNotification(
-                tagCount: lastSavedCigaretteTagCount,
-                isShowing: $showingCigaretteSavedNotification
-            )
-            .padding(.top, 60)
+            VStack {
+                CigaretteSavedNotification(
+                    tagCount: lastSavedCigaretteTagCount,
+                    isShowing: $showingCigaretteSavedNotification
+                )
+                .padding(.top, 60)
+                
+                Spacer()
+            }
             .accessibilityElement(children: .ignore)
             .accessibilityHidden(true)
         }

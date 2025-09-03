@@ -57,6 +57,7 @@ struct TodayCigarettesList: View {
                                 .tint(.blue)
                             }
                     }
+                    .listRowInsets(EdgeInsets())
                 }
                 .listStyle(.plain)
                 .frame(height: CGFloat(todayCigarettes.count * 50))
@@ -74,11 +75,12 @@ struct SimpleCigaretteRowView: View {
     
     var body: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 2) {
+            Image(systemName: "lungs.fill")
+                .foregroundColor(DS.Colors.cigarette)
                 Text(cigarette.timestamp, style: .time)
                     .font(DS.Text.headline)
                     .foregroundColor(DS.Colors.textPrimary)
-                
+                Spacer()
                 if let tags = cigarette.tags, !tags.isEmpty {
                     HStack(spacing: 4) {
                         ForEach(Array(tags.prefix(3)), id: \.id) { tag in
@@ -96,13 +98,7 @@ struct SimpleCigaretteRowView: View {
                                 .foregroundColor(DS.Colors.textSecondary)
                         }
                     }
-                }
             }
-            
-            Spacer()
-            
-            Image(systemName: "cigarette")
-                .foregroundColor(DS.Colors.cigarette)
         }
         .contentShape(Rectangle())
     }

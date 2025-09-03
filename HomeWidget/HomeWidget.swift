@@ -224,14 +224,14 @@ struct SmallCigaretteWidgetView: View {
             VStack(spacing: 8) {
                 // Today count with accessibility
                 VStack(spacing: 2) {
+                    Text(NSLocalizedString("widget.add.cigarette", comment: "").capitalized)
                     Text("\(entry.todayStats.todayCount)")
-                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .font(Font.custom("JetBrains Mono NL Bold", size: 32, relativeTo: .largeTitle))
                         .foregroundColor(Color(entry.todayStats.statusColor))
                         .accessibilityLabel(Text(String(format: NSLocalizedString("widget.a11y.today.count", comment: ""), entry.todayStats.todayCount)))
                     
                     Text(NSLocalizedString("widget.today", comment: ""))
-                        .font(.caption2)
-                        .fontWeight(.medium)
+                        .font(Font.custom("JetBrains Mono NL Medium", size: 11))
                         .foregroundColor(.secondary)
                         .textCase(.uppercase)
                         .accessibilityHidden(true)
@@ -282,84 +282,83 @@ struct MediumCigaretteWidgetView: View {
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
-            
-            HStack(spacing: 16) {
-                // Left side - Main stats
-                VStack(alignment: .leading, spacing: 8) {
-                    // Today count with accessibility
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack(alignment: .firstTextBaseline, spacing: 4) {
-                            Text("\(entry.todayStats.todayCount)")
-                                .font(.system(size: 36, weight: .bold, design: .rounded))
-                                .foregroundColor(Color(entry.todayStats.statusColor))
-                                .accessibilityLabel(Text(String(format: NSLocalizedString("widget.a11y.today.count", comment: ""), entry.todayStats.todayCount)))
+            VStack {
+                Text(NSLocalizedString("widget.display.name", comment: ""))
+                    .font(.title)
+                HStack(spacing: 16) {
+                    // Left side - Main stats
+                    VStack(alignment: .leading, spacing: 8) {
+                        // Today count with accessibility
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack(alignment: .firstTextBaseline, spacing: 4) {
+                                Text("\(entry.todayStats.todayCount)")
+                                    .font(Font.custom("JetBrains Mono NL Bold", size: 36))
+                                    .foregroundColor(Color(entry.todayStats.statusColor))
+                                    .accessibilityLabel(Text(String(format: NSLocalizedString("widget.a11y.today.count", comment: ""), entry.todayStats.todayCount)))
+                                
+                                Text(NSLocalizedString("widget.today", comment: ""))
+                                    .font(Font.custom("JetBrains Mono NL Medium", size: 12))
+                                    .foregroundColor(.secondary)
+                                    .textCase(.uppercase)
+                                    .accessibilityHidden(true)
+                            }
+                            .accessibilityElement(children: .combine)
+                            .accessibilityLabel(String(format: NSLocalizedString("widget.a11y.today.cigarettes", comment: ""), entry.todayStats.todayCount))
                             
-                            Text(NSLocalizedString("widget.today", comment: ""))
-                                .font(.caption)
-                                .fontWeight(.medium)
+                            // Last cigarette time with accessibility
+                            Text(entry.todayStats.lastCigaretteFormatted)
+                                .font(Font.custom("JetBrains Mono NL", size: 10))
+                                .foregroundColor(.secondary)
+                                .lineLimit(1)
+                                .accessibilityLabel(entry.todayStats.lastCigaretteTime == nil ?
+                                    NSLocalizedString("widget.a11y.no.cigarettes.today", comment: "") :
+                                    String(format: NSLocalizedString("widget.a11y.last.cigarette.time", comment: ""), entry.todayStats.lastCigaretteFormatted))
+                        }
+                        
+                        Spacer()
+                        
+                        // Daily average with accessibility
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(String(format: "%.1f", entry.todayStats.dailyAverage))
+                                .font(Font.custom("JetBrains Mono NL SemiBold", size: 16))
+                                .foregroundColor(.primary)
+                            
+                            Text(NSLocalizedString("widget.daily.avg", comment: ""))
+                                .font(Font.custom("JetBrains Mono NL Medium", size: 10))
                                 .foregroundColor(.secondary)
                                 .textCase(.uppercase)
                                 .accessibilityHidden(true)
                         }
                         .accessibilityElement(children: .combine)
-                        .accessibilityLabel(String(format: NSLocalizedString("widget.a11y.today.cigarettes", comment: ""), entry.todayStats.todayCount))
-                        
-                        // Last cigarette time with accessibility
-                        Text(entry.todayStats.lastCigaretteFormatted)
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                            .lineLimit(1)
-                            .accessibilityLabel(entry.todayStats.lastCigaretteTime == nil ? 
-                                NSLocalizedString("widget.a11y.no.cigarettes.today", comment: "") : 
-                                String(format: NSLocalizedString("widget.a11y.last.cigarette.time", comment: ""), entry.todayStats.lastCigaretteFormatted))
+                        .accessibilityLabel(String(format: NSLocalizedString("widget.a11y.daily.average", comment: ""), entry.todayStats.dailyAverage))
                     }
                     
                     Spacer()
                     
-                    // Daily average with accessibility
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(String(format: "%.1f", entry.todayStats.dailyAverage))
-                            .font(.system(size: 16, weight: .semibold, design: .rounded))
-                            .foregroundColor(.primary)
-                        
-                        Text(NSLocalizedString("widget.daily.avg", comment: ""))
-                            .font(.caption2)
-                            .foregroundColor(.secondary)
-                            .textCase(.uppercase)
-                            .accessibilityHidden(true)
-                    }
-                    .accessibilityElement(children: .combine)
-                    .accessibilityLabel(String(format: NSLocalizedString("widget.a11y.daily.average", comment: ""), entry.todayStats.dailyAverage))
-                }
-                
-                Spacer()
-                
-                // Right side - Action button
-                VStack(spacing: 12) {
-                    Button(intent: AddCigaretteIntent()) {
-                        VStack(spacing: 6) {
-                            Image(systemName: "plus")
-                                .font(.system(size: 16, weight: .bold))
-                                .foregroundColor(.white)
-                            
-                            Text(NSLocalizedString("widget.add", comment: ""))
-                                .font(.caption2)
-                                .fontWeight(.medium)
-                                .foregroundColor(.white)
-                                .textCase(.uppercase)
+                    // Right side - Action button
+                    VStack(spacing: 12) {
+                        Button(intent: AddCigaretteIntent()) {
+                            VStack(spacing: 6) {
+                                Image(systemName: "plus")
+                                    .font(.system(size: 16, weight: .bold))
+                                    .foregroundColor(.white)
+                                
+                                Text(NSLocalizedString("widget.add", comment: ""))
+                                    .font(Font.custom("JetBrains Mono NL Medium", size: 10))
+                                    .foregroundColor(.white)
+                                    .textCase(.uppercase)
+                            }
+                            .frame(width: 60, height: 60)
+                            .background(Color("#007AFF"))
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
                         }
-                        .frame(width: 60, height: 60)
-                        .background(Color("#007AFF"))
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .buttonStyle(PlainButtonStyle())
+                        .accessibilityLabel(NSLocalizedString("widget.a11y.add.cigarette", comment: ""))
+                        .accessibilityHint(NSLocalizedString("widget.a11y.add.cigarette.hint", comment: ""))
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    .accessibilityLabel(NSLocalizedString("widget.a11y.add.cigarette", comment: ""))
-                    .accessibilityHint(NSLocalizedString("widget.a11y.add.cigarette.hint", comment: ""))
-                    
-                    Spacer()
                 }
             }
-            .padding(16)
+            
         }
         .containerBackground(for: .widget) {
             LinearGradient(

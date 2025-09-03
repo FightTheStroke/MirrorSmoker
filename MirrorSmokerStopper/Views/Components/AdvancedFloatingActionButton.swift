@@ -21,11 +21,8 @@ struct AdvancedFloatingActionButton: View {
     // Stati per gesture migliorata
     @State private var showingMenu = false
     @State private var isDetectingLongPress = false
-    @State private var dragOffset: CGFloat = 0
 
     // Parametri ottimizzati per gesture
-    private let swipeThreshold: CGFloat = 60
-    private let longPressDuration: CGFloat = 0.6  // Più responsive di 0.3s precedente
     private let gestureAreaSize: CGFloat = 80    // Area più grande di 56px precedente
     private let visualButtonSize: CGFloat = 56   // Dimensioni FAB visuale
 
@@ -120,30 +117,20 @@ struct AdvancedFloatingActionButton: View {
 
     // MARK: - Main FAB
     private var mainFAB: some View {
-        ZStack {
-            // Area invisibile per gesture più ampia (80px)
-            Circle()
-                .fill(Color.clear)
-                .frame(width: gestureAreaSize, height: gestureAreaSize)
-                .contentShape(Circle())
-                // === GESTURE MIGLIORATA ===
-                .gesture(
-                    DragGesture(minimumDistance: 0)
-                        .onChanged { value in
-                            handleDragChanged(value.translation)
-                        }
-                        .onEnded { value in
-                            handleDragEnded(value.translation)
-                        }
-                )
-
-            // FAB Visuale (56px)
+        Button(action: {
+            if showingMenu {
+                dismissMenu()
+            } else {
+                executeQuickAction()
+            }
+        }) {
             ZStack {
+                // FAB Visuale (56px)
                 Circle()
                     .fill(DS.Colors.primary)
                     .frame(width: visualButtonSize, height: visualButtonSize)
                     .shadow(color: DS.Colors.primary.opacity(0.3), radius: 8, x: 0, y: 4)
-                    .scaleEffect(isDetectingLongPress ? 1.15 : 1.0)  // Feedback visivo immediato
+                    .scaleEffect(isDetectingLongPress ? 1.15 : 1.0)
 
                 if showingMenu {
                     Image(systemName: "xmark")
@@ -176,54 +163,35 @@ struct AdvancedFloatingActionButton: View {
                     }
                 }
             }
+            .frame(width: gestureAreaSize, height: gestureAreaSize)
+            .contentShape(Circle())
         }
-    }
-
-    // MARK: - Enhanced Gesture Handling
-
-    @State private var longPressTimer: Timer?
-
-    private func handleDragChanged(_ translation: CGSize) {
-        if !isDetectingLongPress {
-            // Inizia detection long press
-            isDetectingLongPress = true
-
-            // Timer per long press più responsive (0.6s)
-            longPressTimer = Timer.scheduledTimer(withTimeInterval: longPressDuration, repeats: false) { [self] _ in
-                if isDetectingLongPress {
-                    triggerMenuOpen()
+        .buttonStyle(PlainButtonStyle())
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.6)
+                .onChanged { _ in
+                    if !isDetectingLongPress {
+                        withAnimation(.easeInOut(duration: 0.1)) {
+                            isDetectingLongPress = true
+                        }
+                    }
                 }
-            }
-        }
-    }
-
-    private func handleDragEnded(_ translation: CGSize) {
-        defer { resetGestureState() }
-
-        if showingMenu {
-            // Menu già aperto - gestisci secondo logica
-            if translation.height < -swipeThreshold {
-                dismissMenu()
-            } else {
-                // Snap back to menu position
-                withAnimation(DS.Animation.spring) {
-                    dragOffset = 0  // Reset offset per menu aperto
+                .onEnded { _ in
+                    if !showingMenu {
+                        triggerMenuOpen()
+                    }
+                    withAnimation(.easeInOut(duration: 0.1)) {
+                        isDetectingLongPress = false
+                    }
                 }
-            }
-        } else {
-            // Menu chiuso - gestisci secondo logica
-            if abs(translation.height) < swipeThreshold && abs(translation.width) < swipeThreshold {
-                // Touch breve - quick action
-                executeQuickAction()
-            }
-            // Altrimenti snap back senza fare nulla
-        }
+        )
     }
+
+    // MARK: - Action Handlers
 
     private func triggerMenuOpen() {
         withAnimation(DS.Animation.spring) {
             showingMenu = true
-            dragOffset = 0
         }
         // Haptic feedback quando menu si apre
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
@@ -233,7 +201,6 @@ struct AdvancedFloatingActionButton: View {
         let actualCompletion = {
             withAnimation(DS.Animation.spring) {
                 showingMenu = false
-                dragOffset = 0
             }
             completion?()
         }
@@ -249,16 +216,6 @@ struct AdvancedFloatingActionButton: View {
         quickAction()
         // Haptic feedback per quick action
         UIImpactFeedbackGenerator(style: .light).impactOccurred()
-    }
-
-    private func resetGestureState() {
-        longPressTimer?.invalidate()
-        longPressTimer = nil
-        isDetectingLongPress = false
-
-        withAnimation(.easeInOut(duration: 0.2)) {
-            dragOffset = 0
-        }
     }
 }
 

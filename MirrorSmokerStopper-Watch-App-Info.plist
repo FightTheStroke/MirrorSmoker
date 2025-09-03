@@ -11,5 +11,12 @@
 		<string>self-care</string>
 		<string>workout-processing</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fonts/JetBrainsMonoNL-Regular.ttf</string>
+		<string>Fonts/JetBrainsMonoNL-Medium.ttf</string>
+		<string>Fonts/JetBrainsMonoNL-SemiBold.ttf</string>
+		<string>Fonts/JetBrainsMonoNL-Bold.ttf</string>
+	</array>
 </dict>
 </plist>

@@ -15,5 +15,12 @@
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fonts/JetBrainsMonoNL-Regular.ttf</string>
+		<string>Fonts/JetBrainsMonoNL-Medium.ttf</string>
+		<string>Fonts/JetBrainsMonoNL-SemiBold.ttf</string>
+		<string>Fonts/JetBrainsMonoNL-Bold.ttf</string>
+	</array>
 </dict>
 </plist>

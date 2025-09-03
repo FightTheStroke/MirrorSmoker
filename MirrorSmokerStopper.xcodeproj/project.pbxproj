@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A96040AC2E6758EA0042AE8B /* Todo.md in Resources */ = {isa = PBXBuildFile; fileRef = A96040AB2E6758EA0042AE8B /* Todo.md */; };
 		A96040B62E675A840042AE8B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F5E5742E65FEFD004181D9 /* WidgetKit.framework */; };
 		A96040B72E675A840042AE8B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F5E5762E65FEFD004181D9 /* SwiftUI.framework */; };
 		A96040C82E675A850042AE8B /* HomeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A96040B52E675A840042AE8B /* HomeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -91,7 +90,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A96040AB2E6758EA0042AE8B /* Todo.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Todo.md; sourceTree = "<group>"; };
 		A96040B52E675A840042AE8B /* HomeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HomeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A96040D12E675B440042AE8B /* HomeWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HomeWidgetExtension.entitlements; sourceTree = "<group>"; };
 		A9F5E4A32E65FBA4004181D9 /* MirrorSmokerStopper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MirrorSmokerStopper.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -258,7 +256,6 @@
 				A9F5E5002E65FBB4004181D9 /* README.md */,
 				A9F5E5012E65FBB4004181D9 /* Roadmap.md */,
 				A9F5E5022E65FBB4004181D9 /* SECURITY.md */,
-				A96040AB2E6758EA0042AE8B /* Todo.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -529,7 +526,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9F5E5032E65FBB4004181D9 /* CODE_OF_CONDUCT.md in Resources */,
-				A96040AC2E6758EA0042AE8B /* Todo.md in Resources */,
 				A9F5E5042E65FBB4004181D9 /* LICENSE in Resources */,
 				A9F5E5052E65FBB4004181D9 /* README.md in Resources */,
 				A9F5E5062E65FBB4004181D9 /* Roadmap.md in Resources */,

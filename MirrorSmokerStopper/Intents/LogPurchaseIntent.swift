@@ -26,11 +26,11 @@ struct LogPurchaseIntent: AppIntent {
     @Parameter(title: "Amount", description: "Price of the product")
     var amount: Double
     
-    @Parameter(title: "Currency", description: "Currency code (e.g. USD, EUR)")
-    var currencyCode: String = "USD"
+    @Parameter(title: "Currency", description: "Currency code (e.g. USD, EUR)", default: "USD")
+    var currencyCode: String
     
-    @Parameter(title: "Quantity", description: "Number of items purchased")
-    var quantity: Int = 1
+    @Parameter(title: "Quantity", description: "Number of items purchased", default: 1)
+    var quantity: Int
     
     func perform() async throws -> some IntentResult & ProvidesDialog {
         let modelContext = ModelContext(sharedModelContainer)

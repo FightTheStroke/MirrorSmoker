@@ -29,14 +29,12 @@ struct PersistenceController {
             
             // Create configuration with a versioned name
             let configuration = ModelConfiguration(
-                "MirrorSmokerModel_v2", // Versioned name for future migrations
                 schema: schema,
-                isStoredInMemoryOnly: inMemory,
-                cloudKitDatabase: .automatic
+                isStoredInMemoryOnly: inMemory
             )
             
             // Create the container
-            container = try ModelContainer(for: schema, configurations: [configuration])
+            container = try ModelContainer(for: schema, configurations: configuration)
             
             Self.logger.info("Successfully created ModelContainer with versioned configuration")
             
@@ -49,14 +47,13 @@ struct PersistenceController {
     // MARK: - Preview Container
     static var preview: ModelContainer = {
         let configuration = ModelConfiguration(
-            "MirrorSmokerModel_preview",
             isStoredInMemoryOnly: true
         )
         
         do {
             let container = try ModelContainer(
                 for: Cigarette.self, Tag.self, UserProfile.self, Product.self, Purchase.self,
-                configurations: [configuration]
+                configurations: configuration
             )
             
             // Add preview data

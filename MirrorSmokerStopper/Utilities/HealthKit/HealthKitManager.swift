@@ -16,7 +16,7 @@ final class HealthKitManager: ObservableObject {
     private let store = HKHealthStore()
     private let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "HealthKitManager")
     
-    private init() {}
+    init() {}
     
     // MARK: - Availability
     

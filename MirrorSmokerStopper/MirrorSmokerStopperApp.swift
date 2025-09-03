@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import AppIntents
 
 @main
 struct MirrorSmokerStopperApp: App {
@@ -15,50 +16,5 @@ struct MirrorSmokerStopperApp: App {
                 .environmentObject(healthKitManager)
         }
         .modelContainer(sharedModelContainer)
-        
-        // Register App Intents
-        #if os(iOS)
-        IntentConfiguration(
-            intent: AddCigaretteIntent.self,
-            provider: nil
-        ) { _ in
-            EmptyView()
-        }
-        
-        IntentConfiguration(
-            intent: GetTodayCountIntent.self,
-            provider: nil
-        ) { _ in
-            EmptyView()
-        }
-        
-        IntentConfiguration(
-            intent: GetWeeklyStatsIntent.self,
-            provider: nil
-        ) { _ in
-            EmptyView()
-        }
-        
-        IntentConfiguration(
-            intent: SetQuitGoalIntent.self,
-            provider: nil
-        ) { _ in
-            EmptyView()
-        }
-        
-        IntentConfiguration(
-            intent: GetMotivationIntent.self,
-            provider: nil
-        ) { _ in
-            EmptyView()
-        }
-        
-        IntentConfiguration(
-            intent: LogPurchaseIntent.self, // Add this intent configuration
-            provider: nil
-        ) { _ in
-            EmptyView()
-        }
-        #endif
     }
 }

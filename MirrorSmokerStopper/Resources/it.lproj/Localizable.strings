@@ -694,24 +694,24 @@
 "watch.week" = "Week:";
 "watch.average" = "Average:";
 "watch.no.cigarettes" = "No cigarettes";
-"settings.personal.profile" = "Personal Profile";
-"settings.name.label" = "Name";
-"settings.birth.date.label" = "Birth date";
-"settings.age.years.format" = "%d years";
-"settings.select.date" = "Select date";
-"settings.weight.label" = "Weight (kg)";
-"settings.smoking.habits.section" = "Smoking Habits";
-"settings.smoking.type.label" = "Type of smoking";
+"settings.personal.profile" = "Profilo Personale";
+"settings.name.label" = "Nome";
+"settings.birth.date.label" = "Data di nascita";
+"settings.age.years.format" = "%d anni";
+"settings.select.date" = "Seleziona data";
+"settings.weight.label" = "Peso (kg)";
+"settings.smoking.habits.section" = "Abitudini di fumo";
+"settings.smoking.type.label" = "Tipo di fumo";
 "settings.started.smoking.age" = "Età quando ho iniziato";
 "settings.select.date.placeholder" = "Seleziona una data";
 "settings.gradual.reduction.toggle" = "Usa riduzione graduale (raccomandato)";
 "settings.gradual.reduction.description" = "Ridurremo gradualmente il numero di sigarette fino ad arrivare a zero";
 "settings.immediate.stop.description" = "Stop immediato alla data selezionata";
-"settings.save.quit.plan" = "Save Quit Plan";
-"settings.health.info.section" = "Health Information";
-"settings.app.info.section" = "App Information";
-"settings.version.label" = "Version";
-"date.picker.title.birth" = "Birth date";
+"settings.save.quit.plan" = "Salva piano di cessazione";
+"settings.health.info.section" = "Informazioni sulla salute";
+"settings.app.info.section" = "Informazioni sull'app";
+"settings.version.label" = "Versione";
+"date.picker.title.birth" = "Data di nascita";
 "date.picker.title.quit" = "When do you want to quit?";
 "date.picker.cancel" = "Cancel";
 "date.picker.done" = "Done";
@@ -1034,3 +1034,85 @@
 // More Statistics
 "statistics.money.spent" = "Soldi Spesi";
 "statistics.money.saved" = "Soldi Risparmiati";
+
+// Progress View
+"progress.title" = "Progressi";
+"progress.tab.achievements" = "Traguardi";
+"progress.tab.savings" = "Risparmi";
+"progress.tab.health" = "Salute";
+
+// Progress & Achievements
+"progress.achievements" = "I Tuoi Traguardi";
+"progress.achievements.subtitle" = "Obiettivi che hai sbloccato";
+"progress.no.achievements.title" = "Inizia il Tuo Percorso";
+"progress.no.achievements.subtitle" = "Completa la tua prima giornata senza fumo per sbloccare i traguardi!";
+
+// Milestones
+"milestone.new" = "NUOVO";
+"milestone.smoke.free.day" = "Giornata Senza Fumo";
+"milestone.smoke.free.day.desc" = "La tua prima giornata completa senza sigarette";
+"milestone.money.saved" = "Soldi Risparmiati";
+"milestone.money.saved.desc" = "Importo risparmiato non comprando sigarette";
+"milestone.health.improvement" = "Miglioramento Salute";
+"milestone.health.improvement.desc" = "Miglioramento misurabile nei parametri di salute";
+
+// Savings Goals
+"savings.goal" = "Obiettivo Risparmio";
+"savings.days.remaining" = "%d giorni rimanenti";
+"savings.edit.goal" = "Modifica Obiettivo";
+"savings.set.new.goal" = "Nuovo Obiettivo";
+"savings.goal.completed" = "Obiettivo Raggiunto!";
+"savings.remaining" = "%@ mancanti all'obiettivo";
+"savings.overview" = "Panoramica Risparmi";
+"savings.total.saved" = "Totale Risparmiato";
+"savings.goals.completed" = "Obiettivi Completati";
+"savings.add.goal" = "Aggiungi Obiettivo";
+"savings.empty.title" = "Imposta il Primo Obiettivo";
+"savings.empty.subtitle" = "Usa i soldi risparmiati smettendo di fumare per realizzare i tuoi sogni";
+
+// Savings Categories
+"savings.vacation.italy" = "Vacanza in Italia";
+"savings.emergency.fund" = "Fondo di Emergenza";
+"savings.new.laptop" = "Nuovo Laptop";
+
+// Health Benefits
+"health.benefits" = "Recupero Salute";
+"health.all.categories" = "Tutto";
+"health.range.week" = "1 Settimana";
+"health.range.month" = "1 Mese";
+"health.range.three_months" = "3 Mesi";
+"health.range.year" = "1 Anno";
+"health.progress.summary" = "Progresso Recupero";
+"health.improvement.percent" = "%d%% migliorato";
+
+// Health Categories
+"health.category.cardiovascular" = "Cuore";
+"health.category.respiratory" = "Polmoni";
+"health.category.circulation" = "Sangue";
+"health.category.energy" = "Energia";
+"health.category.immune" = "Immunità";
+"health.category.appearance" = "Aspetto";
+
+// Health Timeframes
+"health.timeframe.20_minutes" = "20 min";
+"health.timeframe.8_hours" = "8 ore";
+"health.timeframe.24_hours" = "1 giorno";
+"health.timeframe.3_days" = "3 giorni";
+"health.timeframe.2_weeks" = "2 settimane";
+"health.timeframe.1_month" = "1 mese";
+"health.timeframe.3_months" = "3 mesi";
+"health.timeframe.1_year" = "1 anno";
+
+// Health Benefits Content
+"health.benefit.heart.rate" = "Battito Normale";
+"health.benefit.heart.rate.desc" = "Frequenza cardiaca e pressione diminuiscono";
+"health.benefit.oxygen.level" = "Ossigeno in Aumento";
+"health.benefit.oxygen.level.desc" = "I livelli di ossigeno nel sangue aumentano";
+"health.benefit.circulation" = "Circolazione Migliore";
+"health.benefit.circulation.desc" = "La circolazione migliora significativamente";
+"health.benefit.energy.level" = "Più Energia";
+"health.benefit.energy.level.desc" = "I livelli di energia aumentano notevolmente";
+
+// Health Benefits Empty State
+"health.benefits.empty.title" = "Il Recupero Ti Aspetta";
+"health.benefits.empty.subtitle" = "Il tuo corpo inizia a recuperare entro 20 minuti dallo smettere";

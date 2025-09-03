@@ -117,6 +117,88 @@
 "tab.stats" = "Stats";
 "tab.settings" = "Settings";
 
+// Progress View
+"progress.title" = "Progress";
+"progress.tab.achievements" = "Achievements";
+"progress.tab.savings" = "Savings";
+"progress.tab.health" = "Health";
+
+// Progress & Achievements
+"progress.achievements" = "Your Achievements";
+"progress.achievements.subtitle" = "Milestones you've unlocked";
+"progress.no.achievements.title" = "Start Your Journey";
+"progress.no.achievements.subtitle" = "Complete your first smoke-free day to unlock achievements!";
+
+// Milestones
+"milestone.new" = "NEW";
+"milestone.smoke.free.day" = "Smoke-Free Day";
+"milestone.smoke.free.day.desc" = "Your first full day without cigarettes";
+"milestone.money.saved" = "Money Saved";
+"milestone.money.saved.desc" = "Amount saved from not buying cigarettes";
+"milestone.health.improvement" = "Health Boost";
+"milestone.health.improvement.desc" = "Measurable improvement in health metrics";
+
+// Savings Goals
+"savings.goal" = "Savings Goal";
+"savings.days.remaining" = "%d days remaining";
+"savings.edit.goal" = "Edit Goal";
+"savings.set.new.goal" = "Set New Goal";
+"savings.goal.completed" = "Goal Completed!";
+"savings.remaining" = "%@ remaining to goal";
+"savings.overview" = "Savings Overview";
+"savings.total.saved" = "Total Saved";
+"savings.goals.completed" = "Goals Completed";
+"savings.add.goal" = "Add Goal";
+"savings.empty.title" = "Set Your First Goal";
+"savings.empty.subtitle" = "Use money saved from not smoking to reach your dreams";
+
+// Savings Categories
+"savings.vacation.italy" = "Vacation to Italy";
+"savings.emergency.fund" = "Emergency Fund";
+"savings.new.laptop" = "New Laptop";
+
+// Health Benefits
+"health.benefits" = "Health Recovery";
+"health.all.categories" = "All";
+"health.range.week" = "1 Week";
+"health.range.month" = "1 Month";
+"health.range.three_months" = "3 Months";
+"health.range.year" = "1 Year";
+"health.progress.summary" = "Recovery Progress";
+"health.improvement.percent" = "%d%% improved";
+
+// Health Categories
+"health.category.cardiovascular" = "Heart";
+"health.category.respiratory" = "Lungs";
+"health.category.circulation" = "Blood";
+"health.category.energy" = "Energy";
+"health.category.immune" = "Immunity";
+"health.category.appearance" = "Appearance";
+
+// Health Timeframes
+"health.timeframe.20_minutes" = "20 min";
+"health.timeframe.8_hours" = "8 hours";
+"health.timeframe.24_hours" = "1 day";
+"health.timeframe.3_days" = "3 days";
+"health.timeframe.2_weeks" = "2 weeks";
+"health.timeframe.1_month" = "1 month";
+"health.timeframe.3_months" = "3 months";
+"health.timeframe.1_year" = "1 year";
+
+// Health Benefits Content
+"health.benefit.heart.rate" = "Heart Rate Normal";
+"health.benefit.heart.rate.desc" = "Heart rate and blood pressure drop";
+"health.benefit.oxygen.level" = "Oxygen Levels Rise";
+"health.benefit.oxygen.level.desc" = "Oxygen levels in blood increase";
+"health.benefit.circulation" = "Better Circulation";
+"health.benefit.circulation.desc" = "Circulation improves significantly";
+"health.benefit.energy.level" = "Energy Boost";
+"health.benefit.energy.level.desc" = "Energy levels increase noticeably";
+
+// Health Benefits Empty State
+"health.benefits.empty.title" = "Health Recovery Awaits";
+"health.benefits.empty.subtitle" = "Your body starts recovering within 20 minutes of quitting";
+
 // Statistics
 "statistics.title" = "Statistics";
 "statistics.analyze.period" = "Analyze Period";

@@ -170,18 +170,20 @@ struct AdvancedFloatingActionButton: View {
         .simultaneousGesture(
             LongPressGesture(minimumDuration: 0.6)
                 .onChanged { _ in
-                    if !isDetectingLongPress {
+                    // Don't start long press detection if menu is already showing
+                    if !isDetectingLongPress && !showingMenu {
                         withAnimation(.easeInOut(duration: 0.1)) {
                             isDetectingLongPress = true
                         }
                     }
                 }
                 .onEnded { _ in
-                    if !showingMenu {
-                        triggerMenuOpen()
-                    }
                     withAnimation(.easeInOut(duration: 0.1)) {
                         isDetectingLongPress = false
+                    }
+                    
+                    if !showingMenu {
+                        triggerMenuOpen()
                     }
                 }
         )
@@ -201,6 +203,7 @@ struct AdvancedFloatingActionButton: View {
         let actualCompletion = {
             withAnimation(DS.Animation.spring) {
                 showingMenu = false
+                isDetectingLongPress = false // Ensure long press state is reset
             }
             completion?()
         }

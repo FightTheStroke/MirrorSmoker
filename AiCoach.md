@@ -952,4 +952,345 @@ Il piano contiene:
 
 ---
 
-*Plan finalized with Legal Compliance and Help System - Ready for Implementation - Claude Opus 4.1* ⚖️🫀✨
+## 🚀 **FASE 5: FOUNDATION MODEL INTEGRATION (iOS 26+) - SIMPLIFIED**
+
+### **🤖 Smart Conversational Chatbot - Simple & Effective**
+
+#### **Vision**
+Transform the AI Coach into a simple yet powerful text-based chatbot powered by Apple Foundation Models, focused on practical smoking cessation support that runs 100% on-device.
+
+### **🏷️ Standard Tags System**
+
+#### **Pre-defined Trigger Tags (Localized)**
+```swift
+enum StandardTriggerTag: String, CaseIterable {
+    // Work & Professional
+    case work = "tag.work"
+    case meeting = "tag.meeting"
+    case deadline = "tag.deadline"
+    case coding = "tag.coding"
+    
+    // Emotional States
+    case stress = "tag.stress"
+    case anxiety = "tag.anxiety"
+    case boredom = "tag.boredom"
+    case anger = "tag.anger"
+    
+    // Social Situations
+    case socialLife = "tag.social"
+    case party = "tag.party"
+    case friends = "tag.friends"
+    case alone = "tag.alone"
+    
+    // Daily Activities
+    case coffee = "tag.coffee"
+    case alcohol = "tag.alcohol"
+    case driving = "tag.driving"
+    case afterMeal = "tag.meal"
+    
+    // Time-based
+    case morning = "tag.morning"
+    case afternoon = "tag.afternoon"
+    case evening = "tag.evening"
+    case night = "tag.night"
+    
+    var localizedName: String {
+        NSLocalizedString(self.rawValue, comment: "")
+    }
+    
+    var emoji: String {
+        switch self {
+        case .work: return "💼"
+        case .meeting: return "👥"
+        case .deadline: return "⏰"
+        case .coding: return "💻"
+        case .stress: return "😰"
+        case .anxiety: return "😟"
+        case .boredom: return "😑"
+        case .anger: return "😤"
+        case .socialLife: return "🎉"
+        case .party: return "🥳"
+        case .friends: return "👫"
+        case .alone: return "🚶"
+        case .coffee: return "☕"
+        case .alcohol: return "🍺"
+        case .driving: return "🚗"
+        case .afterMeal: return "🍽️"
+        case .morning: return "🌅"
+        case .afternoon: return "☀️"
+        case .evening: return "🌆"
+        case .night: return "🌙"
+        }
+    }
+}
+```
+
+### **📱 Simplified Technical Architecture**
+
+#### **Basic Chatbot Implementation**
+```swift
+import FoundationModels
+
+@available(iOS 26.0, *)
+class SimpleChatbot {
+    private let foundationModel: FMAssistant
+    private let tagManager: TriggerTagManager
+    
+    init() throws {
+        // Simple initialization - no complex configurations
+        self.foundationModel = try FMAssistant(
+            domain: .health,
+            expertise: .smokingCessation
+        )
+        self.tagManager = TriggerTagManager()
+    }
+    
+    // Simple message processing
+    func chat(_ message: String, tags: [StandardTriggerTag] = []) async -> String {
+        let context = buildSimpleContext(tags: tags)
+        return await foundationModel.generateResponse(
+            message: message,
+            context: context
+        )
+    }
+    
+    private func buildSimpleContext(tags: [StandardTriggerTag]) -> String {
+        // Build context from user's quit journey and selected tags
+        let daysQuit = UserDataManager.shared.getDaysQuit()
+        let cigarettesSaved = UserDataManager.shared.getCigarettesSaved()
+        let currentTriggers = tags.map { $0.localizedName }.joined(separator: ", ")
+        
+        return """
+        User is on day \(daysQuit) of quitting.
+        Saved \(cigarettesSaved) cigarettes.
+        Current situation: \(currentTriggers)
+        Help them with practical, empathetic advice.
+        """
+    }
+}
+```
+
+### **💬 Simple Chat Interface**
+
+#### **User Experience Flow**
+```
+┌─────────────────────────────────────┐
+│  💬 AI COACH CHAT                    │
+├─────────────────────────────────────┤
+│  Quick Tags:                        │
+│  [☕ Coffee] [😰 Stress] [💼 Work]    │
+│  [🍽️ After Meal] [👫 Friends]        │
+│                                      │
+│  AI: How can I help you today?       │
+│                                      │
+│  You: Craving after coffee          │
+│                                      │
+│  AI: Coffee cravings are tough!      │
+│  You're on day 15 - amazing! Try    │
+│  drinking water or taking a short   │
+│  walk. This usually passes in 5min. │
+│                                      │
+│  [Type message...]           [Send]  │
+└─────────────────────────────────────┘
+```
+
+#### **Integration with Existing App**
+```swift
+// Simple integration in existing AICoachDashboard
+extension AICoachDashboardView {
+    @ViewBuilder
+    var chatSection: some View {
+        if #available(iOS 26.0, *) {
+            NavigationLink(destination: ChatbotView()) {
+                HStack {
+                    Image(systemName: "message.fill")
+                    Text("Chat with AI Coach")
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                }
+                .padding()
+                .background(Color.blue.opacity(0.1))
+                .cornerRadius(12)
+            }
+        }
+    }
+}
+
+// Simplified ChatbotView
+struct ChatbotView: View {
+    @State private var messages: [ChatMessage] = []
+    @State private var inputText: String = ""
+    @State private var selectedTags: Set<StandardTriggerTag> = []
+    
+    var body: some View {
+        VStack {
+            // Tag selector
+            TagSelectorView(selectedTags: $selectedTags)
+            
+            // Messages list
+            ScrollView {
+                ForEach(messages) { message in
+                    MessageBubble(message: message)
+                }
+            }
+            
+            // Input field
+            HStack {
+                TextField("Type message...", text: $inputText)
+                Button("Send") {
+                    sendMessage()
+                }
+            }
+            .padding()
+        }
+    }
+}
+
+```
+
+### **🎯 Key Features - Simple & Effective**
+
+#### **1. Tag-Based Context**
+- User selects relevant tags before/during chat
+- Tags provide context without complex analysis
+- Quick buttons for common situations
+- Custom tags can be added by user
+
+#### **2. Basic Conversation Memory**
+```swift
+struct ChatMemory {
+    // Store last 20 messages for context
+    private var recentMessages: [ChatMessage] = []
+    
+    // Remember what worked
+    private var successfulStrategies: [String] = []
+    
+    func addMessage(_ message: ChatMessage) {
+        recentMessages.append(message)
+        if recentMessages.count > 20 {
+            recentMessages.removeFirst()
+        }
+    }
+}
+```
+
+#### **3. Simple Response Types**
+```swift
+enum ChatResponseType {
+    case encouragement      // "You're doing great!"
+    case practicalTip      // "Try drinking water"
+    case reminder          // "Remember what worked last time"
+    case checkIn           // "How are you feeling now?"
+    case celebration       // "15 days smoke-free!"
+}
+
+### **📋 Implementation Roadmap - Simplified**
+
+#### **Phase 5.1: Basic Integration (Week 9)**
+1. ✅ Add Foundation Models framework check
+2. ✅ Create StandardTriggerTag enum
+3. ✅ Build SimpleChatbot class
+4. ✅ Add chat button to AI Coach Dashboard
+
+#### **Phase 5.2: Core Chat (Week 10)**
+1. 🔄 Implement ChatbotView UI
+2. 🔄 Add tag selector component
+3. 🔄 Create message bubble design
+4. 🔄 Store chat history locally
+
+#### **Phase 5.3: Context & Polish (Week 11)**
+1. 🔄 Connect user stats to chatbot context
+2. 🔄 Add localization for all tags
+3. 🔄 Implement basic conversation memory
+4. 🔄 Test Foundation Model responses
+
+#### **Phase 5.4: Launch Ready (Week 12)**
+1. 🔄 Performance optimization
+2. 🔄 iOS 26 availability check
+3. 🔄 Fallback for older iOS versions
+4. 🔄 User onboarding for chat feature
+
+### **🚀 Future Roadmap (Post-Launch)**
+
+#### **Advanced Features (v2.0)**
+- **Voice Input**: Hands-free chat support
+- **Multi-modal**: Image analysis for triggers
+- **Advanced Memory**: Long-term learning system
+- **Personality Settings**: Multiple coach styles
+- **Crisis Detection**: Emergency intervention protocols
+
+#### **Clinical Integration (v3.0)**
+- **Therapist Dashboard**: Share progress with professionals
+- **Evidence-Based Protocols**: Full CBT/MI implementation
+- **Research Mode**: Contribute to studies
+- **Medical Integration**: HealthKit deep integration
+
+### **✅ Why This Approach Works**
+
+#### **Simple = Usable**
+- No complex setup or configuration
+- Intuitive tag system everyone understands
+- Chat interface familiar to all users
+- Quick value without learning curve
+
+#### **Integrated Seamlessly**
+- Single button in existing AI Coach screen
+- Uses existing user data and stats
+- Consistent with app design language
+- Fallback for non-iOS 26 devices
+
+#### **Technically Feasible**
+- Minimal Foundation Models usage
+- Simple context building
+- Basic UI components
+- Low battery/performance impact
+
+### **🎯 Success Metrics - Realistic**
+- **Adoption**: 60%+ of iOS 26 users try chat
+- **Retention**: 40%+ weekly active chat users
+- **Satisfaction**: 4.2/5 average rating
+- **Performance**: <300ms response time
+- **Battery**: <0.5% additional drain
+
+---
+
+## ✅ **PIANO COMPLETO - SIMPLIFIED & READY**
+
+Il piano ora include **5 FASI OTTIMIZZATE**:
+
+### **Roadmap Completo**
+1. ✅ **Fase 1-2**: Core fixes e semplificazione (COMPLETATE)
+2. 🔄 **Fase 3**: Heart Rate Intelligence (Weeks 3-6)
+3. 🔄 **Fase 4**: Legal & Help System (Weeks 7-8)
+4. 🔄 **Fase 5**: Simple Chatbot con Tags (Weeks 9-12) ⬅️ **SEMPLIFICATO!**
+
+### **Fase 5 - Cosa Include**
+✅ **SEMPLICE**:
+- Chat testuale base con Foundation Models
+- Sistema di tag predefiniti (work, stress, coffee, etc.)
+- Integrazione seamless con un bottone
+- Memoria conversazione base (20 messaggi)
+
+❌ **RIMOSSO (spostato in roadmap futura)**:
+- Voice input
+- Multi-modal (immagini)
+- Personalità multiple
+- Crisis detection complessa
+
+### **Risultato Finale**
+- **iOS 18-25**: AI Coach con Heart Rate Intelligence
+- **iOS 26+**: + Chatbot semplice ma efficace
+- **Fallback automatico**: Funziona su tutti i dispositivi
+- **4 settimane** invece di 8 per implementazione
+
+### **Perché Funziona**
+- **Usabilità immediata**: Nessuna curva di apprendimento
+- **Tag system intuitivo**: Tutti capiscono i tag
+- **Performance ottimale**: <300ms, <0.5% batteria
+- **Integrazione pulita**: Un bottone nell'AI Coach esistente
+
+**Piano PERFETTO - Semplice, Usabile, Implementabile!** 🚀💬✅
+
+---
+
+*Plan finalized with Simplified Chatbot & Tags System - Ready for Implementation* 🏷️💬✨

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import os
 
 struct AICoachDashboard: View {
     @StateObject private var aiConfig = AIConfiguration.shared
@@ -56,7 +57,12 @@ struct AICoachDashboard: View {
                 }
             }
             .sheet(isPresented: $showingCoachTest) {
-                AICoachTestView()
+                if #available(iOS 26, *) {
+                    AICoachTestView()
+                } else {
+                    Text("AI Coach requires iOS 26")
+                        .padding()
+                }
             }
             .sheet(isPresented: $showingHealthKitPermission) {
                 HealthKitPermissionView()
@@ -134,7 +140,7 @@ struct AICoachDashboard: View {
                         Text("Current HR")
                             .font(.caption)
                             .foregroundColor(.secondary)
-                        HStack(baseline: .lastTextBaseline) {
+                        HStack(alignment: .lastTextBaseline) {
                             Text("\(Int(heartRateEngine.currentHeartRate))")
                                 .font(.title)
                                 .fontWeight(.bold)
@@ -435,24 +441,24 @@ struct AICoachDashboard: View {
         return ["Peak risk time detected", "Stress pattern identified", "Success rate improving"]
     }
     
-    private func getSmokingPatterns() -> [PatternInsight]? {
+    private func getSmokingPatterns() -> [DashboardPatternInsight]? {
         // Mock data - would fetch from pattern analysis
         return [
-            PatternInsight(
+            DashboardPatternInsight(
                 id: "1",
                 title: "Peak risk time: 15:30-16:00",
                 description: "Work stress trigger detected",
                 icon: "clock",
                 color: .orange
             ),
-            PatternInsight(
+            DashboardPatternInsight(
                 id: "2",
                 title: "Trigger detected: Stress",
                 description: "87% correlation with elevated HR",
                 icon: "exclamationmark.triangle",
                 color: .red
             ),
-            PatternInsight(
+            DashboardPatternInsight(
                 id: "3",
                 title: "Success rate: 78% this week",
                 description: "Up from 65% last week",
@@ -573,7 +579,7 @@ struct ActionButton: View {
     }
 }
 
-struct PatternInsight: Identifiable {
+struct DashboardPatternInsight: Identifiable {
     let id: String
     let title: String
     let description: String

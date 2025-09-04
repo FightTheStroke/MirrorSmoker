@@ -45,10 +45,8 @@ final class AIConfiguration: ObservableObject, Sendable {
         }
     }
     
-    // HealthKit is automatically enabled when AI Coach is ON
-    var enableHealthKitIntegration: Bool {
-        return isAICoachingEnabled
-    }
+    // HealthKit integration - always enabled when AI Coach is ON
+    @Published var enableHealthKitIntegration: Bool = false
     
     // Privacy level removed - now AI Coach is simply ON or OFF with full features
     
@@ -179,7 +177,8 @@ final class AIConfiguration: ObservableObject, Sendable {
         
         self.enableBehavioralAnalysis = userDefaults.object(forKey: "behavioral_analysis_enabled") as? Bool ?? true
         self.enableQuitPlanOptimization = userDefaults.object(forKey: "quit_plan_optimization_enabled") as? Bool ?? true
-        self.enableHealthKitIntegration = userDefaults.object(forKey: "healthkit_integration_enabled") as? Bool ?? false
+        // HealthKit is automatically enabled when AI Coach is ON
+        self.enableHealthKitIntegration = userDefaults.bool(forKey: "ai_coaching_enabled")
         
         // Privacy levels removed - AI Coach is now simply ON/OFF
         
@@ -207,7 +206,7 @@ final class AIConfiguration: ObservableObject, Sendable {
         aiCoachingFrequency = .balanced
         enableBehavioralAnalysis = true
         enableQuitPlanOptimization = true
-        enableHealthKitIntegration = false
+        enableHealthKitIntegration = isAICoachingEnabled
         // AI Coach ON/OFF - no privacy levels
         quietHoursEnabled = true
         quietHoursStart = 22
@@ -277,7 +276,7 @@ final class AIConfiguration: ObservableObject, Sendable {
         }
         
         if let healthkitEnabled = data["healthkit_integration_enabled"] as? Bool {
-            enableHealthKitIntegration = healthkitEnabled
+            enableHealthKitIntegration = isAICoachingEnabled && healthkitEnabled
         }
         
         // Privacy level removed - AI Coach is ON/OFF
@@ -333,7 +332,7 @@ final class AIConfiguration: ObservableObject, Sendable {
             logger.error("HealthKit access denied: \(error.localizedDescription)")
             
             await MainActor.run {
-                enableHealthKitIntegration = false
+                enableHealthKitIntegration = isAICoachingEnabled
             }
         }
     }

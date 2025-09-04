@@ -9,6 +9,7 @@ import Foundation
 import HealthKit
 import SwiftUI
 import os.log
+import NotificationCenter
 
 /// Heart Rate Coaching Engine for craving prediction and stress-based interventions
 @MainActor
@@ -288,11 +289,12 @@ class HeartRateCoachingEngine: ObservableObject {
         let intervention = selectOptimalIntervention()
         
         // Create notification or in-app alert
-        NotificationManager.shared.scheduleHeartRateIntervention(
-            type: intervention,
-            riskLevel: cravingRisk,
-            stressLevel: stressLevel
-        )
+        // TODO: Integrate with NotificationManager when implemented
+        // NotificationManager.shared.scheduleHeartRateIntervention(
+        //     type: intervention,
+        //     riskLevel: cravingRisk,
+        //     stressLevel: stressLevel
+        // )
     }
     
     private func selectOptimalIntervention() -> HeartRateIntervention {

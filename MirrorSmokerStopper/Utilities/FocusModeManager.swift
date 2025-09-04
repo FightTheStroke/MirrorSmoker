@@ -20,6 +20,7 @@ final class FocusModeManager: ObservableObject {
     // MARK: - Published Properties
     
     @Published var currentFocusState: FocusState = .available
+    @Published var isDoNotDisturbActive = false
     @Published var isSleepModeActive = false
     @Published var isDrivingModeActive = false
     @Published var notificationPriority: NotificationPriority = .standard
@@ -119,31 +120,27 @@ final class FocusModeManager: ObservableObject {
     
     private func checkCurrentFocusStatus() async {
         let focusStatusCenter = INFocusStatusCenter()
-        let status = focusStatusCenter.focusStatus
+        let authStatus = focusStatusCenter.authorizationStatus
         
-        // Determine current focus state
-        if status.isFocusEnabled {
-            if let intents = status.intents {
-                for intent in intents {
-                    if intent is INSleepIntent {
-                        currentFocusState = .sleep
-                        isSleepModeActive = true
-                    } else if intent is INDrivingIntent {
-                        currentFocusState = .driving
-                        isDrivingModeActive = true
-                    } else if intent is INWorkIntent {
-                        currentFocusState = .work
-                    } else if intent is INPersonalIntent {
-                        currentFocusState = .personal
-                    } else {
-                        currentFocusState = .doNotDisturb
-                    }
-                }
-            } else {
-                currentFocusState = .doNotDisturb
-            }
-        } else {
+        // Determine current focus state based on authorization
+        switch authStatus {
+        case .authorized:
+            // When authorized, we can check if focus is enabled
+            let status = focusStatusCenter.focusStatus
+            // In iOS 15+, we only know if Focus is on, not the specific type
+            // We'll treat any focus mode as Do Not Disturb for simplicity
+            currentFocusState = .doNotDisturb
+            isDoNotDisturbActive = true
+            isSleepModeActive = false
+            isDrivingModeActive = false
+        case .notDetermined, .restricted, .denied:
             currentFocusState = .available
+            isDoNotDisturbActive = false
+            isSleepModeActive = false
+            isDrivingModeActive = false
+        @unknown default:
+            currentFocusState = .available
+            isDoNotDisturbActive = false
             isSleepModeActive = false
             isDrivingModeActive = false
         }

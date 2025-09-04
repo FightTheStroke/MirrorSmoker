@@ -14,7 +14,7 @@ struct HistorySection: View {
     var cigarettes: [Cigarette] = []
     
     var body: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(spacing: DS.Space.md) {
                 DSSectionHeader(NSLocalizedString("history.recent.title", comment: ""))
                 

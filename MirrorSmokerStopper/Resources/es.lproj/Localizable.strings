@@ -7,34 +7,36 @@
 "section.history" = "Historial";
 "cigarettes" = "cigarrillos";
 "a11y.new.cigarette" = "Nuevo cigarrillo";
-"a11y.new.cigarette.hint" = "Toque: añadir rápido. Pulsación larga para añadir con etiquetas.";
-"nav.title.tracker" = "Seguimiento de Cigarrillos";
+"a11y.new.cigarette.hint" = "Tocar: añadir rápido. Mantener presionado para añadir con etiquetas.";
+"nav.title.tracker" = "Rastreador de Cigarrillos";
 "menu.weekly.stats" = "Estadísticas Semanales";
-"menu.advanced.analytics" = "Análisis Avanzado";
+"menu.advanced.analytics" = "Análisis Avanzados";
 "alert.add.note" = "Añadir nota";
 "placeholder.optional.note" = "Nota opcional";
 "button.add" = "Añadir";
 "button.cancel" = "Cancelar";
+
+// Settings
 "settings.title" = "Ajustes";
 "settings.profile" = "Perfil Personal";
-"settings.profile.footer" = "Esta información ayuda a personalizar las estadísticas y recomendaciones";
+"settings.profile.footer" = "Esta información ayuda a personalizar estadísticas y recomendaciones";
 "settings.name" = "Tu nombre";
 "settings.birth.date" = "Fecha de nacimiento";
 "settings.age" = "Edad: %d";
 "settings.weight" = "Peso (kg)";
 "settings.weight.validation" = "Introduce un peso válido (1-300 kg)";
 "settings.smoking.habits" = "Hábitos de Fumar";
-"settings.smoking.habits.footer" = "Ayúdanos a entender mejor tu trayectoria como fumador";
-"settings.smoking.type" = "Tipo de tabaco";
-"settings.started.age" = "Edad a la que empecé";
+"settings.smoking.habits.footer" = "Ayúdanos a entender mejor tu trayectoria con el tabaco";
+"settings.smoking.type" = "Tipo de fumador";
+"settings.started.age" = "Edad cuando empecé";
 "settings.started.age.validation" = "Introduce una edad válida (10-80 años)";
 "settings.current.age" = "Edad actual";
 "settings.smoking.years" = "Años fumando";
 "settings.health.insights" = "Información de Salud";
-"settings.health.insights.footer" = "Estas son estimaciones basadas en datos generales y no sustituyen el consejo médico";
+"settings.health.insights.footer" = "Estas son estimaciones basadas en datos generales y no reemplazan el consejo médico";
 "settings.save.changes" = "Guardar Cambios";
 "settings.profile.saved" = "Perfil Guardado";
-"settings.profile.saved.message" = "Tu información se ha guardado correctamente";
+"settings.profile.saved.message" = "Tu información ha sido guardada exitosamente";
 "settings.info.title" = "Información de la App";
 "settings.version" = "Versión";
 "settings.copyright" = "© 2025 FightTheStroke Foundation";
@@ -44,18 +46,46 @@
 "age.placeholder" = "Edad";
 "years.unit" = "años";
 "smoking.type.picker.label" = "Tipo";
-"debug.toggle.panel" = "Alternar Panel de Depuración";
+"debug.toggle.panel" = "Alternar Panel de Debug";
 "health.insights.general.info" = "Información General";
 "health.insights.age.weight.format" = "Edad: %d años • Peso: %.1f kg";
-"health.insights.smoking.duration" = "Duración del Hábito";
+"health.insights.smoking.duration" = "Duración del Tabaquismo";
 "health.insights.smoking.duration.format" = "%d años de %@";
 "health.insights.reminder" = "Recuerda";
-"health.insights.quit.message" = "Siempre es un buen momento para dejarlo";
-"debug.widget.state" = "Depurar Estado del Widget";
-"debug.force.sync" = "Forzar Sincronización del Widget";
-"debug.reset.data" = "Restablecer Datos del Widget";
+"health.insights.quit.message" = "Siempre es buen momento para dejarlo";
+"debug.widget.state" = "Estado Debug Widget";
+"debug.force.sync" = "Forzar Sincronización Widget";
+"debug.reset.data" = "Restablecer Datos Widget";
+
+// NEW: Settings Goals
+"settings.goals.title" = "Objetivos para Dejar de Fumar";
+"settings.goals.subtitle" = "Establece tus objetivos para dejar de fumar";
+"settings.daily.goal" = "Objetivo diario de cigarrillos";
+"settings.daily.goal.unit" = "por día";
+"settings.quit.date" = "Fecha objetivo para dejar";
+"settings.quit.date.not.set" = "No establecida";
+"settings.gradual.reduction" = "Reducción gradual";
+"settings.current.target" = "Objetivo diario actual";
+"settings.current.target.unit" = "hoy";
+"settings.reduction.plan" = "Plan de Reducción Gradual";
+"settings.reduction.plan.description" = "Reducir gradualmente de %d a 0 cigarrillos en %d días";
+"settings.profile.section" = "Perfil";
+"settings.name.placeholder" = "Tu nombre";
+"settings.weight.placeholder" = "0";
+"settings.age.start.smoking" = "Edad cuando empecé a fumar";
+"settings.age.years" = "años";
+"settings.weight.kg" = "kg";
+"settings.weight.invalid" = "Introduce un peso válido (1-300 kg)";
+"settings.age.invalid" = "Introduce una edad válida (10-80 años)";
+"settings.current.age.info" = "Edad actual";
+"settings.smoking.years.info" = "Años fumando";
+"settings.health.info.title" = "Información de Salud";
+"settings.health.info.subtitle" = "Información basada en tus datos personales";
+"settings.app.info.title" = "Información de la App";
+
+// ContentView
 "app.title" = "Mirror Smoker";
-"app.subtitle" = "Sigue y reflexiona sobre tus hábitos de fumar";
+"app.subtitle" = "Rastrea y reflexiona sobre tus hábitos de fumar";
 "quick.stats" = "Estadísticas Rápidas";
 "stats.this.week" = "Esta Semana";
 "stats.this.month" = "Este Mes";
@@ -65,9 +95,111 @@
 "todays.cigarettes" = "Cigarrillos de Hoy";
 "empty.state.title" = "¡Genial! Ningún cigarrillo hoy";
 "empty.state.subtitle" = "¡Sigue así! Usa el botón + para registrar uno si es necesario.";
-"tab.home" = "Inicio";
+
+// NEW: Today Overview
+"today.overview.title" = "Progreso de Hoy";
+"today.perfect" = "¡Perfecto!";
+"today.no.cigarettes" = "Día sin cigarrillos";
+"today.excellent" = "¡Excelente trabajo!";
+"today.under.half.goal" = "Estás por debajo de la mitad de tu objetivo";
+"today.good.progress" = "Buen progreso";
+"today.approaching.limit" = "Te estás acercando al límite";
+"today.attention" = "Atención";
+"today.near.daily.limit" = "Cerca del límite diario";
+"today.goal.exceeded" = "Objetivo superado";
+"today.try.reduce.tomorrow" = "Intenta reducir mañana";
+"today.goal.cessation" = "Objetivo de cesación:";
+"today.days.remaining" = "%d días restantes";
+"today.label" = "Hoy";
+
+// Tab Bar
+"tab.today" = "Hoy";
 "tab.stats" = "Estadísticas";
 "tab.settings" = "Ajustes";
+
+// Progress View
+"progress.title" = "Progreso";
+"progress.tab.achievements" = "Logros";
+"progress.tab.savings" = "Ahorros";
+"progress.tab.health" = "Salud";
+
+// Progress & Achievements
+"progress.achievements" = "Tus Logros";
+"progress.achievements.subtitle" = "Hitos que has desbloqueado";
+"progress.no.achievements.title" = "Comienza tu Viaje";
+"progress.no.achievements.subtitle" = "¡Completa tu primer día sin fumar para desbloquear logros!";
+
+// Milestones
+"milestone.new" = "NUEVO";
+"milestone.smoke.free.day" = "Día Sin Fumar";
+"milestone.smoke.free.day.desc" = "Tu primer día completo sin cigarrillos";
+"milestone.money.saved" = "Dinero Ahorrado";
+"milestone.money.saved.desc" = "Cantidad ahorrada por no comprar cigarrillos";
+"milestone.health.improvement" = "Mejora de Salud";
+"milestone.health.improvement.desc" = "Mejora medible en métricas de salud";
+
+// Savings Goals
+"savings.goal" = "Objetivo de Ahorro";
+"savings.days.remaining" = "%d días restantes";
+"savings.edit.goal" = "Editar Objetivo";
+"savings.set.new.goal" = "Establecer Nuevo Objetivo";
+"savings.goal.completed" = "¡Objetivo Completado!";
+"savings.remaining" = "%@ restantes para el objetivo";
+"savings.overview" = "Resumen de Ahorros";
+"savings.total.saved" = "Total Ahorrado";
+"savings.goals.completed" = "Objetivos Completados";
+"savings.add.goal" = "Añadir Objetivo";
+"savings.empty.title" = "Establece Tu Primer Objetivo";
+"savings.empty.subtitle" = "Usa el dinero ahorrado por no fumar para alcanzar tus sueños";
+
+// Savings Categories
+"savings.vacation.italy" = "Vacaciones en Italia";
+"savings.emergency.fund" = "Fondo de Emergencia";
+"savings.new.laptop" = "Portátil Nuevo";
+
+// Health Benefits
+"health.benefits" = "Recuperación de Salud";
+"health.all.categories" = "Todo";
+"health.range.week" = "1 Semana";
+"health.range.month" = "1 Mes";
+"health.range.three_months" = "3 Meses";
+"health.range.year" = "1 Año";
+"health.progress.summary" = "Progreso de Recuperación";
+"health.improvement.percent" = "%d%% mejorado";
+
+// Health Categories
+"health.category.cardiovascular" = "Corazón";
+"health.category.respiratory" = "Pulmones";
+"health.category.circulation" = "Sangre";
+"health.category.energy" = "Energía";
+"health.category.immune" = "Inmunidad";
+"health.category.appearance" = "Apariencia";
+
+// Health Timeframes
+"health.timeframe.20_minutes" = "20 min";
+"health.timeframe.8_hours" = "8 horas";
+"health.timeframe.24_hours" = "1 día";
+"health.timeframe.3_days" = "3 días";
+"health.timeframe.2_weeks" = "2 semanas";
+"health.timeframe.1_month" = "1 mes";
+"health.timeframe.3_months" = "3 meses";
+"health.timeframe.1_year" = "1 año";
+
+// Health Benefits Content
+"health.benefit.heart.rate" = "Ritmo Cardíaco Normal";
+"health.benefit.heart.rate.desc" = "El ritmo cardíaco y la presión arterial bajan";
+"health.benefit.oxygen.level" = "Niveles de Oxígeno Suben";
+"health.benefit.oxygen.level.desc" = "Los niveles de oxígeno en la sangre aumentan";
+"health.benefit.circulation" = "Mejor Circulación";
+"health.benefit.circulation.desc" = "La circulación mejora significativamente";
+"health.benefit.energy.level" = "Aumento de Energía";
+"health.benefit.energy.level.desc" = "Los niveles de energía aumentan notablemente";
+
+// Health Benefits Empty State
+"health.benefits.empty.title" = "La Recuperación de Salud Te Espera";
+"health.benefits.empty.subtitle" = "Tu cuerpo comienza a recuperarse dentro de 20 minutos de dejarlo";
+
+// Statistics
 "statistics.title" = "Estadísticas";
 "statistics.analyze.period" = "Analizar Período";
 "statistics.today" = "Hoy";
@@ -81,9 +213,9 @@
 "statistics.most.used.tag" = "Etiqueta Más Usada";
 "statistics.none" = "Ninguna";
 "statistics.per.day" = "por día";
-"statistics.most.active" = "más activo";
+"statistics.most.active" = "más activa";
 "statistics.category" = "categoría";
-"statistics.hourly.distribution" = "Distribución por Hora";
+"statistics.hourly.distribution" = "Distribución por Horas";
 "statistics.tap.bars" = "Toca las barras para añadir etiquetas";
 "statistics.tag.analysis" = "Análisis de Etiquetas";
 "statistics.peak.hours.analysis" = "Análisis de Horas Pico";
@@ -98,11 +230,13 @@
 "statistics.afternoon" = "Tarde";
 "statistics.evening" = "Noche";
 "statistics.night" = "Madrugada";
+
+// Tags
 "tags.none.title" = "Aún no hay etiquetas";
 "tags.none.subtitle" = "Crea tu primera etiqueta para categorizar tus cigarrillos";
 "tags.create.first" = "Crear Primera Etiqueta";
 "tags.available" = "Etiquetas Disponibles";
-"tags.swipe.hint" = "Desliza a la izquierda sobre una etiqueta para eliminarla";
+"tags.swipe.hint" = "Desliza hacia la izquierda en una etiqueta para eliminarla";
 "tags.select.title" = "Seleccionar Etiquetas";
 "tags.delete.title" = "Eliminar Etiqueta";
 "tags.delete.message" = "¿Estás seguro de que quieres eliminar '%@'? Esta acción no se puede deshacer.";
@@ -110,14 +244,13 @@
 "tags.name.title" = "Nombre de la Etiqueta";
 "tags.name.footer" = "Elige un nombre descriptivo para tu etiqueta";
 "tags.color.custom" = "Color Personalizado";
-"tags.color.footer" = "Toca un color para seleccionarlo o usa el selector de color personalizado";
-"tags.preview" = "Vista Previa de la Etiqueta";
+"tags.color.footer" = "Toca un color para seleccionarlo, o usa el selector de color personalizado";
+"tags.preview" = "Vista Previa de Etiqueta";
 "tags.preview.title" = "Vista Previa";
 "tags.create.title" = "Crear Etiqueta";
 "tags.label" = "Etiquetas";
-"tags.color" = "Color";
-"tags.create" = "Crear";
-"today.cigarettes.list.empty" = "¡No fumaste cigarrillos hoy! 🎉";
+
+// Common
 "done" = "Hecho";
 "cancel" = "Cancelar";
 "confirm" = "Confirmar";
@@ -130,15 +263,15 @@
 // Widget Accessibility
 "widget.a11y.today.count" = "%d";
 "widget.a11y.today.cigarettes" = "Hoy: %d cigarrillos";
-"widget.a11y.great.job" = "¡Excelente trabajo! Sin cigarrillos hoy";
+"widget.a11y.great.job" = "¡Excelente trabajo! Ningún cigarrillo hoy";
 "widget.a11y.add.cigarette" = "Añadir cigarrillo";
 "widget.a11y.add.cigarette.hint" = "Toca para registrar un nuevo cigarrillo";
-"widget.a11y.no.cigarettes.today" = "Sin cigarrillos registrados hoy";
+"widget.a11y.no.cigarettes.today" = "Ningún cigarrillo registrado hoy";
 "widget.a11y.last.cigarette.time" = "Último cigarrillo a las %@";
 "widget.a11y.daily.average" = "Promedio diario: %.1f cigarrillos";
 
 // UI Accessibility
-"a11y.cigarette.row" = "Fila de cigarrillo";
+"a11y.cigarette.row" = "Entrada de cigarrillo";
 "a11y.cigarette.time" = "Hora: %@";
 "a11y.delete.cigarette" = "Eliminar cigarrillo";
 "a11y.add.tags.to.cigarette" = "Añadir etiquetas al cigarrillo";
@@ -150,20 +283,33 @@
 "a11y.quick.stats" = "Estadísticas rápidas";
 "a11y.navigation.tab" = "Pestaña %@";
 "a11y.back.button" = "Atrás";
-"a11y.settings.button" = "Configuración";
+"a11y.settings.button" = "Ajustes";
 "a11y.save.button" = "Guardar";
 "a11y.form.field" = "Campo %@";
 "a11y.picker" = "Selector %@";
 "a11y.toggle" = "Interruptor %@";
+"a11y.today.count.and.target" = "Hoy: %d de %d cigarrillos";
+"a11y.todays.cigarettes.count" = "Cigarrillos de hoy: %d entradas";
 "ok" = "OK";
 "close" = "Cerrar";
+
+// Widget Localization
+"widget.today" = "Hoy";
+"widget.daily.avg" = "Prom. Diario";
+"widget.add" = "Añadir";
+"widget.never" = "Nunca";
+"widget.display.name" = "MirrorSmoker";
+"widget.description" = "Rastrea tus cigarrillos rápidamente";
+"widget.no.cigarettes.today" = "Ningún cigarrillo hoy";
+"widget.last.at" = "Último a las";
+
+// Missing keys
 "daily.stats.quick.add" = "Añadir Rápido";
 "select.tags" = "Seleccionar Etiquetas";
 "history.title" = "Historial";
 "added.from.widget" = "Añadido desde widget";
 "history.recent.title" = "Historial Reciente";
-"history.no.history" = "No hay historial disponible";
-"weekly.chart.title" = "Vista Semanal";
+"weekly.chart.title" = "Resumen Semanal";
 "weekly.stats.last.4.weeks" = "Últimas 4 Semanas";
 "weekly.stats.total.4.weeks" = "Total 4 Semanas";
 "weekly.stats.average.weekly" = "Promedio Semanal";
@@ -181,23 +327,6 @@
 "weekly.stats.less" = "menos";
 "weekly.stats.more" = "más";
 "weekly.stats.title" = "Estadísticas Semanales";
-// Enhanced Weekly Chart
-"weekly.total" = "Total Semanal";
-"daily.average" = "Promedio Diario";
-"cigarettes.plural" = "cigarrillos";
-
-// Quick Stats
-"days.7" = "7 días";
-"per.day" = "por día";
-
-// Greetings
-"greeting.morning" = "Buenos Días";
-"greeting.afternoon" = "Buenas Tardes"; 
-"greeting.evening" = "Buenas Tardes";
-"greeting.night" = "Buenas Tardes";
-
-// Missing strings
-"history.no.history" = "No hay datos disponibles";
 
 // Smoking types
 "smoking.type.cigarettes" = "Cigarrillos";
@@ -210,7 +339,7 @@
 "statistics.daily.average" = "Promedio Diario";
 "statistics.vs.last.week" = "vs semana pasada";
 "statistics.vs.average" = "vs Promedio";
-"statistics.week.goal" = "Meta Semanal";
+"statistics.week.goal" = "Objetivo Semanal";
 "statistics.trend.up" = "Aumento";
 "statistics.trend.down" = "Disminución";
 "statistics.trend.stable" = "Estable";
@@ -218,59 +347,97 @@
 "statistics.progress.week" = "Semana";
 "statistics.progress.average" = "Promedio";
 
+// Greetings
+"greeting.morning" = "Buenos Días";
+"greeting.afternoon" = "Buenas Tardes";
+"greeting.evening" = "Buenas Tardes";
+"greeting.night" = "Buenas Tardes";
+
 // Dashboard
 "todays.cigarettes" = "Cigarrillos de Hoy";
 "view.all" = "Ver Todo";
-"all.time" = "total";
+"all.time" = "todo el tiempo";
 "last.one" = "Último";
 "just.now" = "Ahora mismo";
 "time.ago.hours" = "hace %dh %dm";
 "time.ago.minutes" = "hace %dm";
-"trend.from.last.week" = "desde la semana pasada";
+"trend.from.last.week" = "de la semana pasada";
 "trend.same.as.last.week" = "igual que la semana pasada";
 
-// Settings Goals
-"settings.goals.title" = "Metas para Dejar de Fumar";
-"settings.goals.subtitle" = "Establece tus metas para dejar de fumar";
-"settings.daily.goal" = "Meta de cigarrillos diarios";
-"settings.daily.goal.unit" = "por día";
-"settings.quit.date" = "Fecha objetivo de cesación";
-"settings.quit.date.not.set" = "No establecida";
-"settings.gradual.reduction" = "Reducción gradual";
-"settings.current.target" = "Objetivo diario actual";
-"settings.current.target.unit" = "hoy";
-"settings.reduction.plan" = "Plan de Reducción Gradual";
-"settings.reduction.plan.description" = "Reduce gradualmente de %d a 0 cigarrillos en %d días";
-"settings.profile.section" = "Perfil";
-"settings.name.placeholder" = "Tu nombre";
-"settings.weight.placeholder" = "0";
-"settings.age.start.smoking" = "Edad cuando empezaste a fumar";
-"settings.age.years" = "años";
-"settings.weight.kg" = "kg";
-"settings.weight.invalid" = "Introduce un peso válido (1-300 kg)";
-"settings.age.invalid" = "Introduce una edad válida (10-80 años)";
-"settings.current.age.info" = "Edad actual";
-"settings.smoking.years.info" = "Años fumando";
-"settings.health.info.title" = "Información de Salud";
-"settings.health.info.subtitle" = "Información basada en tus datos personales";
-"settings.app.info.title" = "Información de la App";
+// Enhanced Weekly Chart
+"weekly.total" = "Total Semanal";
+"daily.average" = "Promedio Diario";
+"cigarettes.plural" = "cigarrillos";
 
-// Today Overview
-"today.overview.title" = "Progreso de Hoy";
-"today.perfect" = "¡Perfecto!";
-"today.no.cigarettes" = "Día sin cigarrillos";
-"today.excellent" = "¡Excelente trabajo!";
-"today.under.half.goal" = "Estás por debajo de la mitad de tu meta";
-"today.good.progress" = "Buen progreso";
-"today.approaching.limit" = "Te acercas al límite";
-"today.attention" = "Atención";
-"today.near.daily.limit" = "Cerca del límite diario";
-"today.goal.exceeded" = "Meta superada";
-"today.try.reduce.tomorrow" = "Intenta reducir mañana";
-"today.goal.cessation" = "Meta de cesación:";
-"today.days.remaining" = "%d días restantes";
-"today.label" = "Hoy";
-"settings.auto.calculate.footer" = "Dejar vacío para calcular automáticamente de los últimos 30 días (%@ cigarrillos/día)";
+// Quick Stats
+"days.7" = "7 días";
+"per.day" = "por día";
+
+// Missing strings from views
+"history.no.history" = "No hay datos disponibles";
+
+// Insights System
+"dependency.low" = "Baja";
+"dependency.moderate" = "Moderada"; 
+"dependency.high" = "Alta";
+"dependency.severe" = "Severa";
+
+"insight.category.behavioral" = "Conductual";
+"insight.category.timing" = "Temporización";
+"insight.category.progress" = "Progreso";
+"insight.category.health" = "Salud";
+"insight.category.motivation" = "Motivación";
+
+// Morning Pattern Insights
+"insight.morning.early.title" = "Patrón Matutino Temprano";
+"insight.morning.early.message" = "Fumas tu primer cigarrillo %d minutos después de despertar. La investigación muestra que esto indica alta dependencia a la nicotina.";
+"insight.morning.early.action" = "Intenta retrasar tu primer cigarrillo 15-30 minutos mañana. Incluso pequeños retrasos pueden reducir la dependencia.";
+
+"insight.morning.moderate.title" = "Hábito Matutino";
+"insight.morning.moderate.message" = "Primer cigarrillo típicamente %d minutos después de despertar. Tienes dependencia matutina moderada.";
+"insight.morning.moderate.action" = "Considera establecer una rutina matutina sin fumar durante la primera hora.";
+
+// Evening Pattern Insights  
+"insight.evening.late.title" = "Fumar Nocturno Tardío";
+"insight.evening.late.message" = "A menudo fumas alrededor de las %d:00. Fumar tarde puede alterar tu calidad del sueño.";
+"insight.evening.late.action" = "Intenta dejar de fumar 2 horas antes de acostarte para mejorar la calidad del sueño.";
+
+// Tag Pattern Insights
+"insight.tag.frequent.title" = "Disparador Frecuente";
+"insight.tag.frequent.message" = "'%@' representa el %d%% de tus cigarrillos. Este es tu disparador principal.";
+"insight.tag.frequent.action" = "Cuando te sientas %@, intenta un ejercicio de respiración de 5 minutos en lugar de fumar.";
+
+// Progress Insights
+"insight.goal.exceeded.title" = "Objetivo Superado";
+"insight.goal.exceeded.message" = "Has fumado %d más que tu objetivo de %d hoy.";
+"insight.goal.exceeded.action" = "Enfócate en tu próximo objetivo mañana. Cada día es un nuevo comienzo.";
+
+"insight.improvement.title" = "¡Gran Progreso!";
+"insight.improvement.message" = "¡Fumaste %d cigarrillos menos que ayer!";
+"insight.improvement.action" = "Mantén este impulso. ¿Qué hiciste diferente hoy?";
+
+// Dependency Level Insights
+"insight.dependency.title" = "Nivel de Dependencia %@";
+"insight.dependency.message" = "Basado en tu promedio diario de %d, tienes dependencia a la nicotina %@.";
+"insight.dependency.action.low" = "¡Gran trabajo! Enfócate en identificar y evitar tus disparadores restantes.";
+"insight.dependency.action.moderate" = "Considera estrategias conductuales como técnicas de retraso y hábitos alternativos.";
+"insight.dependency.action.high" = "La reducción gradual con apoyo profesional podría ser más efectiva.";
+"insight.dependency.action.severe" = "Considera consultar a un proveedor de atención médica para apoyo integral de cesación.";
+
+// Frequency Insights
+"insight.frequency.high.title" = "Patrón de Alta Frecuencia";
+"insight.frequency.high.message" = "Fumas cada %d minutos en promedio. Esto indica una fuerte dependencia fisiológica.";
+"insight.frequency.high.action" = "Intenta extender el tiempo entre cigarrillos solo 10 minutos cada día.";
+
+// Insight Card UI
+"insight.suggestion" = "Sugerencia";
+"insight.action.understood" = "¡Entendido!";
+"insight.show.suggestion" = "Mostrar sugerencia";
+
+// Additional missing keys
+"settings.daily.cigarettes.average" = "Cigarrillos diarios (promedio)";
+"settings.daily.cigarettes.validation" = "Introduce un valor válido (0-100 cigarrillos/día)";
+"settings.auto.calculate.footer" = "Deja vacío para calcular automáticamente de los últimos 30 días (%@ cigarrillos/día)";
 
 // Input validation messages
 "done" = "Hecho";
@@ -279,24 +446,312 @@
 "settings.daily.cigarettes.invalid" = "Los cigarrillos diarios deben estar entre 0 y 100";
 
 // Widget localization
-"widget.display.name" = "MirrorSmoker Tracker";
+"widget.display.name" = "Rastreador MirrorSmoker";
 "widget.description" = "Rastrea cigarrillos y ve el progreso diario desde la pantalla de inicio";
 "widget.today" = "Hoy";
 "widget.daily.avg" = "Prom. Diario";
 "widget.add" = "Añadir";
-"widget.no.cigarettes.today" = "Sin cigarrillos hoy";
+"widget.no.cigarettes.today" = "Ningún cigarrillo hoy";
 "widget.last.at" = "Último a las";
 "widget.intent.add.cigarette" = "Añadir Cigarrillo";
-"widget.intent.add.cigarette.description" = "Añade rápidamente un cigarrillo al conteo diario";
+"widget.intent.add.cigarette.description" = "Añadir rápidamente un cigarrillo a tu contador diario";
+
+// Time ago formatting
+"time.ago.hours.minutes" = "hace %dh %dm";
+"time.ago.minutes" = "hace %dm";
+
+// Siri Intents
+"intent.record.cigarette.description" = "Registrar un cigarrillo que acabas de fumar";
+"intent.record.cigarette.tags.title" = "Etiquetas";
+"intent.record.cigarette.tags.description" = "Etiquetas opcionales para añadir a este cigarrillo";
+"intent.record.cigarette.note.title" = "Nota";
+"intent.record.cigarette.note.description" = "Nota opcional sobre este cigarrillo";
+"intent.record.cigarette.response.with.tags" = "Cigarrillo registrado con etiquetas: %@";
+"intent.record.cigarette.response.success" = "Cigarrillo registrado exitosamente";
+
+"intent.today.count.description" = "Obtener el número de cigarrillos fumados hoy";
+"intent.today.count.phrase" = "Cuántos cigarrillos fumé hoy";
+"intent.today.count.response.zero" = "¡Gran trabajo! ¡No has fumado ningún cigarrillo hoy!";
+"intent.today.count.response.count" = "Has fumado %d cigarrillos hoy.";
+
+"intent.weekly.stats.description" = "Obtener tus estadísticas de fumar para esta semana";
+"intent.weekly.stats.phrase" = "Muéstrame mis estadísticas semanales de fumar";
+"intent.weekly.stats.response" = "Esta semana has fumado %d cigarrillos, promediando %.1f por día.";
+
+"intent.set.quit.date.description" = "Establecer tu fecha objetivo para dejar de fumar";
+"intent.set.quit.date.phrase" = "Establece mi fecha para dejar de fumar";
+"intent.set.quit.date.title" = "Fecha para Dejar";
+"intent.set.quit.date.description.param" = "¿Cuándo quieres dejar de fumar?";
+"intent.set.quit.date.response" = "¡Genial! He establecido tu fecha para dejar para el %@. ¡Puedes hacerlo!";
+
+"intent.motivation.description" = "Obtener un mensaje motivacional para ayudar a dejar de fumar";
+"intent.motivation.phrase" = "Dame motivación para dejar de fumar";
+"intent.motivation.message.1" = "Cada cigarrillo que no fumas es una victoria. ¡Sigue adelante!";
+"intent.motivation.message.2" = "Tus pulmones ya están empezando a sanar. Cada hora sin fumar cuenta.";
+"intent.motivation.message.3" = "Piensa en todo el dinero que estás ahorrando al no fumar hoy.";
+"intent.motivation.message.4" = "Tu yo futuro te agradecerá por la elección que haces ahora.";
+"intent.motivation.message.5" = "Cada día sin fumar es un día en que tu cuerpo se vuelve más saludable.";
+"intent.motivation.message.6" = "El impulso de fumar es temporal, pero los beneficios de dejarlo son permanentes.";
+
+// Urge Log
+"urge.outcome.pending" = "Pendiente";
+"urge.outcome.resisted" = "Resistido";
+"urge.outcome.smoked" = "Fumado";
+"urge.outcome.partial" = "Parcialmente Resistido";
+"urge.intensity.low" = "Baja";
+"urge.intensity.medium" = "Media";
+"urge.intensity.high" = "Alta";
+"urge.intensity.extreme" = "Extrema";
+"urge.intensity.unknown" = "Desconocida";
+
+// JITAI Notifications
+"jitai.notification.title" = "Coach";
+"jitai.action.understood" = "¡Entendido!";
+"jitai.action.more.help" = "Más ayuda";
+"jitai.action.dismiss" = "Ahora no";
 "widget.intent.success" = "Cigarrillo añadido exitosamente";
-"widget.intent.error.add.failed" = "Error al añadir cigarrillo. Inténtalo de nuevo.";
+"widget.intent.error.add.failed" = "No se pudo añadir cigarrillo. Por favor intenta de nuevo.";
+"settings.daily.average.calculated" = "Tu promedio diario";
+"settings.daily.average.calculated.subtitle" = "Calculado de los últimos 30 días";
+"settings.quit.date.question" = "¿Cuándo quieres dejar completamente?";
+"settings.plan.preview" = "Vista previa de tu plan:";
+"settings.plan.starting.from" = "• Empezando desde:";
+"settings.plan.reaching" = "• Alcanzando:";
+"settings.plan.zero.cigarettes" = "0 cigarrillos/día";
+"settings.plan.in.days" = "• En:";
+"settings.plan.days.count" = "%d días";
+"settings.plan.daily.reduction" = "• Reducción diaria:";
+"settings.plan.reduction.amount" = "-%@ cigarrillos";
+"settings.plan.todays.goal" = "• Objetivo de hoy:";
+"settings.plan.cigarettes.count" = "%d cigarrillos";
+"settings.plan.date.too.close" = "⚠️ La fecha seleccionada está demasiado cerca. Selecciona una fecha posterior para un plan gradual efectivo.";
+"settings.plan.intensive" = "💡 Plan intensivo: reducción rápida en pocos días. Podrías considerar una fecha posterior para un plan más gradual.";
+"settings.plan.balanced" = "✅ ¡Plan bien equilibrado! Reducción gradual sostenible a lo largo del tiempo.";
+"settings.quit.plan.saved" = "Tu plan para dejar de fumar ha sido guardado exitosamente";
+"tag.color.preview" = "Color";
+"tag.name.preview" = "Vista Previa";
+"widget.today" = "Hoy";
+"widget.last" = "Último";
+"widget.sync" = "SYNC";
+"widget.last.time.format" = "Último: %@";
+"cigarette.recorded.title" = "Cigarrillo Registrado";
+"cigarette.recorded.time" = "Hora: %@";
+"cigarette.recorded.tags" = "Etiquetas: %@";
+"cigarette.recorded.subtitle" = "¡Sigue rastreando tu progreso!";
+"plus.more.tags" = "+%d";
+
+// Main tab labels
+"tab.history" = "Historial";
+
+// ContentView status messages  
+"daily.average.format" = "Tu promedio: %.1f/día";
+"quit.goal.format" = "Objetivo: %@";
+"days.to.goal.format" = "%d días hasta el objetivo";
+"today.is.quit.day" = "🎯 ¡Hoy es el gran día!";
+"perfect.no.cigarettes" = "🎉 ¡Perfecto!";
+"no.cigarettes.today" = "Día sin cigarrillos";
+"excellent.under.half" = "💚 ¡Excelente!";
+"under.half.goal" = "Bajo la mitad del objetivo";
+"good.following.plan" = "💛 Bien";
+"following.plan" = "Estás siguiendo el plan";
+"attention.near.limit" = "🧡 Atención";
+"near.plan.limit" = "Cerca del límite del plan";
+"limit.reached" = "🔴 Límite alcanzado";
+"daily.goal.reached" = "Has alcanzado el objetivo de hoy";
+"over.plan" = "🚨 Sobre el plan";
+"exceeded.by.format" = "Has excedido por %d";
+
+// Statistics labels
+"statistics.today.label" = "Hoy";
+"statistics.no.cigarettes.today" = "🎉 ¡Ningún cigarrillo hoy!";
+"statistics.following.plan" = "💪 Estás siguiendo tu plan";
+"statistics.exceeded.goal" = "⚠️ Has superado el objetivo de hoy";
+"statistics.daily.distribution" = "Distribución diaria";
+"statistics.weekly.trend" = "Tendencia semanal";
+"statistics.peak.time.format" = "%d:00";
+
+// Watch app strings
+"watch.today" = "Hoy";
+"watch.cigarettes" = "cigarrillos";
+"watch.statistics" = "Estadísticas";
+"watch.yesterday" = "Ayer:";
+"watch.week" = "Semana:";
+"watch.average" = "Promedio:";
+"watch.no.cigarettes" = "Ningún cigarrillo";
+
+// Additional SettingsView strings
+"settings.personal.profile" = "Perfil Personal";
+"settings.name.label" = "Nombre";
+"settings.birth.date.label" = "Fecha de nacimiento";
+"settings.age.years.format" = "%d años";
+"settings.select.date" = "Seleccionar fecha";
+"settings.weight.label" = "Peso (kg)";
+"settings.weight.invalid.message" = "Introduce un peso válido (1-300 kg)";
+"settings.smoking.habits.section" = "Hábitos de Fumar";
+"settings.smoking.type.label" = "Tipo de fumador";
+"settings.started.smoking.age" = "Edad cuando empecé a fumar";
+"settings.age.invalid.message" = "Introduce una edad válida (10-80 años)";
+"settings.daily.cigarettes.label" = "Cigarrillos diarios (promedio)";
+"settings.daily.cigarettes.example" = "Ejemplo: 15.5";
+"settings.daily.cigarettes.invalid" = "Introduce un valor válido (0-100 cigarrillos/día)";
+"settings.quit.plan.section" = "Plan para Dejar";
+"settings.quit.plan.subtitle" = "Crearemos automáticamente un plan personalizado para ti";
+"settings.daily.average.title" = "Tu promedio diario";
+"settings.daily.average.subtitle" = "Calculado de los últimos 30 días";
+"settings.when.quit.question" = "¿Cuándo quieres dejar completamente?";
+"settings.select.date.placeholder" = "Seleccionar una fecha";
+"settings.gradual.reduction.toggle" = "Usar reducción gradual (recomendado)";
+"settings.gradual.reduction.description" = "Reduciremos gradualmente el número de cigarrillos hasta llegar a cero";
+"settings.immediate.stop.description" = "Parada inmediata en la fecha seleccionada";
+"settings.save.quit.plan" = "Guardar Plan para Dejar";
+"settings.health.info.section" = "Información de Salud";
+"settings.app.info.section" = "Información de la App";
+"settings.version.label" = "Versión";
+"date.picker.title.birth" = "Fecha de nacimiento";
+"date.picker.title.quit" = "¿Cuándo quieres dejar?";
+"date.picker.cancel" = "Cancelar";
+"date.picker.done" = "Hecho";
+"health.general.info" = "Información General";
+"health.smoking.duration" = "Duración del Tabaquismo";
+"health.smoking.duration.years" = "años";
+"health.remember" = "Recuerda";
+"health.good.time.to.quit" = "Siempre es buen momento para dejarlo";
+"plan.saved.title" = "Plan Guardado";
+"plan.saved.message" = "Tu plan para dejar de fumar ha sido guardado exitosamente";
+
+// ContentView additional strings
+"statistics.section.title" = "Estadísticas";
+"your.average.format" = "Tu promedio: %.1f/día";
+"goal.format" = "Objetivo: %@";
+"days.to.goal.format" = "%d días hasta el objetivo";
+"today.big.day" = "🎯 ¡Hoy es el gran día!";
+"perfect.no.cigarettes" = "🎉 ¡Perfecto!";
+"day.without.cigarettes" = "Día sin cigarrillos";
+"excellent.under.half" = "💚 ¡Excelente!";
+"under.half.of.goal" = "Bajo la mitad del objetivo";
+"good.following.plan" = "💛 Bien";
+"following.the.plan" = "Estás siguiendo el plan";
+"attention.near.limit" = "🧡 Atención";
+"near.plan.limit" = "Cerca del límite del plan";
+"limit.reached" = "🔴 Límite alcanzado";
+"reached.todays.goal" = "Has alcanzado el objetivo de hoy";
+"over.plan" = "🚨 Sobre el plan";
+"exceeded.by.format" = "Has excedido por %d";
+"time.ago.just.now" = "Ahora mismo";
+"time.ago.hours.minutes" = "hace %dh %dm";
+"time.ago.minutes" = "hace %dm";
+"error.saving.cigarette.message" = "Error guardando cigarrillo: %@";
+"error.updating.tags.message" = "Error actualizando etiquetas del cigarrillo: %@";
+"error.deleting.cigarette.message" = "Error eliminando cigarrillo: %@";
+
+// Migration logs (developer facing)
+"migration.checking" = "🔍 La nueva base de datos está vacía, verificando base de datos antigua...";
+"migration.data.exists" = "✅ La nueva base de datos ya tiene datos, saltando migración";
+"migration.failed.container" = "❌ Falló al crear nuevo ModelContainer: %@";
+"migration.starting" = "🔄 Verificando migración de datos...";
+"migration.opening.old" = "📂 Intentando abrir base de datos antigua...";
+"migration.contents.format" = "📊 Contenido de base de datos antigua - Cigarrillos: %d, Etiquetas: %d, Perfiles: %d, Productos: %d";
+"migration.starting.process" = "📦 Iniciando migración de datos...";
+"migration.cigarettes.format" = "📦 Migrando %d cigarrillos...";
+"migration.tags.format" = "🏷️ Migrando %d etiquetas...";
+"migration.relationships" = "🔗 Reestableciendo relaciones de etiquetas...";
+"migration.relationships.count" = "🔗 Establecidas %d relaciones de etiquetas";
+"migration.profile" = "👤 Migrando perfil de usuario...";
+"migration.products.format" = "🚬 Migrando %d productos...";
+"migration.saving.format" = "💾 Guardando %d elementos migrados...";
+"migration.completed.format" = "✅ ¡Migración completada exitosamente! Migrados %d elementos";
+"migration.no.data" = "⚠️ No se migraron datos";
+"migration.old.empty" = "⚠️ La base de datos antigua parece estar vacía, no se necesita migración";
+"migration.failed.format" = "❌ Migración falló: %@";
+
+// Error messages
+"error.saving.cigarette" = "Error guardando cigarrillo: %@";
+"error.updating.tags" = "Error actualizando etiquetas del cigarrillo: %@";
+"error.deleting.cigarette" = "Error eliminando cigarrillo: %@";
+"error.saving.tag" = "Error guardando etiqueta: %@";
+"error.fetching.cigarettes" = "Error obteniendo cigarrillos: %@";
+"error.saving.profile" = "Error guardando perfil: %@";
+"error.creating.tag" = "Error creando etiqueta: %@";
+
+// Additional keys for remaining Spanish strings
+"add.tags" = "Añadir Etiquetas";
+"daily.average.format.personal" = "Tu promedio: %.1f/día";
+"quit.goal.format.personal" = "Objetivo: %@";
+"days.to.goal.format.personal" = "%d días hasta el objetivo";
+"today.is.quit.day.personal" = "🎯 ¡Hoy es el gran día!";
+"perfect.no.cigarettes.personal" = "🎉 ¡Perfecto!";
+"no.cigarettes.today.personal" = "Día sin cigarrillos";
+"excellent.under.half.personal" = "💚 ¡Excelente!";
+"under.half.goal.personal" = "Bajo la mitad del objetivo";
+"good.following.plan.personal" = "💛 Bien";
+"following.plan.personal" = "Estás siguiendo el plan";
+"attention.near.limit.personal" = "🧡 Atención";
+"near.plan.limit.personal" = "Cerca del límite del plan";
+"limit.reached.personal" = "🔴 Límite alcanzado";
+"daily.goal.reached.personal" = "Has alcanzado el objetivo de hoy";
+"over.plan.personal" = "🚨 Sobre el plan";
+"exceeded.by.format.personal" = "Has excedido por %d";
+
+// Statistics view strings
+"statistics.title.main" = "Estadísticas";
+"statistics.todays.overview" = "Resumen de Hoy";
+"statistics.today.single" = "cigarrillo";
+"statistics.today.plural" = "cigarrillos";
+"statistics.no.cigarettes.today.full" = "🎉 ¡Ningún cigarrillo hoy!";
+"statistics.following.plan.full" = "💪 Estás siguiendo tu plan";
+"statistics.exceeded.goal.full" = "⚠️ Has superado el objetivo de hoy";
+"statistics.total" = "Total";
+"statistics.average.per.day" = "Promedio/día";
+"statistics.cigarettes.unit" = "cigarrillos";
+"statistics.trend" = "Tendencia";
+"statistics.daily.distribution.full" = "Distribución diaria";
+"statistics.weekly.trend.full" = "Tendencia semanal";
+"statistics.no.data" = "Sin datos";
+"statistics.no.data.subtitle" = "No hay cigarrillos registrados en el período seleccionado";
+"statistics.insufficient.data" = "Datos insuficientes";
+"statistics.insufficient.data.subtitle" = "Registra más cigarrillos para ver la tendencia";
+"statistics.detailed.statistics" = "Estadísticas Detalladas";
+"statistics.best.day" = "Mejor día";
+"statistics.worst.day" = "Peor día";
+"statistics.analyzed.period" = "Período analizado";
+"statistics.days.count" = "%d días";
+
+// Time range enum
+"time.range.today" = "Hoy";
+"time.range.yesterday" = "Ayer";
+"time.range.week" = "Semana";
+"time.range.month" = "Mes";
+"time.range.all" = "Todo el tiempo";
+
+// Main tab updated labels
+"tab.progress" = "Progreso";
+"tab.journey" = "Viaje";
+"tab.plan.profile" = "Plan y Perfil";
+
+// Time ranges and statistics
+"time.range.today" = "Hoy";
+"time.range.yesterday" = "Ayer";
+"time.range.week" = "Semana";
+"time.range.month" = "Mes";
+"time.range.all" = "Todo el Tiempo";
+"statistics.todays.overview" = "Resumen de Hoy";
+"statistics.average.per.day" = "Promedio/día";
+"statistics.detailed.statistics" = "Estadísticas Detalladas";
+"statistics.no.data" = "No hay cigarrillos registrados en el período seleccionado";
+"statistics.register.more" = "Registra más cigarrillos para ver la tendencia";
+"statistics.no.cigarettes.today" = "🎉 ¡Día sin cigarrillos!";
+"statistics.following.your.plan" = "💪 Estás siguiendo tu plan";
+"statistics.exceeded.goal.today" = "⚠️ Has superado el objetivo de hoy";
+"statistics.cigarettes.count" = "%d cigarrillos";
+"statistics.highest.day" = "Día Más Alto";
+"statistics.lowest.day" = "Día Más Bajo";
 
 // Missing hardcoded strings from views
-"time.just.now" = "Justo ahora";
+"time.just.now" = "Ahora mismo";
 "today.vs.goal.chart" = "Hoy vs Objetivo";
 "weekly.progress.chart" = "Progreso Semanal";
 "early.morning.pattern.insight" = "Patrón Matutino Temprano";
-"tag.name.label" = "Nombre de la etiqueta";
+"tag.name.label" = "Nombre de etiqueta";
 "tag.placeholder.example" = "Ejemplo: Estrés, Social, Descanso";
 "color.label" = "Color";
 "preview.label" = "Vista previa";
@@ -313,55 +768,27 @@
 
 // Intent localization 
 "intent.add.cigarette.title" = "Añadir Cigarrillo";
-"intent.add.cigarette.description" = "Registra un cigarrillo que acabas de fumar";
-"intent.suggested.phrase" = "He fumado un cigarrillo";
+"intent.add.cigarette.description" = "Registrar un cigarrillo que acabas de fumar";
+"intent.suggested.phrase" = "Fumé un cigarrillo";
 "intent.parameter.tags" = "Etiquetas";
 "intent.parameter.tags.description" = "Etiquetas opcionales para añadir a este cigarrillo";
 "intent.parameter.note" = "Nota";
 "intent.parameter.note.description" = "Nota opcional sobre este cigarrillo";
-"intent.success.message" = "Cigarrillo registrado correctamente";
+"intent.success.message" = "Cigarrillo registrado exitosamente";
 "intent.get.count.title" = "Obtener Conteo de Cigarrillos de Hoy";
+"intent.get.weekly.stats.title" = "Obtener Estadísticas Semanales de Fumar";
+"intent.set.quit.goal.title" = "Establecer Objetivo para Dejar";
+"intent.get.motivation.title" = "Obtener Motivación";
 
 // TagPickerView specific translations
 "nome.del.tag" = "Nombre de Etiqueta";
 "esempio.tag" = "Ejemplo: Estrés, Social, Descanso";
 "colore" = "Color";
-"anteprima" = "Vista previa";
+"anteprima" = "Vista Previa";
 "nome.tag" = "Nombre de etiqueta";
 "nuovo.tag" = "Nueva Etiqueta";
 "annulla" = "Cancelar";
 "salva" = "Guardar";
-
-// Missing Statistics Keys (Critical)
-"statistics.title.main" = "Estadísticas";
-"statistics.todays.overview" = "Resumen de Hoy";
-"statistics.today.single" = "cigarrillo";
-"statistics.today.plural" = "cigarrillos";
-"statistics.no.cigarettes.today.full" = "🎉 ¡Ningún cigarrillo hoy!";
-"statistics.following.plan.full" = "💪 Estás siguiendo tu plan";
-"statistics.exceeded.goal.full" = "⚠️ Superaste el objetivo de hoy";
-"statistics.cigarettes.unit" = "cigarrillos";
-"statistics.trend" = "Tendencia";
-"statistics.daily.distribution.full" = "Distribución diaria";
-"statistics.weekly.trend.full" = "Tendencia semanal";
-"statistics.no.data" = "Sin datos";
-"statistics.no.data.subtitle" = "No hay cigarrillos registrados en el período seleccionado";
-"statistics.insufficient.data" = "Datos insuficientes";
-"statistics.insufficient.data.subtitle" = "Registra más cigarrillos para ver la tendencia";
-"statistics.best.day" = "Mejor día";
-"statistics.worst.day" = "Peor día";
-"statistics.analyzed.period" = "Período analizado";
-"statistics.days.count" = "%d días";
-"statistics.cigarettes.count" = "%d cigarrillos";
-"statistics.average.per.day" = "Promedio/día";
-"statistics.today.label" = "Hoy";
-
-// Time Range Keys
-"time.range.today" = "Hoy";
-"time.range.yesterday" = "Ayer";
-"time.range.week" = "Semana";
-"time.range.month" = "Mes";
-"time.range.all" = "Todo el tiempo";
 
 // Help View
 "help.title" = "Cómo Usar MirrorSmoker";
@@ -371,82 +798,637 @@
 // Quick Start
 "help.quick.start.title" = "Inicio Rápido";
 "help.quick.start.1" = "Toca el botón azul + para registrar rápidamente un cigarrillo";
-"help.quick.start.2" = "Mantén presionado el botón + para agregar etiquetas a tu cigarrillo";
+"help.quick.start.2" = "Mantén presionado el botón + para añadir etiquetas a tu cigarrillo";
 "help.quick.start.3" = "Revisa tu progreso diario en la pestaña Estadísticas";
 
 // Main Features
 "help.main.features.title" = "Características Principales";
 "help.main.features.1" = "Rastrea cigarrillos con marcas de tiempo precisas";
-"help.main.features.2" = "Establece objetivos personalizados para dejar de fumar";
+"help.main.features.2" = "Establece objetivos personalizados para dejar y planes";
 "help.main.features.3" = "Ve estadísticas detalladas y tendencias";
 "help.main.features.4" = "Sincroniza datos en todos tus dispositivos con iCloud";
 
 // Cigarette Management
-"help.cigarette.management.title" = "Gestión de Registros";
+"help.cigarette.management.title" = "Gestionar Tus Registros";
 "help.cigarette.management.1" = "Desliza hacia la izquierda en cualquier entrada de cigarrillo para eliminarla";
-"help.cigarette.management.2" = "Desliza hacia la derecha en una entrada de cigarrillo para agregar etiquetas";
+"help.cigarette.management.2" = "Desliza hacia la derecha en una entrada de cigarrillo para añadir etiquetas";
 "help.cigarette.management.3" = "Toca en una fila de cigarrillo para ver detalles y editar notas";
-"help.cigarette.management.4" = "Usa el botón flotante para registros rápidos";
+"help.cigarette.management.4" = "Usa el botón de acción flotante para registro rápido";
 
 // Tags
-"help.tags.title" = "Usando Etiquetas";
+"help.tags.title" = "Usar Etiquetas";
 "help.tags.1" = "Las etiquetas te ayudan a entender cuándo y por qué fumas";
 "help.tags.2" = "Crea etiquetas personalizadas como 'Estrés', 'Trabajo', 'Social', etc.";
-"help.tags.3" = "Ve el análisis de etiquetas en Estadísticas para identificar tus desencadenantes";
+"help.tags.3" = "Ve el análisis de etiquetas en Estadísticas para identificar tus disparadores";
 
 // Integrations
 "help.integrations.title" = "Widgets y Siri";
-"help.integrations.1" = "Agrega widgets a la pantalla de inicio para registros rápidos";
-"help.integrations.2" = "Di 'Hey Siri, fumé un cigarrillo' para registrar instantáneamente";
-"help.integrations.3" = "Pregunta a Siri por tu conteo diario o estadísticas semanales";
-"help.integrations.4" = "Establece objetivos para dejar de fumar con comandos de voz de Siri";
+"help.integrations.1" = "Añade widgets de pantalla de inicio para registro rápido de cigarrillos";
+"help.integrations.2" = "Di 'Oye Siri, fumé un cigarrillo' para registrar instantáneamente";
+"help.integrations.3" = "Pregúntale a Siri por tu conteo diario o estadísticas semanales";
+"help.integrations.4" = "Establece objetivos para dejar con comandos de voz de Siri";
 
 // Statistics
-"help.statistics.title" = "Entendiendo las Estadísticas";
-"help.statistics.1" = "Ve el progreso diario comparado con tu plan para dejar de fumar";
+"help.statistics.title" = "Entender las Estadísticas";
+"help.statistics.1" = "Ve el progreso diario comparado con tu plan para dejar";
 "help.statistics.2" = "Analiza tendencias semanales y mensuales";
 "help.statistics.3" = "Rastrea tus mejores y peores días para motivación";
 
 // Tips
 "help.tips.title" = "Consejos Pro";
-"help.tips.1" = "Establece una fecha realista en Configuración para mejor planificación";
-"help.tips.2" = "Usa etiquetas consistentemente para obtener mejores insights";
+"help.tips.1" = "Establece una fecha realista para dejar en Ajustes para mejor planificación";
+"help.tips.2" = "Usa etiquetas consistentemente para obtener mejores perspectivas";
 "help.tips.3" = "Revisa tus estadísticas regularmente para motivación";
-"help.tips.4" = "Habilita la reducción gradual para un plan sostenible";
+"help.tips.4" = "Habilita reducción gradual para un plan sostenible para dejar";
 
-// Time ago formatting
-"time.ago.hours.minutes" = "hace %dh %dm";
-"time.ago.minutes" = "hace %dm";
+// Hardcoded Strings - SettingsView
+"settings.user.profile" = "Perfil de Usuario";
+"settings.user.name" = "Nombre";
+"settings.name.placeholder.hint" = "Introduce tu nombre";
+"settings.quit.date.title" = "Fecha para Dejar";
+"settings.daily.cigarettes.goal" = "Objetivo Diario de Cigarrillos";
+"settings.enable.gradual.reduction" = "Habilitar Reducción Gradual";
+"settings.reduction.curve" = "Curva de Reducción";
+"settings.starting.smoker.type" = "Tipo de Fumador Inicial";
+"settings.product.information" = "Información del Producto";
+"settings.product.name" = "Nombre del Producto";
+"settings.product.name.example" = "ej., Marlboro Gold";
+"settings.brand" = "Marca";
+"settings.brand.example" = "ej., Philip Morris";
+"settings.price.per.pack" = "Precio por Paquete";
+"settings.cigarettes.per.pack" = "Cigarrillos por Paquete";
+"settings.health.motivation" = "Salud y Motivación";
+"settings.enable.health.insights" = "Habilitar Información de Salud";
+"settings.enable.motivational.messages" = "Habilitar Mensajes Motivacionales";
+"settings.data.management" = "Gestión de Datos";
+"settings.export.data" = "Exportar Datos";
+"settings.import.data" = "Importar Datos";
+"settings.delete.all.data" = "Eliminar Todos los Datos";
+"settings.are.you.sure" = "¿Estás seguro?";
+"settings.delete.warning" = "Esto eliminará permanentemente todos tus datos de fumar. Esta acción no se puede deshacer.";
+"settings.plan.cigarettes.per.day.format" = "%.1f cigarrillos/día";
+"error" = "Error";
+"loading" = "Cargando...";
+"save" = "Guardar";
+"cancel" = "Cancelar";
 
-// Siri Intents
-"intent.record.cigarette.description" = "Registra un cigarrillo que acabas de fumar";
-"intent.record.cigarette.tags.title" = "Etiquetas";
-"intent.record.cigarette.tags.description" = "Etiquetas opcionales para añadir a este cigarrillo";
-"intent.record.cigarette.note.title" = "Nota";
-"intent.record.cigarette.note.description" = "Nota opcional sobre este cigarrillo";
-"intent.record.cigarette.response.with.tags" = "Cigarrillo registrado con etiquetas: %@";
-"intent.record.cigarette.response.success" = "Cigarrillo registrado exitosamente";
+// Advanced FAB
+"fab.add.cigarette" = "Añadir cigarrillo";
+"fab.add.cigarette.hint" = "Toca para añadir rápidamente, mantén presionado para añadir con etiquetas";
 
-"intent.today.count.description" = "Obtener el número de cigarrillos fumados hoy";
-"intent.today.count.phrase" = "¿Cuántos cigarrillos fumé hoy?";
-"intent.today.count.response.zero" = "¡Excelente trabajo! No has fumado ningún cigarrillo hoy!";
-"intent.today.count.response.count" = "Has fumado %d cigarrillos hoy.";
+// Tag Selection
+"tags.select.title" = "Seleccionar Etiquetas";
+"tags.add.cigarette.with" = "Añadir cigarrillo con etiquetas";
+"tags.selected.count" = "%d etiquetas seleccionadas";
+"tags.create.new" = "Crear Nueva";
+"tags.selected" = "Etiquetas Seleccionadas";
+"tags.empty.title" = "Aún no hay etiquetas";
+"tags.empty.subtitle" = "Crea tu primera etiqueta para categorizar tus cigarrillos";
+"tags.create.first" = "Crear Primera Etiqueta";
+"tags.name" = "Nombre de Etiqueta";
+"tags.name.placeholder" = "Introduce nombre de etiqueta";
+"tags.color" = "Color de Etiqueta";
+"tags.create.title" = "Crear Etiqueta";
 
-"intent.weekly.stats.description" = "Obtener tus estadísticas de fumar de esta semana";
-"intent.weekly.stats.phrase" = "Muestra mis estadísticas semanales de fumar";
-"intent.weekly.stats.response" = "Esta semana has fumado %d cigarrillos, promediando %.1f por día.";
+// Cigarette saved notification
+"cigarette.saved.title" = "Cigarrillo Añadido";
+"cigarette.saved.message" = "Registrado exitosamente";
+"cigarette.saved.with.tags" = "Cigarrillo añadido con %d etiquetas";
 
-"intent.set.quit.date.description" = "Establecer tu fecha objetivo para dejar de fumar";
-"intent.set.quit.date.phrase" = "Establece mi fecha para dejar de fumar";
-"intent.set.quit.date.title" = "Fecha para Dejar";
-"intent.set.quit.date.description.param" = "¿Cuándo quieres dejar de fumar?";
-"intent.set.quit.date.response" = "¡Genial! He establecido tu fecha para dejar el %@. ¡Tú puedes hacerlo!";
+// Cigarette row actions
+"no.tags" = "Sin etiquetas";
+"tags" = "Etiquetas";
+"delete" = "Eliminar";
+"edit.tags" = "Editar Etiquetas";
+"delete.cigarette.confirmation" = "Eliminar Cigarrillo";
+"delete.cigarette.confirmation.message" = "¿Estás seguro de que quieres eliminar este cigarrillo? Esta acción no se puede deshacer.";
 
-"intent.motivation.description" = "Obtener un mensaje motivacional para ayudar a dejar de fumar";
-"intent.motivation.phrase" = "Dame motivación para fumar";
-"intent.motivation.message.1" = "Cada cigarrillo que no fumas es una victoria. ¡Sigue así!";
-"intent.motivation.message.2" = "Tus pulmones ya están empezando a sanar. Cada hora sin fumar importa.";
-"intent.motivation.message.3" = "Piensa en todo el dinero que estás ahorrando al no fumar hoy.";
-"intent.motivation.message.4" = "Tu yo futuro te agradecerá por la elección que haces ahora mismo.";
-"intent.motivation.message.5" = "Cada día sin fumar es un día en que tu cuerpo se vuelve más saludable.";
-"intent.motivation.message.6" = "El impulso de fumar es temporal, pero los beneficios de dejarlo son permanentes.";
+// General
+"done" = "Hecho";
+
+// MainTabView
+"tab.today" = "Hoy";
+"tab.stats" = "Estadísticas";
+"tab.settings" = "Ajustes";
+
+// Hero Section Phase 2
+"hero.subtitle.default" = "Vamos a rastrear tu progreso hoy";
+"today.cigarettes.short" = "hoy";
+"today.target" = "Objetivo";
+"today.remaining" = "Restantes";
+"status.perfect.day" = "¡Día perfecto sin fumar! 🎉";
+"status.doing.great" = "¡Lo estás haciendo genial! Sigue así";
+"status.on.track" = "En el buen camino - mantente consciente";
+"status.exceed.target" = "Sobre el objetivo - respira profundo";
+"last.cigarette.time" = "Último:";
+
+// AI Coach Integration Phase 2
+"coach.daily.tip" = "Consejo Diario";
+"coach.action.tips" = "Consejos de acción:";
+"coach.new.tip" = "Nuevo consejo";
+"coach.category.motivation" = "Motivación";
+"coach.category.encouragement" = "Aliento"; 
+"coach.category.guidance" = "Guía";
+"coach.category.support" = "Apoyo";
+
+// Coach Messages
+"coach.perfect.day.message" = "¡Increíble! Estás teniendo un día perfecto sin fumar. Esto muestra una fuerza de voluntad increíble y compromiso con tu viaje de salud.";
+"coach.doing.well.message" = "¡Lo estás haciendo excepcionalmente bien hoy! Te mantienes muy por debajo de tu objetivo, lo que muestra gran autoconciencia y control.";
+"coach.on.track.message" = "Estás en el buen camino con tu objetivo hoy. Este es el momento perfecto para practicar la atención plena y mantenerte presente con tus decisiones.";
+"coach.over.target.message" = "Hoy ha sido desafiante, y eso es completamente normal en tu viaje para dejar de fumar. Cada momento es una oportunidad para tomar una decisión más saludable.";
+
+// Coach Action Tips
+"coach.tip.celebrate" = "Tómate un momento para celebrar este logro";
+"coach.tip.plan.triggers" = "Planifica cómo manejar los posibles disparadores de la tarde";
+"coach.tip.reward.yourself" = "Considera una recompensa saludable por este éxito";
+"coach.tip.keep.routine" = "Mantén la rutina que está funcionando";
+"coach.tip.stay.aware" = "Mantente consciente de lo que te está ayudando a tener éxito";
+"coach.tip.track.triggers" = "Observa cualquier patrón en el tiempo o situaciones";
+"coach.tip.mindful.moments" = "Toma 3 respiraciones conscientes antes del próximo antojo";
+"coach.tip.breathing.exercise" = "Prueba la técnica de respiración 4-7-8";
+"coach.tip.alternative.activity" = "Ten tu actividad alternativa favorita lista";
+"coach.tip.no.judgment" = "Sé amable contigo mismo - mañana es un nuevo comienzo";
+"coach.tip.reset.tomorrow" = "Usa esta noche para planificar el éxito de mañana";
+"coach.tip.identify.trigger" = "Identifica qué desencadenó los cigarrillos extra";
+
+// My Why Editor - Phase 4
+"motivation.my.why" = "Mi Porqué";
+"motivation.description" = "Tu motivación personal para dejar de fumar";
+"motivation.placeholder" = "Escribe tus razones únicas para dejar de fumar...\n\nEjemplo: Quiero estar saludable para mis hijos, ahorrar dinero para vacaciones, sentirme libre de la adicción...";
+"motivation.show.templates" = "Mostrar plantillas";
+"motivation.clear" = "Limpiar";
+"motivation.templates.title" = "Inspírate";
+"motivation.templates.subtitle" = "Elige una plantilla para empezar, luego hazla tuya:";
+"motivation.empty.title" = "Define tu porqué";
+"motivation.empty.subtitle" = "Tu motivación personal es la herramienta más poderosa en tu viaje para dejar de fumar.";
+
+// Motivation Templates
+"motivation.template.family.title" = "Por mi familia";
+"motivation.template.family.text" = "Quiero ser una versión más saludable y mejor de mí mismo para mi familia. Quiero estar presente en cada momento y no preocuparlos por mi salud.";
+"motivation.template.family.preview" = "Estar presente y saludable para los seres queridos";
+
+"motivation.template.health.title" = "Por mi salud";
+"motivation.template.health.text" = "Merezco respirar libremente, tener más energía y reducir mi riesgo de enfermedades graves. Mi cuerpo es mi templo y quiero tratarlo con respeto.";
+"motivation.template.health.preview" = "Mejor respiración, energía y prevención de enfermedades";
+
+"motivation.template.money.title" = "Por la libertad financiera";
+"motivation.template.money.text" = "Podría ahorrar miles de euros cada año al no fumar. Ese dinero podría ir hacia mis sueños, viajes o asegurar mi futuro.";
+"motivation.template.money.preview" = "Ahorrar dinero para sueños y seguridad futura";
+
+"motivation.template.freedom.title" = "Por la libertad";
+"motivation.template.freedom.text" = "Quiero ser libre de la adicción. Libre para ir a cualquier lugar sin preocuparme por cuándo podré fumar después. Libre para ser yo mismo sin depender de los cigarrillos.";
+"motivation.template.freedom.preview" = "Libertad de la adicción y dependencia";
+
+"motivation.template.future.title" = "Por mi yo futuro";
+"motivation.template.future.text" = "Estoy dejando por la persona que quiero llegar a ser. Alguien que es fuerte, saludable y en control de sus decisiones. Mi yo futuro me agradecerá por esta decisión.";
+"motivation.template.future.preview" = "Convertirse en la mejor versión de ti mismo";
+
+// Visual Quit Plan - Phase 4
+"quit.plan.title" = "Tu Plan para Dejar";
+"quit.plan.subtitle" = "Estrategia personalizada para el éxito";
+"quit.plan.target.date" = "Fecha objetivo para dejar";
+"quit.plan.gradual.reduction" = "Reducción gradual";
+"quit.plan.gradual.description" = "Reducir gradualmente el fumar hasta la fecha para dejar";
+"quit.plan.active" = "Activo";
+"quit.plan.inactive" = "Parada en Seco";
+"quit.plan.visualization" = "Línea de Tiempo de Reducción";
+"quit.plan.starting" = "Inicio";
+"quit.plan.days" = "Días";
+"quit.plan.ending" = "Objetivo";
+"quit.plan.countdown.title" = "Cuenta Regresiva hacia la Libertad";
+"quit.plan.day.remaining" = "día restante";
+"quit.plan.days.remaining" = "días restantes";
+
+// Phase 5: AI Coach System - JITAI & Advanced Coaching
+"coaching.intensity.gentle" = "Suave";
+"coaching.intensity.moderate" = "Moderado";
+"coaching.intensity.intensive" = "Intensivo";
+
+"tip.category.motivation" = "Motivación";
+"tip.category.trigger.awareness" = "Conciencia de Disparadores";
+"tip.category.habit.change" = "Cambio de Hábito";
+"tip.category.mindfulness" = "Atención Plena";
+"tip.category.social.support" = "Apoyo Social";
+
+"time.morning" = "Mañana";
+"time.afternoon" = "Tarde";
+"time.evening" = "Noche";
+"time.night" = "Madrugada";
+
+"progress.celebration" = "Celebración";
+"progress.encouragement" = "Aliento";
+"progress.intervention" = "Intervención";
+"progress.gentle.reminder" = "Recordatorio Suave";
+
+"intervention.preemptive" = "Preventivo";
+"intervention.realtime" = "Tiempo real";
+"intervention.postevent" = "Post-evento";
+
+"pattern.frequency.daily" = "Diario";
+"pattern.frequency.weekly" = "Semanal";
+"pattern.frequency.situational" = "Situacional";
+"pattern.frequency.occasional" = "Ocasional";
+
+"trigger.type.emotional" = "Emocional";
+"trigger.type.social" = "Social";
+"trigger.type.situational" = "Situacional";
+"trigger.type.temporal" = "Temporal";
+"trigger.type.physical" = "Físico";
+
+"trigger.intensity.low" = "Baja";
+"trigger.intensity.moderate" = "Moderada";
+"trigger.intensity.high" = "Alta";
+"trigger.intensity.severe" = "Severa";
+
+"motivation.category.health" = "Salud";
+"motivation.category.family" = "Familia";
+"motivation.category.financial" = "Financiero";
+"motivation.category.freedom" = "Libertad";
+"motivation.category.appearance" = "Apariencia";
+"motivation.category.social" = "Social";
+
+// JITAI Intervention Messages
+"jitai.action.breathe" = "Respirar";
+"jitai.action.distract" = "Distraer";
+"jitai.action.remind" = "Recordarme";
+"jitai.action.dismiss" = "Ahora no";
+
+"jitai.emotional.high.title" = "Emociones Fuertes Detectadas";
+"jitai.emotional.high.body" = "Estás experimentando emociones intensas. Tomemos un momento para respirar y encontrar una forma más saludable de lidiar con esto.";
+"jitai.emotional.moderate.title" = "Momento Emocional";
+"jitai.emotional.moderate.body" = "Respira profundo. Recuerda tus objetivos y por qué estás en este viaje.";
+
+"jitai.social.title" = "Situación Social";
+"jitai.social.body" = "La presión social puede ser desafiante. Tienes la fuerza para tomar la decisión correcta.";
+
+"jitai.situational.title" = "Disparador Familiar";
+"jitai.situational.body" = "Estás en una situación que solía disparar el fumar. Esta es tu oportunidad de crear un nuevo patrón más saludable.";
+
+"jitai.temporal.morning.title" = "¡Buenos Días!";
+"jitai.temporal.morning.body" = "Comienza tu día con fuerza. Recuerda tu compromiso con una mejor salud.";
+
+"jitai.temporal.afternoon.title" = "Check-in de la Tarde";
+"jitai.temporal.afternoon.body" = "¿Cómo va tu día? Mantente enfocado en tus objetivos.";
+
+"jitai.temporal.evening.title" = "Reflexión Nocturna";
+"jitai.temporal.evening.body" = "Reflexiona sobre el progreso que has hecho hoy. ¡Lo estás haciendo genial!";
+
+"jitai.temporal.night.title" = "Noche Tranquila";
+"jitai.temporal.night.body" = "Termina tu día con una nota positiva. Mañana es otra oportunidad para tener éxito.";
+
+"jitai.physical.title" = "Disparador Físico";
+"jitai.physical.body" = "Tu cuerpo puede estar esperando nicotina, pero se vuelve más fuerte cada día sin ella.";
+
+// Phase 6: Wellness Journey - Gamified Journey
+"journey.title" = "Tu Viaje de Bienestar";
+"journey.welcome.title" = "Bienvenido a Tu Viaje de Bienestar";
+"journey.welcome.subtitle" = "Rastrea tu progreso, desbloquea logros y celebra cada hito en tu camino hacia la libertad";
+"journey.progress.title" = "Progreso General";
+"journey.progress.description" = "Tu viaje hacia el bienestar completo y la libertad del tabaquismo";
+"journey.achievements.title" = "Logros Recientes";
+"journey.achievements.empty.title" = "Comienza Tu Viaje";
+"journey.achievements.empty.subtitle" = "Completa tu primer hito para desbloquear tu primer logro";
+"journey.next.milestone.title" = "Próximo Hito";
+"journey.milestone.coming.soon" = "Próximamente";
+"journey.no.milestone" = "¡Lo estás haciendo increíblemente bien! Sigue con el buen trabajo.";
+"journey.insights.title" = "Perspectivas del Viaje";
+"journey.insights.loading" = "Analizando tu progreso...";
+
+// Achievement Categories
+"achievement.category.milestone" = "Hito";
+"achievement.category.consistency" = "Consistencia";
+"achievement.category.health" = "Salud";
+"achievement.category.social" = "Social";
+"achievement.category.savings" = "Ahorros";
+"achievement.category.willpower" = "Fuerza de Voluntad";
+"achievement.category.knowledge" = "Conocimiento";
+
+// Achievement Rarities
+"achievement.rarity.common" = "Común";
+"achievement.rarity.uncommon" = "Poco Común";
+"achievement.rarity.rare" = "Raro";
+"achievement.rarity.epic" = "Épico";
+"achievement.rarity.legendary" = "Legendario";
+
+// Specific Achievements
+"achievement.first.hour.title" = "Héroe de la Primera Hora";
+"achievement.first.hour.description" = "Completada tu primera hora sin fumar";
+"achievement.first.day.title" = "Campeón del Primer Día";
+"achievement.first.day.description" = "Completado tu primer día completo sin fumar";
+"achievement.first.week.title" = "Guerrero de la Primera Semana";
+"achievement.first.week.description" = "Completada tu primera semana sin fumar";
+"achievement.consistency.champion.title" = "Campeón de Consistencia";
+"achievement.consistency.champion.description" = "Mantenida la consistencia por 7 días";
+"achievement.money.saver.title" = "Ahorrador de Dinero";
+"achievement.money.saver.description" = "Ahorrados €100 por no fumar";
+
+// Journey Insights
+"journey.insight.smoke.free.time" = "Cada hora sin fumar fortalece tu compromiso";
+"journey.insight.achievements.earned" = "Tus logros muestran progreso real";
+"journey.insight.halfway.point" = "¡Estás más de la mitad del camino hacia tu próximo hito importante!";
+"journey.insight.keep.going" = "¡Estás construyendo un impulso increíble - sigue adelante!";
+
+// ContentView
+"add.cigarette.title" = "Añadir Cigarrillo";
+"note.optional" = "Nota (opcional)";
+"note.placeholder" = "¿En qué estás pensando?";
+"todays.cigarettes.title" = "Cigarrillos de Hoy";
+
+// TagPickerView  
+"create.new.tag" = "Crear Nueva Etiqueta";
+"tag.name.field" = "Nombre de Etiqueta";
+
+// AISettingsView - Additional hardcoded strings
+"system.status" = "Estado del Sistema";
+"ai.coaching" = "Coaching de IA";
+"behavioral.analysis" = "Análisis Conductual";
+"quit.plan.optimization" = "Optimización del Plan para Dejar";
+"healthkit.integration" = "Integración HealthKit";
+"ai.features" = "Características de IA";
+"ai.coaching.description" = "El coaching de IA proporciona consejos personalizados e intervenciones basadas en tus patrones de fumar. Todo el procesamiento ocurre en el dispositivo.";
+"coaching.frequency" = "Frecuencia de Coaching";
+"daily.coaching.limit" = "Límite Diario de Coaching";
+"risk.sensitivity" = "Sensibilidad al Riesgo";
+"coaching.behavior" = "Comportamiento del Coaching";
+"coaching.behavior.description" = "Mayor frecuencia proporciona más apoyo pero puede ser más intrusiva. El sistema respeta las horas silenciosas y límites diarios.";
+"privacy.level" = "Nivel de Privacidad";
+"privacy.data.usage" = "Privacidad y Uso de Datos";
+"privacy.description" = "Todo el procesamiento de datos ocurre en el dispositivo. No se comparte información con servicios externos.";
+"healthkit.data" = "Datos HealthKit";
+"healthkit.data.description" = "Sueño, actividad, medicamentos";
+"location.analysis" = "Análisis de Ubicación";
+"location.analysis.description" = "Patrones de ubicación general";
+"detailed.behavioral.analysis" = "Análisis Conductual Detallado";
+"detailed.behavioral.analysis.description" = "Reconocimiento de patrones avanzado";
+"quiet.hours" = "Horas Silenciosas";
+"start.time" = "Hora de Inicio";
+"end.time" = "Hora de Fin";
+"current.status" = "Estado Actual";
+"quiet" = "Silencioso";
+"active" = "Activo";
+"notification.schedule" = "Horario de Notificaciones";
+"notification.schedule.description" = "Las horas silenciosas previenen notificaciones de coaching durante el sueño y otros momentos de concentración.";
+"quit.plan.optimization" = "Optimización del Plan para Dejar";
+"behavioral.insights" = "Perspectivas Conductuales";
+"view.configuration.report" = "Ver Reporte de Configuración";
+"advanced.features" = "Características Avanzadas";
+"reset.to.defaults" = "Restablecer a Predeterminados";
+"export.configuration" = "Exportar Configuración";
+"configuration.management" = "Gestión de Configuración";
+"configuration.management.description" = "El restablecimiento restaurará todos los ajustes de coaching de IA a sus valores predeterminados.";
+"reset.configuration" = "Restablecer Configuración";
+"no.behavioral.insights.yet" = "Aún No Hay Perspectivas Conductuales";
+"start.logging.message" = "Comienza a registrar tu fumar para obtener perspectivas conductuales personalizadas y recomendaciones.";
+"analyze.patterns" = "Analizar Patrones";
+"refresh" = "Actualizar";
+"recommended.actions" = "Acciones Recomendadas:";
+"low.risk" = "Riesgo Bajo";
+"medium.risk" = "Riesgo Medio";
+"high.risk" = "Riesgo Alto";
+"critical.risk" = "Crítico";
+
+// QuitPlanOptimizationView - Additional hardcoded strings
+"view.details" = "Ver Detalles";
+"recommendation" = "Recomendación";
+"quit.date" = "Fecha para Dejar";
+"approach" = "Enfoque";
+"risk.factors" = "Factores de Riesgo";
+"support.strategies" = "Estrategias de Apoyo";
+"personalized.milestones" = "Hitos Personalizados";
+"ai.recommendation" = "Recomendación de IA";
+"apply" = "Aplicar";
+"plan.performance" = "Rendimiento del Plan";
+"confidence" = "Confianza:";
+"apply.this.suggestion" = "Aplicar Esta Sugerencia";
+"no.performance.issues" = "No se detectaron problemas de rendimiento. ¡Sigue con el buen trabajo!";
+"todays.target" = "Objetivo de Hoy";
+
+// Widget Localization
+"widget.quick.add.cigarette" = "Añadir Cigarrillo Rápido";
+"widget.quick.add.description" = "Añadir rápidamente una entrada de cigarrillo";
+"widget.note.title" = "Nota";
+"widget.note.description" = "Nota opcional para el cigarrillo";
+"widget.tags.title" = "Etiquetas";
+"widget.tags.description" = "Etiquetas opcionales para el cigarrillo";
+"widget.today" = "Hoy";
+"widget.add" = "Añadir";
+"widget.daily.avg" = "Prom. Diario";
+"widget.display.name" = "Rastreador de Cigarrillos";
+"widget.description" = "Rastrea tu conteo diario de cigarrillos y añade nuevas entradas rápidamente.";
+"widget.a11y.today.count" = "%d cigarrillos hoy";
+"widget.a11y.today.cigarettes" = "%d cigarrillos fumados hoy";
+"widget.a11y.great.job" = "¡Gran trabajo! Ningún cigarrillo hoy";
+"widget.a11y.add.cigarette" = "Añadir cigarrillo";
+"widget.a11y.add.cigarette.hint" = "Doble toque para añadir una entrada de cigarrillo";
+"widget.a11y.no.cigarettes.today" = "Ningún cigarrillo hoy";
+"widget.a11y.last.cigarette.time" = "Último cigarrillo: %@";
+"widget.a11y.daily.average" = "Promedio diario: %.1f cigarrillos";
+"widget.intent.add.cigarette" = "Añadir Cigarrillo";
+"widget.intent.add.cigarette.description" = "Añadir una entrada de cigarrillo desde el widget";
+"widget.intent.success" = "Cigarrillo añadido exitosamente";
+"added.from.widget" = "Añadido desde widget";
+"widget.intent.error.add.failed" = "No se pudo añadir cigarrillo";
+"widget.no.cigarettes.today" = "Ninguno hoy";
+"widget.just.now" = "Ahora mismo";
+"widget.minutes.ago" = "%d min";
+"widget.hours.ago" = "%dh";
+
+"tag.name.example" = "ej., Estrés";
+"tag.color.field" = "Color de Etiqueta";
+"select.tags.title" = "Seleccionar Etiquetas";
+
+// Additional hardcoded strings found
+"available.ios26" = "Disponible en iOS 26+";
+"requires.ios26" = "Requiere iOS 26";
+"start" = "Inicio";
+"end" = "Fin";
+"analyzing.behavioral.patterns" = "Analizando patrones conductuales...";
+"early.morning.smoking.message" = "Fumas tu primer cigarrillo 15 minutos después de despertar. La investigación muestra que esto indica alta dependencia a la nicotina.";
+"delay.first.cigarette.advice" = "Intenta retrasar tu primer cigarrillo 15-30 minutos mañana. Incluso pequeños retrasos pueden reducir la dependencia.";
+"great.progress.title" = "¡Gran Progreso!";
+"fewer.cigarettes.yesterday.message" = "¡Fumaste 3 cigarrillos menos que ayer!";
+"keep.momentum.advice" = "Mantén este impulso. ¿Qué hiciste diferente hoy?";
+"view.all.milestones.format" = "Ver Todos los %d Hitos";
+"milestone.target.format" = "Objetivo: %@";
+
+// HealthKit Permission Modal
+"healthkit.permission.title" = "Mejora Tu Viaje para Dejar";
+"healthkit.permission.explanation" = "MirrorSmokerStopper puede proporcionar coaching más personalizado accediendo a algunos de tus datos de Salud. Todo el análisis ocurre en tu dispositivo - nada se comparte.";
+"healthkit.steps.title" = "Actividad";
+"healthkit.steps.description" = "Rastrea patrones de movimiento para sugerir mejor tiempo para antojos";
+"healthkit.sleep.title" = "Sueño";
+"healthkit.sleep.description" = "Entiende cómo la calidad del sueño afecta tus hábitos de fumar";
+"healthkit.mindfulness.title" = "Atención Plena";
+"healthkit.mindfulness.description" = "Registra sesiones de meditación como alternativas saludables";
+"healthkit.heart.title" = "Ritmo Cardíaco";
+"healthkit.heart.description" = "Monitorea niveles de estrés para predecir disparadores de fumar";
+"healthkit.privacy.assurance" = "Todos los datos permanecen en tu dispositivo. Nada se comparte con servicios externos.";
+"healthkit.allow.access" = "Permitir Acceso a Salud";
+"healthkit.maybe.later" = "Tal Vez Más Tarde";
+"close" = "Cerrar";
+
+// InsightCard
+"health.insight.default" = "Perspectiva de Salud";
+"youre.doing.great" = "¡Lo estás haciendo genial!";
+
+// StatView
+"smoked.today" = "Fumado Hoy";
+"cigarettes.unit" = "cigarrillos";
+"money.saved" = "Dinero Ahorrado";
+"since.label" = "desde";
+"time.smoke.free" = "Tiempo Sin Fumar";
+
+// HomeWidget
+"widget.smoked.today" = "Fumado Hoy";
+"widget.add.cigarette" = "Añadir Cigarrillo";
+
+// AI Configuration
+"ai.config.frequency.minimal" = "Mínimal";
+"ai.config.frequency.balanced" = "Equilibrado";
+"ai.config.frequency.proactive" = "Proactivo";
+"ai.config.frequency.minimal.desc" = "Solo situaciones de alto riesgo";
+"ai.config.frequency.balanced.desc" = "Coaching regular con tiempo inteligente";
+"ai.config.frequency.proactive.desc" = "Apoyo frecuente y perspectivas";
+
+"ai.config.privacy.minimal" = "Mínimal";
+"ai.config.privacy.standard" = "Estándar";
+"ai.config.privacy.enhanced" = "Mejorado";
+"ai.config.privacy.minimal.desc" = "Solo datos básicos de fumar";
+"ai.config.privacy.standard.desc" = "Datos de fumar + patrones básicos";
+"ai.config.privacy.enhanced.desc" = "Análisis conductual completo con HealthKit";
+
+"ai.config.validation.ios26" = "El coaching de IA requiere iOS 26";
+"ai.config.validation.healthkit.privacy" = "HealthKit requiere nivel de privacidad mejorado";
+"ai.config.validation.quiet.hours" = "Las horas silenciosas de inicio y fin no pueden ser iguales";
+"ai.config.validation.notifications" = "Las notificaciones diarias deben estar entre 1 y 10";
+
+// Behavioral Insights
+"behavioral.insight.time.peak.title" = "Hora pico de fumar detectada";
+"behavioral.insight.time.peak.description" = "Fumas %.0f%% de tus cigarrillos alrededor de las %d:00";
+"behavioral.insight.weekend.title" = "Pico de fumar en fin de semana";
+"behavioral.insight.weekend.description" = "Fumas %d cigarrillos más los fines de semana";
+"behavioral.insight.trigger.title" = "Patrón de disparador: %@";
+"behavioral.insight.trigger.description" = "%@ dispara %.0f%% de tu fumar";
+"behavioral.insight.streak.title" = "Patrón de ruptura de racha";
+"behavioral.insight.streak.description" = "Tus rachas a menudo terminan debido a %@ a las %d:00";
+"behavioral.insight.social.title" = "Patrón de fumar social";
+"behavioral.insight.social.description" = "%.0f%% de tu fumar ocurre en situaciones sociales";
+"behavioral.insight.environment.title" = "Disparador ambiental: %@";
+"behavioral.insight.environment.description" = "%.0f%% de tu fumar ocurre en %@";
+"behavioral.insight.regression.title" = "Regresión de progreso detectada";
+"behavioral.insight.regression.description" = "El fumar aumentó %d cigarrillos esta semana";
+
+// Behavioral Recommendations
+"behavioral.recommendation.time.avoid" = "Planifica actividades alternativas para %d:00-%d:00";
+"behavioral.recommendation.time.replacement" = "Practica respiración profunda durante momentos de antojo intenso";
+"behavioral.recommendation.time.schedule" = "Programa tareas importantes durante tus horas pico de fumar";
+"behavioral.recommendation.weekend.plan" = "Planifica actividades de fin de semana sin fumar";
+"behavioral.recommendation.weekend.social" = "Identifica y evita situaciones sociales de fumar";
+"behavioral.recommendation.weekend.routine" = "Mantén rutinas de días laborales los fines de semana";
+"behavioral.recommendation.streak.prepare" = "Prepara estrategias de afrontamiento para %@";
+"behavioral.recommendation.streak.avoid" = "Evita situaciones %@ a las %d:00";
+"behavioral.recommendation.streak.support" = "Ten apoyo listo durante momentos vulnerables";
+"behavioral.recommendation.social.alternative" = "Encuentra actividades sociales sin fumar";
+"behavioral.recommendation.social.support" = "Cuéntales a tus amigos sobre tu plan para dejar";
+"behavioral.recommendation.social.escape" = "Practica formas educadas de rechazar invitaciones a fumar";
+"behavioral.recommendation.environment.modify" = "Modifica tu entorno %@ para reducir disparadores";
+"behavioral.recommendation.environment.avoid" = "Limita el tiempo pasado en %@ cuando sea posible";
+"behavioral.recommendation.environment.replacement" = "Crea nuevas asociaciones positivas con este espacio";
+"behavioral.recommendation.regression.reassess" = "Revisa qué cambió en tu rutina esta semana";
+"behavioral.recommendation.regression.support" = "Busca apoyo adicional";
+"behavioral.recommendation.regression.gentle" = "Ten paciencia contigo mismo - los retrocesos son normales";
+
+// Trigger-specific recommendations
+"behavioral.recommendation.stress.breathing" = "Practica respiración 4-7-8 cuando estés estresado";
+"behavioral.recommendation.stress.exercise" = "Camina 5 minutos cuando te sientas estresado";
+"behavioral.recommendation.stress.mindfulness" = "Usa una app de atención plena para manejar el estrés";
+"behavioral.recommendation.boredom.activities" = "Ten una lista de actividades de 5 minutos a mano";
+"behavioral.recommendation.boredom.hobby" = "Comienza un nuevo pasatiempo que mantenga tus manos ocupadas";
+"behavioral.recommendation.boredom.productive" = "Convierte el aburrimiento en micro-tareas productivas";
+"behavioral.recommendation.generic.identify" = "Identifica señales de alerta temprana de disparadores %@";
+"behavioral.recommendation.generic.alternative" = "Crea alternativas saludables para situaciones %@";
+"behavioral.recommendation.generic.avoid" = "Evita o minimiza disparadores %@ cuando sea posible";
+
+// AI Settings and Quit Plan Optimization
+"ai.quit.plan.optimizer.title" = "Optimizador de Plan para Dejar IA";
+"ai.powered.quit.plan.optimization" = "Optimización de Plan para Dejar Impulsada por IA";
+"get.personalized.recommendations" = "Obtén recomendaciones personalizadas basadas en tus patrones de fumar, datos de salud y análisis conductual";
+"current.plan" = "Plan Actual";
+"active" = "Activo";
+"inactive" = "Inactivo";
+"quit.date" = "Fecha para Dejar";
+"not.set" = "No establecida";
+"reduction.curve" = "Curva de Reducción";
+"daily.average" = "Promedio Diario";
+"ai.optimization" = "Optimización IA";
+"generate.optimized.plan" = "Generar Plan Optimizado";
+"evaluate.current.performance" = "Evaluar Rendimiento Actual";
+"analyzing.your.data" = "Analizando tus datos...";
+"plan.performance" = "Rendimiento del Plan";
+"no.performance.data" = "Aún no hay datos de rendimiento disponibles. Completa algunos días más para obtener perspectivas personalizadas.";
+"recommended.milestones" = "Hitos Recomendados";
+"target.format" = "Objetivo: %@";
+"recommendation" = "Recomendación";
+"personalized.milestones" = "Hitos Personalizados";
+"no.performance.issues" = "No se detectaron problemas de rendimiento. ¡Sigue con el buen trabajo!";
+"confidence" = "Confianza:";
+"view.details" = "Ver Detalles";
+"view.all.milestones" = "Ver Todos los %d Hitos";
+"ai.recommendation" = "Recomendación IA";
+"cancel" = "Cancelar";
+"apply" = "Aplicar";
+"plan.performance.title" = "Rendimiento del Plan";
+"apply.this.suggestion" = "Aplicar Esta Sugerencia";
+
+// AI Settings
+"ai.coaching.settings" = "Ajustes de Coaching IA";
+"configuration.report" = "Reporte de Configuración";
+"done" = "Hecho";
+"reset" = "Restablecer";
+"cancel" = "Cancelar";
+"reset.ai.warning" = "Esto restablecerá todos los ajustes de coaching IA a sus valores predeterminados. Esto no se puede deshacer.";
+"ai.coaching.system" = "Sistema de Coaching IA";
+"ios26.compatibility.message" = "Las características avanzadas de coaching IA requieren iOS 26 y hardware compatible. El apoyo básico para dejar permanece disponible en todas las versiones de iOS.";
+"system.status" = "Estado del Sistema";
+"ai.features" = "Características IA";
+"ai.coaching.description" = "El coaching IA proporciona consejos personalizados e intervenciones basadas en tus patrones de fumar. Todo el procesamiento ocurre en el dispositivo.";
+"daily.coaching.limit" = "Límite Diario de Coaching";
+"risk.sensitivity" = "Sensibilidad al Riesgo";
+"coaching.behavior" = "Comportamiento del Coaching";
+"coaching.behavior.description" = "Mayor frecuencia proporciona más apoyo pero puede ser más intrusiva. El sistema respeta las horas silenciosas y límites diarios.";
+"privacy.data.usage" = "Privacidad y Uso de Datos";
+"privacy.description" = "Todo el procesamiento de datos ocurre en el dispositivo. No se comparte información con servicios externos.";
+"start.time" = "Hora de Inicio";
+"end.time" = "Hora de Fin";
+"view.configuration.report" = "Ver Reporte de Configuración";
+"reset.to.defaults" = "Restablecer a Predeterminados";
+"export.configuration" = "Exportar Configuración";
+"analyze.patterns" = "Analizar Patrones";
+"behavioral.insights" = "Perspectivas Conductuales";
+"refresh" = "Actualizar";
+
+// Purchase Logging
+"purchase.log.title" = "Registrar Compra";
+"purchase.log.subtitle" = "Registra tu compra de producto de tabaco";
+"purchase.product.name" = "Nombre del Producto";
+"purchase.product.placeholder" = "ej. Marlboro Red";
+"purchase.amount" = "Cantidad";
+"purchase.amount.placeholder" = "0.00";
+"purchase.currency" = "Moneda";
+"purchase.currency.placeholder" = "EUR";
+"purchase.quantity" = "Cantidad";
+"purchase.error.fill.fields" = "Por favor llena todos los campos";
+"purchase.error.valid.amount" = "Por favor introduce una cantidad válida";
+"purchase.error.amount.positive" = "La cantidad debe ser mayor que cero";
+"purchase.error.save" = "No se pudo guardar la compra: %@";
+
+// FAB Actions
+"fab.log.purchase" = "Registrar Compra";
+"fab.tagged" = "Etiquetado";
+
+// Statistics
+"statistics.financial.savings" = "Ahorros Financieros";
+
+// More Statistics
+"statistics.money.spent" = "Dinero Gastado";
+"statistics.money.saved" = "Dinero Ahorrado";

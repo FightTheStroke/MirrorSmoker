@@ -54,7 +54,7 @@ struct DayDetailView: View {
                                 Text(NSLocalizedString("day.detail.peak.hour", comment: ""))
                                     .font(.caption)
                                     .foregroundColor(.secondary)
-                                Text("\(peakHour):00")
+                            Text(String(format: NSLocalizedString("day.detail.peak.hour.value", comment: "Peak hour value format"), peakHour))
                                     .font(.headline)
                                     .fontWeight(.semibold)
                             }
@@ -80,7 +80,7 @@ struct DayDetailView: View {
                                         .cornerRadius(1)
                                     
                                     if hour % 4 == 0 {
-                                        Text("\(hour)")
+                                        Text(String(format: NSLocalizedString("day.detail.hour.label", comment: "Hour label for chart"), hour))
                                             .font(.caption2)
                                             .foregroundColor(.secondary)
                                     }

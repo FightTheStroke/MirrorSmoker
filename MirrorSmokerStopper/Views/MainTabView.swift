@@ -9,8 +9,8 @@ struct MainTabView: View {
                 ContentView()
             }
             .tabItem {
-                Image(systemName: "house")
-                Text(NSLocalizedString("tab.home", comment: ""))
+                Image(systemName: "sun.max")
+                Text(NSLocalizedString("tab.today", comment: ""))
             }
             .tag(0)
             
@@ -18,8 +18,8 @@ struct MainTabView: View {
                 EnhancedStatisticsView()
             }
             .tabItem {
-                Image(systemName: "chart.bar")
-                Text(NSLocalizedString("tab.stats.main", comment: ""))
+                Image(systemName: "chart.line.uptrend.xyaxis")
+                Text(NSLocalizedString("tab.stats", comment: ""))
             }
             .tag(1)
             
@@ -27,8 +27,8 @@ struct MainTabView: View {
                 SettingsView()
             }
             .tabItem {
-                Image(systemName: "gear")
-                Text(NSLocalizedString("tab.settings.main", comment: ""))
+                Image(systemName: "person.crop.circle")
+                Text(NSLocalizedString("tab.settings", comment: ""))
             }
             .tag(2)
         }
@@ -41,3 +41,4 @@ struct MainTabView_Previews: PreviewProvider {
         MainTabView()
     }
 }
+

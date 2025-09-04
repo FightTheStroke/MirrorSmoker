@@ -6,7 +6,7 @@ struct DailyStatsHeader: View {
     let onAddWithTags: () -> Void
     
     var body: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(spacing: DS.Space.lg) {
                 VStack(spacing: DS.Space.sm) {
                     Text(NSLocalizedString("today.title", comment: ""))

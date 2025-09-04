@@ -6,23 +6,32 @@
 //
 
 import SwiftUI
-import SwiftData
 
-struct WatchContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query(sort: \Cigarette.timestamp, order: .reverse) private var cigarettes: [Cigarette]
+struct WatchMainContentView: View {
+    @StateObject private var watchConnectivity = WatchConnectivityManager.shared
     
+    // Use WatchConnectivity data
     private var todayCount: Int {
-        let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
-        return cigarettes.filter { $0.timestamp >= today && $0.timestamp < tomorrow }.count
+        watchConnectivity.todayCount
+    }
+    
+    private var yesterdayCount: Int {
+        watchConnectivity.yesterdayCount
+    }
+    
+    private var weekCount: Int {
+        watchConnectivity.weekCount
+    }
+    
+    private var todayCigarettes: [WatchCigarette] {
+        watchConnectivity.todayCigarettes
     }
     
     var body: some View {
         TabView {
             // Main tab - Add cigarette
             VStack(spacing: 12) {
-                Text(NSLocalizedString("watch.today", comment: ""))
+                Text("watch.today".local())
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
@@ -30,7 +39,7 @@ struct WatchContentView: View {
                     .font(.system(size: 40, weight: .bold, design: .default))
                     .foregroundColor(colorForCount(todayCount))
                 
-                Text(NSLocalizedString("watch.cigarettes", comment: ""))
+                Text("watch.cigarettes".local())
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
@@ -46,26 +55,26 @@ struct WatchContentView: View {
             
             // Quick stats tab
             VStack(spacing: 8) {
-                Text(NSLocalizedString("watch.statistics", comment: ""))
+                Text("watch.statistics".local())
                     .font(.headline)
                 
                 VStack(spacing: 6) {
                     HStack {
-                        Text(NSLocalizedString("watch.yesterday", comment: ""))
+                        Text("watch.yesterday".local())
                         Spacer()
                         Text("\(yesterdayCount)")
                             .fontWeight(.semibold)
                     }
                     
                     HStack {
-                        Text(NSLocalizedString("watch.week", comment: ""))
+                        Text("watch.week".local())
                         Spacer()
                         Text("\(weekCount)")
                             .fontWeight(.semibold)
                     }
                     
                     HStack {
-                        Text(NSLocalizedString("watch.average", comment: ""))
+                        Text("watch.average".local())
                         Spacer()
                         Text(String(format: "%.1f", weeklyAverage))
                             .fontWeight(.semibold)
@@ -78,21 +87,17 @@ struct WatchContentView: View {
             // Today's cigarettes list tab
             ScrollView {
                 LazyVStack(spacing: 4) {
-                    Text(NSLocalizedString("watch.today", comment: ""))
+                    Text("watch.today".local())
                         .font(.headline)
                         .padding(.bottom, 4)
                     
-                    let todayCigarettes = cigarettes.filter { cigarette in
-                        Calendar.current.isDateInToday(cigarette.timestamp)
-                    }
-                    
                     if todayCigarettes.isEmpty {
-                        Text(NSLocalizedString("watch.no.cigarettes", comment: ""))
+                        Text("watch.no.cigarettes".local())
                             .font(.caption)
                             .foregroundColor(.secondary)
                             .padding()
                     } else {
-                        ForEach(todayCigarettes.prefix(10)) { cigarette in
+                        ForEach(Array(todayCigarettes.prefix(10).enumerated()), id: \.element.id) { index, cigarette in
                             HStack {
                                 Image(systemName: "lungs.fill")
                                     .foregroundColor(.red)
@@ -113,28 +118,8 @@ struct WatchContentView: View {
         }
         .tabViewStyle(.page) // Use .page instead of .verticalPage for watchOS
         .task {
-            // Removed ConnectivityManager calls for Watch App version
+            refreshData()
         }
-    }
-    
-    private var yesterdayCount: Int {
-        let calendar = Calendar.current
-        let yesterday = calendar.date(byAdding: .day, value: -1, to: Date())!
-        let startOfYesterday = calendar.startOfDay(for: yesterday)
-        let endOfYesterday = calendar.date(byAdding: .day, value: 1, to: startOfYesterday)!
-        
-        return cigarettes.filter { cigarette in
-            cigarette.timestamp >= startOfYesterday && cigarette.timestamp < endOfYesterday
-        }.count
-    }
-    
-    private var weekCount: Int {
-        let calendar = Calendar.current
-        let weekAgo = calendar.date(byAdding: .day, value: -7, to: Date())!
-        
-        return cigarettes.filter { cigarette in
-            cigarette.timestamp >= weekAgo
-        }.count
     }
     
     private var weeklyAverage: Double {
@@ -150,18 +135,17 @@ struct WatchContentView: View {
     }
     
     private func addCigarette() {
-        let newCigarette = Cigarette()
-        newCigarette.id = UUID()
-        modelContext.insert(newCigarette)
-        try? modelContext.save()
-        
-        // Removed ConnectivityManager calls for Watch App version
-        // Removed WKInterfaceDevice call since WatchKit is not available
+        // Use WatchConnectivity to add cigarette and sync with iPhone
+        watchConnectivity.addCigarette()
+    }
+    
+    private func refreshData() {
+        // Request fresh data from iPhone
+        watchConnectivity.requestStats()
     }
 }
 
 #Preview {
-    WatchContentView()
-        .modelContainer(for: Cigarette.self, inMemory: true)
+    WatchMainContentView()
 }
 

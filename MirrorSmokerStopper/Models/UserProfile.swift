@@ -76,6 +76,7 @@ final class UserProfile {
     var motivationalMessages: String = ""
     var createdAt: Date = Date()
     var dailyAverage: Double = 0.0 // NEW: Custom daily average
+    var preferredCurrency: String = "EUR" // NEW: User's preferred currency
     
     // Computed properties for enum access
     var reductionCurve: ReductionCurve {
@@ -246,7 +247,8 @@ final class UserProfile {
         healthInsights: String = "",
         motivationalMessages: String = "",
         createdAt: Date = Date(),
-        dailyAverage: Double = 0.0
+        dailyAverage: Double = 0.0,
+        preferredCurrency: String = "EUR"
     ) {
         self.id = id
         self.name = name
@@ -264,6 +266,7 @@ final class UserProfile {
         self.motivationalMessages = motivationalMessages
         self.createdAt = createdAt
         self.dailyAverage = dailyAverage
+        self.preferredCurrency = preferredCurrency
         self.lastUpdated = Date()
     }
 }

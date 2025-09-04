@@ -24,7 +24,7 @@ struct InsightCard: View {
     }
     
     var body: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(alignment: .leading, spacing: DS.Space.sm) {
                 // Header
                 HStack(spacing: DS.Space.sm) {
@@ -154,16 +154,19 @@ struct InsightCard: View {
     }
     
     private func showActionSheet() {
-        let _ = ActionSheet.Button.default(Text(NSLocalizedString("dismiss.button", comment: ""))) {
+        // This is a placeholder for a potential future implementation.
+        // The current design uses direct buttons in the UI.
+        _ = ActionSheet.Button.default(Text(NSLocalizedString("dismiss.button", comment: ""))) {
             onDismiss?()
             Self.logger.info("Insight dismissed by user.")
         }
-        let _ = ActionSheet.Button.default(Text(NSLocalizedString("take.action.button", comment: ""))) {
+        _ = ActionSheet.Button.default(Text(NSLocalizedString("take.action.button", comment: ""))) {
             onActionTaken?()
             Self.logger.info("Insight action taken by user.")
         }
         
-        // TODO: Complete ActionSheet implementation if needed
+        // To use this, you would present an ActionSheet with these buttons.
+        // For example: .actionSheet(isPresented: $showingSheet) { ActionSheet(title: Text("..."), buttons: [dismissButton, actionButton, .cancel()]) }
     }
 }
 
@@ -224,8 +227,8 @@ struct InsightCard_Previews: PreviewProvider {
             InsightCard(
                 insight: SmokingInsight(
                     title: NSLocalizedString("early.morning.pattern.insight", comment: ""),
-                    message: "You smoke your first cigarette 15 minutes after waking. Research shows this indicates high nicotine dependence.",
-                    actionable: "Try delaying your first cigarette by 15-30 minutes tomorrow. Even small delays can reduce dependency.",
+                    message: NSLocalizedString("early.morning.smoking.message", comment: ""),
+                    actionable: NSLocalizedString("delay.first.cigarette.advice", comment: ""),
                     trigger: .morningPattern(firstCigaretteMinutes: 15),
                     priority: .high,
                     timing: .morning,
@@ -238,9 +241,9 @@ struct InsightCard_Previews: PreviewProvider {
             
             InsightCard(
                 insight: SmokingInsight(
-                    title: "Great Progress!",
-                    message: "You smoked 3 fewer cigarettes than yesterday!",
-                    actionable: "Keep this momentum going. What did you do differently today?",
+                    title: NSLocalizedString("great.progress.title", comment: ""),
+                    message: NSLocalizedString("fewer.cigarettes.yesterday.message", comment: ""),
+                    actionable: NSLocalizedString("keep.momentum.advice", comment: ""),
                     trigger: .improvementDetected(improvement: "3 cigarettes"),
                     priority: .medium,
                     timing: .immediate,

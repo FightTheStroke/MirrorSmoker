@@ -87,10 +87,20 @@ struct InteractiveHourlyChart: View {
     }
     
     private func hourLabel(_ hour: Int) -> String {
-        if hour == 0 { return "12AM" }
-        else if hour < 12 { return "\(hour)AM" }
-        else if hour == 12 { return "12PM" }
-        else { return "\(hour - 12)PM" }
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        formatter.dateFormat = "ha"
+        
+        let dateComponents = DateComponents(hour: hour)
+        if let date = Calendar.current.date(from: dateComponents) {
+            return formatter.string(from: date)
+        }
+        
+        // Fallback for safety
+        if hour == 0 { return NSLocalizedString("12AM", comment: "Midnight") }
+        else if hour < 12 { return String(format: NSLocalizedString("%dAM", comment: "Morning hour format"), hour) }
+        else if hour == 12 { return NSLocalizedString("12PM", comment: "Noon") }
+        else { return String(format: NSLocalizedString("%dPM", comment: "Afternoon hour format"), hour - 12) }
     }
     
     private func onSelectionChanged(hour: Int?) {

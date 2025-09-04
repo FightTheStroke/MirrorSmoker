@@ -136,7 +136,7 @@ struct HelpView: View {
     
     // MARK: - Helper Views
     private func helpSection(title: String, icon: String, color: Color, content: [String]) -> some View {
-        DSCard {
+        LegacyDSCard {
             VStack(alignment: .leading, spacing: DS.Space.md) {
                 HStack(spacing: DS.Space.sm) {
                     Image(systemName: icon)

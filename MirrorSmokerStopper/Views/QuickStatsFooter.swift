@@ -6,7 +6,7 @@ struct QuickStatsFooter: View {
     let allTimeCount: Int
     
     var body: some View {
-        DSCard {
+        LegacyDSCard {
             VStack(spacing: DS.Space.md) {
                 DSSectionHeader(NSLocalizedString("quick.stats", comment: ""))
                 LazyVGrid(columns: [

@@ -206,11 +206,13 @@ struct WeeklyStatsView: View {
     // MARK: - Helper Methods
     
     private func weekTitle(for date: Date, index: Int) -> String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale.current
+        
         switch index {
         case 3: return NSLocalizedString("weekly.stats.this.week", comment: "")
         case 2: return NSLocalizedString("weekly.stats.last.week", comment: "")
         default:
-            let formatter = DateFormatter()
             formatter.dateFormat = "d MMM"
             return formatter.string(from: date)
         }

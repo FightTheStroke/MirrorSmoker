@@ -113,9 +113,91 @@
 "today.label" = "Today";
 
 // Tab Bar
-"tab.home" = "Home";
+"tab.today" = "Today";
 "tab.stats" = "Stats";
 "tab.settings" = "Settings";
+
+// Progress View
+"progress.title" = "Progress";
+"progress.tab.achievements" = "Achievements";
+"progress.tab.savings" = "Savings";
+"progress.tab.health" = "Health";
+
+// Progress & Achievements
+"progress.achievements" = "Your Achievements";
+"progress.achievements.subtitle" = "Milestones you've unlocked";
+"progress.no.achievements.title" = "Start Your Journey";
+"progress.no.achievements.subtitle" = "Complete your first smoke-free day to unlock achievements!";
+
+// Milestones
+"milestone.new" = "NEW";
+"milestone.smoke.free.day" = "Smoke-Free Day";
+"milestone.smoke.free.day.desc" = "Your first full day without cigarettes";
+"milestone.money.saved" = "Money Saved";
+"milestone.money.saved.desc" = "Amount saved from not buying cigarettes";
+"milestone.health.improvement" = "Health Boost";
+"milestone.health.improvement.desc" = "Measurable improvement in health metrics";
+
+// Savings Goals
+"savings.goal" = "Savings Goal";
+"savings.days.remaining" = "%d days remaining";
+"savings.edit.goal" = "Edit Goal";
+"savings.set.new.goal" = "Set New Goal";
+"savings.goal.completed" = "Goal Completed!";
+"savings.remaining" = "%@ remaining to goal";
+"savings.overview" = "Savings Overview";
+"savings.total.saved" = "Total Saved";
+"savings.goals.completed" = "Goals Completed";
+"savings.add.goal" = "Add Goal";
+"savings.empty.title" = "Set Your First Goal";
+"savings.empty.subtitle" = "Use money saved from not smoking to reach your dreams";
+
+// Savings Categories
+"savings.vacation.italy" = "Vacation to Italy";
+"savings.emergency.fund" = "Emergency Fund";
+"savings.new.laptop" = "New Laptop";
+
+// Health Benefits
+"health.benefits" = "Health Recovery";
+"health.all.categories" = "All";
+"health.range.week" = "1 Week";
+"health.range.month" = "1 Month";
+"health.range.three_months" = "3 Months";
+"health.range.year" = "1 Year";
+"health.progress.summary" = "Recovery Progress";
+"health.improvement.percent" = "%d%% improved";
+
+// Health Categories
+"health.category.cardiovascular" = "Heart";
+"health.category.respiratory" = "Lungs";
+"health.category.circulation" = "Blood";
+"health.category.energy" = "Energy";
+"health.category.immune" = "Immunity";
+"health.category.appearance" = "Appearance";
+
+// Health Timeframes
+"health.timeframe.20_minutes" = "20 min";
+"health.timeframe.8_hours" = "8 hours";
+"health.timeframe.24_hours" = "1 day";
+"health.timeframe.3_days" = "3 days";
+"health.timeframe.2_weeks" = "2 weeks";
+"health.timeframe.1_month" = "1 month";
+"health.timeframe.3_months" = "3 months";
+"health.timeframe.1_year" = "1 year";
+
+// Health Benefits Content
+"health.benefit.heart.rate" = "Heart Rate Normal";
+"health.benefit.heart.rate.desc" = "Heart rate and blood pressure drop";
+"health.benefit.oxygen.level" = "Oxygen Levels Rise";
+"health.benefit.oxygen.level.desc" = "Oxygen levels in blood increase";
+"health.benefit.circulation" = "Better Circulation";
+"health.benefit.circulation.desc" = "Circulation improves significantly";
+"health.benefit.energy.level" = "Energy Boost";
+"health.benefit.energy.level.desc" = "Energy levels increase noticeably";
+
+// Health Benefits Empty State
+"health.benefits.empty.title" = "Health Recovery Awaits";
+"health.benefits.empty.subtitle" = "Your body starts recovering within 20 minutes of quitting";
 
 // Statistics
 "statistics.title" = "Statistics";
@@ -409,6 +491,23 @@
 "intent.motivation.message.4" = "Your future self will thank you for the choice you make right now.";
 "intent.motivation.message.5" = "Every day smoke-free is a day your body gets healthier.";
 "intent.motivation.message.6" = "The urge to smoke is temporary, but the benefits of quitting are permanent.";
+
+// Urge Log
+"urge.outcome.pending" = "Pending";
+"urge.outcome.resisted" = "Resisted";
+"urge.outcome.smoked" = "Smoked";
+"urge.outcome.partial" = "Partially Resisted";
+"urge.intensity.low" = "Low";
+"urge.intensity.medium" = "Medium";
+"urge.intensity.high" = "High";
+"urge.intensity.extreme" = "Extreme";
+"urge.intensity.unknown" = "Unknown";
+
+// JITAI Notifications
+"jitai.notification.title" = "Coach";
+"jitai.action.understood" = "Got it!";
+"jitai.action.more.help" = "More help";
+"jitai.action.dismiss" = "Not now";
 "widget.intent.success" = "Cigarette added successfully";
 "widget.intent.error.add.failed" = "Failed to add cigarette. Please try again.";
 "settings.daily.average.calculated" = "Your daily average";
@@ -624,8 +723,9 @@
 "time.range.all" = "All time";
 
 // Main tab updated labels
-"tab.stats.main" = "Statistics";
-"tab.settings.main" = "Settings";
+"tab.progress" = "Progress";
+"tab.journey" = "Journey";
+"tab.plan.profile" = "Plan & Profile";
 
 // Time ranges and statistics
 "time.range.today" = "Today";
@@ -765,11 +865,267 @@
 "settings.delete.all.data" = "Delete All Data";
 "settings.are.you.sure" = "Are you sure?";
 "settings.delete.warning" = "This will permanently delete all your smoking data. This action cannot be undone.";
+"settings.plan.cigarettes.per.day.format" = "%.1f cigarettes/day";
+"error" = "Error";
+"loading" = "Loading...";
+"save" = "Save";
+"cancel" = "Cancel";
+
+// Advanced FAB
+"fab.add.cigarette" = "Add cigarette";
+"fab.add.cigarette.hint" = "Tap to add quickly, long press to add with tags";
+
+// Tag Selection
+"tags.select.title" = "Select Tags";
+"tags.add.cigarette.with" = "Add cigarette with tags";
+"tags.selected.count" = "%d tags selected";
+"tags.create.new" = "Create New";
+"tags.selected" = "Selected Tags";
+"tags.empty.title" = "No tags yet";
+"tags.empty.subtitle" = "Create your first tag to categorize your cigarettes";
+"tags.create.first" = "Create First Tag";
+"tags.name" = "Tag Name";
+"tags.name.placeholder" = "Enter tag name";
+"tags.color" = "Tag Color";
+"tags.create.title" = "Create Tag";
+
+// Cigarette saved notification
+"cigarette.saved.title" = "Cigarette Added";
+"cigarette.saved.message" = "Successfully recorded";
+"cigarette.saved.with.tags" = "Cigarette added with %d tags";
+
+// Cigarette row actions
+"no.tags" = "No tags";
+"tags" = "Tags";
+"delete" = "Delete";
+"edit.tags" = "Edit Tags";
+"delete.cigarette.confirmation" = "Delete Cigarette";
+"delete.cigarette.confirmation.message" = "Are you sure you want to delete this cigarette? This action cannot be undone.";
+
+// General
+"done" = "Done";
 
 // MainTabView
-"tab.home" = "Home";
+"tab.today" = "Today";
 "tab.stats" = "Stats";
 "tab.settings" = "Settings";
+
+// Hero Section Phase 2
+"hero.subtitle.default" = "Let's track your progress today";
+"today.cigarettes.short" = "today";
+"today.target" = "Target";
+"today.remaining" = "Remaining";
+"status.perfect.day" = "Perfect smoke-free day! 🎉";
+"status.doing.great" = "You're doing great! Keep it up";
+"status.on.track" = "On track - stay mindful";
+"status.exceed.target" = "Above target - take a breath";
+"last.cigarette.time" = "Last:";
+
+// AI Coach Integration Phase 2
+"coach.daily.tip" = "Daily Tip";
+"coach.action.tips" = "Action tips:";
+"coach.new.tip" = "New tip";
+"coach.category.motivation" = "Motivation";
+"coach.category.encouragement" = "Encouragement"; 
+"coach.category.guidance" = "Guidance";
+"coach.category.support" = "Support";
+
+// Coach Messages
+"coach.perfect.day.message" = "Amazing! You're having a perfect smoke-free day. This shows incredible willpower and commitment to your health journey.";
+"coach.doing.well.message" = "You're doing exceptionally well today! You're staying well under your target, which shows great self-awareness and control.";
+"coach.on.track.message" = "You're on track with your goal today. This is the perfect time to practice mindfulness and stay present with your choices.";
+"coach.over.target.message" = "Today has been challenging, and that's completely normal in your quit journey. Every moment is a chance to make a healthier choice.";
+
+// Coach Action Tips
+"coach.tip.celebrate" = "Take a moment to celebrate this achievement";
+"coach.tip.plan.triggers" = "Plan how to handle potential afternoon triggers";
+"coach.tip.reward.yourself" = "Consider a healthy reward for this success";
+"coach.tip.keep.routine" = "Keep following the routine that's working";
+"coach.tip.stay.aware" = "Stay aware of what's helping you succeed";
+"coach.tip.track.triggers" = "Notice any patterns in timing or situations";
+"coach.tip.mindful.moments" = "Take 3 mindful breaths before the next craving";
+"coach.tip.breathing.exercise" = "Try the 4-7-8 breathing technique";
+"coach.tip.alternative.activity" = "Have your go-to alternative activity ready";
+"coach.tip.no.judgment" = "Be kind to yourself - tomorrow is a fresh start";
+"coach.tip.reset.tomorrow" = "Use tonight to plan tomorrow's success";
+"coach.tip.identify.trigger" = "Identify what triggered the extra cigarettes";
+
+// My Why Editor - Phase 4
+"motivation.my.why" = "My Why";
+"motivation.description" = "Your personal motivation for quitting";
+"motivation.placeholder" = "Write your unique reasons for quitting smoking...\n\nExample: I want to be healthy for my children, save money for vacation, feel free from addiction...";
+"motivation.show.templates" = "Show templates";
+"motivation.clear" = "Clear";
+"motivation.templates.title" = "Get inspired";
+"motivation.templates.subtitle" = "Choose a template to get started, then make it your own:";
+"motivation.empty.title" = "Define your why";
+"motivation.empty.subtitle" = "Your personal motivation is the most powerful tool in your quit journey.";
+
+// Motivation Templates
+"motivation.template.family.title" = "For my family";
+"motivation.template.family.text" = "I want to be a healthier, better version of myself for my family. I want to be present for every moment and not worry them about my health.";
+"motivation.template.family.preview" = "Being present and healthy for loved ones";
+
+"motivation.template.health.title" = "For my health";
+"motivation.template.health.text" = "I deserve to breathe freely, have more energy, and reduce my risk of serious diseases. My body is my temple and I want to treat it with respect.";
+"motivation.template.health.preview" = "Better breathing, energy, and disease prevention";
+
+"motivation.template.money.title" = "For financial freedom";
+"motivation.template.money.text" = "I could save thousands of dollars every year by not smoking. That money could go towards my dreams, travels, or securing my future.";
+"motivation.template.money.preview" = "Saving money for dreams and future security";
+
+"motivation.template.freedom.title" = "For freedom";
+"motivation.template.freedom.text" = "I want to be free from addiction. Free to go anywhere without worrying about when I can smoke next. Free to be myself without depending on cigarettes.";
+"motivation.template.freedom.preview" = "Freedom from addiction and dependency";
+
+"motivation.template.future.title" = "For my future self";
+"motivation.template.future.text" = "I'm quitting for the person I want to become. Someone who is strong, healthy, and in control of their choices. My future self will thank me for this decision.";
+"motivation.template.future.preview" = "Becoming the best version of yourself";
+
+// Visual Quit Plan - Phase 4
+"quit.plan.title" = "Your Quit Plan";
+"quit.plan.subtitle" = "Personalized strategy for success";
+"quit.plan.target.date" = "Target quit date";
+"quit.plan.gradual.reduction" = "Gradual reduction";
+"quit.plan.gradual.description" = "Gradually reduce smoking until quit date";
+"quit.plan.active" = "Active";
+"quit.plan.inactive" = "Cold Turkey";
+"quit.plan.visualization" = "Reduction Timeline";
+"quit.plan.starting" = "Starting";
+"quit.plan.days" = "Days";
+"quit.plan.ending" = "Target";
+"quit.plan.countdown.title" = "Countdown to Freedom";
+"quit.plan.day.remaining" = "day remaining";
+"quit.plan.days.remaining" = "days remaining";
+
+// Phase 5: AI Coach System - JITAI & Advanced Coaching
+"coaching.intensity.gentle" = "Gentle";
+"coaching.intensity.moderate" = "Moderate";
+"coaching.intensity.intensive" = "Intensive";
+
+"tip.category.motivation" = "Motivation";
+"tip.category.trigger.awareness" = "Trigger Awareness";
+"tip.category.habit.change" = "Habit Change";
+"tip.category.mindfulness" = "Mindfulness";
+"tip.category.social.support" = "Social Support";
+
+"time.morning" = "Morning";
+"time.afternoon" = "Afternoon";
+"time.evening" = "Evening";
+"time.night" = "Night";
+
+"progress.celebration" = "Celebration";
+"progress.encouragement" = "Encouragement";
+"progress.intervention" = "Intervention";
+"progress.gentle.reminder" = "Gentle Reminder";
+
+"intervention.preemptive" = "Preemptive";
+"intervention.realtime" = "Real-time";
+"intervention.postevent" = "Post-event";
+
+"pattern.frequency.daily" = "Daily";
+"pattern.frequency.weekly" = "Weekly";
+"pattern.frequency.situational" = "Situational";
+"pattern.frequency.occasional" = "Occasional";
+
+"trigger.type.emotional" = "Emotional";
+"trigger.type.social" = "Social";
+"trigger.type.situational" = "Situational";
+"trigger.type.temporal" = "Temporal";
+"trigger.type.physical" = "Physical";
+
+"trigger.intensity.low" = "Low";
+"trigger.intensity.moderate" = "Moderate";
+"trigger.intensity.high" = "High";
+"trigger.intensity.severe" = "Severe";
+
+"motivation.category.health" = "Health";
+"motivation.category.family" = "Family";
+"motivation.category.financial" = "Financial";
+"motivation.category.freedom" = "Freedom";
+"motivation.category.appearance" = "Appearance";
+"motivation.category.social" = "Social";
+
+// JITAI Intervention Messages
+"jitai.action.breathe" = "Breathe";
+"jitai.action.distract" = "Distract";
+"jitai.action.remind" = "Remind Me";
+"jitai.action.dismiss" = "Not Now";
+
+"jitai.emotional.high.title" = "Strong Emotions Detected";
+"jitai.emotional.high.body" = "You're experiencing intense emotions. Let's take a moment to breathe and find a healthier way to cope.";
+"jitai.emotional.moderate.title" = "Emotional Moment";
+"jitai.emotional.moderate.body" = "Take a deep breath. Remember your goals and why you're on this journey.";
+
+"jitai.social.title" = "Social Situation";
+"jitai.social.body" = "Social pressure can be challenging. You have the strength to make the right choice.";
+
+"jitai.situational.title" = "Familiar Trigger";
+"jitai.situational.body" = "You're in a situation that used to trigger smoking. This is your chance to create a new, healthier pattern.";
+
+"jitai.temporal.morning.title" = "Good Morning!";
+"jitai.temporal.morning.body" = "Start your day strong. Remember your commitment to better health.";
+
+"jitai.temporal.afternoon.title" = "Afternoon Check-in";
+"jitai.temporal.afternoon.body" = "How's your day going? Stay focused on your goals.";
+
+"jitai.temporal.evening.title" = "Evening Reflection";
+"jitai.temporal.evening.body" = "Reflect on the progress you've made today. You're doing great!";
+
+"jitai.temporal.night.title" = "Peaceful Night";
+"jitai.temporal.night.body" = "End your day on a positive note. Tomorrow is another opportunity to succeed.";
+
+"jitai.physical.title" = "Physical Trigger";
+"jitai.physical.body" = "Your body might be expecting nicotine, but it's getting stronger every day without it.";
+
+// Phase 6: Wellness Journey - Gamified Journey
+"journey.title" = "Your Wellness Journey";
+"journey.welcome.title" = "Welcome to Your Wellness Journey";
+"journey.welcome.subtitle" = "Track your progress, unlock achievements, and celebrate every milestone on your path to freedom";
+"journey.progress.title" = "Overall Progress";
+"journey.progress.description" = "Your journey towards complete wellness and freedom from smoking";
+"journey.achievements.title" = "Recent Achievements";
+"journey.achievements.empty.title" = "Start Your Journey";
+"journey.achievements.empty.subtitle" = "Complete your first milestone to unlock your first achievement";
+"journey.next.milestone.title" = "Next Milestone";
+"journey.milestone.coming.soon" = "Coming Soon";
+"journey.no.milestone" = "You're doing amazing! Keep up the great work.";
+"journey.insights.title" = "Journey Insights";
+"journey.insights.loading" = "Analyzing your progress...";
+
+// Achievement Categories
+"achievement.category.milestone" = "Milestone";
+"achievement.category.consistency" = "Consistency";
+"achievement.category.health" = "Health";
+"achievement.category.social" = "Social";
+"achievement.category.savings" = "Savings";
+"achievement.category.willpower" = "Willpower";
+"achievement.category.knowledge" = "Knowledge";
+
+// Achievement Rarities
+"achievement.rarity.common" = "Common";
+"achievement.rarity.uncommon" = "Uncommon";
+"achievement.rarity.rare" = "Rare";
+"achievement.rarity.epic" = "Epic";
+"achievement.rarity.legendary" = "Legendary";
+
+// Specific Achievements
+"achievement.first.hour.title" = "First Hour Hero";
+"achievement.first.hour.description" = "Completed your first smoke-free hour";
+"achievement.first.day.title" = "Day One Champion";
+"achievement.first.day.description" = "Completed your first full smoke-free day";
+"achievement.first.week.title" = "Week One Warrior";
+"achievement.first.week.description" = "Completed your first smoke-free week";
+"achievement.consistency.champion.title" = "Consistency Champion";
+"achievement.consistency.champion.description" = "Maintained consistency for 7 days";
+"achievement.money.saver.title" = "Money Saver";
+"achievement.money.saver.description" = "Saved €100 by not smoking";
+
+// Journey Insights
+"journey.insight.smoke.free.time" = "Every hour smoke-free strengthens your commitment";
+"journey.insight.achievements.earned" = "Your achievements show real progress";
+"journey.insight.halfway.point" = "You're over halfway to your next major milestone!";
+"journey.insight.keep.going" = "You're building incredible momentum - keep going!";
 
 // ContentView
 "add.cigarette.title" = "Add Cigarette";
@@ -780,9 +1136,135 @@
 // TagPickerView  
 "create.new.tag" = "Create New Tag";
 "tag.name.field" = "Tag Name";
+
+// AISettingsView - Additional hardcoded strings
+"system.status" = "System Status";
+"ai.coaching" = "AI Coaching";
+"behavioral.analysis" = "Behavioral Analysis";
+"quit.plan.optimization" = "Quit Plan Optimization";
+"healthkit.integration" = "HealthKit Integration";
+"ai.features" = "AI Features";
+"ai.coaching.description" = "AI coaching provides personalized tips and interventions based on your smoking patterns. All processing happens on-device.";
+"coaching.frequency" = "Coaching Frequency";
+"daily.coaching.limit" = "Daily Coaching Limit";
+"risk.sensitivity" = "Risk Sensitivity";
+"coaching.behavior" = "Coaching Behavior";
+"coaching.behavior.description" = "Higher frequency provides more support but may be more intrusive. The system respects quiet hours and daily limits.";
+"privacy.level" = "Privacy Level";
+"privacy.data.usage" = "Privacy & Data Usage";
+"privacy.description" = "All data processing happens on-device. No information is shared with external services.";
+"healthkit.data" = "HealthKit Data";
+"healthkit.data.description" = "Sleep, activity, medications";
+"location.analysis" = "Location Analysis";
+"location.analysis.description" = "General location patterns";
+"detailed.behavioral.analysis" = "Detailed Behavioral Analysis";
+"detailed.behavioral.analysis.description" = "Advanced pattern recognition";
+"quiet.hours" = "Quiet Hours";
+"start.time" = "Start Time";
+"end.time" = "End Time";
+"current.status" = "Current Status";
+"quiet" = "Quiet";
+"active" = "Active";
+"notification.schedule" = "Notification Schedule";
+"notification.schedule.description" = "Quiet hours prevent coaching notifications during sleep and other focused times.";
+"quit.plan.optimization" = "Quit Plan Optimization";
+"behavioral.insights" = "Behavioral Insights";
+"view.configuration.report" = "View Configuration Report";
+"advanced.features" = "Advanced Features";
+"reset.to.defaults" = "Reset to Defaults";
+"export.configuration" = "Export Configuration";
+"configuration.management" = "Configuration Management";
+"configuration.management.description" = "Reset will restore all AI coaching settings to their default values.";
+"reset.configuration" = "Reset Configuration";
+"no.behavioral.insights.yet" = "No Behavioral Insights Yet";
+"start.logging.message" = "Start logging your smoking to get personalized behavioral insights and recommendations.";
+"analyze.patterns" = "Analyze Patterns";
+"refresh" = "Refresh";
+"recommended.actions" = "Recommended Actions:";
+"low.risk" = "Low Risk";
+"medium.risk" = "Medium Risk";
+"high.risk" = "High Risk";
+"critical.risk" = "Critical";
+
+// QuitPlanOptimizationView - Additional hardcoded strings
+"view.details" = "View Details";
+"recommendation" = "Recommendation";
+"quit.date" = "Quit Date";
+"approach" = "Approach";
+"risk.factors" = "Risk Factors";
+"support.strategies" = "Support Strategies";
+"personalized.milestones" = "Personalized Milestones";
+"ai.recommendation" = "AI Recommendation";
+"apply" = "Apply";
+"plan.performance" = "Plan Performance";
+"confidence" = "Confidence:";
+"apply.this.suggestion" = "Apply This Suggestion";
+"no.performance.issues" = "No performance issues detected. Keep up the great work!";
+"todays.target" = "Today's Target";
+
+// Widget Localization
+"widget.quick.add.cigarette" = "Quick Add Cigarette";
+"widget.quick.add.description" = "Quickly add a cigarette entry";
+"widget.note.title" = "Note";
+"widget.note.description" = "Optional note for the cigarette";
+"widget.tags.title" = "Tags";
+"widget.tags.description" = "Optional tags for the cigarette";
+"widget.today" = "Today";
+"widget.add" = "Add";
+"widget.daily.avg" = "Daily Avg";
+"widget.display.name" = "Cigarette Tracker";
+"widget.description" = "Track your daily cigarette count and add new entries quickly.";
+"widget.a11y.today.count" = "%d cigarettes today";
+"widget.a11y.today.cigarettes" = "%d cigarettes smoked today";
+"widget.a11y.great.job" = "Great job! No cigarettes today";
+"widget.a11y.add.cigarette" = "Add cigarette";
+"widget.a11y.add.cigarette.hint" = "Double-tap to add a cigarette entry";
+"widget.a11y.no.cigarettes.today" = "No cigarettes today";
+"widget.a11y.last.cigarette.time" = "Last cigarette: %@";
+"widget.a11y.daily.average" = "Daily average: %.1f cigarettes";
+"widget.intent.add.cigarette" = "Add Cigarette";
+"widget.intent.add.cigarette.description" = "Add a cigarette entry from the widget";
+"widget.intent.success" = "Cigarette added successfully";
+"added.from.widget" = "Added from widget";
+"widget.intent.error.add.failed" = "Failed to add cigarette";
+"widget.no.cigarettes.today" = "None today";
+"widget.just.now" = "Just now";
+"widget.minutes.ago" = "%d min ago";
+"widget.hours.ago" = "%dh ago";
+
 "tag.name.example" = "e.g., Stress";
 "tag.color.field" = "Tag Color";
 "select.tags.title" = "Select Tags";
+
+// Additional hardcoded strings found
+"available.ios26" = "Available on iOS 26+";
+"requires.ios26" = "Requires iOS 26";
+"start" = "Start";
+"end" = "End";
+"analyzing.behavioral.patterns" = "Analyzing behavioral patterns...";
+"early.morning.smoking.message" = "You smoke your first cigarette 15 minutes after waking. Research shows this indicates high nicotine dependence.";
+"delay.first.cigarette.advice" = "Try delaying your first cigarette by 15-30 minutes tomorrow. Even small delays can reduce dependency.";
+"great.progress.title" = "Great Progress!";
+"fewer.cigarettes.yesterday.message" = "You smoked 3 fewer cigarettes than yesterday!";
+"keep.momentum.advice" = "Keep this momentum going. What did you do differently today?";
+"view.all.milestones.format" = "View All %d Milestones";
+"milestone.target.format" = "Target: %@";
+
+// HealthKit Permission Modal
+"healthkit.permission.title" = "Enhance Your Quit Journey";
+"healthkit.permission.explanation" = "MirrorSmokerStopper can provide more personalized coaching by accessing some of your Health data. All analysis happens on your device - nothing is shared.";
+"healthkit.steps.title" = "Activity";
+"healthkit.steps.description" = "Track movement patterns to suggest better timing for cravings";
+"healthkit.sleep.title" = "Sleep";
+"healthkit.sleep.description" = "Understand how sleep quality affects your smoking habits";
+"healthkit.mindfulness.title" = "Mindfulness";
+"healthkit.mindfulness.description" = "Log meditation sessions as healthy alternatives";
+"healthkit.heart.title" = "Heart Rate";
+"healthkit.heart.description" = "Monitor stress levels to predict smoking triggers";
+"healthkit.privacy.assurance" = "All data stays on your device. Nothing is shared with external services.";
+"healthkit.allow.access" = "Allow Health Access";
+"healthkit.maybe.later" = "Maybe Later";
+"close" = "Close";
 
 // InsightCard
 "health.insight.default" = "Health Insight";
@@ -798,3 +1280,177 @@
 // HomeWidget
 "widget.smoked.today" = "Smoked Today";
 "widget.add.cigarette" = "Add Cigarette";
+
+// AI Configuration
+"ai.config.frequency.minimal" = "Minimal";
+"ai.config.frequency.balanced" = "Balanced";
+"ai.config.frequency.proactive" = "Proactive";
+"ai.config.frequency.minimal.desc" = "Only high-risk situations";
+"ai.config.frequency.balanced.desc" = "Regular coaching with smart timing";
+"ai.config.frequency.proactive.desc" = "Frequent support and insights";
+
+"ai.config.privacy.minimal" = "Minimal";
+"ai.config.privacy.standard" = "Standard";
+"ai.config.privacy.enhanced" = "Enhanced";
+"ai.config.privacy.minimal.desc" = "Basic smoking data only";
+"ai.config.privacy.standard.desc" = "Smoking data + basic patterns";
+"ai.config.privacy.enhanced.desc" = "Full behavioral analysis with HealthKit";
+
+"ai.config.validation.ios26" = "AI coaching requires iOS 26";
+"ai.config.validation.healthkit.privacy" = "HealthKit requires enhanced privacy level";
+"ai.config.validation.quiet.hours" = "Quiet hours start and end cannot be the same";
+"ai.config.validation.notifications" = "Daily notifications must be between 1 and 10";
+
+// Behavioral Insights
+"behavioral.insight.time.peak.title" = "Peak smoking time detected";
+"behavioral.insight.time.peak.description" = "You smoke %.0f%% of your cigarettes around %d:00";
+"behavioral.insight.weekend.title" = "Weekend smoking spike";
+"behavioral.insight.weekend.description" = "You smoke %d more cigarettes on weekends";
+"behavioral.insight.trigger.title" = "Trigger pattern: %@";
+"behavioral.insight.trigger.description" = "%@ triggers %.0f%% of your smoking";
+"behavioral.insight.streak.title" = "Streak breaking pattern";
+"behavioral.insight.streak.description" = "Your streaks often end due to %@ at %d:00";
+"behavioral.insight.social.title" = "Social smoking pattern";
+"behavioral.insight.social.description" = "%.0f%% of your smoking happens in social situations";
+"behavioral.insight.environment.title" = "Environmental trigger: %@";
+"behavioral.insight.environment.description" = "%.0f%% of your smoking happens at %@";
+"behavioral.insight.regression.title" = "Progress regression detected";
+"behavioral.insight.regression.description" = "Smoking increased by %d cigarettes this week";
+
+// Behavioral Recommendations
+"behavioral.recommendation.time.avoid" = "Plan alternative activities for %d:00-%d:00";
+"behavioral.recommendation.time.replacement" = "Practice deep breathing during peak craving times";
+"behavioral.recommendation.time.schedule" = "Schedule important tasks during your peak smoking hours";
+"behavioral.recommendation.weekend.plan" = "Plan smoke-free weekend activities";
+"behavioral.recommendation.weekend.social" = "Identify and avoid smoking social situations";
+"behavioral.recommendation.weekend.routine" = "Maintain weekday routines on weekends";
+"behavioral.recommendation.streak.prepare" = "Prepare coping strategies for %@";
+"behavioral.recommendation.streak.avoid" = "Avoid %@ situations at %d:00";
+"behavioral.recommendation.streak.support" = "Have support ready during vulnerable times";
+"behavioral.recommendation.social.alternative" = "Find non-smoking social activities";
+"behavioral.recommendation.social.support" = "Tell friends about your quit plan";
+"behavioral.recommendation.social.escape" = "Practice polite ways to decline smoking invitations";
+"behavioral.recommendation.environment.modify" = "Modify your %@ environment to reduce triggers";
+"behavioral.recommendation.environment.avoid" = "Limit time spent in %@ when possible";
+"behavioral.recommendation.environment.replacement" = "Create new positive associations with this space";
+"behavioral.recommendation.regression.reassess" = "Review what changed in your routine this week";
+"behavioral.recommendation.regression.support" = "Reach out for additional support";
+"behavioral.recommendation.regression.gentle" = "Be patient with yourself - setbacks are normal";
+
+// Trigger-specific recommendations
+"behavioral.recommendation.stress.breathing" = "Practice 4-7-8 breathing when stressed";
+"behavioral.recommendation.stress.exercise" = "Take a 5-minute walk when feeling stressed";
+"behavioral.recommendation.stress.mindfulness" = "Use a mindfulness app for stress management";
+"behavioral.recommendation.boredom.activities" = "Keep a list of 5-minute activities handy";
+"behavioral.recommendation.boredom.hobby" = "Start a new hobby that keeps your hands busy";
+"behavioral.recommendation.boredom.productive" = "Turn boredom into productive micro-tasks";
+"behavioral.recommendation.generic.identify" = "Identify early warning signs of %@ triggers";
+"behavioral.recommendation.generic.alternative" = "Create healthy alternatives for %@ situations";
+"behavioral.recommendation.generic.avoid" = "Avoid or minimize %@ triggers when possible";
+
+// AI Settings and Quit Plan Optimization
+"ai.quit.plan.optimizer.title" = "AI Quit Plan Optimizer";
+"ai.powered.quit.plan.optimization" = "AI-Powered Quit Plan Optimization";
+"get.personalized.recommendations" = "Get personalized recommendations based on your smoking patterns, health data, and behavioral analysis";
+"current.plan" = "Current Plan";
+"active" = "Active";
+"inactive" = "Inactive";
+"quit.date" = "Quit Date";
+"not.set" = "Not set";
+"reduction.curve" = "Reduction Curve";
+"daily.average" = "Daily Average";
+"ai.optimization" = "AI Optimization";
+"generate.optimized.plan" = "Generate Optimized Plan";
+"evaluate.current.performance" = "Evaluate Current Performance";
+"analyzing.your.data" = "Analyzing your data...";
+"plan.performance" = "Plan Performance";
+"no.performance.data" = "No performance data available yet. Complete a few more days to get personalized insights.";
+"recommended.milestones" = "Recommended Milestones";
+"target.format" = "Target: %@";
+"recommendation" = "Recommendation";
+"personalized.milestones" = "Personalized Milestones";
+"no.performance.issues" = "No performance issues detected. Keep up the great work!";
+"confidence" = "Confidence:";
+"view.details" = "View Details";
+"view.all.milestones" = "View All %d Milestones";
+"ai.recommendation" = "AI Recommendation";
+"cancel" = "Cancel";
+"apply" = "Apply";
+"plan.performance.title" = "Plan Performance";
+"apply.this.suggestion" = "Apply This Suggestion";
+
+// AI Settings
+"ai.coaching.settings" = "AI Coaching Settings";
+"configuration.report" = "Configuration Report";
+"done" = "Done";
+"reset" = "Reset";
+"cancel" = "Cancel";
+"reset.ai.warning" = "This will reset all AI coaching settings to their default values. This cannot be undone.";
+"ai.coaching.system" = "AI Coaching System";
+"ios26.compatibility.message" = "Advanced AI coaching features require iOS 26 and compatible hardware. Basic quit support remains available on all iOS versions.";
+"system.status" = "System Status";
+"ai.features" = "AI Features";
+"ai.coaching.description" = "AI coaching provides personalized tips and interventions based on your smoking patterns. All processing happens on-device.";
+"daily.coaching.limit" = "Daily Coaching Limit";
+"risk.sensitivity" = "Risk Sensitivity";
+"coaching.behavior" = "Coaching Behavior";
+"coaching.behavior.description" = "Higher frequency provides more support but may be more intrusive. The system respects quiet hours and daily limits.";
+"privacy.data.usage" = "Privacy & Data Usage";
+"privacy.description" = "All data processing happens on-device. No information is shared with external services.";
+"start.time" = "Start Time";
+"end.time" = "End Time";
+"view.configuration.report" = "View Configuration Report";
+"reset.to.defaults" = "Reset to Defaults";
+"export.configuration" = "Export Configuration";
+"analyze.patterns" = "Analyze Patterns";
+"behavioral.insights" = "Behavioral Insights";
+"refresh" = "Refresh";
+
+// Purchase Logging
+"purchase.log.title" = "Log Purchase";
+"purchase.log.subtitle" = "Record your tobacco product purchase";
+"purchase.product.name" = "Product Name";
+"purchase.product.placeholder" = "e.g. Marlboro Red";
+"purchase.recent.products" = "Recent";
+"purchase.amount" = "Amount";
+"purchase.amount.placeholder" = "0.00";
+"purchase.common.currencies" = "Common";
+"purchase.currency.info" = "Using currency from settings";
+
+// Financial Preferences
+"settings.financial.preferences.section" = "Financial Preferences";
+"settings.financial.preferences.footer" = "Configure your preferred currency for expenses and statistics";
+"settings.preferred.currency.label" = "Preferred Currency";
+
+// Purchase History
+"purchase.history.title" = "Purchase History";
+"purchase.history.week" = "Last Week";
+"purchase.history.month" = "Last Month";
+"purchase.history.three.months" = "Last 3 Months";
+"purchase.history.all" = "All Time";
+"purchase.history.total.spent" = "Total Spent";
+"purchase.history.total.purchases" = "Total Purchases";
+"purchase.history.search.placeholder" = "Search products...";
+"purchase.history.empty.title" = "No Purchases Yet";
+"purchase.history.empty.subtitle" = "Start logging your tobacco product purchases to see your spending history here";
+"purchase.currency" = "Currency";
+"purchase.currency.placeholder" = "USD";
+"purchase.quantity" = "Quantity";
+"purchase.error.fill.fields" = "Please fill in all fields";
+"purchase.error.valid.amount" = "Please enter a valid amount";
+"purchase.error.amount.positive" = "Amount must be greater than zero";
+"purchase.error.save" = "Failed to save purchase: %@";
+
+// FAB Actions
+"fab.log.purchase" = "Log Purchase";
+"fab.tagged" = "Tagged";
+
+// Statistics
+"statistics.financial.savings" = "Financial Savings";
+"statistics.money.spent" = "Money Spent";
+"statistics.money.saved" = "Money Saved (Estimate)";
+"statistics.purchase.history.button" = "Purchase History";
+"statistics.financial.breakdown" = "Financial Breakdown";
+"statistics.weekly.spending" = "Weekly Spending";
+"statistics.monthly.spending" = "Monthly Spending";
+

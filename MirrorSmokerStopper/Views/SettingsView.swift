@@ -2,7 +2,7 @@
 //  SettingsView.swift
 //  MirrorSmokerStopper
 //
-//  Created by Roberto D'Angelo on 01/09/25.
+//  Created by Claude on 03/09/25.
 //
 
 import SwiftUI
@@ -10,27 +10,43 @@ import SwiftData
 import os.log
 
 struct SettingsView: View {
-    private static let logger = Logger(subsystem: "com.mirror-labs.mirrorsmoker", category: "SettingsView")
+    private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "SettingsView")
     
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Query private var profiles: [UserProfile]
-    @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette] // For calculating the average
+    @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette]
     
+    // Profile state
     @State private var name = ""
     @State private var birthDate = Date()
     @State private var weight = ""
     @State private var smokingType = SmokingType.cigarettes
     @State private var startedSmokingAge = 18
-    @State private var showingSaveConfirmation = false
-    @State private var hasLoadedProfile = false
-    @State private var showDebugPanel = false
-    @State private var hasUnsavedChanges = false
-    @State private var showingHelpView = false
+    @State private var dailyAverageInput = ""
+    @State private var preferredCurrency = "EUR"
     
-    @State private var quitDate: Date?
-    @State private var enableGradualReduction = true
-    @State private var dailyAverageInput = "" // Field for daily average input
+    // Removed quit plan functionality as requested
+    
+    // UI state
+    @State private var hasUnsavedChanges = false
+    @State private var isLoading = false
+    @State private var showingSaveAlert = false
+    @State private var showingDeleteAlert = false
+    @State private var showingHelpView = false
+    @State private var errorMessage: String?
+    @State private var showingError = false
+    
+    // Premium state
+    @State private var premiumGatekeeper = PremiumGatekeeper.shared
+    @State private var showingPaywall = false
+    
+    // Supported currencies
+    private let supportedCurrencies = [
+        ("EUR", "€ Euro"),
+        ("USD", "$ US Dollar"),
+        ("GBP", "£ British Pound")
+    ]
     
     private var profile: UserProfile? {
         profiles.first
@@ -50,13 +66,6 @@ struct SettingsView: View {
         return Double(recentCigarettes.count) / Double(totalDays)
     }
     
-    // Calculate today's target based on the plan
-    private var todayTarget: Int {
-        guard let profile = profile else { return Int(dailyAverageForPlan) }
-        return profile.todayTarget(dailyAverage: dailyAverageForPlan)
-    }
-    
-    // Use user input or calculate from history
     private var dailyAverageForPlan: Double {
         if let input = Double(dailyAverageInput), input > 0 {
             return input
@@ -64,471 +73,122 @@ struct SettingsView: View {
         return calculatedDailyAverage
     }
     
-    private var isValidWeight: Bool {
-        if let weightValue = Double(weight), weightValue > 0 && weightValue < 300 {
-            return true
-        }
-        return weight.isEmpty
+    // Removed todayTarget calculation as part of plan removal
+    
+    // Validation computed properties
+    private var isNameValid: Bool {
+        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
     
-    private var isValidAge: Bool {
+    private var isWeightValid: Bool {
+        if weight.isEmpty { return true }
+        guard let weightValue = Double(weight) else { return false }
+        return weightValue > 0 && weightValue <= 300
+    }
+    
+    private var isAgeValid: Bool {
         startedSmokingAge >= 10 && startedSmokingAge <= 80
     }
     
-    private var isValidDailyAverage: Bool {
-        if let avg = Double(dailyAverageInput), avg >= 0 && avg <= 100 {
-            return true
-        }
-        return dailyAverageInput.isEmpty
+    private var isDailyAverageValid: Bool {
+        if dailyAverageInput.isEmpty { return true }
+        guard let avg = Double(dailyAverageInput) else { return false }
+        return avg >= 0 && avg <= 100
+    }
+    
+    private var canSave: Bool {
+        isNameValid && isWeightValid && isAgeValid && isDailyAverageValid && !isLoading
     }
     
     private var currentAge: Int {
-        profile?.age ?? 0
+        let calendar = Calendar.current
+        let now = Date()
+        let ageComponents = calendar.dateComponents([.year], from: birthDate, to: now)
+        return ageComponents.year ?? 0
     }
     
     private var yearsSmokingCalculated: Int {
         max(0, currentAge - startedSmokingAge)
     }
     
-    private var ageFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .none
-        formatter.allowsFloats = false
-        formatter.minimum = 10
-        formatter.maximum = 100
-        return formatter
-    }
-    
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: DS.Space.lg) {
-                    // Quit Plan Section - moved to top
-                    DSCard {
-                        VStack(spacing: DS.Space.lg) {
-                            DSSectionHeader(NSLocalizedString("settings.quit.plan.section", comment: ""), subtitle: NSLocalizedString("settings.quit.plan.subtitle", comment: ""))
-                            
-                            VStack(spacing: DS.Space.md) {
-                                // Daily average field - moved from smoking habits
-                                VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    HStack {
-                                        Image(systemName: "chart.bar.fill")
-                                            .foregroundColor(DS.Colors.info)
-                                            .frame(width: 24)
-                                        Text(NSLocalizedString("settings.daily.cigarettes.label", comment: ""))
-                                            .font(DS.Text.body)
-                                    }
-                                    TextField(NSLocalizedString("settings.daily.cigarettes.example", comment: ""), text: $dailyAverageInput)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .keyboardType(.decimalPad)
-                                        .onChange(of: dailyAverageInput) { hasUnsavedChanges = true }
-                                    
-                                    if !isValidDailyAverage && !dailyAverageInput.isEmpty {
-                                        Text(NSLocalizedString("settings.daily.cigarettes.invalid", comment: ""))
-                                            .font(DS.Text.caption)
-                                            .foregroundColor(DS.Colors.danger)
-                                    }
-                                    
-                                    Text(String(format: NSLocalizedString("settings.auto.calculate.footer", comment: ""), String(format: "%.1f", calculatedDailyAverage)))
-                                        .font(DS.Text.caption)
-                                        .foregroundColor(DS.Colors.textSecondary)
-                                        .multilineTextAlignment(.leading)
-                                }
-                                
-                                // Show current calculated average
-                                VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    HStack {
-                                        Image(systemName: "chart.bar.fill")
-                                            .foregroundColor(DS.Colors.info)
-                                            .frame(width: 24)
-                                        VStack(alignment: .leading) {
-                                            Text(NSLocalizedString("settings.daily.average.title", comment: ""))
-                                                .font(DS.Text.body)
-                                            Text(NSLocalizedString("settings.daily.average.subtitle", comment: ""))
-                                                .font(DS.Text.caption)
-                                                .foregroundColor(DS.Colors.textSecondary)
-                                        }
-                                        Spacer()
-                                        Text(String(format: "%.1f", calculatedDailyAverage))
-                                            .font(DS.Text.title2)
-                                            .fontWeight(.bold)
-                                            .foregroundColor(DS.Colors.primary)
-                                    }
-                                    .padding()
-                                    .background(DS.Colors.info.opacity(0.1))
-                                    .cornerRadius(8)
-                                }
-                                
-                                // Quit date
-                                VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    HStack {
-                                        Image(systemName: "calendar.badge.clock")
-                                            .foregroundColor(DS.Colors.primary)
-                                            .frame(width: 24)
-                                        Text(NSLocalizedString("settings.when.quit.question", comment: ""))
-                                            .font(DS.Text.body)
-                                    }
-                                    DatePicker(
-                                        NSLocalizedString("settings.when.quit.question", comment: ""),
-                                        selection: Binding(
-                                            get: { quitDate ?? Calendar.current.date(byAdding: .month, value: 3, to: Date()) ?? Date() },
-                                            set: { quitDate = $0; hasUnsavedChanges = true }
-                                        ),
-                                        in: Calendar.current.date(byAdding: .day, value: 1, to: Date())!...Date.distantFuture,
-                                        displayedComponents: .date
-                                    )
-                                    .datePickerStyle(.compact)
-                                    .labelsHidden()
-                                }
-                                
-                                // Gradual plan toggle
-                                VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    Toggle(NSLocalizedString("settings.gradual.reduction.toggle", comment: ""), isOn: $enableGradualReduction)
-                                        .toggleStyle(SwitchToggleStyle())
-                                        .onChange(of: enableGradualReduction) { hasUnsavedChanges = true }
-                                    
-                                    Text(enableGradualReduction ? 
-                                         NSLocalizedString("settings.gradual.reduction.description", comment: "") : 
-                                         NSLocalizedString("settings.immediate.stop.description", comment: ""))
-                                        .font(DS.Text.caption)
-                                        .foregroundColor(DS.Colors.textSecondary)
-                                }
-                                
-                                // Plan preview if date is selected
-                                if let quitDate = quitDate, enableGradualReduction {
-                                    let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
-                                    let dailyReduction = dailyAverageForPlan / Double(max(daysRemaining, 1))
-                                    
-                                    VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                        Text(NSLocalizedString("settings.plan.preview", comment: ""))
-                                            .font(DS.Text.body)
-                                            .fontWeight(.semibold)
-                                            .foregroundColor(DS.Colors.primary)
-                                        
-                                        VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                            HStack {
-                                                Text(NSLocalizedString("settings.plan.starting.from", comment: ""))
-                                                Spacer()
-                                                Text("\(String(format: "%.1f", dailyAverageForPlan)) sigarette/giorno")
-                                                    .fontWeight(.medium)
-                                            }
-                                            HStack {
-                                                Text(NSLocalizedString("settings.plan.reaching", comment: ""))
-                                                Spacer()
-                                                Text(NSLocalizedString("settings.plan.zero.cigarettes", comment: ""))
-                                                    .fontWeight(.medium)
-                                                    .foregroundColor(DS.Colors.success)
-                                            }
-                                            HStack {
-                                                Text(NSLocalizedString("settings.plan.in.days", comment: ""))
-                                                Spacer()
-                                                Text(String(format: NSLocalizedString("settings.plan.days.count", comment: ""), daysRemaining))
-                                                    .fontWeight(.medium)
-                                            }
-                                            HStack {
-                                                Text(NSLocalizedString("settings.plan.daily.reduction", comment: ""))
-                                                Spacer()
-                                                Text(String(format: NSLocalizedString("settings.plan.reduction.amount", comment: ""), String(format: "%.2f", dailyReduction)))
-                                                    .fontWeight(.medium)
-                                                    .foregroundColor(DS.Colors.warning)
-                                            }
-                                            HStack {
-                                                Text(NSLocalizedString("settings.plan.todays.goal", comment: ""))
-                                                Spacer()
-                                                Text(String(format: NSLocalizedString("settings.plan.cigarettes.count", comment: ""), todayTarget))
-                                                    .fontWeight(.bold)
-                                                    .foregroundColor(DS.Colors.primary)
-                                            }
-                                        }
-                                        .font(DS.Text.caption)
-                                        
-                                        if daysRemaining <= 0 {
-                                            Text(NSLocalizedString("settings.plan.date.too.close", comment: ""))
-                                                .font(DS.Text.caption)
-                                                .foregroundColor(DS.Colors.danger)
-                                                .padding(DS.Space.sm)
-                                                .background(DS.Colors.danger.opacity(0.1))
-                                                .cornerRadius(8)
-                                        } else if daysRemaining < 7 {
-                                            Text(NSLocalizedString("settings.plan.intensive", comment: ""))
-                                                .font(DS.Text.caption)
-                                                .foregroundColor(DS.Colors.warning)
-                                                .padding(DS.Space.sm)
-                                                .background(DS.Colors.warning.opacity(0.1))
-                                                .cornerRadius(8)
-                                        } else {
-                                            Text(NSLocalizedString("settings.plan.balanced", comment: ""))
-                                                .font(DS.Text.caption)
-                                                .foregroundColor(DS.Colors.success)
-                                                .padding(DS.Space.sm)
-                                                .background(DS.Colors.success.opacity(0.1))
-                                                .cornerRadius(8)
-                                        }
-                                    }
-                                    .padding()
-                                    .background(DS.Colors.backgroundSecondary)
-                                    .cornerRadius(8)
-                                }
-                            }
-                        }
+            ZStack {
+                DS.Colors.background
+                    .ignoresSafeArea()
+                
+                if isLoading {
+                    VStack(spacing: DS.Space.md) {
+                        ProgressView()
+                            .scaleEffect(1.2)
+                        Text("loading".local())
+                            .font(DS.Text.body)
+                            .foregroundColor(DS.Colors.textSecondary)
                     }
-                    
-                    // Profile Section
-                    DSCard {
-                        VStack(spacing: DS.Space.lg) {
-                            DSSectionHeader(NSLocalizedString("settings.personal.profile", comment: ""))
-                            
-                            VStack(spacing: DS.Space.md) {
-                                // Name
-                                VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    HStack {
-                                        Image(systemName: "person.fill")
-                                            .foregroundColor(DS.Colors.primary)
-                                            .frame(width: 24)
-                                        Text(NSLocalizedString("settings.name.label", comment: ""))
-                                            .font(DS.Text.body)
-                                    }
-                                    TextField(NSLocalizedString("settings.name.placeholder", comment: ""), text: $name)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .textInputAutocapitalization(.words)
-                                        .onChange(of: name) { hasUnsavedChanges = true }
-                                }
-                                
-                                // Birth date - standard DatePicker
-                                VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    HStack {
-                                        Image(systemName: "calendar")
-                                            .foregroundColor(DS.Colors.info)
-                                            .frame(width: 24)
-                                        Text(NSLocalizedString("settings.birth.date.label", comment: ""))
-                                            .font(DS.Text.body)
-                                    }
-                                    DatePicker(
-                                        NSLocalizedString("settings.birth.date.label", comment: ""),
-                                        selection: $birthDate,
-                                        in: Date.distantPast...Date(),
-                                        displayedComponents: .date
-                                    )
-                                    .datePickerStyle(.compact)
-                                    .labelsHidden()
-                                    .onChange(of: birthDate) { hasUnsavedChanges = true }
-                                }
-                                
-                                // Weight
-                                VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    HStack {
-                                        Image(systemName: "scalemass")
-                                            .foregroundColor(DS.Colors.health)
-                                            .frame(width: 24)
-                                        Text(NSLocalizedString("settings.weight.label", comment: ""))
-                                            .font(DS.Text.body)
-                                    }
-                                    TextField("0", text: $weight)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .keyboardType(.decimalPad)
-                                        .onChange(of: weight) { hasUnsavedChanges = true }
-                                        .toolbar {
-                                            if #available(iOS 15.0, *) {
-                                                ToolbarItemGroup(placement: .keyboard) {
-                                                    Spacer()
-                                                    Button(NSLocalizedString("done", comment: "")) {
-                                                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                                                    }
-                                                }
-                                            }
-                                        }
-                                        .onReceive(weight.publisher) { _ in
-                                            // Format weight input with proper locale
-                                            if let value = Double(weight), value > 0 {
-                                                let formatter = NumberFormatter()
-                                                formatter.numberStyle = .decimal
-                                                formatter.maximumFractionDigits = 1
-                                                formatter.locale = Locale.current
-                                                if let formatted = formatter.string(from: NSNumber(value: value)) {
-                                                    if formatted != weight {
-                                                        weight = formatted
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    
-                                    if !isValidWeight && !weight.isEmpty {
-                                        Text(NSLocalizedString("settings.weight.invalid.message", comment: ""))
-                                            .font(DS.Text.caption)
-                                            .foregroundColor(DS.Colors.danger)
-                                    }
-                                }
+                } else {
+                    ScrollView {
+                        LazyVStack(spacing: DS.Space.lg) {
+                            personalProfileSection
+                            premiumStatusSection
+                            smokingHabitsSection
+                            financialPreferencesSection
+                            if shouldShowHealthInfo {
+                                healthInsightsSection
                             }
+                            aiSettingsSection
+                            appInfoSection
+                            dataManagementSection
                         }
+                        .padding(DS.Space.lg)
                     }
-                    
-                    // Smoking Habits
-                    DSCard {
-                        VStack(spacing: DS.Space.lg) {
-                            DSSectionHeader(NSLocalizedString("settings.smoking.habits.section", comment: ""))
-                            
-                            VStack(spacing: DS.Space.md) {
-                                VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    HStack {
-                                        Image(systemName: smokingType.icon)
-                                            .foregroundColor(DS.Colors.warning)
-                                            .frame(width: 24)
-                                        Text(NSLocalizedString("settings.smoking.type.label", comment: ""))
-                                            .font(DS.Text.body)
-                                    }
-                                    Picker(NSLocalizedString("smoking.type.picker.label", comment: ""), selection: $smokingType) {
-                                        ForEach(SmokingType.allCases, id: \.self) { type in
-                                            Text(type.displayName).tag(type)
-                                        }
-                                    }
-                                    .pickerStyle(.segmented)
-                                    .onChange(of: smokingType) { hasUnsavedChanges = true }
-                                }
-                                
-                                VStack(alignment: .leading, spacing: DS.Space.sm) {
-                                    HStack {
-                                        Image(systemName: "hourglass.tophalf.filled")
-                                            .foregroundColor(DS.Colors.cigarette)
-                                            .frame(width: 24)
-                                        Text(NSLocalizedString("settings.started.smoking.age", comment: ""))
-                                            .font(DS.Text.body)
-                                    }
-                                    TextField("18", value: $startedSmokingAge, formatter: ageFormatter)
-                                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                                        .keyboardType(.numberPad)
-                                        .onChange(of: startedSmokingAge) { hasUnsavedChanges = true }
-                                        .toolbar {
-                                            if #available(iOS 15.0, *) {
-                                                ToolbarItemGroup(placement: .keyboard) {
-                                                    Spacer()
-                                                    Button(NSLocalizedString("done", comment: "")) {
-                                                        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    
-                                    if !isValidAge {
-                                        Text(NSLocalizedString("settings.age.invalid.message", comment: ""))
-                                            .font(DS.Text.caption)
-                                            .foregroundColor(DS.Colors.danger)
-                                    }
-                                }
-                                
-                            }
-                        }
+                    .refreshable {
+                        await loadProfileData()
                     }
-                    
-                    
-                    
-                    // Health Insights with calculated age
-                    if currentAge > 0 || !weight.isEmpty && isValidWeight {
-                        DSCard {
-                            VStack(spacing: DS.Space.lg) {
-                                DSSectionHeader(NSLocalizedString("settings.health.info.section", comment: ""))
-                                
-                                if currentAge > 0 {
-                                    VStack(alignment: .leading, spacing: DS.Space.md) {
-                                        HStack {
-                                            Image(systemName: "person.circle.fill")
-                                                .foregroundColor(DS.Colors.info)
-                                                .frame(width: 24)
-                                            VStack(alignment: .leading) {
-                                                Text(NSLocalizedString("settings.calculated.age", comment: ""))
-                                                    .font(DS.Text.body)
-                                                    .fontWeight(.medium)
-                                                Text(String(format: NSLocalizedString("settings.years.old", comment: ""), currentAge))
-                                                    .font(DS.Text.caption)
-                                                    .foregroundColor(DS.Colors.textSecondary)
-                                            }
-                                            Spacer()
-                                            Text("\(currentAge)")
-                                                .font(DS.Text.title2)
-                                                .fontWeight(.bold)
-                                                .foregroundColor(DS.Colors.primary)
-                                        }
-                                        .padding()
-                                        .background(DS.Colors.info.opacity(0.1))
-                                        .cornerRadius(8)
-                                        
-                                        if !weight.isEmpty && isValidWeight {
-                                            HealthInsightsView(
-                                                age: currentAge,
-                                                weight: Double(weight) ?? 0,
-                                                smokingType: smokingType,
-                                                yearsSmokingSince: yearsSmokingCalculated
-                                            )
-                                        }
-                                    }
-                                } else if !weight.isEmpty && isValidWeight {
-                                    HealthInsightsView(
-                                        age: currentAge,
-                                        weight: Double(weight) ?? 0,
-                                        smokingType: smokingType,
-                                        yearsSmokingSince: yearsSmokingCalculated
-                                    )
-                                }
-                            }
-                        }
-                    }
-                    
-                    // App Info - uguale a prima
-                    DSCard {
-                        VStack(spacing: DS.Space.lg) {
-                            DSSectionHeader(NSLocalizedString("settings.app.info.section", comment: ""))
-                            HStack {
-                                Text(NSLocalizedString("settings.version.label", comment: ""))
-                                Spacer()
-                                Text(appVersion)
-                                    .foregroundColor(DS.Colors.textSecondary)
-                            }
-                        }
+                    .onTapGesture {
+                        hideKeyboard()
                     }
                 }
-                .padding(DS.Space.lg)
             }
-            .background(DS.Colors.background)
-            .navigationTitle(NSLocalizedString("settings.title", comment: ""))
-            .navigationBarTitleDisplayMode(.large)
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                // Help button - always visible
+                ToolbarItem(placement: .principal) {
+                    Text("settings.title".local())
+                        .font(DS.Text.title)
+                        .foregroundColor(DS.Colors.textPrimary)
+                }
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: {
-                        showingHelpView = true
-                    }) {
+                    Button(action: { showingHelpView = true }) {
                         Image(systemName: "questionmark.circle")
                             .font(.title2)
                     }
                 }
                 
-                // Cancel button - only when there are unsaved changes
                 if hasUnsavedChanges {
                     ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(NSLocalizedString("cancel", comment: "")) {
-                            // Reset to original values
-                            loadProfileData()
-                            hasUnsavedChanges = false
-                            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                        Button("cancel".local()) {
+                            resetForm()
                         }
+                        .disabled(isLoading)
                     }
-                }
-                
-                // Save button - only when there are valid unsaved changes
-                if hasUnsavedChanges && canSave {
+                    
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
                             Task {
                                 await saveProfile()
-                                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                             }
                         }) {
-                            HStack(spacing: 4) {
-                                Circle()
-                                    .fill(DS.Colors.warning)
-                                    .frame(width: 6, height: 6)
-                                Text(NSLocalizedString("save", comment: ""))
+                            if isLoading {
+                                ProgressView()
+                                    .scaleEffect(0.8)
+                            } else {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(canSave ? DS.Colors.success : DS.Colors.textSecondary)
+                                    Text("save".local())
+                                }
                             }
                         }
+                        .disabled(!canSave || isLoading)
                         .fontWeight(.semibold)
                     }
                 }
@@ -536,137 +196,818 @@ struct SettingsView: View {
             .sheet(isPresented: $showingHelpView) {
                 HelpView()
             }
-        }
-        .onAppear {
-            if !hasLoadedProfile {
-                loadProfileData()
-                hasLoadedProfile = true
+            .alert("settings.profile.saved".local(), isPresented: $showingSaveAlert) {
+                Button("OK") {
+                    dismiss()
+                }
+            } message: {
+                Text("settings.profile.saved.message".local())
+            }
+            .alert("settings.are.you.sure".local(), isPresented: $showingDeleteAlert) {
+                Button("settings.delete.all.data".local(), role: .destructive) {
+                    Self.logger.info("Delete confirmation - executing delete all data")
+                    Task {
+                        await deleteAllData()
+                    }
+                }
+                Button("cancel".local(), role: .cancel) {
+                    Self.logger.info("Delete confirmation - cancelled")
+                }
+            } message: {
+                Text("settings.delete.warning".local())
+            }
+            .alert("error".local(), isPresented: $showingError) {
+                Button("OK") { }
+            } message: {
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                }
             }
         }
-        .alert(NSLocalizedString("plan.saved.title", comment: ""), isPresented: $showingSaveConfirmation) {
-            Button("OK") { 
-                dismiss()
-            }
-        } message: {
-            Text(NSLocalizedString("plan.saved.message", comment: ""))
-        }
         .onAppear {
-            // Reset unsaved changes when view appears
-            hasUnsavedChanges = false
+            Task {
+                await loadProfileData()
+            }
         }
     }
     
-    private var canSave: Bool {
-        !name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
-        isValidWeight &&
-        isValidAge &&
-        isValidDailyAverage
+    // MARK: - View Sections
+    
+    private var personalProfileSection: some View {
+        LegacyDSCard {
+            VStack(alignment: .leading, spacing: DS.Space.lg) {
+                DSSectionHeader(
+                    "settings.personal.profile".local(),
+                    subtitle: "settings.profile.footer".local()
+                )
+                
+                VStack(alignment: .leading, spacing: DS.Space.md) {
+                    // Name field
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "settings.name.label".local(),
+                            icon: "person.fill",
+                            isRequired: true
+                        )
+                        
+                        TextField(
+                            "settings.name.placeholder".local(),
+                            text: $name
+                        )
+                        .textFieldStyle(DSTextFieldStyle())
+                        .textInputAutocapitalization(.words)
+                        .autocorrectionDisabled()
+                        .onChange(of: name) { _, _ in
+                            hasUnsavedChanges = true
+                        }
+                        
+                        if !isNameValid && hasUnsavedChanges {
+                            DSErrorText("settings.name.placeholder.hint".local())
+                        }
+                    }
+                    
+                    // Birth date field
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "settings.birth.date.label".local(),
+                            icon: "calendar",
+                            isRequired: false
+                        )
+                        
+                        DatePicker(
+                            "settings.birth.date.label".local(),
+                            selection: $birthDate,
+                            in: Date.distantPast...Date(),
+                            displayedComponents: .date
+                        )
+                        .datePickerStyle(.compact)
+                        .labelsHidden()
+                        .onChange(of: birthDate) { _, _ in
+                            hasUnsavedChanges = true
+                        }
+                        
+                        if currentAge > 0 {
+                            DSInfoText(String(format: "settings.age.years.format".local(), currentAge))
+                        }
+                    }
+                    
+                    // Weight field
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "settings.weight.label".local(),
+                            icon: "scalemass",
+                            isRequired: false
+                        )
+                        
+                        TextField(
+                            "settings.weight.placeholder".local(),
+                            text: $weight
+                        )
+                        .textFieldStyle(DSTextFieldStyle())
+                        .keyboardType(.decimalPad)
+                        .onChange(of: weight) { _, _ in
+                            hasUnsavedChanges = true
+                        }
+                        
+                        if !isWeightValid && !weight.isEmpty {
+                            DSErrorText("settings.weight.invalid.message".local())
+                        }
+                    }
+                }
+            }
+        }
     }
+    
+    private var smokingHabitsSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader(
+                    "settings.smoking.habits.section".local(),
+                    subtitle: "settings.smoking.habits.footer".local()
+                )
+                
+                VStack(alignment: .leading, spacing: DS.Space.md) {
+                    // Smoking type
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "settings.smoking.type.label".local(),
+                            icon: smokingType.icon,
+                            isRequired: true
+                        )
+                        
+                        Picker(
+                            "settings.smoking.type.label".local(),
+                            selection: $smokingType
+                        ) {
+                            ForEach(SmokingType.allCases, id: \.self) { type in
+                                Text(type.displayName).tag(type)
+                            }
+                        }
+//                        .pickerStyle(.default)
+                        .onChange(of: smokingType) { _, _ in
+                            hasUnsavedChanges = true
+                        }
+                    }
+                    
+                    // Started smoking age
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "settings.started.smoking.age".local(),
+                            icon: "hourglass.tophalf.filled",
+                            isRequired: true
+                        )
+                        
+                        HStack {
+                            Stepper(
+                                value: $startedSmokingAge,
+                                in: 10...80
+                            ) {
+                                Text("\(startedSmokingAge) " + "settings.age.years".local())
+                                    .font(DS.Text.body)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                            }
+                            .onChange(of: startedSmokingAge) { _, _ in
+                                hasUnsavedChanges = true
+                            }
+                        }
+                        
+                        if !isAgeValid {
+                            DSErrorText("settings.age.invalid.message".local())
+                        }
+                        
+                        if yearsSmokingCalculated > 0 {
+                            DSInfoText(String(format: "settings.smoking.years.info".local(), yearsSmokingCalculated))
+                        }
+                    }
+                    
+                    // Daily average
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "settings.daily.cigarettes.label".local(),
+                            icon: "chart.bar.fill",
+                            isRequired: false
+                        )
+                        
+                        TextField(
+                            "settings.daily.cigarettes.example".local(),
+                            text: $dailyAverageInput
+                        )
+                        .textFieldStyle(DSTextFieldStyle())
+                        .keyboardType(.decimalPad)
+                        .onChange(of: dailyAverageInput) { _, _ in
+                            hasUnsavedChanges = true
+                        }
+                        
+                        if !isDailyAverageValid && !dailyAverageInput.isEmpty {
+                            DSErrorText("settings.daily.cigarettes.invalid".local())
+                        }
+                        
+                        if calculatedDailyAverage > 0 {
+                            DSInfoText(String(format: "settings.auto.calculate.footer".local(), String(format: "%.1f", calculatedDailyAverage)))
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    // Quit plan section removed as requested
+    
+    private var shouldShowHealthInfo: Bool {
+        currentAge > 0 || (!weight.isEmpty && isWeightValid)
+    }
+    
+    private var financialPreferencesSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader(
+                    "settings.financial.preferences.section".local(),
+                    subtitle: "settings.financial.preferences.footer".local()
+                )
+                
+                VStack(spacing: DS.Space.md) {
+                    // Currency selection
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "settings.preferred.currency.label".local(),
+                            icon: "banknote.fill",
+                            isRequired: false
+                        )
+                        
+                        Menu {
+                            ForEach(supportedCurrencies, id: \.0) { currency in
+                                Button(action: {
+                                    preferredCurrency = currency.0
+                                    hasUnsavedChanges = true
+                                }) {
+                                    HStack {
+                                        Text(currency.1)
+                                        Spacer()
+                                        if preferredCurrency == currency.0 {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                let selectedCurrency = supportedCurrencies.first { $0.0 == preferredCurrency }
+                                Text(selectedCurrency?.1 ?? preferredCurrency)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                Spacer()
+                                Image(systemName: "chevron.down")
+                                    .foregroundColor(DS.Colors.textSecondary)
+                                    .font(.caption)
+                            }
+                            .padding(DS.Space.md)
+                            .background(DS.Colors.backgroundSecondary)
+                            .cornerRadius(DS.Size.cardRadiusSmall)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private var healthInsightsSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader(
+                    "settings.health.info.section".local(),
+                    subtitle: "settings.health.insights.footer".local()
+                )
+                
+                if currentAge > 0, let weightValue = Double(weight), isWeightValid {
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSInfoCard(
+                            title: "settings.calculated.age".local(),
+                            value: String(format: "settings.years.old".local(), currentAge),
+                            icon: "person.circle.fill",
+                            color: DS.Colors.info
+                        )
+                        DSInfoCard(
+                            title: "settings.weight.label".local(),
+                            value: String(format: "%.1f kg", weightValue),
+                            icon: "scalemass",
+                            color: DS.Colors.primary
+                        )
+                        DSInfoCard(
+                            title: "settings.smoking.years.info".local(),
+                            value: String(format: "%d years", yearsSmokingCalculated),
+                            icon: "hourglass.tophalf.filled",
+                            color: DS.Colors.warning
+                        )
+                    }
+                } else if currentAge > 0 {
+                    DSInfoCard(
+                        title: "settings.calculated.age".local(),
+                        value: String(format: "settings.years.old".local(), currentAge),
+                        icon: "person.circle.fill",
+                        color: DS.Colors.info
+                    )
+                }
+            }
+        }
+    }
+    
+    private var aiSettingsSection: some View {
+        NavigationLink(destination: AISettingsView()) {
+            LegacyDSCard {
+                VStack(spacing: DS.Space.md) {
+                    DSSectionHeader("AI Coach Settings")
+                    
+                    HStack {
+                        Image(systemName: "brain.head.profile")
+                            .font(.title2)
+                            .foregroundColor(DS.Colors.primary)
+                        
+                        VStack(alignment: .leading, spacing: DS.Space.xs) {
+                            Text("Configure AI Coach")
+                                .font(DS.Text.body)
+                                .foregroundColor(DS.Colors.textPrimary)
+                            Text("Personalize your AI coaching experience")
+                                .font(DS.Text.caption)
+                                .foregroundColor(DS.Colors.textSecondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(DS.Colors.textSecondary)
+                    }
+                }
+                .padding(DS.Space.lg)
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+    
+    private var appInfoSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader("settings.app.info.section".local())
+                
+                HStack {
+                    Text("settings.version.label".local())
+                        .font(DS.Text.body)
+                        .foregroundColor(DS.Colors.textPrimary)
+                    Spacer()
+                    Text(appVersion)
+                        .font(DS.Text.body)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            }
+        }
+    }
+    
+    private var dataManagementSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader("settings.data.management".local())
+                
+                Button(action: {
+                    Self.logger.info("Delete all data button tapped")
+                    showingDeleteAlert = true
+                }) {
+                    HStack {
+                        Image(systemName: "trash.fill")
+                            .foregroundColor(DS.Colors.danger)
+                            .frame(width: 24)
+                        Text("settings.delete.all.data".local())
+                            .foregroundColor(DS.Colors.danger)
+                            .font(DS.Text.body)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(DS.Colors.textSecondary)
+                            .font(.caption)
+                    }
+                    .padding(.vertical, DS.Space.sm)
+                }
+                .buttonStyle(PlainButtonStyle())
+                .disabled(isLoading)
+                .accessibilityIdentifier("deleteAllDataButton")
+                .accessibilityLabel("settings.delete.all.data".local())
+            }
+        }
+    }
+    
+    // Quit plan preview function removed as requested
     
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
     }
     
-    private func loadProfileData() {
-        guard let profile = profile else { return }
+    // MARK: - Data Methods
+    
+    @MainActor
+    private func loadProfileData() async {
+        guard let profile = profile else { 
+            // Set default values
+            birthDate = Calendar.current.date(byAdding: .year, value: -25, to: Date()) ?? Date()
+            return 
+        }
         
         name = profile.name
-        if let birthDate = profile.birthDate {
-            self.birthDate = birthDate
+        if let profileBirthDate = profile.birthDate {
+            birthDate = profileBirthDate
         }
         weight = profile.weight > 0 ? String(format: "%.1f", profile.weight) : ""
         smokingType = profile.smokingType
         startedSmokingAge = profile.startedSmokingAge
+        preferredCurrency = profile.preferredCurrency
         
-        // Load quit plan
-        quitDate = profile.quitDate
-        enableGradualReduction = profile.enableGradualReduction
-        
-        // Load daily average if present
         if profile.dailyAverage > 0 {
             dailyAverageInput = String(format: "%.1f", profile.dailyAverage)
         }
+        
+        hasUnsavedChanges = false
     }
     
     @MainActor
     private func saveProfile() async {
-        let profileToSave: UserProfile
+        guard canSave else { return }
         
-        if let existingProfile = profile {
-            profileToSave = existingProfile
-        } else {
-            profileToSave = UserProfile()
-            modelContext.insert(profileToSave)
-        }
-        
-        // Salva dati base
-        profileToSave.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        profileToSave.birthDate = birthDate
-        profileToSave.weight = Double(weight) ?? 0.0
-        profileToSave.smokingType = smokingType
-        profileToSave.startedSmokingAge = startedSmokingAge
-        
-        // Save quit plan
-        profileToSave.quitDate = quitDate
-        profileToSave.enableGradualReduction = enableGradualReduction
-        
-        // Save daily average if provided
-        if let dailyAvg = Double(dailyAverageInput), dailyAvg > 0 {
-            profileToSave.dailyAverage = dailyAvg
-        } else {
-            profileToSave.dailyAverage = calculatedDailyAverage
-        }
-        
-        profileToSave.lastUpdated = Date()
+        isLoading = true
+        errorMessage = nil
         
         do {
+            let profileToSave: UserProfile
+            
+            if let existingProfile = profile {
+                profileToSave = existingProfile
+            } else {
+                profileToSave = UserProfile()
+                modelContext.insert(profileToSave)
+            }
+            
+            // Save basic data
+            profileToSave.name = name.trimmingCharacters(in: .whitespacesAndNewlines)
+            profileToSave.birthDate = birthDate
+            profileToSave.weight = Double(weight) ?? 0.0
+            profileToSave.smokingType = smokingType
+            profileToSave.startedSmokingAge = startedSmokingAge
+            
+            // Quit plan fields removed as requested
+            
+            // Save daily average
+            if let dailyAvg = Double(dailyAverageInput), dailyAvg > 0 {
+                profileToSave.dailyAverage = dailyAvg
+            } else {
+                profileToSave.dailyAverage = calculatedDailyAverage
+            }
+            
+            // Save preferred currency
+            profileToSave.preferredCurrency = preferredCurrency
+            
+            profileToSave.lastUpdated = Date()
+            
             try modelContext.save()
+            
             hasUnsavedChanges = false
-            showingSaveConfirmation = true
+            showingSaveAlert = true
+            
+            Self.logger.info("Profile saved successfully")
+            
         } catch {
-            Self.logger.error("Error saving profile: \(error.localizedDescription)")
+            errorMessage = error.localizedDescription
+            showingError = true
+            Self.logger.error("Failed to save profile: \(error.localizedDescription)")
+        }
+        
+        isLoading = false
+    }
+    
+    @MainActor
+    private func deleteAllData() async {
+        isLoading = true
+        errorMessage = nil
+        
+        do {
+            // Delete all cigarettes
+            let cigaretteDescriptor = FetchDescriptor<Cigarette>()
+            let cigarettes = try modelContext.fetch(cigaretteDescriptor)
+            for cigarette in cigarettes {
+                modelContext.delete(cigarette)
+            }
+            
+            // Delete all tags
+            let tagDescriptor = FetchDescriptor<Tag>()
+            let tags = try modelContext.fetch(tagDescriptor)
+            for tag in tags {
+                modelContext.delete(tag)
+            }
+            
+            // Delete all user profiles
+            let profileDescriptor = FetchDescriptor<UserProfile>()
+            let profiles = try modelContext.fetch(profileDescriptor)
+            for profile in profiles {
+                modelContext.delete(profile)
+            }
+            
+            // Delete all purchases
+            let purchaseDescriptor = FetchDescriptor<Purchase>()
+            let purchases = try modelContext.fetch(purchaseDescriptor)
+            for purchase in purchases {
+                modelContext.delete(purchase)
+            }
+            
+            // Delete all products
+            let productDescriptor = FetchDescriptor<Product>()
+            let products = try modelContext.fetch(productDescriptor)
+            for product in products {
+                modelContext.delete(product)
+            }
+            
+            // Delete all urge logs
+            let urgeLogDescriptor = FetchDescriptor<UrgeLog>()
+            let urgeLogs = try modelContext.fetch(urgeLogDescriptor)
+            for urgeLog in urgeLogs {
+                modelContext.delete(urgeLog)
+            }
+            
+            // SmokingInsight is not a SwiftData model, so no need to delete from context
+            
+            try modelContext.save()
+            
+            // Reset ALL form data to initial state
+            name = ""
+            birthDate = Calendar.current.date(byAdding: .year, value: -25, to: Date()) ?? Date()
+            weight = ""
+            smokingType = SmokingType.cigarettes
+            startedSmokingAge = 18
+            dailyAverageInput = ""
+            hasUnsavedChanges = false
+            
+            // Force reload of profile data to clear any cached values
+            await loadProfileData()
+            
+            Self.logger.info("All user data, statistics, purchases, and insights deleted successfully - form reset to initial state")
+            
+        } catch {
+            errorMessage = error.localizedDescription
+            showingError = true
+            Self.logger.error("Failed to delete all data: \(error.localizedDescription)")
+        }
+        
+        isLoading = false
+    }
+    
+    private func resetForm() {
+        Task {
+            await loadProfileData()
+        }
+        hasUnsavedChanges = false
+    }
+    
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+    
+    // MARK: - Premium Section
+    private var premiumStatusSection: some View {
+        Group {
+            // Only show if store is enabled
+            if StoreConfiguration.isStoreEnabled {
+                LegacyDSCard {
+                    VStack(spacing: DS.Space.md) {
+                        HStack {
+                            Image(systemName: premiumGatekeeper.isSubscribed ? "crown.fill" : "crown")
+                                .font(.title2)
+                                .foregroundColor(DS.Colors.primary)
+                            
+                            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                Text(premiumGatekeeper.subscriptionStatus)
+                                    .font(DS.Text.headline)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                
+                                if premiumGatekeeper.isSubscribed {
+                                    Text("settings.premium.active.subtitle".local())
+                                        .font(DS.Text.caption)
+                                        .foregroundColor(DS.Colors.success)
+                                } else {
+                                    Text("settings.premium.free.subtitle".local())
+                                        .font(DS.Text.caption)
+                                        .foregroundColor(DS.Colors.textSecondary)
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            if !premiumGatekeeper.isSubscribed {
+                                Button("settings.upgrade.now".local()) {
+                                    premiumGatekeeper.showPaywall(trigger: .settingsUpgrade)
+                                }
+                                .font(DS.Text.callout)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, DS.Space.md)
+                                .padding(.vertical, DS.Space.sm)
+                                .background(DS.Colors.primary)
+                                .cornerRadius(DS.Size.buttonRadiusSmall)
+                            }
+                        }
+                        
+                        if premiumGatekeeper.isSubscribed {
+                            Divider()
+                            
+                            VStack(alignment: .leading, spacing: DS.Space.sm) {
+                                Text("settings.premium.features.unlocked".local())
+                                    .font(DS.Text.subheadline)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                
+                                LazyVGrid(columns: [
+                                    GridItem(.flexible()),
+                                    GridItem(.flexible())
+                                ], spacing: DS.Space.sm) {
+                                    Text("settings.feature.ai.coaching".local())
+                                        .font(.caption)
+                                        .padding(.horizontal, DS.Space.sm)
+                                        .padding(.vertical, DS.Space.xs)
+                                        .background(DS.Colors.success.opacity(0.2))
+                                        .cornerRadius(DS.Size.buttonRadiusSmall)
+                                    
+                                    Text("settings.feature.unlimited.tags".local())
+                                        .font(.caption)
+                                        .padding(.horizontal, DS.Space.sm)
+                                        .padding(.vertical, DS.Space.xs)
+                                        .background(DS.Colors.success.opacity(0.2))
+                                        .cornerRadius(DS.Size.buttonRadiusSmall)
+                                        
+                                    Text("settings.feature.analytics".local())
+                                        .font(.caption)
+                                        .padding(.horizontal, DS.Space.sm)
+                                        .padding(.vertical, DS.Space.xs)
+                                        .background(DS.Colors.success.opacity(0.2))
+                                        .cornerRadius(DS.Size.buttonRadiusSmall)
+                                        
+                                    Text("settings.feature.export".local())
+                                        .font(.caption)
+                                        .padding(.horizontal, DS.Space.sm)
+                                        .padding(.vertical, DS.Space.xs)
+                                        .background(DS.Colors.success.opacity(0.2))
+                                        .cornerRadius(DS.Size.buttonRadiusSmall)
+                                }
+                            }
+                        }
+                    }
+                    .padding(DS.Space.lg)
+                }
+                .sheet(isPresented: $premiumGatekeeper.showingPaywall) {
+                    if let trigger = premiumGatekeeper.currentPaywallTrigger {
+                        PaywallView(trigger: trigger)
+                    }
+                }
+            }
+        }
+    }
+    
+    // Phase 4 plan-related sections removed as requested
+}
+
+// MARK: - Helper Components
+
+struct DSFormLabel: View {
+    let text: String
+    let icon: String
+    let isRequired: Bool
+    
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(DS.Colors.primary)
+                .frame(width: 24)
+            Text(text + (isRequired ? " *" : ""))
+                .font(DS.Text.body)
+                .foregroundColor(DS.Colors.textPrimary)
         }
     }
 }
 
+struct DSTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .padding(DS.Space.md)
+            .background(DS.Colors.backgroundSecondary)
+            .cornerRadius(DS.Size.cardRadiusSmall)
+            .overlay(
+                RoundedRectangle(cornerRadius: DS.Size.cardRadiusSmall)
+                    .stroke(DS.Colors.separator, lineWidth: 1)
+            )
+            .submitLabel(.done)
+    }
+}
 
-struct HealthInsightsView: View {
-    let age: Int
-    let weight: Double
-    let smokingType: SmokingType
-    let yearsSmokingSince: Int
+struct DSErrorText: View {
+    let text: String
+    
+    init(_ text: String) {
+        self.text = text
+    }
     
     var body: some View {
-        VStack(spacing: DS.Space.md) {
-            if weight > 0 {
-                DSHealthCard(
-                    title: NSLocalizedString("health.general.info", comment: ""),
-                    value: String(format: "%.0f kg", weight),
-                    subtitle: String(format: NSLocalizedString("settings.health.insights.age.weight.format", comment: ""), age, weight),
-                    icon: "figure.stand",
-                    color: DS.Colors.health,
-                    trend: nil
-                )
-            }
-            
-            DSHealthCard(
-                title: NSLocalizedString("health.smoking.duration", comment: ""),
-                value: "\(yearsSmokingSince)",
-                subtitle: NSLocalizedString("health.smoking.duration.years", comment: ""),
-                icon: "exclamationmark.triangle.fill",
-                color: DS.Colors.warning,
-                trend: .stable
-            )
-            
-            DSHealthCard(
-                title: NSLocalizedString("health.remember", comment: ""),
-                value: smokingType.displayName,
-                subtitle: NSLocalizedString("health.good.time.to.quit", comment: ""),
-                icon: "heart.fill",
-                color: DS.Colors.danger,
-                trend: nil
-            )
+        HStack {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundColor(DS.Colors.danger)
+                .font(.caption)
+            Text(text)
+                .font(DS.Text.caption)
+                .foregroundColor(DS.Colors.danger)
         }
+    }
+}
+
+struct DSInfoText: View {
+    let text: String
+    
+    init(_ text: String) {
+        self.text = text
+    }
+    
+    var body: some View {
+        HStack {
+            Image(systemName: "info.circle")
+                .foregroundColor(DS.Colors.info)
+                .font(.caption)
+            Text(text)
+                .font(DS.Text.caption)
+                .foregroundColor(DS.Colors.textSecondary)
+        }
+    }
+}
+
+struct DSInfoCard: View {
+    let title: String
+    let value: String
+    let icon: String
+    let color: Color
+    
+    var body: some View {
+        HStack {
+            Image(systemName: icon)
+                .foregroundColor(color)
+                .frame(width: 24)
+            VStack(alignment: .leading) {
+                Text(title)
+                    .font(DS.Text.body)
+                    .fontWeight(.medium)
+                Text(value)
+                    .font(DS.Text.caption)
+                    .foregroundColor(DS.Colors.textSecondary)
+            }
+            Spacer()
+            Text(value.components(separatedBy: " ").first ?? "")
+                .font(DS.Text.title2)
+                .fontWeight(.bold)
+                .foregroundColor(color)
+        }
+        .padding()
+        .background(color.opacity(0.1))
+        .cornerRadius(DS.Size.cardRadiusSmall)
+    }
+}
+
+struct DSWarningCard: View {
+    let text: String
+    
+    init(_ text: String) {
+        self.text = text
+    }
+    
+    var body: some View {
+        HStack(alignment: .top) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundColor(DS.Colors.warning)
+            Text(text)
+                .font(DS.Text.caption)
+                .foregroundColor(DS.Colors.textPrimary)
+        }
+        .padding(DS.Space.sm)
+        .background(DS.Colors.warning.opacity(0.1))
+        .cornerRadius(DS.Size.cardRadiusSmall)
+    }
+}
+
+struct DSSuccessCard: View {
+    let text: String
+    
+    init(_ text: String) {
+        self.text = text
+    }
+    
+    var body: some View {
+        HStack(alignment: .top) {
+            Image(systemName: "checkmark.circle.fill")
+                .foregroundColor(DS.Colors.success)
+            Text(text)
+                .font(DS.Text.caption)
+                .foregroundColor(DS.Colors.textPrimary)
+        }
+        .padding(DS.Space.sm)
+        .background(DS.Colors.success.opacity(0.1))
+        .cornerRadius(DS.Size.cardRadiusSmall)
     }
 }
 

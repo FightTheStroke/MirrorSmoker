@@ -1,0 +1,31 @@
+// HomeWidget Localization - English
+"widget.display.name" = "MirrorSmoker Tracker";
+"widget.description" = "Track cigarettes and view daily progress from your home screen";
+"widget.today" = "Today";
+"widget.daily.avg" = "Daily Avg";
+"widget.add" = "Add";
+"widget.last" = "Last";
+"widget.no.cigarettes.today" = "No cigarettes today";
+"widget.last.at" = "Last at";
+"widget.just.now" = "Just now";
+"widget.minutes.ago" = "%d min ago";
+"widget.hours.ago" = "%dh ago";
+"widget.smoked.today" = "Smoked Today";
+"widget.add.cigarette" = "Add Cigarette";
+"widget.last.time.format" = "Last: %@";
+
+// Widget Intents
+"widget.intent.add.cigarette" = "Add Cigarette";
+"widget.intent.add.cigarette.description" = "Add a cigarette entry from the widget";
+"widget.intent.success" = "Cigarette added successfully";
+"widget.intent.error.add.failed" = "Failed to add cigarette";
+
+// Accessibility
+"widget.a11y.today.count" = "%d cigarettes today";
+"widget.a11y.today.cigarettes" = "%d cigarettes smoked today";
+"widget.a11y.great.job" = "Great job! No cigarettes today";
+"widget.a11y.add.cigarette" = "Add cigarette";
+"widget.a11y.add.cigarette.hint" = "Double-tap to add a cigarette entry";
+"widget.a11y.no.cigarettes.today" = "No cigarettes today";
+"widget.a11y.last.cigarette.time" = "Last cigarette: %@";
+"widget.a11y.daily.average" = "Daily average: %.1f cigarettes";

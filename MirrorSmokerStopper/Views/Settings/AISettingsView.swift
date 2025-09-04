@@ -29,8 +29,8 @@ struct AISettingsView: View {
                         coachingConfigurationSection
                     }
                     
-                    // Privacy & Data Section
-                    privacyDataSection
+                    // Features automatically enabled with AI Coach
+                    aiFeatureStatusSection
                     
                     // Notification Settings
                     notificationSettingsSection
@@ -122,8 +122,13 @@ struct AISettingsView: View {
             
             Toggle(NSLocalizedString("quit.plan.optimization", comment: ""), isOn: $aiConfig.enableQuitPlanOptimization)
             
-            Toggle(NSLocalizedString("healthkit.integration", comment: ""), isOn: $aiConfig.enableHealthKitIntegration)
-                .disabled(!aiConfig.privacyLevel.allowsHealthKitIntegration)
+            // HealthKit is automatically enabled with AI Coach
+            HStack {
+                Text(NSLocalizedString("healthkit.integration", comment: ""))
+                Spacer()
+                Text(aiConfig.isAICoachingEnabled ? "Auto-enabled" : "Off")
+                    .foregroundColor(aiConfig.isAICoachingEnabled ? .green : .gray)
+            }
         } header: {
             Text(NSLocalizedString("ai.features", comment: ""))
         } footer: {
@@ -169,47 +174,42 @@ struct AISettingsView: View {
         }
     }
     
-    private var privacyDataSection: some View {
+    private var aiFeatureStatusSection: some View {
         Section {
-            Picker(NSLocalizedString("privacy.level", comment: ""), selection: $aiConfig.privacyLevel) {
-                ForEach(AIConfiguration.PrivacyLevel.allCases, id: \.self) { level in
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Image(systemName: level.icon)
-                            Text(level.displayName)
-                            Spacer()
-                        }
-                        Text(level.description)
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                    }
-                    .tag(level)
-                }
+            // AI Coach status indicator
+            HStack {
+                Image(systemName: aiConfig.isAICoachingEnabled ? "checkmark.circle.fill" : "xmark.circle")
+                    .foregroundColor(aiConfig.isAICoachingEnabled ? .green : .gray)
+                Text("AI Coach")
+                Spacer()
+                Text(aiConfig.isAICoachingEnabled ? "ON" : "OFF")
+                    .foregroundColor(aiConfig.isAICoachingEnabled ? .green : .gray)
             }
-            .pickerStyle(.navigationLink)
             
-            // Privacy indicators
-            PrivacyIndicatorRow(
-                title: NSLocalizedString("healthkit.data", comment: ""),
-                enabled: aiConfig.privacyLevel.allowsHealthKitIntegration,
-                description: NSLocalizedString("healthkit.data.description", comment: "")
-            )
-            
-            PrivacyIndicatorRow(
-                title: NSLocalizedString("location.analysis", comment: ""),
-                enabled: aiConfig.privacyLevel.allowsLocationAnalysis,
-                description: NSLocalizedString("location.analysis.description", comment: "")
-            )
-            
-            PrivacyIndicatorRow(
-                title: NSLocalizedString("detailed.behavioral.analysis", comment: ""),
-                enabled: aiConfig.privacyLevel.allowsDetailedBehavioralAnalysis,
-                description: NSLocalizedString("detailed.behavioral.analysis.description", comment: "")
-            )
+            if aiConfig.isAICoachingEnabled {
+                // Show what's enabled with AI Coach
+                PrivacyIndicatorRow(
+                    title: NSLocalizedString("healthkit.data", comment: ""),
+                    enabled: true,
+                    description: NSLocalizedString("Heart rate monitoring for craving prediction", comment: "")
+                )
+                
+                PrivacyIndicatorRow(
+                    title: NSLocalizedString("behavioral.analysis", comment: ""),
+                    enabled: true,
+                    description: NSLocalizedString("Pattern recognition for personalized coaching", comment: "")
+                )
+                
+                PrivacyIndicatorRow(
+                    title: NSLocalizedString("smart.notifications", comment: ""),
+                    enabled: true,
+                    description: NSLocalizedString("Just-in-time interventions based on your patterns", comment: "")
+                )
+            }
         } header: {
-            Text(NSLocalizedString("privacy.data.usage", comment: ""))
+            Text(NSLocalizedString("AI Coach Features", comment: ""))
         } footer: {
-            Text(NSLocalizedString("privacy.description", comment: ""))
+            Text(NSLocalizedString("When AI Coach is ON, all wellness features are enabled for best results. All processing happens on your device.", comment: ""))
         }
     }
     

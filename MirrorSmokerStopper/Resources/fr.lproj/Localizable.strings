@@ -1432,3 +1432,5 @@
 // More Statistics
 "statistics.money.spent" = "Argent Dépensé";
 "statistics.money.saved" = "Argent Économisé";"hour.format" = "%02d:00";
+
+"hour.format" = "%02d:00";

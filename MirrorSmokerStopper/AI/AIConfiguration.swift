@@ -45,22 +45,12 @@ final class AIConfiguration: ObservableObject, Sendable {
         }
     }
     
-    @Published var enableHealthKitIntegration: Bool {
-        didSet {
-            userDefaults.set(self.enableHealthKitIntegration, forKey: "healthkit_integration_enabled")
-            if self.enableHealthKitIntegration {
-                Task {
-                    await self.requestHealthKitAccess()
-                }
-            }
-        }
+    // HealthKit is automatically enabled when AI Coach is ON
+    var enableHealthKitIntegration: Bool {
+        return isAICoachingEnabled
     }
     
-    @Published var privacyLevel: PrivacyLevel {
-        didSet {
-            userDefaults.set(self.privacyLevel.rawValue, forKey: "privacy_level")
-        }
-    }
+    // Privacy level removed - now AI Coach is simply ON or OFF with full features
     
     @Published var quietHoursEnabled: Bool {
         didSet {
@@ -139,45 +129,13 @@ final class AIConfiguration: ObservableObject, Sendable {
         }
     }
     
-    enum PrivacyLevel: String, CaseIterable, Codable {
-        case minimal = "minimal"
-        case standard = "standard"
-        case enhanced = "enhanced"
-        
-        var displayName: String {
-            switch self {
-            case .minimal:
-                return NSLocalizedString("ai.config.privacy.minimal", comment: "Minimal")
-            case .standard:
-                return NSLocalizedString("ai.config.privacy.standard", comment: "Standard")
-            case .enhanced:
-                return NSLocalizedString("ai.config.privacy.enhanced", comment: "Enhanced")
-            }
-        }
-        
-        var description: String {
-            switch self {
-            case .minimal:
-                return NSLocalizedString("ai.config.privacy.minimal.desc", comment: "Basic smoking data only")
-            case .standard:
-                return NSLocalizedString("ai.config.privacy.standard.desc", comment: "Smoking data + basic patterns")
-            case .enhanced:
-                return NSLocalizedString("ai.config.privacy.enhanced.desc", comment: "Full behavioral analysis with HealthKit")
-            }
-        }
-        
-        var allowsHealthKitIntegration: Bool {
-            return self == .enhanced
-        }
-        
-        var allowsLocationAnalysis: Bool {
-            return self != .minimal
-        }
-        
-        var allowsDetailedBehavioralAnalysis: Bool {
-            return self == .enhanced
-        }
-    }
+    // Privacy levels removed - AI Coach is now ON/OFF with full features when enabled
+    // When AI Coach is ON, all features are available including:
+    // - HealthKit integration
+    // - Behavioral analysis
+    // - Pattern recognition
+    // - Heart rate monitoring
+    // - JITAI interventions
     
     // MARK: - Computed Properties
     
@@ -223,12 +181,7 @@ final class AIConfiguration: ObservableObject, Sendable {
         self.enableQuitPlanOptimization = userDefaults.object(forKey: "quit_plan_optimization_enabled") as? Bool ?? true
         self.enableHealthKitIntegration = userDefaults.object(forKey: "healthkit_integration_enabled") as? Bool ?? false
         
-        if let privacyRaw = userDefaults.object(forKey: "privacy_level") as? String,
-           let privacy = PrivacyLevel(rawValue: privacyRaw) {
-            self.privacyLevel = privacy
-        } else {
-            self.privacyLevel = .standard
-        }
+        // Privacy levels removed - AI Coach is now simply ON/OFF
         
         self.quietHoursEnabled = userDefaults.object(forKey: "quiet_hours_enabled") as? Bool ?? true
         self.quietHoursStart = userDefaults.object(forKey: "quiet_hours_start") as? Int ?? 22
@@ -255,7 +208,7 @@ final class AIConfiguration: ObservableObject, Sendable {
         enableBehavioralAnalysis = true
         enableQuitPlanOptimization = true
         enableHealthKitIntegration = false
-        privacyLevel = .standard
+        // AI Coach ON/OFF - no privacy levels
         quietHoursEnabled = true
         quietHoursStart = 22
         quietHoursEnd = 7
@@ -269,9 +222,7 @@ final class AIConfiguration: ObservableObject, Sendable {
             issues.append(NSLocalizedString("ai.config.validation.ios26", comment: "AI coaching requires iOS 26"))
         }
         
-        if enableHealthKitIntegration && !privacyLevel.allowsHealthKitIntegration {
-            issues.append(NSLocalizedString("ai.config.validation.healthkit.privacy", comment: "HealthKit requires enhanced privacy level"))
-        }
+        // HealthKit is automatically enabled with AI Coach - no validation needed
         
         if quietHoursStart == quietHoursEnd && quietHoursEnabled {
             issues.append(NSLocalizedString("ai.config.validation.quiet.hours", comment: "Quiet hours start and end cannot be the same"))
@@ -291,7 +242,6 @@ final class AIConfiguration: ObservableObject, Sendable {
             "behavioral_analysis_enabled": enableBehavioralAnalysis,
             "quit_plan_optimization_enabled": enableQuitPlanOptimization,
             "healthkit_integration_enabled": enableHealthKitIntegration,
-            "privacy_level": privacyLevel.rawValue,
             "quiet_hours_enabled": quietHoursEnabled,
             "quiet_hours_start": quietHoursStart,
             "quiet_hours_end": quietHoursEnd,
@@ -330,10 +280,7 @@ final class AIConfiguration: ObservableObject, Sendable {
             enableHealthKitIntegration = healthkitEnabled
         }
         
-        if let privacyRaw = data["privacy_level"] as? String,
-           let privacy = PrivacyLevel(rawValue: privacyRaw) {
-            privacyLevel = privacy
-        }
+        // Privacy level removed - AI Coach is ON/OFF
         
         if let quietEnabled = data["quiet_hours_enabled"] as? Bool {
             quietHoursEnabled = quietEnabled
@@ -398,15 +345,15 @@ final class AIConfiguration: ObservableObject, Sendable {
         case .coaching:
             return isAICoachingEnabled && isAIAvailable
         case .behavioralAnalysis:
-            return enableBehavioralAnalysis && privacyLevel.allowsDetailedBehavioralAnalysis
+            return enableBehavioralAnalysis && isAICoachingEnabled
         case .quitPlanOptimization:
             return enableQuitPlanOptimization
         case .healthKitIntegration:
-            return enableHealthKitIntegration && privacyLevel.allowsHealthKitIntegration
+            return isAICoachingEnabled // HealthKit auto-enabled with AI Coach
         case .locationAnalysis:
-            return privacyLevel.allowsLocationAnalysis
+            return isAICoachingEnabled // Location analysis enabled with AI Coach
         case .advancedInsights:
-            return privacyLevel == .enhanced && isAIAvailable
+            return isAICoachingEnabled && isAIAvailable
         }
     }
     
@@ -431,7 +378,7 @@ final class AIConfiguration: ObservableObject, Sendable {
         
         System Information:
         - iOS Version Available for AI: \(isAIAvailable)
-        - Current Privacy Level: \(privacyLevel.displayName)
+        - AI Coach Status: \(isAICoachingEnabled ? "ON" : "OFF")
         - Coaching Frequency: \(aiCoachingFrequency.displayName)
         
         Enabled Features:
@@ -470,12 +417,4 @@ extension AIConfiguration.CoachingFrequency {
     }
 }
 
-extension AIConfiguration.PrivacyLevel {
-    var icon: String {
-        switch self {
-        case .minimal: return "lock"
-        case .standard: return "lock.shield"
-        case .enhanced: return "lock.shield.fill"
-        }
-    }
-}
+// Privacy levels removed - AI Coach is ON/OFF

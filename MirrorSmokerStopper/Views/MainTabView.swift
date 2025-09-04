@@ -19,27 +19,18 @@ struct MainTabView: View {
             }
             .tabItem {
                 Image(systemName: "chart.line.uptrend.xyaxis")
-                Text(NSLocalizedString("tab.progress", comment: ""))
+                Text(NSLocalizedString("tab.stats", comment: ""))
             }
             .tag(1)
-            
-            NavigationView {
-                WellnessJourneyMap()
-            }
-            .tabItem {
-                Image(systemName: "map")
-                Text(NSLocalizedString("tab.journey", comment: ""))
-            }
-            .tag(2)
             
             NavigationView {
                 SettingsView()
             }
             .tabItem {
                 Image(systemName: "person.crop.circle")
-                Text(NSLocalizedString("tab.plan.profile", comment: ""))
+                Text(NSLocalizedString("tab.settings", comment: ""))
             }
-            .tag(3)
+            .tag(2)
         }
         .accentColor(DS.Colors.primary)
     }

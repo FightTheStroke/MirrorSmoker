@@ -1,5 +1,5 @@
 //
-//  SettingsViewFixed.swift
+//  SettingsView.swift
 //  MirrorSmokerStopper
 //
 //  Created by Claude on 03/09/25.
@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftData
 import os.log
 
-struct SettingsViewFixed: View {
+struct SettingsView: View {
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "SettingsView")
     
     @Environment(\.modelContext) private var modelContext
@@ -25,9 +25,7 @@ struct SettingsViewFixed: View {
     @State private var startedSmokingAge = 18
     @State private var dailyAverageInput = ""
     
-    // Quit plan state
-    @State private var quitDate: Date?
-    @State private var enableGradualReduction = true
+    // Removed quit plan functionality as requested
     
     // UI state
     @State private var hasUnsavedChanges = false
@@ -37,6 +35,10 @@ struct SettingsViewFixed: View {
     @State private var showingHelpView = false
     @State private var errorMessage: String?
     @State private var showingError = false
+    
+    // Premium state
+    @State private var premiumGatekeeper = PremiumGatekeeper.shared
+    @State private var showingPaywall = false
     
     private var profile: UserProfile? {
         profiles.first
@@ -63,10 +65,7 @@ struct SettingsViewFixed: View {
         return calculatedDailyAverage
     }
     
-    private var todayTarget: Int {
-        guard let profile = profile else { return Int(dailyAverageForPlan) }
-        return profile.todayTarget(dailyAverage: dailyAverageForPlan)
-    }
+    // Removed todayTarget calculation as part of plan removal
     
     // Validation computed properties
     private var isNameValid: Bool {
@@ -122,9 +121,8 @@ struct SettingsViewFixed: View {
                     ScrollView {
                         LazyVStack(spacing: DS.Space.lg) {
                             personalProfileSection
-                            myWhySection
+                            premiumStatusSection
                             smokingHabitsSection
-                            visualQuitPlanSection
                             if shouldShowHealthInfo {
                                 healthInsightsSection
                             }
@@ -135,6 +133,9 @@ struct SettingsViewFixed: View {
                     }
                     .refreshable {
                         await loadProfileData()
+                    }
+                    .onTapGesture {
+                        hideKeyboard()
                     }
                 }
             }
@@ -400,60 +401,7 @@ struct SettingsViewFixed: View {
         }
     }
     
-    private var quitPlanSection: some View {
-        LegacyDSCard {
-            VStack(spacing: DS.Space.lg) {
-                DSSectionHeader(
-                    "settings.quit.plan.section".local(),
-                    subtitle: "settings.quit.plan.subtitle".local()
-                )
-                
-                VStack(spacing: DS.Space.md) {
-                    // Quit date picker
-                    VStack(alignment: .leading, spacing: DS.Space.sm) {
-                        DSFormLabel(
-                            text: "settings.when.quit.question".local(),
-                            icon: "calendar.badge.clock",
-                            isRequired: false
-                        )
-                        
-                        DatePicker(
-                            "settings.when.quit.question".local(),
-                            selection: Binding(
-                                get: { quitDate ?? Calendar.current.date(byAdding: .month, value: 3, to: Date()) ?? Date() },
-                                set: { quitDate = $0; hasUnsavedChanges = true }
-                            ),
-                            in: Calendar.current.date(byAdding: .day, value: 1, to: Date())!...Date.distantFuture,
-                            displayedComponents: .date
-                        )
-                        .datePickerStyle(.compact)
-                        .labelsHidden()
-                    }
-                    
-                    // Gradual reduction toggle
-                    VStack(alignment: .leading, spacing: DS.Space.sm) {
-                        Toggle(
-                            "settings.gradual.reduction.toggle".local(),
-                            isOn: $enableGradualReduction
-                        )
-                        .toggleStyle(SwitchToggleStyle(tint: DS.Colors.primary))
-                        .onChange(of: enableGradualReduction) { _, _ in
-                            hasUnsavedChanges = true
-                        }
-                        
-                        DSInfoText(enableGradualReduction ? 
-                                   "settings.gradual.reduction.description".local() : 
-                                   "settings.immediate.stop.description".local())
-                    }
-                    
-                    // Plan preview
-                    if let quitDate = quitDate, enableGradualReduction, dailyAverageForPlan > 0 {
-                        quitPlanPreview(quitDate: quitDate)
-                    }
-                }
-            }
-        }
-    }
+    // Quit plan section removed as requested
     
     private var shouldShowHealthInfo: Bool {
         currentAge > 0 || (!weight.isEmpty && isWeightValid)
@@ -468,12 +416,26 @@ struct SettingsViewFixed: View {
                 )
                 
                 if currentAge > 0, let weightValue = Double(weight), isWeightValid {
-                    HealthInsightsView(
-                        age: currentAge,
-                        weight: weightValue,
-                        smokingType: smokingType,
-                        yearsSmokingSince: yearsSmokingCalculated
-                    )
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSInfoCard(
+                            title: "settings.calculated.age".local(),
+                            value: String(format: "settings.years.old".local(), currentAge),
+                            icon: "person.circle.fill",
+                            color: DS.Colors.info
+                        )
+                        DSInfoCard(
+                            title: "settings.weight.label".local(),
+                            value: String(format: "%.1f kg", weightValue),
+                            icon: "scalemass",
+                            color: DS.Colors.primary
+                        )
+                        DSInfoCard(
+                            title: "settings.smoking.years.info".local(),
+                            value: String(format: "%d years", yearsSmokingCalculated),
+                            icon: "hourglass.tophalf.filled",
+                            color: DS.Colors.warning
+                        )
+                    }
                 } else if currentAge > 0 {
                     DSInfoCard(
                         title: "settings.calculated.age".local(),
@@ -535,68 +497,7 @@ struct SettingsViewFixed: View {
         }
     }
     
-    // MARK: - Helper Views
-    
-    @ViewBuilder
-    private func quitPlanPreview(quitDate: Date) -> some View {
-        let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
-        let dailyReduction = dailyAverageForPlan / Double(max(daysRemaining, 1))
-        
-        VStack(alignment: .leading, spacing: DS.Space.sm) {
-            Text("settings.plan.preview".local())
-                .font(DS.Text.headline)
-                .foregroundColor(DS.Colors.primary)
-            
-            VStack(alignment: .leading, spacing: DS.Space.xs) {
-                HStack {
-                    Text("settings.plan.starting.from".local())
-                    Spacer()
-                    Text(String(format: "settings.plan.cigarettes.per.day.format".local(), dailyAverageForPlan))
-                        .fontWeight(.medium)
-                }
-                HStack {
-                    Text("settings.plan.reaching".local())
-                    Spacer()
-                    Text("settings.plan.zero.cigarettes".local())
-                        .fontWeight(.medium)
-                        .foregroundColor(DS.Colors.success)
-                }
-                HStack {
-                    Text("settings.plan.in.days".local())
-                    Spacer()
-                    Text(String(format: "settings.plan.days.count".local(), daysRemaining))
-                        .fontWeight(.medium)
-                }
-                HStack {
-                    Text("settings.plan.daily.reduction".local())
-                    Spacer()
-                    Text(String(format: "settings.plan.reduction.amount".local(), String(format: "%.2f", dailyReduction)))
-                        .fontWeight(.medium)
-                        .foregroundColor(DS.Colors.warning)
-                }
-                HStack {
-                    Text("settings.plan.todays.goal".local())
-                    Spacer()
-                    Text(String(format: "settings.plan.cigarettes.count".local(), todayTarget))
-                        .fontWeight(.bold)
-                        .foregroundColor(DS.Colors.primary)
-                }
-            }
-            .font(DS.Text.caption)
-            
-            // Plan feedback
-            if daysRemaining <= 0 {
-                DSWarningCard("settings.plan.date.too.close".local())
-            } else if daysRemaining < 7 {
-                DSWarningCard("settings.plan.intensive".local())
-            } else {
-                DSSuccessCard("settings.plan.balanced".local())
-            }
-        }
-        .padding()
-        .background(DS.Colors.backgroundSecondary)
-        .cornerRadius(DS.Size.cardRadius)
-    }
+    // Quit plan preview function removed as requested
     
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
@@ -619,8 +520,6 @@ struct SettingsViewFixed: View {
         weight = profile.weight > 0 ? String(format: "%.1f", profile.weight) : ""
         smokingType = profile.smokingType
         startedSmokingAge = profile.startedSmokingAge
-        quitDate = profile.quitDate
-        enableGradualReduction = profile.enableGradualReduction
         
         if profile.dailyAverage > 0 {
             dailyAverageInput = String(format: "%.1f", profile.dailyAverage)
@@ -653,9 +552,7 @@ struct SettingsViewFixed: View {
             profileToSave.smokingType = smokingType
             profileToSave.startedSmokingAge = startedSmokingAge
             
-            // Save quit plan
-            profileToSave.quitDate = quitDate
-            profileToSave.enableGradualReduction = enableGradualReduction
+            // Quit plan fields removed as requested
             
             // Save daily average
             if let dailyAvg = Double(dailyAverageInput), dailyAvg > 0 {
@@ -709,6 +606,13 @@ struct SettingsViewFixed: View {
                 modelContext.delete(profile)
             }
             
+            // Delete all purchases
+            let purchaseDescriptor = FetchDescriptor<Purchase>()
+            let purchases = try modelContext.fetch(purchaseDescriptor)
+            for purchase in purchases {
+                modelContext.delete(purchase)
+            }
+            
             // Delete all products
             let productDescriptor = FetchDescriptor<Product>()
             let products = try modelContext.fetch(productDescriptor)
@@ -723,22 +627,23 @@ struct SettingsViewFixed: View {
                 modelContext.delete(urgeLog)
             }
             
+            // SmokingInsight is not a SwiftData model, so no need to delete from context
+            
             try modelContext.save()
             
             // Reset ALL form data to initial state
             name = ""
-            birthDate = Date()
+            birthDate = Calendar.current.date(byAdding: .year, value: -25, to: Date()) ?? Date()
             weight = ""
             smokingType = SmokingType.cigarettes
             startedSmokingAge = 18
             dailyAverageInput = ""
-            quitDate = nil
-            enableGradualReduction = true
             hasUnsavedChanges = false
             
-            Self.logger.info("Form data reset to initial state")
+            // Force reload of profile data to clear any cached values
+            await loadProfileData()
             
-            Self.logger.info("All user data deleted successfully")
+            Self.logger.info("All user data, statistics, purchases, and insights deleted successfully - form reset to initial state")
             
         } catch {
             errorMessage = error.localizedDescription
@@ -756,17 +661,111 @@ struct SettingsViewFixed: View {
         hasUnsavedChanges = false
     }
     
-    // MARK: - Phase 4 Sections
-    private var myWhySection: some View {
-        MyWhyEditor()
+    private func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
     
-    private var visualQuitPlanSection: some View {
-        VisualQuitPlan(
-            quitDate: .constant(Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date()),
-            enableGradualReduction: $enableGradualReduction
-        )
+    // MARK: - Premium Section
+    private var premiumStatusSection: some View {
+        Group {
+            // Only show if store is enabled
+            if StoreConfiguration.isStoreEnabled {
+                LegacyDSCard {
+                    VStack(spacing: DS.Space.md) {
+                        HStack {
+                            Image(systemName: premiumGatekeeper.isSubscribed ? "crown.fill" : "crown")
+                                .font(.title2)
+                                .foregroundColor(DS.Colors.primary)
+                            
+                            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                Text(premiumGatekeeper.subscriptionStatus)
+                                    .font(DS.Text.headline)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                
+                                if premiumGatekeeper.isSubscribed {
+                                    Text("settings.premium.active.subtitle".local())
+                                        .font(DS.Text.caption)
+                                        .foregroundColor(DS.Colors.success)
+                                } else {
+                                    Text("settings.premium.free.subtitle".local())
+                                        .font(DS.Text.caption)
+                                        .foregroundColor(DS.Colors.textSecondary)
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            if !premiumGatekeeper.isSubscribed {
+                                Button("settings.upgrade.now".local()) {
+                                    premiumGatekeeper.showPaywall(trigger: .settingsUpgrade)
+                                }
+                                .font(DS.Text.callout)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, DS.Space.md)
+                                .padding(.vertical, DS.Space.sm)
+                                .background(DS.Colors.primary)
+                                .cornerRadius(DS.Size.buttonRadiusSmall)
+                            }
+                        }
+                        
+                        if premiumGatekeeper.isSubscribed {
+                            Divider()
+                            
+                            VStack(alignment: .leading, spacing: DS.Space.sm) {
+                                Text("settings.premium.features.unlocked".local())
+                                    .font(DS.Text.subheadline)
+                                    .fontWeight(.medium)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                
+                                LazyVGrid(columns: [
+                                    GridItem(.flexible()),
+                                    GridItem(.flexible())
+                                ], spacing: DS.Space.sm) {
+                                    Text("settings.feature.ai.coaching".local())
+                                        .font(.caption)
+                                        .padding(.horizontal, DS.Space.sm)
+                                        .padding(.vertical, DS.Space.xs)
+                                        .background(DS.Colors.success.opacity(0.2))
+                                        .cornerRadius(DS.Size.buttonRadiusSmall)
+                                    
+                                    Text("settings.feature.unlimited.tags".local())
+                                        .font(.caption)
+                                        .padding(.horizontal, DS.Space.sm)
+                                        .padding(.vertical, DS.Space.xs)
+                                        .background(DS.Colors.success.opacity(0.2))
+                                        .cornerRadius(DS.Size.buttonRadiusSmall)
+                                        
+                                    Text("settings.feature.analytics".local())
+                                        .font(.caption)
+                                        .padding(.horizontal, DS.Space.sm)
+                                        .padding(.vertical, DS.Space.xs)
+                                        .background(DS.Colors.success.opacity(0.2))
+                                        .cornerRadius(DS.Size.buttonRadiusSmall)
+                                        
+                                    Text("settings.feature.export".local())
+                                        .font(.caption)
+                                        .padding(.horizontal, DS.Space.sm)
+                                        .padding(.vertical, DS.Space.xs)
+                                        .background(DS.Colors.success.opacity(0.2))
+                                        .cornerRadius(DS.Size.buttonRadiusSmall)
+                                }
+                            }
+                        }
+                    }
+                    .padding(DS.Space.lg)
+                }
+                .sheet(isPresented: $premiumGatekeeper.showingPaywall) {
+                    if let trigger = premiumGatekeeper.currentPaywallTrigger {
+                        PaywallView(trigger: trigger)
+                    }
+                }
+            }
+        }
     }
+    
+    // Phase 4 plan-related sections removed as requested
 }
 
 // MARK: - Helper Components
@@ -798,6 +797,7 @@ struct DSTextFieldStyle: TextFieldStyle {
                 RoundedRectangle(cornerRadius: DS.Size.cardRadiusSmall)
                     .stroke(DS.Colors.separator, lineWidth: 1)
             )
+            .submitLabel(.done)
     }
 }
 
@@ -913,6 +913,6 @@ struct DSSuccessCard: View {
 }
 
 #Preview {
-    SettingsViewFixed()
+    SettingsView()
         .modelContainer(for: UserProfile.self, inMemory: true)
 }

@@ -228,7 +228,7 @@ struct SavingsGoalView: View {
         )
         .sheet(isPresented: $showGoalEditor) {
             // TODO: Implement SavingsGoalEditorView
-            Text("Goal Editor Coming Soon")
+            Text("progress.goal.editor.coming.soon".local())
         }
     }
     
@@ -307,7 +307,7 @@ struct SavingsOverview: View {
         }
         .sheet(isPresented: $showAddGoal) {
             // TODO: Implement AddSavingsGoalView
-            Text("Add Goal Coming Soon")
+            Text("progress.add.goal.coming.soon".local())
         }
     }
     

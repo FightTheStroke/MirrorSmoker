@@ -878,6 +878,12 @@
 "settings.are.you.sure" = "Êtes-vous sûr ?";
 "settings.delete.warning" = "Ceci supprimera définitivement toutes vos données de tabagisme. Cette action ne peut pas être annulée.";
 "settings.plan.cigarettes.per.day.format" = "%.1f cigarettes/jour";
+
+// Financial Preferences
+"settings.financial.preferences.section" = "Préférences Financières";
+"settings.financial.preferences.footer" = "Configurez votre devise préférée pour les dépenses et statistiques";
+"settings.preferred.currency.label" = "Devise Préférée";
+
 "error" = "Erreur";
 "loading" = "Chargement...";
 "save" = "Sauvegarder";
@@ -1429,8 +1435,11 @@
 "purchase.log.subtitle" = "Enregistrez votre achat de produit du tabac";
 "purchase.product.name" = "Nom du Produit";
 "purchase.product.placeholder" = "ex. Marlboro Red";
+"purchase.recent.products" = "Récent";
 "purchase.amount" = "Montant";
 "purchase.amount.placeholder" = "0.00";
+"purchase.common.currencies" = "Commun";
+"purchase.currency.info" = "Utilise la devise des paramètres";
 "purchase.currency" = "Devise";
 "purchase.currency.placeholder" = "EUR";
 "purchase.quantity" = "Quantité";
@@ -1438,6 +1447,18 @@
 "purchase.error.valid.amount" = "Veuillez entrer un montant valide";
 "purchase.error.amount.positive" = "Le montant doit être supérieur à zéro";
 "purchase.error.save" = "Impossible de sauvegarder l'achat : %@";
+
+// Purchase History
+"purchase.history.title" = "Historique des Achats";
+"purchase.history.week" = "Semaine Dernière";
+"purchase.history.month" = "Mois Dernier";
+"purchase.history.three.months" = "3 Derniers Mois";
+"purchase.history.all" = "Tout";
+"purchase.history.total.spent" = "Total Dépensé";
+"purchase.history.total.purchases" = "Total des Achats";
+"purchase.history.search.placeholder" = "Rechercher produits...";
+"purchase.history.empty.title" = "Aucun Achat Encore";
+"purchase.history.empty.subtitle" = "Commencez à enregistrer vos achats de produits du tabac pour voir votre historique de dépenses ici";
 
 // FAB Actions
 "fab.log.purchase" = "Enregistrer un Achat";
@@ -1448,6 +1469,10 @@
 
 // More Statistics
 "statistics.money.spent" = "Argent Dépensé";
-"statistics.money.saved" = "Argent Économisé";"hour.format" = "%02d:00";
+"statistics.money.saved" = "Argent Économisé (Estimation)";
+"statistics.purchase.history.button" = "Historique des Achats";
+"statistics.financial.breakdown" = "Répartition Financière";
+"statistics.weekly.spending" = "Dépenses Hebdomadaires";
+"statistics.monthly.spending" = "Dépenses Mensuelles";
 
 "hour.format" = "%02d:00";

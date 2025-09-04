@@ -878,6 +878,12 @@
 "settings.are.you.sure" = "Sind Sie sicher?";
 "settings.delete.warning" = "Dies wird alle Ihre Rauchdaten dauerhaft löschen. Diese Aktion kann nicht rückgängig gemacht werden.";
 "settings.plan.cigarettes.per.day.format" = "%.1f Zigaretten/Tag";
+
+// Financial Preferences
+"settings.financial.preferences.section" = "Finanzielle Einstellungen";
+"settings.financial.preferences.footer" = "Konfigurieren Sie Ihre bevorzugte Währung für Ausgaben und Statistiken";
+"settings.preferred.currency.label" = "Bevorzugte Währung";
+
 "error" = "Fehler";
 "loading" = "Wird geladen...";
 "save" = "Speichern";
@@ -1429,8 +1435,11 @@
 "purchase.log.subtitle" = "Ihren Tabakprodukt-Kauf aufzeichnen";
 "purchase.product.name" = "Produktname";
 "purchase.product.placeholder" = "z.B. Marlboro Red";
+"purchase.recent.products" = "Zuletzt";
 "purchase.amount" = "Betrag";
 "purchase.amount.placeholder" = "0.00";
+"purchase.common.currencies" = "Häufig";
+"purchase.currency.info" = "Währung aus Einstellungen verwenden";
 "purchase.currency" = "Währung";
 "purchase.currency.placeholder" = "EUR";
 "purchase.quantity" = "Menge";
@@ -1438,6 +1447,18 @@
 "purchase.error.valid.amount" = "Bitte gültigen Betrag eingeben";
 "purchase.error.amount.positive" = "Betrag muss größer als Null sein";
 "purchase.error.save" = "Kauf konnte nicht gespeichert werden: %@";
+
+// Purchase History
+"purchase.history.title" = "Kaufverlauf";
+"purchase.history.week" = "Letzte Woche";
+"purchase.history.month" = "Letzter Monat";
+"purchase.history.three.months" = "Letzte 3 Monate";
+"purchase.history.all" = "Alles";
+"purchase.history.total.spent" = "Gesamt Ausgegeben";
+"purchase.history.total.purchases" = "Gesamte Käufe";
+"purchase.history.search.placeholder" = "Produkte suchen...";
+"purchase.history.empty.title" = "Noch Keine Käufe";
+"purchase.history.empty.subtitle" = "Beginnen Sie mit der Aufzeichnung Ihrer Tabakprodukt-Käufe, um hier Ihre Ausgabenhistorie zu sehen";
 
 // FAB Actions
 "fab.log.purchase" = "Kauf protokollieren";
@@ -1448,6 +1469,10 @@
 
 // More Statistics
 "statistics.money.spent" = "Geld ausgegeben";
-"statistics.money.saved" = "Geld gespart";"hour.format" = "%02d:00";
+"statistics.money.saved" = "Geld gespart (Schätzung)";
+"statistics.purchase.history.button" = "Kaufverlauf";
+"statistics.financial.breakdown" = "Finanzielle Aufschlüsselung";
+"statistics.weekly.spending" = "Wöchentliche Ausgaben";
+"statistics.monthly.spending" = "Monatliche Ausgaben";
 
 "hour.format" = "%02d:00";

@@ -48,6 +48,17 @@
 "smoking.type.picker.label" = "Type";
 "debug.toggle.panel" = "Toggle Debug Panel";
 "health.insights.general.info" = "General Information";
+
+// Standard Trigger Tags (5 most common)
+"tag.stress" = "Stress";
+"tag.coffee" = "Coffee";
+"tag.meal" = "After meal";
+"tag.work" = "Work";
+"tag.alcohol" = "Alcohol";
+
+// Tag UI
+"tags.standard.title" = "Quick Tags";
+"tags.custom.title" = "Your Tags";
 "health.insights.age.weight.format" = "Age: %d years • Weight: %.1f kg";
 "health.insights.smoking.duration" = "Smoking Duration";
 "health.insights.smoking.duration.format" = "%d years of %@";
@@ -1393,8 +1404,6 @@
 "cancel" = "Cancel";
 "reset.ai.warning" = "This will reset all AI coaching settings to their default values. This cannot be undone.";
 "ai.coaching.system" = "AI Coaching System";
-"available.ios26" = "Available (iOS 26+)";
-"requires.ios26" = "Requires iOS 26";
 "ios26.compatibility.message" = "Advanced AI coaching features require iOS 26 and compatible hardware. Basic quit support remains available on all iOS versions.";
 "system.status" = "System Status";
 "ai.features" = "AI Features";

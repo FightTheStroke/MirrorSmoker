@@ -48,6 +48,17 @@
 "smoking.type.picker.label" = "Typ";
 "debug.toggle.panel" = "Debug-Panel umschalten";
 "health.insights.general.info" = "Allgemeine Informationen";
+
+// Standard Trigger Tags (5 most common)
+"tag.stress" = "Stress";
+"tag.coffee" = "Kaffee";
+"tag.meal" = "Nach dem Essen";
+"tag.work" = "Arbeit";
+"tag.alcohol" = "Alkohol";
+
+// Tag UI
+"tags.standard.title" = "Schnell-Tags";
+"tags.custom.title" = "Ihre Tags";
 "health.insights.age.weight.format" = "Alter: %d Jahre • Gewicht: %.1f kg";
 "health.insights.smoking.duration" = "Rauchdauer";
 "health.insights.smoking.duration.format" = "%d Jahre von %@";
@@ -1394,8 +1405,6 @@
 "cancel" = "Abbrechen";
 "reset.ai.warning" = "Dies setzt alle KI-Coaching-Einstellungen auf ihre Standardwerte zurück. Dies kann nicht rückgängig gemacht werden.";
 "ai.coaching.system" = "KI-Coaching-System";
-"available.ios26" = "Verfügbar (iOS 26+)";
-"requires.ios26" = "Erfordert iOS 26";
 "ios26.compatibility.message" = "Erweiterte KI-Coaching-Funktionen benötigen iOS 26 und kompatible Hardware. Grundlegende Aufhör-Unterstützung bleibt auf allen iOS-Versionen verfügbar.";
 "system.status" = "Systemstatus";
 "ai.features" = "KI-Funktionen";

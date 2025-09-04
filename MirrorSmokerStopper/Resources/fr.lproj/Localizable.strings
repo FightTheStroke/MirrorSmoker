@@ -48,6 +48,17 @@
 "smoking.type.picker.label" = "Type";
 "debug.toggle.panel" = "Basculer le Panneau Debug";
 "health.insights.general.info" = "Informations Générales";
+
+// Standard Trigger Tags (5 most common)
+"tag.stress" = "Stress";
+"tag.coffee" = "Café";
+"tag.meal" = "Après repas";
+"tag.work" = "Travail";
+"tag.alcohol" = "Alcool";
+
+// Tag UI
+"tags.standard.title" = "Tags Rapides";
+"tags.custom.title" = "Vos Tags";
 "health.insights.age.weight.format" = "Âge : %d ans • Poids : %.1f kg";
 "health.insights.smoking.duration" = "Durée du Tabagisme";
 "health.insights.smoking.duration.format" = "%d ans de %@";
@@ -1394,8 +1405,6 @@
 "cancel" = "Annuler";
 "reset.ai.warning" = "Ceci réinitialisera tous les paramètres de coaching IA à leurs valeurs par défaut. Ceci ne peut pas être annulé.";
 "ai.coaching.system" = "Système de Coaching IA";
-"available.ios26" = "Disponible (iOS 26+)";
-"requires.ios26" = "Nécessite iOS 26";
 "ios26.compatibility.message" = "Les fonctionnalités avancées de coaching IA nécessitent iOS 26 et du matériel compatible. Le soutien de base à l'arrêt reste disponible sur toutes les versions iOS.";
 "system.status" = "État du Système";
 "ai.features" = "Fonctionnalités IA";

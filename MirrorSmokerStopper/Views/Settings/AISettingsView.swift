@@ -223,7 +223,7 @@ struct AISettingsView: View {
                     Spacer()
                     Picker(NSLocalizedString("start", comment: ""), selection: $aiConfig.quietHoursStart) {
                         ForEach(0..<24) { hour in
-                            Text(String(format: NSLocalizedString("hour.format", comment: "Hour format string"), hour)).tag(hour)
+                            Text(String(format: "hour.format".local(), hour)).tag(hour)
                         }
                     }
                     .pickerStyle(.menu)
@@ -234,7 +234,7 @@ struct AISettingsView: View {
                     Spacer()
                     Picker(NSLocalizedString("end", comment: ""), selection: $aiConfig.quietHoursEnd) {
                         ForEach(0..<24) { hour in
-                            Text(String(format: NSLocalizedString("hour.format", comment: "Hour format string"), hour)).tag(hour)
+                            Text(String(format: "hour.format".local(), hour)).tag(hour)
                         }
                     }
                     .pickerStyle(.menu)

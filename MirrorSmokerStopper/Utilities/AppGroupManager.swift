@@ -10,7 +10,7 @@ import SwiftData
 
 // MARK: - App Group Configuration
 struct AppGroupManager {
-    static let groupIdentifier = "group.com.mirror-labs.mirrorsmoker"
+    static let groupIdentifier = "group.fightthestroke.mirrorsmoker"
     
     static var sharedContainer: URL? {
         FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)
@@ -22,7 +22,7 @@ struct AppGroupManager {
             return nil
         }
         
-        let storeURL = url.appendingPathComponent("MirrorSmokerModel_v2.store")
+        let storeURL = url.appendingPathComponent("Library/Application Support/MirrorSmokerModel.store")
         
         do {
             let schema = Schema([

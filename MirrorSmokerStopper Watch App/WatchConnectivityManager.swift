@@ -6,10 +6,11 @@
 //
 
 import Foundation
-import WatchConnectivity
+@preconcurrency import WatchConnectivity
 import os.log
 import SwiftUI
 
+// Watch-specific cigarette model
 struct WatchCigarette: Identifiable, Codable {
     let id: UUID
     let timestamp: Date
@@ -21,6 +22,7 @@ struct WatchCigarette: Identifiable, Codable {
         self.note = note
     }
 }
+
 
 @MainActor
 class WatchConnectivityManager: NSObject, ObservableObject {
@@ -141,7 +143,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
         }
         
         if let cigarettesData = response["cigarettes"] as? [[String: Any]] {
-            todayCigarettes = cigarettesData.compactMap { data in
+            todayCigarettes = cigarettesData.compactMap { data -> WatchCigarette? in
                 guard let idString = data["id"] as? String,
                       let id = UUID(uuidString: idString),
                       let timestamp = data["timestamp"] as? TimeInterval else {
@@ -157,7 +159,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
             }
         }
         
-        logger.info("Sync completed: \(todayCount) cigarettes today")
+        logger.info("Sync completed: \(self.todayCount) cigarettes today")
     }
     
     private func handleStatsResponse(_ response: [String: Any]) {
@@ -178,7 +180,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
             weekCount = count
         }
         
-        logger.info("Stats updated: today=\(todayCount), yesterday=\(yesterdayCount), week=\(weekCount)")
+        logger.info("Stats updated: today=\(self.todayCount), yesterday=\(self.yesterdayCount), week=\(self.weekCount)")
     }
 }
 
@@ -214,6 +216,24 @@ extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
             }
         }
     }
+    
+#if os(iOS)
+    // These delegate methods are only required on iOS, not watchOS
+    nonisolated func sessionDidBecomeInactive(_ session: WCSession) {
+        DispatchQueue.main.async {
+            self.logger.info("Watch session became inactive")
+        }
+    }
+    
+    nonisolated func sessionDidDeactivate(_ session: WCSession) {
+        DispatchQueue.main.async {
+            self.logger.info("Watch session deactivated")
+        }
+        
+        // Reactivate the session for the Apple Watch
+        session.activate()
+    }
+#endif
     
     // MARK: - Receive Messages from iPhone
     
@@ -274,7 +294,7 @@ extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
             return
         }
         
-        let cigarettes = cigarettesData.compactMap { data in
+        let cigarettes = cigarettesData.compactMap { data -> WatchCigarette? in
             guard let idString = data["id"] as? String,
                   let id = UUID(uuidString: idString),
                   let timestamp = data["timestamp"] as? TimeInterval else {
@@ -292,7 +312,7 @@ extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
         todayCigarettes = cigarettes.sorted { $0.timestamp > $1.timestamp }
         todayCount = todayCigarettes.count
         
-        logger.info("Full sync completed from iPhone: \(todayCount) cigarettes")
+        logger.info("Full sync completed from iPhone: \(self.todayCount) cigarettes")
     }
     
     private func handlePurchaseAddedFromiPhone(message: [String: Any]) {

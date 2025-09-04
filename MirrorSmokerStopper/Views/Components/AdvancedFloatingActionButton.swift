@@ -155,7 +155,9 @@ struct AdvancedFloatingActionButton: View {
             if showingMenu {
                 dismissMenu()
             } else {
-                executeQuickAction()
+                // Reset long press state and execute quick action
+                isDetectingLongPress = false
+                quickAction()
             }
         }) {
             ZStack {

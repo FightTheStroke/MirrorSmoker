@@ -622,7 +622,7 @@
 // ContentView additional strings
 "statistics.section.title" = "Statistiche";
 "your.average.format" = "La tua media: %.1f/giorno";
-"goal.format" = "Obiettivo: %@";
+"goal.format" = "Obiettivo: %d";
 "days.to.goal.format" = "%d giorni all'obiettivo";
 "today.big.day" = "🎯 Oggi è il gran giorno!";
 "perfect.no.cigarettes" = "🎉 Perfetto!";
@@ -1249,7 +1249,7 @@
 "fewer.cigarettes.yesterday.message" = "Hai fumato 3 sigarette in meno di ieri!";
 "keep.momentum.advice" = "Mantieni questo slancio. Cosa hai fatto di diverso oggi?";
 "view.all.milestones.format" = "Visualizza Tutte le %d Tappe";
-"milestone.target.format" = "Obiettivo: %@";
+"milestone.target.format" = "Obiettivo: %d";
 
 // HealthKit Permission Modal
 "healthkit.permission.title" = "Migliora il Tuo Viaggio per Smettere";
@@ -1367,7 +1367,7 @@
 "plan.performance" = "Performance Piano";
 "no.performance.data" = "Nessun dato performance disponibile ancora. Completa alcuni giorni in più per ottenere intuizioni personalizzate.";
 "recommended.milestones" = "Tappe Raccomandate";
-"target.format" = "Obiettivo: %@";
+"target.format" = "Obiettivo: %d";
 "recommendation" = "Raccomandazione";
 "personalized.milestones" = "Tappe Personalizzate";
 "no.performance.issues" = "Nessun problema di performance rilevato. Continua così!";
@@ -1453,4 +1453,4 @@
 "statistics.purchase.history.button" = "Cronologia Acquisti";
 "statistics.financial.breakdown" = "Dettaglio Finanziario";
 "statistics.weekly.spending" = "Spesa Settimanale";
-"statistics.monthly.spending" = "Spesa Mensile";
+"statistics.monthly.spending" = "Spesa Mensile";"hour.format" = "%02d:00";

@@ -2,9 +2,10 @@
   "images" : [
     {
       "filename" : "appicon.png",
-      "idiom" : "universal",
-      "platform" : "watchos",
-      "size" : "1024x1024"
+      "idiom" : "watch",
+      "role" : "appLauncher",
+      "size" : "1024x1024",
+      "subtype" : "45mm"
     }
   ],
   "info" : {

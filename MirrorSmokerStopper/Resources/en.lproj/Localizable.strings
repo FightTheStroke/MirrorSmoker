@@ -1454,3 +1454,4 @@
 "statistics.weekly.spending" = "Weekly Spending";
 "statistics.monthly.spending" = "Monthly Spending";
 
+"hour.format" = "%02d:00";

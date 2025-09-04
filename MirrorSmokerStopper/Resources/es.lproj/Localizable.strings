@@ -1431,4 +1431,4 @@
 
 // More Statistics
 "statistics.money.spent" = "Dinero Gastado";
-"statistics.money.saved" = "Dinero Ahorrado";
+"statistics.money.saved" = "Dinero Ahorrado";"hour.format" = "%02d:00";

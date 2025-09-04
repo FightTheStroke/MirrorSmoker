@@ -169,34 +169,34 @@ struct DS {
         }
         
         // Large text - All JetBrains Mono
-        static let largeTitle = jetBrainsMonoBold(size: 28)
-        static let display = jetBrainsMonoBold(size: 34)
+        static let largeTitle = Font.system(size: 28, weight: .bold, design: .rounded)
+        static let display = Font.system(size: 34, weight: .bold, design: .rounded)
         
         // Titles - All JetBrains Mono
-        static let title = jetBrainsMonoSemiBold(size: 22)
-        static let title2 = jetBrainsMonoSemiBold(size: 20)
-        static let title3 = jetBrainsMonoSemiBold(size: 18)
+        static let title = Font.system(size: 22, weight: .semibold)
+        static let title2 = Font.system(size: 20, weight: .semibold)
+        static let title3 = Font.system(size: 18, weight: .semibold)
         
         // Headlines - All JetBrains Mono
-        static let headline = jetBrainsMonoMedium(size: 17)
-        static let subheadline = jetBrainsMonoMedium(size: 15)
+        static let headline = Font.system(size: 17, weight: .medium)
+        static let subheadline = Font.system(size: 15, weight: .medium)
         
         // Body text - All JetBrains Mono
-        static let body = jetBrainsMonoRegular(size: 17)
-        static let bodyBold = jetBrainsMonoSemiBold(size: 17)
-        static let bodyMono = jetBrainsMonoRegular(size: 17)
-        static let callout = jetBrainsMonoRegular(size: 16)
+        static let body = Font.system(size: 17, weight: .regular)
+        static let bodyBold = Font.system(size: 17, weight: .semibold)
+        static let bodyMono = Font.system(size: 17, weight: .regular)
+        static let callout = Font.system(size: 16, weight: .regular)
         
         // Captions - All JetBrains Mono
-        static let caption = jetBrainsMonoRegular(size: 12)
-        static let caption2 = jetBrainsMonoRegular(size: 11)
-        static let captionMono = jetBrainsMonoRegular(size: 12)
-        static let footnote = jetBrainsMonoRegular(size: 13)
+        static let caption = Font.system(size: 12, weight: .regular)
+        static let caption2 = Font.system(size: 11, weight: .regular)
+        static let captionMono = Font.system(size: 12, weight: .regular)
+        static let footnote = Font.system(size: 13, weight: .regular)
         
         // Special - All JetBrains Mono
-        static let small = jetBrainsMonoRegular(size: 12)
-        static let micro = jetBrainsMonoRegular(size: 11)
-        static let code = jetBrainsMonoRegular(size: 14)
+        static let small = Font.system(size: 12, weight: .regular)
+        static let micro = Font.system(size: 11, weight: .regular)
+        static let code = Font.system(size: 14, weight: .regular, design: .monospaced)
     }
     
     // MARK: - Spacing (8pt Grid System)

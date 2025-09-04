@@ -511,36 +511,73 @@ struct SettingsView: View {
     }
     
     private var aiSettingsSection: some View {
-        NavigationLink(destination: AISettingsView()) {
-            LegacyDSCard {
-                VStack(spacing: DS.Space.md) {
-                    DSSectionHeader("AI Coach Settings")
-                    
-                    HStack {
-                        Image(systemName: "brain.head.profile")
-                            .font(.title2)
-                            .foregroundColor(DS.Colors.primary)
+        VStack(spacing: DS.Space.md) {
+            NavigationLink(destination: AISettingsView()) {
+                LegacyDSCard {
+                    VStack(spacing: DS.Space.md) {
+                        DSSectionHeader("AI Coach Settings")
                         
-                        VStack(alignment: .leading, spacing: DS.Space.xs) {
-                            Text("Configure AI Coach")
-                                .font(DS.Text.body)
-                                .foregroundColor(DS.Colors.textPrimary)
-                            Text("Personalize your AI coaching experience")
-                                .font(DS.Text.caption)
+                        HStack {
+                            Image(systemName: "brain.head.profile")
+                                .font(.title2)
+                                .foregroundColor(DS.Colors.primary)
+                            
+                            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                Text("Configure AI Coach")
+                                    .font(DS.Text.body)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                Text("Personalize your AI coaching experience")
+                                    .font(DS.Text.caption)
+                                    .foregroundColor(DS.Colors.textSecondary)
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
                                 .foregroundColor(DS.Colors.textSecondary)
                         }
-                        
-                        Spacer()
-                        
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundColor(DS.Colors.textSecondary)
                     }
+                    .padding(DS.Space.lg)
                 }
-                .padding(DS.Space.lg)
             }
+            .buttonStyle(PlainButtonStyle())
+            
+            #if DEBUG
+            if #available(iOS 26, *) {
+                NavigationLink(destination: AICoachTestView()) {
+                LegacyDSCard {
+                    VStack(spacing: DS.Space.md) {
+                        DSSectionHeader("🧪 AI Coach Test (Debug)")
+                        
+                        HStack {
+                            Image(systemName: "flask")
+                                .font(.title2)
+                                .foregroundColor(.orange)
+                            
+                            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                Text("Test AI Coach")
+                                    .font(DS.Text.body)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                Text("Test local AI coaching features")
+                                    .font(DS.Text.caption)
+                                    .foregroundColor(DS.Colors.textSecondary)
+                            }
+                            
+                            Spacer()
+                            
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundColor(DS.Colors.textSecondary)
+                        }
+                    }
+                    .padding(DS.Space.lg)
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+            }
+            #endif
         }
-        .buttonStyle(PlainButtonStyle())
     }
     
     private var appInfoSection: some View {

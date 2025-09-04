@@ -19,6 +19,7 @@ struct ContentView: View {
     @State private var selectedCigaretteForTags: Cigarette? = nil
     @State private var insightsViewModel = InsightsViewModel()
     @StateObject private var watchConnectivity = WatchConnectivityManager.shared
+    @StateObject private var aiCoach = AICoachManagerCompat.shared
     
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "ContentView")
     
@@ -129,6 +130,7 @@ struct ContentView: View {
                     coachMessageSection
                     todayCigarettesSection
                     todaysInsightSection
+                    aiCoachTipSection
                 }
                 .padding(DS.Space.lg)
             }
@@ -196,9 +198,7 @@ struct ContentView: View {
             watchConnectivity.setModelContext(modelContext)
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("CigaretteAddedFromWatch"))) { notification in
-            // Refresh insights when cigarette is added from watch
-            refreshInsights()
-            // Update widget
+            // Update widget when cigarette is added from watch
             WidgetCenter.shared.reloadAllTimelines()
         }
     }
@@ -407,6 +407,50 @@ struct ContentView: View {
                 .transition(.asymmetric(
                     insertion: .move(edge: .top).combined(with: .opacity),
                     removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+            }
+        }
+    }
+    
+    private var aiCoachTipSection: some View {
+        Group {
+            if let tip = aiCoach.currentTip {
+                LegacyDSCard {
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        HStack(spacing: DS.Space.sm) {
+                            Image(systemName: "brain.head.profile")
+                                .font(.title3)
+                                .foregroundStyle(.blue)
+                                .frame(width: 24, height: 24)
+                            
+                            VStack(alignment: .leading, spacing: DS.Space.xxs) {
+                                Text("ai.coach.tip.title".local())
+                                    .font(DS.Text.headline)
+                                    .foregroundStyle(DS.Colors.textPrimary)
+                                
+                                Text("ai.coach.personal".local())
+                                    .font(DS.Text.caption2)
+                                    .foregroundStyle(DS.Colors.textSecondary)
+                            }
+                            
+                            Spacer()
+                            
+                            if aiCoach.isGeneratingTip {
+                                ProgressView()
+                                    .scaleEffect(0.7)
+                            }
+                        }
+                        
+                        Text(tip)
+                            .font(DS.Text.body)
+                            .foregroundStyle(DS.Colors.textPrimary)
+                            .lineLimit(nil)
+                    }
+                    .padding(DS.Space.md)
+                }
+                .transition(.asymmetric(
+                    insertion: .move(edge: .top).combined(with: .opacity),
+                    removal: .move(edge: .trailing).combined(with: .opacity)
                 ))
             }
         }

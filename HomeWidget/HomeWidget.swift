@@ -12,7 +12,7 @@ import Foundation
 
 // MARK: - App Group Manager (Shared)
 struct AppGroupManager {
-    static let groupIdentifier = "group.com.mirror-labs.mirrorsmoker"
+    static let groupIdentifier = "group.fightthestroke.mirrorsmoker"
     
     static var sharedContainer: URL? {
         FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)
@@ -24,7 +24,7 @@ struct AppGroupManager {
             return nil
         }
         
-        let storeURL = url.appendingPathComponent("MirrorSmokerModel_v2.store")
+        let storeURL = url.appendingPathComponent("Library/Application Support/MirrorSmokerModel.store")
         
         do {
             // Import only the models that the widget needs to read

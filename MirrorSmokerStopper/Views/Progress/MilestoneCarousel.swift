@@ -266,7 +266,7 @@ struct EmptyMilestonesView: View {
                     achievedDate: Date().addingTimeInterval(-172800),
                     icon: "dollarsign.circle.fill",
                     category: .savings,
-                    value: "€25"
+                    value: "25"
                 ),
                 Milestone(
                     title: "milestone.health.improvement",

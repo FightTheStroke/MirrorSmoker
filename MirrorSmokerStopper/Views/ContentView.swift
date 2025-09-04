@@ -517,115 +517,34 @@ struct ContentView_Previews: PreviewProvider {
 struct PurchaseLoggingSheet: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    @Query private var previousPurchases: [Purchase]
+    @Query private var profiles: [UserProfile]
     
     @State private var productName = ""
     @State private var amountString = ""
-    @State private var currencyCode = "USD"
     @State private var quantity = 1
     @State private var errorMessage: String?
     @State private var isSaving = false
+    @State private var showingProductDropdown = false
+    
+    // Get user's preferred currency
+    private var preferredCurrency: String {
+        return profiles.first?.preferredCurrency ?? "EUR"
+    }
+    
+    // Get unique product names from previous purchases
+    private var uniqueProductNames: [String] {
+        Array(Set(previousPurchases.map { $0.productName }))
+            .filter { !$0.isEmpty }
+            .sorted()
+    }
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: DS.Space.lg) {
-                    LegacyDSCard {
-                        VStack(spacing: DS.Space.md) {
-                            DSSectionHeader(
-                                "purchase.log.title".local(),
-                                subtitle: "purchase.log.subtitle".local()
-                            )
-                            
-                            VStack(spacing: DS.Space.md) {
-                                // Product Name
-                                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text("purchase.product.name".local())
-                                        .font(DS.Text.body)
-                                        .foregroundColor(DS.Colors.textPrimary)
-                                    
-                                    TextField("purchase.product.placeholder".local(), text: $productName)
-                                        .textFieldStyle(DSTextFieldStyle())
-                                        .autocapitalization(.words)
-                                }
-                                
-                                // Amount
-                                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text("purchase.amount".local())
-                                        .font(DS.Text.body)
-                                        .foregroundColor(DS.Colors.textPrimary)
-                                    
-                                    TextField("purchase.amount.placeholder".local(), text: $amountString)
-                                        .textFieldStyle(DSTextFieldStyle())
-                                        .keyboardType(.decimalPad)
-                                }
-                                
-                                // Currency
-                                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text("purchase.currency".local())
-                                        .font(DS.Text.body)
-                                        .foregroundColor(DS.Colors.textPrimary)
-                                    
-                                    TextField("purchase.currency.placeholder".local(), text: $currencyCode)
-                                        .textFieldStyle(DSTextFieldStyle())
-                                        .autocapitalization(.allCharacters)
-                                        .onChange(of: currencyCode) { _, newValue in
-                                            currencyCode = newValue.uppercased()
-                                        }
-                                }
-                                
-                                // Quantity
-                                VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                    Text("purchase.quantity".local())
-                                        .font(DS.Text.body)
-                                        .foregroundColor(DS.Colors.textPrimary)
-                                    
-                                    HStack {
-                                        Button(action: {
-                                            quantity = max(1, quantity - 1)
-                                        }) {
-                                            Image(systemName: "minus")
-                                                .font(.title2)
-                                                .foregroundColor(DS.Colors.primary)
-                                                .frame(width: 44, height: 44)
-                                                .background(DS.Colors.glassSecondary)
-                                                .clipShape(Circle())
-                                        }
-                                        
-                                        Text("\(quantity)")
-                                            .font(DS.Text.title2)
-                                            .fontWeight(.semibold)
-                                            .frame(minWidth: 40, alignment: .center)
-                                        
-                                        Button(action: {
-                                            quantity = min(99, quantity + 1)
-                                        }) {
-                                            Image(systemName: "plus")
-                                                .font(.title2)
-                                                .foregroundColor(DS.Colors.primary)
-                                                .frame(width: 44, height: 44)
-                                                .background(DS.Colors.glassSecondary)
-                                                .clipShape(Circle())
-                                        }
-                                    }
-                                    .frame(maxWidth: .infinity)
-                                }
-                            }
-                        }
-                    }
-                    
-                    if let errorMessage = errorMessage {
-                        HStack {
-                            Image(systemName: "exclamationmark.triangle")
-                                .foregroundColor(DS.Colors.danger)
-                            Text(errorMessage)
-                                .font(DS.Text.caption)
-                                .foregroundColor(DS.Colors.danger)
-                            Spacer()
-                        }
-                        .padding()
-                        .background(DS.Colors.danger.opacity(0.1))
-                        .cornerRadius(DS.Size.cardRadiusSmall)
-                    }
+                    purchaseFormCard
+                    errorMessageView
                 }
                 .padding(DS.Space.lg)
             }
@@ -646,6 +565,225 @@ struct PurchaseLoggingSheet: View {
                 }
             }
         }
+    }
+    
+    @ViewBuilder
+    private var purchaseFormCard: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.md) {
+                DSSectionHeader(
+                    "purchase.log.title".local(),
+                    subtitle: "purchase.log.subtitle".local()
+                )
+                
+                VStack(spacing: DS.Space.md) {
+                    productNameSection
+                    amountSection
+                    quantitySection
+                    currencyInfoSection
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder 
+    private var productNameSection: some View {
+        VStack(alignment: .leading, spacing: DS.Space.xs) {
+            HStack {
+                Text("purchase.product.name".local())
+                    .font(DS.Text.body)
+                    .foregroundColor(DS.Colors.textPrimary)
+                
+                Spacer()
+                
+                if !uniqueProductNames.isEmpty {
+                    Button(action: { showingProductDropdown.toggle() }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: showingProductDropdown ? "chevron.up" : "chevron.down")
+                                .font(.caption)
+                            Text("purchase.recent.products".local())
+                                .font(.caption)
+                        }
+                        .foregroundColor(DS.Colors.primary)
+                    }
+                }
+            }
+            
+            TextField("purchase.product.placeholder".local(), text: $productName)
+                .textFieldStyle(DSTextFieldStyle())
+                .autocapitalization(.words)
+            
+            if showingProductDropdown && !uniqueProductNames.isEmpty {
+                productDropdownView
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private var productDropdownView: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(uniqueProductNames, id: \.self) { product in
+                Button(action: {
+                    selectProduct(product)
+                }) {
+                    HStack {
+                        Text(product)
+                            .font(DS.Text.body)
+                            .foregroundColor(DS.Colors.textPrimary)
+                            .multilineTextAlignment(.leading)
+                        
+                        Spacer()
+                        
+                        if let recentPurchase = getMostRecentPurchase(for: product) {
+                            Text("\(String(format: "%.2f", recentPurchase.amountInCurrency))")
+                                .font(.caption)
+                                .foregroundColor(DS.Colors.textSecondary)
+                        }
+                    }
+                    .padding(.horizontal, DS.Space.sm)
+                    .padding(.vertical, DS.Space.xs)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .contentShape(Rectangle())
+                }
+                .buttonStyle(PlainButtonStyle())
+                
+                if product != uniqueProductNames.last {
+                    Divider()
+                        .background(DS.Colors.textTertiary)
+                }
+            }
+        }
+        .background(DS.Colors.backgroundSecondary)
+        .cornerRadius(DS.Size.cardRadiusSmall)
+        .overlay(
+            RoundedRectangle(cornerRadius: DS.Size.cardRadiusSmall)
+                .stroke(DS.Colors.textTertiary.opacity(0.3), lineWidth: 1)
+        )
+        .padding(.top, DS.Space.xs)
+    }
+    
+    @ViewBuilder
+    private var amountSection: some View {
+        VStack(alignment: .leading, spacing: DS.Space.xs) {
+            Text("purchase.amount".local())
+                .font(DS.Text.body)
+                .foregroundColor(DS.Colors.textPrimary)
+            
+            TextField("purchase.amount.placeholder".local(), text: $amountString)
+                .textFieldStyle(DSTextFieldStyle())
+                .keyboardType(.decimalPad)
+        }
+    }
+    
+    @ViewBuilder
+    private var currencyInfoSection: some View {
+        VStack(alignment: .leading, spacing: DS.Space.xs) {
+            HStack {
+                Image(systemName: "banknote.fill")
+                    .foregroundColor(DS.Colors.info)
+                    .font(.caption)
+                
+                Text("purchase.currency.info".local())
+                    .font(DS.Text.caption)
+                    .foregroundColor(DS.Colors.textSecondary)
+                
+                Spacer()
+                
+                Text(getCurrencyDisplay(preferredCurrency))
+                    .font(DS.Text.caption)
+                    .fontWeight(.semibold)
+                    .foregroundColor(DS.Colors.primary)
+            }
+            .padding(.horizontal, DS.Space.sm)
+            .padding(.vertical, DS.Space.xs)
+            .background(DS.Colors.info.opacity(0.1))
+            .cornerRadius(DS.Size.cardRadiusSmall)
+        }
+    }
+    
+    @ViewBuilder
+    private var quantitySection: some View {
+        VStack(alignment: .leading, spacing: DS.Space.xs) {
+            Text("purchase.quantity".local())
+                .font(DS.Text.body)
+                .foregroundColor(DS.Colors.textPrimary)
+            
+            HStack {
+                Button(action: {
+                    quantity = max(1, quantity - 1)
+                }) {
+                    Image(systemName: "minus")
+                        .font(.title2)
+                        .foregroundColor(DS.Colors.primary)
+                        .frame(width: 44, height: 44)
+                        .background(DS.Colors.glassSecondary)
+                        .clipShape(Circle())
+                }
+                
+                Text("\(quantity)")
+                    .font(DS.Text.title2)
+                    .fontWeight(.semibold)
+                    .frame(minWidth: 40, alignment: .center)
+                
+                Button(action: {
+                    quantity = min(99, quantity + 1)
+                }) {
+                    Image(systemName: "plus")
+                        .font(.title2)
+                        .foregroundColor(DS.Colors.primary)
+                        .frame(width: 44, height: 44)
+                        .background(DS.Colors.glassSecondary)
+                        .clipShape(Circle())
+                }
+            }
+            .frame(maxWidth: .infinity)
+        }
+    }
+    
+    @ViewBuilder
+    private var errorMessageView: some View {
+        if let errorMessage = errorMessage {
+            HStack {
+                Image(systemName: "exclamationmark.triangle")
+                    .foregroundColor(DS.Colors.danger)
+                Text(errorMessage)
+                    .font(DS.Text.caption)
+                    .foregroundColor(DS.Colors.danger)
+                Spacer()
+            }
+            .padding()
+            .background(DS.Colors.danger.opacity(0.1))
+            .cornerRadius(DS.Size.cardRadiusSmall)
+        }
+    }
+    
+    // MARK: - Helper Methods
+    
+    private func selectProduct(_ product: String) {
+        productName = product
+        showingProductDropdown = false
+        
+        // Auto-fill price and quantity from most recent purchase
+        if let recentPurchase = getMostRecentPurchase(for: product) {
+            amountString = String(format: "%.2f", recentPurchase.amountInCurrency)
+            quantity = recentPurchase.quantity
+        }
+    }
+    
+    private func getCurrencyDisplay(_ currencyCode: String) -> String {
+        let commonCurrencies = [
+            "EUR": "€ Euro",
+            "USD": "$ US Dollar",
+            "GBP": "£ British Pound"
+        ]
+        return commonCurrencies[currencyCode] ?? currencyCode
+    }
+    
+    private func getMostRecentPurchase(for product: String) -> Purchase? {
+        return previousPurchases
+            .filter { $0.productName == product }
+            .sorted { $0.timestamp > $1.timestamp }
+            .first
     }
     
     private func savePurchase() {
@@ -671,7 +809,7 @@ struct PurchaseLoggingSheet: View {
         purchase.timestamp = Date()
         purchase.productName = productName
         purchase.setAmountFromCurrency(amount)
-        purchase.currencyCode = currencyCode.uppercased()
+        purchase.currencyCode = preferredCurrency
         purchase.quantity = quantity
         
         modelContext.insert(purchase)

@@ -166,6 +166,11 @@ struct EnhancedStatisticsView: View {
         }
     }
     
+    // Get the user's preferred currency from settings
+    private var primaryCurrency: String {
+        return userProfiles.first?.preferredCurrency ?? "EUR"
+    }
+    
     // Add this computed property for potential savings
     private var potentialSavingsInSelectedRange: Double {
         // Calculate potential savings based on cigarettes not smoked
@@ -534,7 +539,27 @@ struct EnhancedStatisticsView: View {
     private var financialSavingsSection: some View {
         LegacyDSCard {
             VStack(spacing: DS.Space.lg) {
-                DSSectionHeader("statistics.financial.savings".local())
+                HStack {
+                    DSSectionHeader("statistics.financial.savings".local())
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: PurchaseHistoryView()) {
+                        HStack(spacing: DS.Space.xs) {
+                            Text("statistics.purchase.history.button".local())
+                                .font(DS.Text.caption)
+                                .fontWeight(.medium)
+                                .foregroundColor(DS.Colors.primary)
+                            Image(systemName: "chevron.right")
+                                .font(.caption)
+                                .foregroundColor(DS.Colors.primary)
+                        }
+                        .padding(.horizontal, DS.Space.sm)
+                        .padding(.vertical, DS.Space.xs)
+                        .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
+                        .cornerRadius(8)
+                    }
+                }
                 
                 VStack(spacing: DS.Space.xl) {
                     // Money Spent
@@ -544,7 +569,7 @@ struct EnhancedStatisticsView: View {
                                 .font(DS.Text.caption)
                                 .foregroundColor(DS.Colors.textSecondary)
                             
-                            Text(formatCurrency(totalSpentInSelectedRange, "USD"))
+                            Text(formatCurrency(totalSpentInSelectedRange, primaryCurrency))
                                 .font(DS.Text.title)
                                 .fontWeight(.bold)
                                 .foregroundColor(DS.Colors.danger)
@@ -567,7 +592,7 @@ struct EnhancedStatisticsView: View {
                                 .font(DS.Text.caption)
                                 .foregroundColor(DS.Colors.textSecondary)
                             
-                            Text(formatCurrency(potentialSavingsInSelectedRange, "USD"))
+                            Text(formatCurrency(potentialSavingsInSelectedRange, primaryCurrency))
                                 .font(DS.Text.title)
                                 .fontWeight(.bold)
                                 .foregroundColor(DS.Colors.success)
@@ -579,9 +604,81 @@ struct EnhancedStatisticsView: View {
                             .font(.system(size: 32))
                             .foregroundColor(DS.Colors.success)
                     }
+                    
+                    // Weekly and Monthly breakdown
+                    VStack(spacing: DS.Space.md) {
+                        HStack {
+                            Text("statistics.financial.breakdown".local())
+                                .font(DS.Text.subheadline)
+                                .fontWeight(.medium)
+                                .foregroundColor(DS.Colors.textPrimary)
+                            Spacer()
+                        }
+                        
+                        LazyVGrid(columns: [
+                            GridItem(.flexible()),
+                            GridItem(.flexible())
+                        ], spacing: DS.Space.sm) {
+                            financialBreakdownCard(
+                                title: "statistics.weekly.spending".local(),
+                                value: formatCurrency(weeklySpending, primaryCurrency),
+                                color: DS.Colors.warning
+                            )
+                            
+                            financialBreakdownCard(
+                                title: "statistics.monthly.spending".local(),
+                                value: formatCurrency(monthlySpending, primaryCurrency),
+                                color: DS.Colors.danger
+                            )
+                        }
+                    }
                 }
             }
         }
+    }
+    
+    // Add these computed properties for weekly and monthly spending
+    private var weeklySpending: Double {
+        let calendar = Calendar.current
+        let now = Date()
+        let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) ?? now
+        
+        let weeklyPurchases = allPurchases.filter { $0.timestamp >= weekAgo }
+        return weeklyPurchases.reduce(0) { total, purchase in
+            total + (purchase.amountInCurrency * Double(purchase.quantity))
+        }
+    }
+    
+    private var monthlySpending: Double {
+        let calendar = Calendar.current
+        let now = Date()
+        let monthAgo = calendar.date(byAdding: .month, value: -1, to: now) ?? now
+        
+        let monthlyPurchases = allPurchases.filter { $0.timestamp >= monthAgo }
+        return monthlyPurchases.reduce(0) { total, purchase in
+            total + (purchase.amountInCurrency * Double(purchase.quantity))
+        }
+    }
+    
+    // Add this helper method for financial breakdown cards
+    private func financialBreakdownCard(title: String, value: String, color: Color) -> some View {
+        VStack(alignment: .leading, spacing: DS.Space.xs) {
+            Text(title)
+                .font(DS.Text.caption)
+                .foregroundColor(DS.Colors.textSecondary)
+                .lineLimit(2)
+                .multilineTextAlignment(.leading)
+            
+            Text(value)
+                .font(DS.Text.subheadline)
+                .fontWeight(.semibold)
+                .foregroundColor(color)
+                .lineLimit(1)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(DS.Space.sm)
+        .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
+        .cornerRadius(DS.Size.cardRadiusSmall)
     }
     
     // Add this helper method

@@ -1412,8 +1412,28 @@
 "purchase.log.subtitle" = "Registra il tuo acquisto di prodotto tabacco";
 "purchase.product.name" = "Nome Prodotto";
 "purchase.product.placeholder" = "es. Marlboro Red";
+"purchase.recent.products" = "Recenti";
 "purchase.amount" = "Importo";
 "purchase.amount.placeholder" = "0.00";
+"purchase.common.currencies" = "Comuni";
+"purchase.currency.info" = "Utilizza valuta dalle impostazioni";
+
+// Financial Preferences
+"settings.financial.preferences.section" = "Preferenze Finanziarie";
+"settings.financial.preferences.footer" = "Configura la tua valuta preferita per spese e statistiche";
+"settings.preferred.currency.label" = "Valuta Preferita";
+
+// Purchase History
+"purchase.history.title" = "Cronologia Acquisti";
+"purchase.history.week" = "Ultima Settimana";
+"purchase.history.month" = "Ultimo Mese";
+"purchase.history.three.months" = "Ultimi 3 Mesi";
+"purchase.history.all" = "Tutti i Tempi";
+"purchase.history.total.spent" = "Totale Speso";
+"purchase.history.total.purchases" = "Totale Acquisti";
+"purchase.history.search.placeholder" = "Cerca prodotti...";
+"purchase.history.empty.title" = "Nessun Acquisto";
+"purchase.history.empty.subtitle" = "Inizia a registrare i tuoi acquisti di prodotti del tabacco per vedere la cronologia delle spese qui";
 "purchase.currency" = "Valuta";
 "purchase.currency.placeholder" = "EUR";
 "purchase.quantity" = "Quantità";
@@ -1428,7 +1448,9 @@
 
 // Statistics
 "statistics.financial.savings" = "Risparmi Finanziari";
-
-// More Statistics
 "statistics.money.spent" = "Denaro Speso";
-"statistics.money.saved" = "Denaro Risparmiato";
+"statistics.money.saved" = "Denaro Risparmiato (Stima)";
+"statistics.purchase.history.button" = "Cronologia Acquisti";
+"statistics.financial.breakdown" = "Dettaglio Finanziario";
+"statistics.weekly.spending" = "Spesa Settimanale";
+"statistics.monthly.spending" = "Spesa Mensile";

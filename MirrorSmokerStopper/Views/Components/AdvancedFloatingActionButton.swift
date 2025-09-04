@@ -66,7 +66,7 @@ struct AdvancedFloatingActionButton: View {
 
     // MARK: - Menu Options
     private var menuOptions: some View {
-        VStack(spacing: DS.AdaptiveSpace.sm) {
+        VStack(spacing: 16) {
             // Log Purchase Button
             if logPurchaseAction != nil {
                 actionButton(
@@ -78,7 +78,10 @@ struct AdvancedFloatingActionButton: View {
                         }
                     }
                 )
-                .transition(.scale.combined(with: .opacity))
+                .transition(.asymmetric(
+                    insertion: .scale.combined(with: .move(edge: .bottom)),
+                    removal: .scale.combined(with: .opacity)
+                ))
             }
 
             // Tagged Cigarette Button
@@ -91,26 +94,44 @@ struct AdvancedFloatingActionButton: View {
                     }
                 }
             )
-            .transition(.scale.combined(with: .opacity))
+            .transition(.asymmetric(
+                insertion: .scale.combined(with: .move(edge: .bottom)),
+                removal: .scale.combined(with: .opacity)
+            ))
         }
-        .offset(y: -DS.AdaptiveSpace.sm)
+        .offset(y: -20)
+        .background(
+            // Subtle backdrop for better visibility
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.ultraThinMaterial)
+                .opacity(0.3)
+        )
     }
 
     private func actionButton(icon: String, title: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
-            VStack(spacing: 4) {
+            VStack(spacing: 8) {
                 Image(systemName: icon)
-                    .font(.title2)
-                    .foregroundColor(DS.Colors.primary)
+                    .font(.system(size: 24, weight: .medium))
+                    .foregroundColor(.white)
+                    .frame(width: 40, height: 40)
+                    .background(DS.Colors.primary)
+                    .clipShape(Circle())
+                
                 Text(title)
-                    .font(DS.Text.caption)
-                    .fontWeight(.medium)
+                    .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(DS.Colors.textPrimary)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
             }
-            .frame(width: 80)
-            .padding(.vertical, 8)
-            .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
-            .cornerRadius(DS.Size.cardRadius)
+            .frame(width: 120, height: 80)
+            .padding(.vertical, 12)
+            .padding(.horizontal, 16)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(DS.Colors.backgroundSecondary)
+                    .shadow(color: .black.opacity(0.1), radius: 8, x: 0, y: 4)
+            )
         }
         .buttonStyle(PlainButtonStyle())
     }

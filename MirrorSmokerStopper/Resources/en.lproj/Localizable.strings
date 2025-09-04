@@ -1411,8 +1411,28 @@
 "purchase.log.subtitle" = "Record your tobacco product purchase";
 "purchase.product.name" = "Product Name";
 "purchase.product.placeholder" = "e.g. Marlboro Red";
+"purchase.recent.products" = "Recent";
 "purchase.amount" = "Amount";
 "purchase.amount.placeholder" = "0.00";
+"purchase.common.currencies" = "Common";
+"purchase.currency.info" = "Using currency from settings";
+
+// Financial Preferences
+"settings.financial.preferences.section" = "Financial Preferences";
+"settings.financial.preferences.footer" = "Configure your preferred currency for expenses and statistics";
+"settings.preferred.currency.label" = "Preferred Currency";
+
+// Purchase History
+"purchase.history.title" = "Purchase History";
+"purchase.history.week" = "Last Week";
+"purchase.history.month" = "Last Month";
+"purchase.history.three.months" = "Last 3 Months";
+"purchase.history.all" = "All Time";
+"purchase.history.total.spent" = "Total Spent";
+"purchase.history.total.purchases" = "Total Purchases";
+"purchase.history.search.placeholder" = "Search products...";
+"purchase.history.empty.title" = "No Purchases Yet";
+"purchase.history.empty.subtitle" = "Start logging your tobacco product purchases to see your spending history here";
 "purchase.currency" = "Currency";
 "purchase.currency.placeholder" = "USD";
 "purchase.quantity" = "Quantity";
@@ -1427,7 +1447,10 @@
 
 // Statistics
 "statistics.financial.savings" = "Financial Savings";
-
-// More Statistics
 "statistics.money.spent" = "Money Spent";
-"statistics.money.saved" = "Money Saved";
+"statistics.money.saved" = "Money Saved (Estimate)";
+"statistics.purchase.history.button" = "Purchase History";
+"statistics.financial.breakdown" = "Financial Breakdown";
+"statistics.weekly.spending" = "Weekly Spending";
+"statistics.monthly.spending" = "Monthly Spending";
+

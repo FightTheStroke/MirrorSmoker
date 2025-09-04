@@ -10,14 +10,10 @@ import WidgetKit
 import SwiftData
 import Foundation
 
-
-
 // MARK: - Add Cigarette Intent
 struct AddCigaretteIntent: AppIntent {
     static var title: LocalizedStringResource = "widget.intent.add.cigarette"
     static var description = IntentDescription("widget.intent.add.cigarette.description")
-    
-    // No parameters needed - just add a cigarette with current timestamp
     
     func perform() async throws -> some IntentResult {
         let success = await addCigaretteToSharedDatabase()
@@ -34,20 +30,16 @@ struct AddCigaretteIntent: AppIntent {
     
     // MARK: - Database Access
     private func addCigaretteToSharedDatabase() async -> Bool {
-        guard let url = WidgetAppGroupManager.sharedContainer else {
+        guard let container = AppGroupManager.sharedModelContainer else {
+            print("❌ Widget: Failed to get shared model container for adding cigarette")
             return false
         }
         
-        let storeURL = url.appendingPathComponent("MirrorSmoker.sqlite")
+        let context = ModelContext(container)
         
         do {
-            let schema = Schema([WidgetCigarette.self])
-            let config = ModelConfiguration(url: storeURL, cloudKitDatabase: .automatic)
-            let container = try ModelContainer(for: schema, configurations: [config])
-            let context = ModelContext(container)
-            
-            // Create and save cigarette
-            let cigarette = WidgetCigarette(
+            // Create and save cigarette using the real Cigarette model
+            let cigarette = Cigarette(
                 timestamp: Date(),
                 note: NSLocalizedString("added.from.widget", comment: "Added from widget")
             )
@@ -55,6 +47,7 @@ struct AddCigaretteIntent: AppIntent {
             context.insert(cigarette)
             try context.save()
             
+            print("✅ Widget successfully added cigarette to shared database")
             return true
             
         } catch {

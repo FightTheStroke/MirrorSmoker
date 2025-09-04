@@ -24,6 +24,7 @@ struct SettingsView: View {
     @State private var smokingType = SmokingType.cigarettes
     @State private var startedSmokingAge = 18
     @State private var dailyAverageInput = ""
+    @State private var preferredCurrency = "EUR"
     
     // Removed quit plan functionality as requested
     
@@ -39,6 +40,13 @@ struct SettingsView: View {
     // Premium state
     @State private var premiumGatekeeper = PremiumGatekeeper.shared
     @State private var showingPaywall = false
+    
+    // Supported currencies
+    private let supportedCurrencies = [
+        ("EUR", "€ Euro"),
+        ("USD", "$ US Dollar"),
+        ("GBP", "£ British Pound")
+    ]
     
     private var profile: UserProfile? {
         profiles.first
@@ -123,6 +131,7 @@ struct SettingsView: View {
                             personalProfileSection
                             premiumStatusSection
                             smokingHabitsSection
+                            financialPreferencesSection
                             if shouldShowHealthInfo {
                                 healthInsightsSection
                             }
@@ -225,13 +234,13 @@ struct SettingsView: View {
     
     private var personalProfileSection: some View {
         LegacyDSCard {
-            VStack(spacing: DS.Space.lg) {
+            VStack(alignment: .leading, spacing: DS.Space.lg) {
                 DSSectionHeader(
                     "settings.personal.profile".local(),
                     subtitle: "settings.profile.footer".local()
                 )
                 
-                VStack(spacing: DS.Space.md) {
+                VStack(alignment: .leading, spacing: DS.Space.md) {
                     // Name field
                     VStack(alignment: .leading, spacing: DS.Space.sm) {
                         DSFormLabel(
@@ -316,7 +325,7 @@ struct SettingsView: View {
                     subtitle: "settings.smoking.habits.footer".local()
                 )
                 
-                VStack(spacing: DS.Space.md) {
+                VStack(alignment: .leading, spacing: DS.Space.md) {
                     // Smoking type
                     VStack(alignment: .leading, spacing: DS.Space.sm) {
                         DSFormLabel(
@@ -333,7 +342,7 @@ struct SettingsView: View {
                                 Text(type.displayName).tag(type)
                             }
                         }
-                        .pickerStyle(.segmented)
+//                        .pickerStyle(.default)
                         .onChange(of: smokingType) { _, _ in
                             hasUnsavedChanges = true
                         }
@@ -405,6 +414,58 @@ struct SettingsView: View {
     
     private var shouldShowHealthInfo: Bool {
         currentAge > 0 || (!weight.isEmpty && isWeightValid)
+    }
+    
+    private var financialPreferencesSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader(
+                    "settings.financial.preferences.section".local(),
+                    subtitle: "settings.financial.preferences.footer".local()
+                )
+                
+                VStack(spacing: DS.Space.md) {
+                    // Currency selection
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "settings.preferred.currency.label".local(),
+                            icon: "banknote.fill",
+                            isRequired: false
+                        )
+                        
+                        Menu {
+                            ForEach(supportedCurrencies, id: \.0) { currency in
+                                Button(action: {
+                                    preferredCurrency = currency.0
+                                    hasUnsavedChanges = true
+                                }) {
+                                    HStack {
+                                        Text(currency.1)
+                                        Spacer()
+                                        if preferredCurrency == currency.0 {
+                                            Image(systemName: "checkmark")
+                                        }
+                                    }
+                                }
+                            }
+                        } label: {
+                            HStack {
+                                let selectedCurrency = supportedCurrencies.first { $0.0 == preferredCurrency }
+                                Text(selectedCurrency?.1 ?? preferredCurrency)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                Spacer()
+                                Image(systemName: "chevron.down")
+                                    .foregroundColor(DS.Colors.textSecondary)
+                                    .font(.caption)
+                            }
+                            .padding(DS.Space.md)
+                            .background(DS.Colors.backgroundSecondary)
+                            .cornerRadius(DS.Size.cardRadiusSmall)
+                        }
+                    }
+                }
+            }
+        }
     }
     
     private var healthInsightsSection: some View {
@@ -520,6 +581,7 @@ struct SettingsView: View {
         weight = profile.weight > 0 ? String(format: "%.1f", profile.weight) : ""
         smokingType = profile.smokingType
         startedSmokingAge = profile.startedSmokingAge
+        preferredCurrency = profile.preferredCurrency
         
         if profile.dailyAverage > 0 {
             dailyAverageInput = String(format: "%.1f", profile.dailyAverage)
@@ -560,6 +622,9 @@ struct SettingsView: View {
             } else {
                 profileToSave.dailyAverage = calculatedDailyAverage
             }
+            
+            // Save preferred currency
+            profileToSave.preferredCurrency = preferredCurrency
             
             profileToSave.lastUpdated = Date()
             

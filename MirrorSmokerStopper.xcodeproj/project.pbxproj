@@ -116,13 +116,6 @@
 			);
 			target = A96040B42E675A840042AE8B /* HomeWidgetExtension */;
 		};
-		A96042222E6895EF0042AE8B /* Exceptions for "MirrorSmokerStopper Watch App" folder in "MirrorSmokerStopper Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"MirrorSmokerStopper-Watch-App-Info.plist",
-			);
-			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
-		};
 		A9B839612E66099E00B0254B /* Exceptions for "MirrorSmokerStopper" folder in "MirrorSmokerStopper" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -174,9 +167,6 @@
 		};
 		A9F5E4CA2E65FBA5004181D9 /* MirrorSmokerStopper Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				A96042222E6895EF0042AE8B /* Exceptions for "MirrorSmokerStopper Watch App" folder in "MirrorSmokerStopper Watch App" target */,
-			);
 			path = "MirrorSmokerStopper Watch App";
 			sourceTree = "<group>";
 		};

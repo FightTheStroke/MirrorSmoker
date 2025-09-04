@@ -21,6 +21,7 @@ struct AdvancedFloatingActionButton: View {
     // Stati per gesture migliorata
     @State private var showingMenu = false
     @State private var isDetectingLongPress = false
+    @State private var menuTimer: Timer?
 
     // Parametri ottimizzati per gesture
     private let gestureAreaSize: CGFloat = 80    // Area più grande di 56px precedente
@@ -106,6 +107,18 @@ struct AdvancedFloatingActionButton: View {
                 .fill(.ultraThinMaterial)
                 .opacity(0.3)
         )
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
+            // Reset button state when app becomes active
+            if showingMenu {
+                dismissMenu()
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification)) { _ in
+            // Reset button state when app goes to background
+            if showingMenu {
+                dismissMenu()
+            }
+        }
     }
 
     private func actionButton(icon: String, title: String, action: @escaping () -> Void) -> some View {
@@ -218,6 +231,12 @@ struct AdvancedFloatingActionButton: View {
         }
         // Haptic feedback quando menu si apre
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        
+        // Auto-dismiss menu after 8 seconds for safety
+        menuTimer?.invalidate()
+        menuTimer = Timer.scheduledTimer(withTimeInterval: 8.0, repeats: false) { _ in
+            dismissMenu()
+        }
     }
 
     private func dismissMenu(withDelay delay: Bool = false, completion: (() -> Void)? = nil) {
@@ -226,6 +245,8 @@ struct AdvancedFloatingActionButton: View {
                 showingMenu = false
                 isDetectingLongPress = false // Ensure long press state is reset
             }
+            menuTimer?.invalidate()
+            menuTimer = nil
             completion?()
         }
 

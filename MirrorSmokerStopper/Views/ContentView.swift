@@ -18,6 +18,7 @@ struct ContentView: View {
     @State private var lastSavedCigaretteTagCount = 0
     @State private var selectedCigaretteForTags: Cigarette? = nil
     @State private var insightsViewModel = InsightsViewModel()
+    @StateObject private var watchConnectivity = WatchConnectivityManager.shared
     
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "ContentView")
     
@@ -190,6 +191,16 @@ struct ContentView: View {
         }
         .navigationTitle("")
         .navigationBarHidden(true)
+        .onAppear {
+            // Initialize WatchConnectivity with modelContext
+            watchConnectivity.setModelContext(modelContext)
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("CigaretteAddedFromWatch"))) { notification in
+            // Refresh insights when cigarette is added from watch
+            refreshInsights()
+            // Update widget
+            WidgetCenter.shared.reloadAllTimelines()
+        }
     }
     
     private var heroSection: some View {
@@ -433,6 +444,9 @@ struct ContentView: View {
         do { 
             try modelContext.save()
             
+            // Send to Watch via WatchConnectivity
+            watchConnectivity.sendCigaretteAdded(newCigarette)
+            
             // Update widget
             WidgetCenter.shared.reloadAllTimelines()
             
@@ -440,7 +454,7 @@ struct ContentView: View {
             lastSavedCigaretteTagCount = tagCount
             showingCigaretteSavedNotification = true
             
-            Self.logger.info("Cigarette saved with \(tagCount) tags")
+            Self.logger.info("Cigarette saved with \(tagCount) tags and synced to Watch")
             
         } catch { 
             Self.logger.error("Error saving cigarette: \(error.localizedDescription)")

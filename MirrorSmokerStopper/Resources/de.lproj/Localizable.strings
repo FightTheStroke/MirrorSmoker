@@ -1156,6 +1156,12 @@
 "privacy.description" = "Alle Datenverarbeitung erfolgt auf dem Gerät. Keine Informationen werden mit externen Diensten geteilt.";
 "healthkit.data" = "HealthKit-Daten";
 "healthkit.data.description" = "Schlaf, Aktivität, Medikamente";
+"Heart rate monitoring for craving prediction" = "Herzfrequenzüberwachung zur Vorhersage von Verlangen";
+"Pattern recognition for personalized coaching" = "Mustererkennung für personalisiertes Coaching";
+"smart.notifications" = "Intelligente Benachrichtigungen";
+"Just-in-time interventions based on your patterns" = "Just-in-Time-Interventionen basierend auf Ihren Mustern";
+"AI Coach Features" = "KI-Coach-Funktionen";
+"When AI Coach is ON, all wellness features are enabled for best results. All processing happens on your device." = "Wenn der KI-Coach AKTIV ist, sind alle Wellness-Funktionen für beste Ergebnisse aktiviert. Die gesamte Verarbeitung erfolgt auf Ihrem Gerät.";
 "location.analysis" = "Standortanalyse";
 "location.analysis.description" = "Allgemeine Standortmuster";
 "detailed.behavioral.analysis" = "Detaillierte Verhaltensanalyse";
@@ -1388,6 +1394,8 @@
 "cancel" = "Abbrechen";
 "reset.ai.warning" = "Dies setzt alle KI-Coaching-Einstellungen auf ihre Standardwerte zurück. Dies kann nicht rückgängig gemacht werden.";
 "ai.coaching.system" = "KI-Coaching-System";
+"available.ios26" = "Verfügbar (iOS 26+)";
+"requires.ios26" = "Erfordert iOS 26";
 "ios26.compatibility.message" = "Erweiterte KI-Coaching-Funktionen benötigen iOS 26 und kompatible Hardware. Grundlegende Aufhör-Unterstützung bleibt auf allen iOS-Versionen verfügbar.";
 "system.status" = "Systemstatus";
 "ai.features" = "KI-Funktionen";

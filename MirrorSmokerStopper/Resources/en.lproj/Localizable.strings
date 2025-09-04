@@ -1155,6 +1155,12 @@
 "privacy.description" = "All data processing happens on-device. No information is shared with external services.";
 "healthkit.data" = "HealthKit Data";
 "healthkit.data.description" = "Sleep, activity, medications";
+"Heart rate monitoring for craving prediction" = "Heart rate monitoring for craving prediction";
+"Pattern recognition for personalized coaching" = "Pattern recognition for personalized coaching";
+"smart.notifications" = "Smart Notifications";
+"Just-in-time interventions based on your patterns" = "Just-in-time interventions based on your patterns";
+"AI Coach Features" = "AI Coach Features";
+"When AI Coach is ON, all wellness features are enabled for best results. All processing happens on your device." = "When AI Coach is ON, all wellness features are enabled for best results. All processing happens on your device.";
 "location.analysis" = "Location Analysis";
 "location.analysis.description" = "General location patterns";
 "detailed.behavioral.analysis" = "Detailed Behavioral Analysis";
@@ -1387,6 +1393,8 @@
 "cancel" = "Cancel";
 "reset.ai.warning" = "This will reset all AI coaching settings to their default values. This cannot be undone.";
 "ai.coaching.system" = "AI Coaching System";
+"available.ios26" = "Available (iOS 26+)";
+"requires.ios26" = "Requires iOS 26";
 "ios26.compatibility.message" = "Advanced AI coaching features require iOS 26 and compatible hardware. Basic quit support remains available on all iOS versions.";
 "system.status" = "System Status";
 "ai.features" = "AI Features";

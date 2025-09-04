@@ -1156,6 +1156,12 @@
 "privacy.description" = "Tout le traitement des données se fait sur l'appareil. Aucune information n'est partagée avec des services externes.";
 "healthkit.data" = "Données HealthKit";
 "healthkit.data.description" = "Sommeil, activité, médicaments";
+"Heart rate monitoring for craving prediction" = "Surveillance de la fréquence cardiaque pour prédire les envies";
+"Pattern recognition for personalized coaching" = "Reconnaissance de modèles pour un coaching personnalisé";
+"smart.notifications" = "Notifications intelligentes";
+"Just-in-time interventions based on your patterns" = "Interventions juste à temps basées sur vos modèles";
+"AI Coach Features" = "Fonctionnalités du Coach IA";
+"When AI Coach is ON, all wellness features are enabled for best results. All processing happens on your device." = "Lorsque le Coach IA est ACTIF, toutes les fonctionnalités de bien-être sont activées pour de meilleurs résultats. Tout le traitement se fait sur votre appareil.";
 "location.analysis" = "Analyse de Localisation";
 "location.analysis.description" = "Modèles de localisation générale";
 "detailed.behavioral.analysis" = "Analyse Comportementale Détaillée";
@@ -1388,6 +1394,8 @@
 "cancel" = "Annuler";
 "reset.ai.warning" = "Ceci réinitialisera tous les paramètres de coaching IA à leurs valeurs par défaut. Ceci ne peut pas être annulé.";
 "ai.coaching.system" = "Système de Coaching IA";
+"available.ios26" = "Disponible (iOS 26+)";
+"requires.ios26" = "Nécessite iOS 26";
 "ios26.compatibility.message" = "Les fonctionnalités avancées de coaching IA nécessitent iOS 26 et du matériel compatible. Le soutien de base à l'arrêt reste disponible sur toutes les versions iOS.";
 "system.status" = "État du Système";
 "ai.features" = "Fonctionnalités IA";

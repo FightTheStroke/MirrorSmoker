@@ -1,0 +1,17 @@
+/* 
+  InfoPlist.strings
+  MirrorSmokerStopper
+  
+  Italian localization for Info.plist permission messages
+*/
+
+/* HealthKit Permissions */
+"NSHealthShareUsageDescription" = "Mirror Smoker utilizza i tuoi dati di frequenza cardiaca per prevedere le voglie di fumare con 15-30 minuti di anticipo, aiutandoti a prepararti e gestire meglio gli stimoli. I tuoi dati sanitari non vengono mai condivisi e rimangono privati sul tuo dispositivo.";
+
+"NSHealthUpdateUsageDescription" = "Mirror Smoker deve salvare i dati relativi al fumo in Salute per tracciare i tuoi progressi e fornire informazioni complete sulla tua salute nel percorso per smettere di fumare.";
+
+/* Notification Permission */
+"NSUserNotificationsUsageDescription" = "Mirror Smoker invia notifiche intelligenti nei momenti giusti per aiutarti a gestire le voglie e celebrare i tuoi successi. Le notifiche rispettano le tue modalità Focus e gli orari di sonno.";
+
+/* Motion Permission */
+"NSMotionUsageDescription" = "Mirror Smoker utilizza i dati di movimento per comprendere meglio i tuoi modelli di attività e fornire supporto contestuale quando sei più vulnerabile ai fattori scatenanti del fumo.";

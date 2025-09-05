@@ -17,9 +17,11 @@ struct ContentView: View {
     @State private var showingPurchaseSheet = false // Add this state
     @State private var lastSavedCigaretteTagCount = 0
     @State private var selectedCigaretteForTags: Cigarette? = nil
+    @State private var tempSelectedTags: [Tag] = []
     @State private var insightsViewModel = InsightsViewModel()
     @StateObject private var watchConnectivity = WatchConnectivityManager.shared
     @StateObject private var aiCoach = AICoachManagerCompat.shared
+    @StateObject private var syncCoordinator = SyncCoordinator.shared
     
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "ContentView")
     
@@ -135,26 +137,43 @@ struct ContentView: View {
                 .padding(DS.Space.lg)
             }
             .background(DS.Colors.background)
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("CigaretteAddedFromWatch"))) { _ in
+                // UI will auto-refresh due to @Query
+                Self.logger.info("Received cigarette added notification from Watch")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("CigaretteAddedFromWidget"))) { _ in
+                // UI will auto-refresh due to @Query
+                Self.logger.info("Received cigarette added notification from Widget")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ExternalDataChanged"))) { _ in
+                // External data change detected
+                Self.logger.info("External data change detected, UI will refresh")
+            }
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
             }
             .sheet(isPresented: $showingTagSelection) {
-                TagSelectionSheet { selectedTags in
-                    if let cigarette = selectedCigaretteForTags {
-                        // Adding tags to existing cigarette
-                        cigarette.tags = selectedTags
-                        do {
-                            try modelContext.save()
-                            Self.logger.info("Tags added to existing cigarette")
-                        } catch {
-                            Self.logger.error("Error adding tags to cigarette: \(error.localizedDescription)")
+                UnifiedTagPickerView(selectedTags: $tempSelectedTags)
+                    .onDisappear {
+                        if !tempSelectedTags.isEmpty || showingTagSelection {
+                            // Create cigarette with selected tags if sheet was dismissed with Done
+                            if let cigarette = selectedCigaretteForTags {
+                                // Adding tags to existing cigarette  
+                                cigarette.tags = tempSelectedTags
+                                do {
+                                    try modelContext.save()
+                                    Self.logger.info("Tags added to existing cigarette")
+                                } catch {
+                                    Self.logger.error("Error adding tags to cigarette: \(error.localizedDescription)")
+                                }
+                                selectedCigaretteForTags = nil
+                            } else if !tempSelectedTags.isEmpty {
+                                // Creating new cigarette with tags
+                                addCigaretteWithTags(tempSelectedTags)
+                            }
+                            tempSelectedTags = []
                         }
-                        selectedCigaretteForTags = nil
-                    } else {
-                        // Creating new cigarette with tags
-                        addCigaretteWithTags(selectedTags)
                     }
-                }
             }
             .sheet(isPresented: $showingPurchaseSheet) { // Add this sheet
                 PurchaseLoggingSheet()
@@ -488,17 +507,14 @@ struct ContentView: View {
         do { 
             try modelContext.save()
             
-            // Send to Watch via WatchConnectivity
-            watchConnectivity.sendCigaretteAdded(newCigarette)
-            
-            // Update widget
-            WidgetCenter.shared.reloadAllTimelines()
+            // Use SyncCoordinator for centralized sync
+            syncCoordinator.cigaretteAdded(from: .app, cigarette: newCigarette)
             
             // Show success notification
             lastSavedCigaretteTagCount = tagCount
             showingCigaretteSavedNotification = true
             
-            Self.logger.info("Cigarette saved with \(tagCount) tags and synced to Watch")
+            Self.logger.info("Cigarette saved with \(tagCount) tags and synced via SyncCoordinator")
             
         } catch { 
             Self.logger.error("Error saving cigarette: \(error.localizedDescription)")

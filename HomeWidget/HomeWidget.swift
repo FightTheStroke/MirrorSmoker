@@ -228,11 +228,11 @@ struct SmallCigaretteWidgetView: View {
     
     var body: some View {
         ZStack {
-            // Background gradient
+            // Background gradient - adaptive for light/dark mode
             LinearGradient(
                 colors: [
-                    Color("#F8F9FA"),
-                    Color("#E9ECEF")
+                    Color(UIColor.systemBackground),
+                    Color(UIColor.secondarySystemBackground)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -242,6 +242,7 @@ struct SmallCigaretteWidgetView: View {
                 // Today count with accessibility
                 VStack(spacing: 2) {
                     Text(NSLocalizedString("widget.add.cigarette", comment: "").capitalized)
+                        .foregroundColor(.primary)
                     Text("\(entry.todayStats.todayCount)")
                         .font(Font.custom("JetBrains Mono NL Bold", size: 32, relativeTo: .largeTitle))
                         .foregroundColor(Color(entry.todayStats.statusColor))
@@ -276,7 +277,10 @@ struct SmallCigaretteWidgetView: View {
         }
         .containerBackground(for: .widget) {
             LinearGradient(
-                colors: [Color("#F8F9FA"), Color("#E9ECEF")],
+                colors: [
+                    Color(UIColor.systemBackground),
+                    Color(UIColor.secondarySystemBackground)
+                ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -290,11 +294,11 @@ struct MediumCigaretteWidgetView: View {
     
     var body: some View {
         ZStack {
-            // Background
+            // Background - adaptive for light/dark mode
             LinearGradient(
                 colors: [
-                    Color("#F8F9FA"),
-                    Color("#E9ECEF")
+                    Color(UIColor.systemBackground),
+                    Color(UIColor.secondarySystemBackground)
                 ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
@@ -302,6 +306,7 @@ struct MediumCigaretteWidgetView: View {
             VStack {
                 Text(NSLocalizedString("widget.display.name", comment: ""))
                     .font(.title)
+                    .foregroundColor(.primary)
                 HStack(spacing: 16) {
                     // Left side - Main stats
                     VStack(alignment: .leading, spacing: 8) {
@@ -379,7 +384,10 @@ struct MediumCigaretteWidgetView: View {
         }
         .containerBackground(for: .widget) {
             LinearGradient(
-                colors: [Color("#F8F9FA"), Color("#E9ECEF")],
+                colors: [
+                    Color(UIColor.systemBackground),
+                    Color(UIColor.secondarySystemBackground)
+                ],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )

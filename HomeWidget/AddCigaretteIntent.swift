@@ -47,6 +47,12 @@ struct AddCigaretteIntent: AppIntent {
             context.insert(cigarette)
             try context.save()
             
+            // Notify app via UserDefaults timestamp
+            if let userDefaults = UserDefaults(suiteName: "group.fightthestroke.mirrorsmoker") {
+                userDefaults.set(Date(), forKey: "lastUpdated")
+                userDefaults.set("widget", forKey: "lastUpdateSource")
+            }
+            
             print("✅ Widget successfully added cigarette to shared database")
             return true
             

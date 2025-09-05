@@ -1,0 +1,209 @@
+//
+//  SyncCoordinator.swift
+//  MirrorSmokerStopper
+//
+//  Created by Claude on 05/09/25.
+//
+//  Central coordinator for real-time synchronization between App, Widget, and Watch
+//
+
+import Foundation
+import SwiftData
+import WidgetKit
+import Combine
+import UIKit
+import os.log
+
+@MainActor
+class SyncCoordinator: ObservableObject {
+    static let shared = SyncCoordinator()
+    
+    private let logger = Logger(subsystem: "com.fightthestroke.mirrorsmoker", category: "SyncCoordinator")
+    private let groupIdentifier = "group.fightthestroke.mirrorsmoker"
+    private var userDefaults: UserDefaults?
+    private var cancellables = Set<AnyCancellable>()
+    private var lastSyncTime: Date = Date()
+    
+    @Published var isSyncing = false
+    
+    private init() {
+        self.userDefaults = UserDefaults(suiteName: groupIdentifier)
+        setupObservers()
+        startPeriodicSync()
+    }
+    
+    // MARK: - Setup
+    
+    private func setupObservers() {
+        // Monitor UserDefaults changes (for Watch updates)
+        NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
+            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.checkForExternalChanges()
+                }
+            }
+            .store(in: &cancellables)
+        
+        // Monitor app becoming active
+        NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.performFullSync()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func startPeriodicSync() {
+        // Check for changes every 30 seconds when app is active
+        Timer.publish(every: 30, on: .main, in: .common)
+            .autoconnect()
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.checkForExternalChanges()
+                }
+            }
+            .store(in: &cancellables)
+    }
+    
+    // MARK: - Sync Operations
+    
+    func cigaretteAdded(from source: SyncSource, cigarette: Cigarette? = nil) {
+        logger.info("Cigarette added from \(source.rawValue)")
+        
+        switch source {
+        case .app:
+            // Update Widget
+            WidgetCenter.shared.reloadAllTimelines()
+            
+            // Update Watch via WatchConnectivity
+            if let cigarette = cigarette {
+                WatchConnectivityManager.shared.sendCigaretteAdded(cigarette)
+            }
+            
+            // Update shared UserDefaults for Watch fallback
+            updateSharedUserDefaults()
+            
+        case .widget:
+            // Widget already saved to ModelContainer
+            // Notify app UI
+            NotificationCenter.default.post(
+                name: NSNotification.Name("CigaretteAddedFromWidget"),
+                object: nil
+            )
+            
+            // Update Watch
+            WatchConnectivityManager.shared.sendDataSync()
+            updateSharedUserDefaults()
+            
+        case .watch:
+            // Watch already notified via WatchConnectivity
+            // Update Widget
+            WidgetCenter.shared.reloadAllTimelines()
+            
+            // Update shared UserDefaults
+            updateSharedUserDefaults()
+        }
+        
+        lastSyncTime = Date()
+    }
+    
+    private func checkForExternalChanges() {
+        guard let userDefaults = userDefaults else { return }
+        
+        // Check if data was updated externally
+        if let lastUpdated = userDefaults.object(forKey: "lastUpdated") as? Date,
+           lastUpdated > lastSyncTime {
+            
+            logger.info("External changes detected, syncing...")
+            
+            // Reload widgets
+            WidgetCenter.shared.reloadAllTimelines()
+            
+            // Notify app UI
+            NotificationCenter.default.post(
+                name: NSNotification.Name("ExternalDataChanged"),
+                object: nil
+            )
+            
+            lastSyncTime = lastUpdated
+        }
+    }
+    
+    func performFullSync() {
+        guard !isSyncing else { return }
+        
+        isSyncing = true
+        logger.info("Performing full sync...")
+        
+        Task {
+            // Update all components
+            updateSharedUserDefaults()
+            WidgetCenter.shared.reloadAllTimelines()
+            WatchConnectivityManager.shared.sendDataSync()
+            
+            isSyncing = false
+            logger.info("Full sync completed")
+        }
+    }
+    
+    // MARK: - Shared UserDefaults Management
+    
+    private func updateSharedUserDefaults() {
+        guard let userDefaults = userDefaults else { return }
+        
+        let container = PersistenceController.shared.container
+        
+        do {
+            // Get today's cigarettes
+            let today = Calendar.current.startOfDay(for: Date())
+            let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+            
+            let descriptor = FetchDescriptor<Cigarette>(
+                predicate: #Predicate<Cigarette> { cigarette in
+                    cigarette.timestamp >= today && cigarette.timestamp < tomorrow
+                },
+                sortBy: [SortDescriptor(\.timestamp, order: .reverse)]
+            )
+            
+            let context = ModelContext(container)
+            let cigarettes = try context.fetch(descriptor)
+            
+            // Save count for quick access
+            userDefaults.set(cigarettes.count, forKey: "todayCount")
+            userDefaults.set(Date(), forKey: "lastUpdated")
+            
+            // Save cigarettes data for Watch
+            let cigarettesData = cigarettes.map { cigarette in
+                [
+                    "id": cigarette.id.uuidString,
+                    "timestamp": cigarette.timestamp.timeIntervalSince1970,
+                    "note": cigarette.note
+                ]
+            }
+            
+            if let encoded = try? JSONSerialization.data(withJSONObject: cigarettesData) {
+                userDefaults.set(encoded, forKey: dateKey(for: Date()))
+            }
+            
+            logger.info("Updated shared UserDefaults with \(cigarettes.count) cigarettes")
+            
+        } catch {
+            logger.error("Failed to update shared UserDefaults: \(error)")
+        }
+    }
+    
+    private func dateKey(for date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return "cigarettes_\(formatter.string(from: date))"
+    }
+}
+
+// MARK: - Sync Source
+enum SyncSource: String {
+    case app = "App"
+    case widget = "Widget"
+    case watch = "Watch"
+}

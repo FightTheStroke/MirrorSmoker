@@ -515,7 +515,7 @@ struct SettingsView: View {
             NavigationLink(destination: AISettingsView()) {
                 LegacyDSCard {
                     VStack(spacing: DS.Space.md) {
-                        DSSectionHeader("AI Coach Settings")
+                        DSSectionHeader(NSLocalizedString("settings.ai.coach.title", comment: ""))
                         
                         HStack {
                             Image(systemName: "brain.head.profile")
@@ -523,10 +523,10 @@ struct SettingsView: View {
                                 .foregroundColor(DS.Colors.primary)
                             
                             VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                Text("Configure AI Coach")
+                                Text(NSLocalizedString("settings.ai.coach.configure", comment: ""))
                                     .font(DS.Text.body)
                                     .foregroundColor(DS.Colors.textPrimary)
-                                Text("Personalize your AI coaching experience")
+                                Text(NSLocalizedString("settings.ai.coach.personalize", comment: ""))
                                     .font(DS.Text.caption)
                                     .foregroundColor(DS.Colors.textSecondary)
                             }
@@ -542,41 +542,6 @@ struct SettingsView: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
-            
-            #if DEBUG
-            if #available(iOS 26, *) {
-                NavigationLink(destination: AICoachTestView()) {
-                LegacyDSCard {
-                    VStack(spacing: DS.Space.md) {
-                        DSSectionHeader("🧪 AI Coach Test (Debug)")
-                        
-                        HStack {
-                            Image(systemName: "flask")
-                                .font(.title2)
-                                .foregroundColor(.orange)
-                            
-                            VStack(alignment: .leading, spacing: DS.Space.xs) {
-                                Text("Test AI Coach")
-                                    .font(DS.Text.body)
-                                    .foregroundColor(DS.Colors.textPrimary)
-                                Text("Test local AI coaching features")
-                                    .font(DS.Text.caption)
-                                    .foregroundColor(DS.Colors.textSecondary)
-                            }
-                            
-                            Spacer()
-                            
-                            Image(systemName: "chevron.right")
-                                .font(.caption)
-                                .foregroundColor(DS.Colors.textSecondary)
-                        }
-                    }
-                    .padding(DS.Space.lg)
-                }
-            }
-            .buttonStyle(PlainButtonStyle())
-            }
-            #endif
         }
     }
     

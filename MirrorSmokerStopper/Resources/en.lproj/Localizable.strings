@@ -17,6 +17,11 @@
 "button.cancel" = "Cancel";
 
 // Settings
+"settings.ai.coach.title" = "AI Coach Settings";
+"settings.ai.coach.configure" = "Configure AI Coach";
+"settings.ai.coach.personalize" = "Personalize your AI coaching experience";
+
+// Settings
 "settings.title" = "Settings";
 "settings.profile" = "Personal Profile";
 "settings.profile.footer" = "This information helps personalize statistics and recommendations";

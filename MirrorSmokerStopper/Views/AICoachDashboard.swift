@@ -39,6 +39,9 @@ struct AICoachDashboard: View {
                         
                         // Quick Settings
                         quickSettingsCard
+                        
+                        // Legal Disclaimer
+                        legalDisclaimerCard
                     } else {
                         // Enable AI Coach prompt
                         enableAICoachCard
@@ -404,6 +407,40 @@ struct AICoachDashboard: View {
                 Text("NOT A MEDICAL DEVICE - Wellness coaching only")
                     .font(.caption2)
                     .foregroundColor(.orange)
+            }
+            .padding()
+        }
+    }
+    
+    // MARK: - Legal Disclaimer
+    
+    private var legalDisclaimerCard: some View {
+        Card {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "exclamationmark.shield.fill")
+                        .font(.title2)
+                        .foregroundColor(.orange)
+                    
+                    Text(NSLocalizedString("disclaimer.title", comment: ""))
+                        .font(.headline)
+                        .foregroundColor(.primary)
+                }
+                
+                Text(NSLocalizedString("disclaimer.not_medical_device", comment: ""))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                
+                Text(NSLocalizedString("disclaimer.consult_professionals", comment: ""))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                
+                Text(NSLocalizedString("disclaimer.predictions_estimate", comment: ""))
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             .padding()
         }

@@ -212,6 +212,22 @@
 
 // Statistics
 "statistics.title" = "Statistiken";
+
+// Tag-Statistiken
+"statistics.tags.title" = "Tag-Analyse & Einblicke";
+"statistics.tags.empty" = "Keine Tags erstellt. Fügen Sie Tags hinzu, um Ihre Auslöser zu verfolgen.";
+"statistics.tags.no.data" = "Keine Zigaretten mit Tags in diesem Zeitraum.";
+"statistics.tags.insight.stress" = "Hoher Stress-Auslöser - erwägen Sie Stressbewältigungstechniken";
+"statistics.tags.insight.social" = "Soziale Situationen als Auslöser - planen Sie Alternativen für soziale Ereignisse";
+"statistics.tags.insight.habits" = "Routine-Auslöser - versuchen Sie, dieses Gewohnheitsmuster zu durchbrechen";
+"statistics.tags.insight.high" = "Dies entspricht %d%% Ihrer getaggten Zigaretten";
+"statistics.tags.insight.rare" = "Seltenes Vorkommen - gute Kontrolle über diesen Auslöser";
+"tag.stress" = "stress";
+"tag.work" = "arbeit";
+"tag.social" = "sozial";
+"tag.friends" = "freunde";
+"tag.coffee" = "kaffee";
+"tag.meal" = "mahlzeit";
 "statistics.analyze.period" = "Periode analysieren";
 "statistics.today" = "Heute";
 "statistics.yesterday" = "Gestern";
@@ -938,6 +954,12 @@
 "status.on.track" = "Auf Kurs - bleiben Sie achtsam";
 "status.exceed.target" = "Über dem Ziel - einmal tief durchatmen";
 "last.cigarette.time" = "Letzte:";
+
+// Rechtlicher Hinweis
+"disclaimer.title" = "WICHTIGER HINWEIS";
+"disclaimer.not_medical_device" = "Diese App ist KEIN medizinisches Gerät und bietet keine medizinische Beratung, Diagnose oder Behandlung. Der AI Coach und die Herzfrequenzüberwachung dienen nur dem Wohlbefinden und der motivierenden Unterstützung.";
+"disclaimer.consult_professionals" = "Konsultieren Sie immer qualifizierte Gesundheitsfachkräfte für medizinischen Rat. Kontaktieren Sie im Notfall sofort den Notdienst.";
+"disclaimer.predictions_estimate" = "Herzfrequenzvorhersagen und Verlangensanalysen sind Schätzungen auf der Grundlage von Mustern und sollten nicht für medizinische Entscheidungen verwendet werden.";
 
 // AI Coach Integration Phase 2
 "coach.daily.tip" = "Täglicher Tipp";

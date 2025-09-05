@@ -212,6 +212,22 @@
 
 // Statistics
 "statistics.title" = "Statistiques";
+
+// Statistiques des Tags
+"statistics.tags.title" = "Analyse des Tags et Insights";
+"statistics.tags.empty" = "Aucun tag créé. Ajoutez des tags pour suivre vos déclencheurs.";
+"statistics.tags.no.data" = "Aucune cigarette avec tags dans cette période.";
+"statistics.tags.insight.stress" = "Déclencheur de stress élevé - considérez des techniques de gestion du stress";
+"statistics.tags.insight.social" = "Déclencheur de situations sociales - planifiez des alternatives pour les événements sociaux";
+"statistics.tags.insight.habits" = "Déclencheur de routine - essayez de briser ce schéma d'habitudes";
+"statistics.tags.insight.high" = "Cela représente %d%% de vos cigarettes taguées";
+"statistics.tags.insight.rare" = "Occurrence rare - bon contrôle sur ce déclencheur";
+"tag.stress" = "stress";
+"tag.work" = "travail";
+"tag.social" = "social";
+"tag.friends" = "amis";
+"tag.coffee" = "café";
+"tag.meal" = "repas";
 "statistics.analyze.period" = "Analyser la Période";
 "statistics.today" = "Aujourd'hui";
 "statistics.yesterday" = "Hier";
@@ -939,6 +955,12 @@
 "status.exceed.target" = "Au-dessus de l'objectif - respirez profondément";
 "last.cigarette.time" = "Dernière :";
 
+// Avertissement Légal
+"disclaimer.title" = "AVERTISSEMENT IMPORTANT";
+"disclaimer.not_medical_device" = "Cette application N'EST PAS un dispositif médical et ne fournit pas de conseils médicaux, de diagnostic ou de traitement. L'AI Coach et la surveillance de la fréquence cardiaque sont uniquement destinés au bien-être et au soutien motivationnel.";
+"disclaimer.consult_professionals" = "Consultez toujours des professionnels de santé qualifiés pour des conseils médicaux. En cas d'urgence, contactez immédiatement les services d'urgence.";
+"disclaimer.predictions_estimate" = "Les prédictions de fréquence cardiaque et l'analyse des envies sont des estimations basées sur des modèles et ne doivent pas être utilisées pour des décisions médicales.";
+
 // AI Coach Integration Phase 2
 "coach.daily.tip" = "Conseil Quotidien";
 "coach.action.tips" = "Conseils d'action :";
@@ -1476,3 +1498,62 @@
 "statistics.monthly.spending" = "Dépenses Mensuelles";
 
 "hour.format" = "%02d:00";
+
+// Help Content
+"help.navigation.title" = "Aide";
+"help.title" = "Aide et Support";
+"help.subtitle" = "Apprenez à utiliser toutes les fonctionnalités de l'application";
+
+// Quick Start
+"help.quick.start.title" = "Démarrage Rapide";
+"help.quick.start.1" = "Appuyez sur le bouton bleu + pour enregistrer rapidement une cigarette";
+"help.quick.start.2" = "Maintenez le bouton + pour ajouter des tags à votre cigarette";
+"help.quick.start.3" = "Vérifiez votre progression quotidienne dans l'onglet Statistiques";
+
+// Main Features
+"help.main.features.title" = "Fonctionnalités Principales";
+"help.main.features.1" = "Suivre les cigarettes avec des horodatages précis";
+"help.main.features.2" = "Définir des objectifs personnalisés et des plans pour arrêter";
+"help.main.features.3" = "Voir des statistiques et des tendances détaillées";
+"help.main.features.4" = "Synchroniser les données sur tous vos appareils avec iCloud";
+
+// AI Coach
+"help.ai.coach.title" = "AI Coach avec Intelligence Cardiaque";
+"help.ai.coach.1" = "L'AI Coach surveille votre fréquence cardiaque pour prédire les envies 15-30 minutes avant qu'elles ne surviennent";
+"help.ai.coach.2" = "Respecte vos paramètres de Mode Concentration - ne vous dérange pas pendant les réunions, le sommeil ou la conduite";
+"help.ai.coach.3" = "Envoie des notifications intelligentes uniquement lorsque vous êtes vulnérable aux envies, pas sur un horaire fixe";
+"help.ai.coach.4" = "Utilise les données HealthKit pour apprendre vos modèles personnels et déclencheurs de stress";
+"help.ai.coach.5" = "N'est PAS un dispositif médical - uniquement pour le soutien au bien-être. Consultez toujours des professionnels de santé pour des conseils médicaux";
+
+// Cigarette Management
+"help.cigarette.management.title" = "Gérer Vos Enregistrements";
+"help.cigarette.management.1" = "Glissez vers la gauche sur une entrée pour la supprimer";
+"help.cigarette.management.2" = "Glissez vers la droite sur une entrée pour ajouter des tags";
+"help.cigarette.management.3" = "Appuyez sur une ligne pour voir les détails et modifier les notes";
+"help.cigarette.management.4" = "Utilisez les filtres pour voir des périodes spécifiques";
+
+// Tags
+"help.tags.title" = "Utiliser les Tags";
+"help.tags.1" = "Les tags aident à identifier vos déclencheurs de tabagisme";
+"help.tags.2" = "Ajouter des tags lors de l'enregistrement ou après";
+"help.tags.3" = "Voir les statistiques par tag pour comprendre les habitudes";
+
+// Integrations
+"help.integrations.title" = "Intégrations";
+"help.integrations.1" = "Ajouter des widgets à votre écran d'accueil pour un accès rapide";
+"help.integrations.2" = "Utiliser Siri pour enregistrer des cigarettes mains-libres";
+"help.integrations.3" = "Les données se synchronisent automatiquement avec iCloud";
+"help.integrations.4" = "Widget Apple Watch pour l'enregistrement rapide";
+
+// Statistics
+"help.statistics.title" = "Comprendre Vos Statistiques";
+"help.statistics.1" = "Voir les tendances quotidiennes, hebdomadaires et mensuelles";
+"help.statistics.2" = "Suivre les économies financières et de santé";
+"help.statistics.3" = "Mesurer les progrès vers vos objectifs";
+
+// Tips
+"help.tips.title" = "Conseils Utiles";
+"help.tips.1" = "Définir des objectifs réalistes de réduction";
+"help.tips.2" = "Enregistrer chaque cigarette pour une meilleure précision";
+"help.tips.3" = "Utiliser les tags pour identifier les déclencheurs";
+"help.tips.4" = "Vérifier vos statistiques régulièrement pour la motivation";

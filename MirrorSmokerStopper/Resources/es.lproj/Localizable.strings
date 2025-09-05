@@ -212,6 +212,22 @@
 
 // Statistics
 "statistics.title" = "Estadísticas";
+
+// Estadísticas de Etiquetas
+"statistics.tags.title" = "Análisis de Etiquetas e Insights";
+"statistics.tags.empty" = "No hay etiquetas creadas. Añade etiquetas para rastrear tus desencadenantes.";
+"statistics.tags.no.data" = "No hay cigarrillos con etiquetas en este período.";
+"statistics.tags.insight.stress" = "Alto desencadenante de estrés - considera técnicas de manejo del estrés";
+"statistics.tags.insight.social" = "Desencadenante de situaciones sociales - planifica alternativas para eventos sociales";
+"statistics.tags.insight.habits" = "Desencadenante de rutina - intenta romper este patrón de hábitos";
+"statistics.tags.insight.high" = "Esto representa el %d%% de tus cigarrillos etiquetados";
+"statistics.tags.insight.rare" = "Ocurrencia rara - buen control sobre este desencadenante";
+"tag.stress" = "estrés";
+"tag.work" = "trabajo";
+"tag.social" = "social";
+"tag.friends" = "amigos";
+"tag.coffee" = "café";
+"tag.meal" = "comida";
 "statistics.analyze.period" = "Analizar Período";
 "statistics.today" = "Hoy";
 "statistics.yesterday" = "Ayer";
@@ -819,6 +835,14 @@
 "help.main.features.3" = "Ve estadísticas detalladas y tendencias";
 "help.main.features.4" = "Sincroniza datos en todos tus dispositivos con iCloud";
 
+// AI Coach
+"help.ai.coach.title" = "AI Coach con Inteligencia Cardíaca";
+"help.ai.coach.1" = "El AI Coach monitorea tu frecuencia cardíaca para predecir antojos 15-30 minutos antes de que ocurran";
+"help.ai.coach.2" = "Respeta tus configuraciones de Modo Enfoque - no te molesta durante reuniones, sueño o conducción";
+"help.ai.coach.3" = "Envía notificaciones inteligentes solo cuando eres vulnerable a los antojos, no con horarios fijos";
+"help.ai.coach.4" = "Usa datos de HealthKit para aprender tus patrones personales y desencadenantes de estrés";
+"help.ai.coach.5" = "NO es un dispositivo médico - solo para apoyo de bienestar. Siempre consulta profesionales de salud para consejos médicos";
+
 // Cigarette Management
 "help.cigarette.management.title" = "Gestionar Tus Registros";
 "help.cigarette.management.1" = "Desliza hacia la izquierda en cualquier entrada de cigarrillo para eliminarla";
@@ -938,6 +962,12 @@
 "status.on.track" = "En el buen camino - mantente consciente";
 "status.exceed.target" = "Sobre el objetivo - respira profundo";
 "last.cigarette.time" = "Último:";
+
+// Aviso Legal
+"disclaimer.title" = "AVISO IMPORTANTE";
+"disclaimer.not_medical_device" = "Esta aplicación NO es un dispositivo médico y no proporciona consejos médicos, diagnósticos o tratamientos. El AI Coach y el monitoreo de frecuencia cardíaca son solo para bienestar y apoyo motivacional.";
+"disclaimer.consult_professionals" = "Siempre consulte con profesionales de la salud calificados para obtener consejos médicos. En caso de emergencia, contacte inmediatamente a los servicios de emergencia.";
+"disclaimer.predictions_estimate" = "Las predicciones de frecuencia cardíaca y el análisis de antojos son estimaciones basadas en patrones y no deben usarse para decisiones médicas.";
 
 // AI Coach Integration Phase 2
 "coach.daily.tip" = "Consejo Diario";

@@ -212,6 +212,22 @@
 
 // Statistics
 "statistics.title" = "Statistiche";
+
+// Statistiche Tag
+"statistics.tags.title" = "Analisi Tag e Insight";
+"statistics.tags.empty" = "Nessun tag creato. Aggiungi tag per tracciare i tuoi trigger.";
+"statistics.tags.no.data" = "Nessuna sigaretta con tag in questo periodo.";
+"statistics.tags.insight.stress" = "Alto trigger di stress - considera tecniche di gestione dello stress";
+"statistics.tags.insight.social" = "Trigger situazioni sociali - pianifica alternative per eventi sociali";
+"statistics.tags.insight.habits" = "Trigger di routine - prova a rompere questo schema abituale";
+"statistics.tags.insight.high" = "Questo rappresenta il %d%% delle tue sigarette con tag";
+"statistics.tags.insight.rare" = "Evento raro - buon controllo su questo trigger";
+"tag.stress" = "stress";
+"tag.work" = "lavoro";
+"tag.social" = "sociale";
+"tag.friends" = "amici";
+"tag.coffee" = "caffè";
+"tag.meal" = "pasto";
 "statistics.analyze.period" = "Periodo di Analisi";
 "statistics.today" = "Oggi";
 "statistics.yesterday" = "Ieri";
@@ -818,6 +834,14 @@
 "help.main.features.3" = "Visualizza statistiche e trend dettagliati";
 "help.main.features.4" = "Sincronizza dati su tutti i tuoi dispositivi con iCloud";
 
+// AI Coach
+"help.ai.coach.title" = "AI Coach con Intelligenza Cardiaca";
+"help.ai.coach.1" = "L'AI Coach monitora il tuo battito cardiaco per prevedere le voglie 15-30 minuti prima che accadano";
+"help.ai.coach.2" = "Rispetta le tue impostazioni Focus Mode - non ti disturba durante riunioni, sonno o guida";
+"help.ai.coach.3" = "Invia notifiche intelligenti solo quando sei vulnerabile alle voglie, non con orari fissi";
+"help.ai.coach.4" = "Usa i dati HealthKit per imparare i tuoi pattern personali e trigger di stress";
+"help.ai.coach.5" = "NON è un dispositivo medico - solo per supporto al benessere. Consulta sempre professionisti sanitari per consigli medici";
+
 // Cigarette Management
 "help.cigarette.management.title" = "Gestione delle Registrazioni";
 "help.cigarette.management.1" = "Scorri a sinistra su qualsiasi voce sigaretta per eliminarla";
@@ -931,6 +955,12 @@
 "status.on.track" = "Sulla buona strada - rimani consapevole";
 "status.exceed.target" = "Sopra l'obiettivo - prendi un respiro";
 "last.cigarette.time" = "Ultima:";
+
+// Disclaimer Legale
+"disclaimer.title" = "DISCLAIMER IMPORTANTE";
+"disclaimer.not_medical_device" = "Questa app NON è un dispositivo medico e non fornisce consigli medici, diagnosi o trattamenti. L'AI Coach e il monitoraggio della frequenza cardiaca sono solo per supporto al benessere e motivazionale.";
+"disclaimer.consult_professionals" = "Consulta sempre professionisti sanitari qualificati per consigli medici. In caso di emergenza, contatta immediatamente i servizi di emergenza.";
+"disclaimer.predictions_estimate" = "Le previsioni della frequenza cardiaca e l'analisi delle voglie sono stime basate su pattern e non devono essere utilizzate per decisioni mediche.";
 
 // AI Coach Integration Phase 2
 "coach.daily.tip" = "Consiglio Giornaliero";

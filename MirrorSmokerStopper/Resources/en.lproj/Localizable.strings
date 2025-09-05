@@ -212,6 +212,22 @@
 
 // Statistics
 "statistics.title" = "Statistics";
+
+// Tag Statistics
+"statistics.tags.title" = "Tag Analysis & Insights";
+"statistics.tags.empty" = "No tags created yet. Add tags to track your triggers.";
+"statistics.tags.no.data" = "No cigarettes with tags in this period.";
+"statistics.tags.insight.stress" = "High stress trigger - consider stress management techniques";
+"statistics.tags.insight.social" = "Social situations trigger - plan alternatives for social events";
+"statistics.tags.insight.habits" = "Routine trigger - try breaking this habit pattern";
+"statistics.tags.insight.high" = "This represents %d%% of your tagged cigarettes";
+"statistics.tags.insight.rare" = "Rare occurrence - good control over this trigger";
+"tag.stress" = "stress";
+"tag.work" = "work";
+"tag.social" = "social";
+"tag.friends" = "friends";
+"tag.coffee" = "coffee";
+"tag.meal" = "meal";
 "statistics.analyze.period" = "Analyze Period";
 "statistics.today" = "Today";
 "statistics.yesterday" = "Yesterday";
@@ -818,6 +834,14 @@
 "help.main.features.3" = "View detailed statistics and trends";
 "help.main.features.4" = "Sync data across all your devices with iCloud";
 
+// AI Coach
+"help.ai.coach.title" = "AI Coach with Heart Rate Intelligence";
+"help.ai.coach.1" = "AI Coach monitors your heart rate to predict cravings 15-30 minutes before they happen";
+"help.ai.coach.2" = "Respects your Focus Mode settings - won't disturb you during meetings, sleep, or driving";
+"help.ai.coach.3" = "Sends smart notifications only when you're vulnerable to cravings, not on a fixed schedule";
+"help.ai.coach.4" = "Uses HealthKit data to learn your personal patterns and stress triggers";
+"help.ai.coach.5" = "NOT a medical device - for wellness support only. Always consult healthcare professionals for medical advice";
+
 // Cigarette Management
 "help.cigarette.management.title" = "Managing Your Records";
 "help.cigarette.management.1" = "Swipe left on any cigarette entry to delete it";
@@ -931,6 +955,12 @@
 "status.on.track" = "On track - stay mindful";
 "status.exceed.target" = "Above target - take a breath";
 "last.cigarette.time" = "Last:";
+
+// Legal Disclaimer
+"disclaimer.title" = "IMPORTANT DISCLAIMER";
+"disclaimer.not_medical_device" = "This app is NOT a medical device and does not provide medical advice, diagnosis, or treatment. The AI Coach and heart rate monitoring features are for wellness and motivational support only.";
+"disclaimer.consult_professionals" = "Always consult with qualified healthcare professionals for medical advice. In case of emergency, contact emergency services immediately.";
+"disclaimer.predictions_estimate" = "Heart rate predictions and craving analysis are estimates based on patterns and should not be relied upon for medical decisions.";
 
 // AI Coach Integration Phase 2
 "coach.daily.tip" = "Daily Tip";

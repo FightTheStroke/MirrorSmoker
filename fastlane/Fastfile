@@ -118,7 +118,7 @@ platform :ios do
     )
     
     # Upload binary to App Store Connect
-    upload_to_app_store(
+    deliver(
       force: true,
       skip_metadata: false,
       skip_screenshots: true,

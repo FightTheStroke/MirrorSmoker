@@ -439,12 +439,7 @@ platform :ios do
       )
     else
       # Legge marketing version attuale; se manca, setta 1.0.0
-      begin
-        current_v = get_version_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
-      rescue
-        current_v = '1.0.0'
-        increment_version_number(version_number: current_v, xcodeproj: "MirrorSmokerStopper.xcodeproj")
-      end
+  current_v = '1.0.0'
       bump = (ENV['BUMP_TYPE'] || 'patch').downcase
       segments = current_v.split('.')
       segments << '0' while segments.length < 3
@@ -478,8 +473,6 @@ platform :ios do
       )
     end
 
-    new_version = get_version_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
-    UI.message("[release] Nuova versione: #{new_version} (build #{get_build_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")})")
 
     # 4. Test rapidi (opzionale: si può abilitare var FASTLANE_SKIP_TESTS)
     unless ENV['FASTLANE_SKIP_TESTS'] == '1'

@@ -63,6 +63,22 @@ Solo normalizza dimensioni screenshot (senza rigenerarli)
 
 Generate screenshots quickly for development
 
+### ios watch_screenshots
+
+```sh
+[bundle exec] fastlane ios watch_screenshots
+```
+
+Generate Apple Watch screenshots using UI tests
+
+### ios all_screenshots
+
+```sh
+[bundle exec] fastlane ios all_screenshots
+```
+
+Generate screenshots for both iPhone and Apple Watch
+
 ### ios screenshots_and_upload
 
 ```sh

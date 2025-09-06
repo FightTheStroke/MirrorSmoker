@@ -17,6 +17,11 @@
 		<string>processing</string>
 		<string>remote-notification</string>
 	</array>
+	<key>BGTaskSchedulerPermittedIdentifiers</key>
+	<array>
+		<string>com.mirror-labs.mirrorsmoker.refresh</string>
+		<string>com.mirror-labs.mirrorsmoker.processing</string>
+	</array>
 	<key>UILaunchScreen</key>
 	<dict/>
 	<key>UIAppFonts</key>

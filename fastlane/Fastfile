@@ -205,10 +205,14 @@ platform :ios do
       clear_previous_screenshots: true,
       override_status_bar: true,
       devices: [
-        "iPhone 16 Pro Max"
+        "RoberdanTests26"
       ],
       languages: [
-        "en-US"
+        "en-US",
+        "es-ES", 
+        "fr-FR",
+        "de-DE",
+        "it-IT"
       ],
       launch_arguments: [
         "-FASTLANE_SNAPSHOT YES", 
@@ -216,6 +220,45 @@ platform :ios do
         "SCREENSHOT_MODE"
       ]
     )
+  end
+  
+  # Generate Apple Watch Screenshots
+  desc "Generate Apple Watch screenshots using UI tests"
+  lane :watch_screenshots do
+    UI.message("📱 Generating Apple Watch screenshots...")
+    
+    capture_screenshots(
+      project: "MirrorSmokerStopper.xcodeproj",
+      scheme: "MirrorSmokerStopper Watch App",
+      configuration: "Release",
+      test_target_name: "MirrorSmokerStopper Watch AppUITests",
+      output_directory: "./fastlane/screenshots/watch",
+      clear_previous_screenshots: true,
+      override_status_bar: true,
+      devices: [
+        "RoberdanWatch26"
+      ],
+      languages: [
+        "en-US",
+        "es-ES",
+        "fr-FR", 
+        "de-DE",
+        "it-IT"
+      ],
+      launch_arguments: [
+        "-FASTLANE_SNAPSHOT YES",
+        "-ui_testing",
+        "SCREENSHOT_MODE"
+      ]
+    )
+  end
+  
+  # Generate both iPhone and Watch Screenshots
+  desc "Generate screenshots for both iPhone and Apple Watch"
+  lane :all_screenshots do
+    UI.message("📱 Generating screenshots for iPhone and Apple Watch...")
+    screenshots
+    watch_screenshots
   end
   
   # Generate Screenshots and Deliver to App Store Connect
@@ -432,9 +475,17 @@ platform :ios do
 
     # 2. Versioning manuale (niente agvtool / increment_* Fastlane)
     plist_path = "MirrorSmokerStopper/Info.plist"
+    unless File.exist?(plist_path)
+      UI.important("[release] #{plist_path} mancante: lo creo minimale")
+      File.write(plist_path, <<~PL)
+        <?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0"><dict></dict></plist>
+      PL
+    end
     # Leggi versione corrente dal plist (fallback 1.0.0 se mancante)
-    current_v = ` /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "#{plist_path}" 2>/dev/null`.strip
-    current_v = "1.0.0" if current_v.empty?
+    current_v = ` /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' '#{plist_path}' 2>/dev/null || echo ''`.strip
+    current_v = "1.0.0" if current_v.empty? || current_v =~ /File Doesn't Exist/i
     if ENV['NEW_VERSION'] && !ENV['NEW_VERSION'].empty?
       new_version = ENV['NEW_VERSION']
     else
@@ -477,7 +528,7 @@ platform :ios do
     end
 
     # 3. Build number manuale
-    current_build = ` /usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "#{plist_path}" 2>/dev/null`.strip
+  current_build = `/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' '#{plist_path}' 2>/dev/null || echo ''`.strip
     if ENV['USE_TIMESTAMP_BUILD'] == '1'
       new_build = Time.now.strftime('%Y%m%d%H%M')
     else

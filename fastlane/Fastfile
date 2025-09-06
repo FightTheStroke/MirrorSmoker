@@ -84,6 +84,63 @@ platform :ios do
     )
   end
   
+  # Upload app binary and metadata to App Store Connect
+  desc "Upload built app and metadata to App Store Connect (ready for manual submission)"
+  lane :upload_to_app_store do
+    # Ensure we're on the right branch and up to date
+    ensure_git_status_clean
+    ensure_git_branch(branch: "master")
+    
+    # Setup code signing with Fastlane Match
+    match(
+      type: "appstore",
+      app_identifier: [
+        "com.mirror-labs.MirrorSmokerStopper",
+        "com.mirror-labs.MirrorSmokerStopper.watchkitapp", 
+        "com.mirror-labs.MirrorSmokerStopper.HomeWidget"
+      ]
+    )
+    
+    # Set explicit version number for App Store submission
+    increment_version_number(
+      version_number: "1.0.1",
+      xcodeproj: "MirrorSmokerStopper.xcodeproj"
+    )
+    
+    # Build the app using Match provisioning profiles
+    build_app(
+      project: "MirrorSmokerStopper.xcodeproj",
+      scheme: "MirrorSmokerStopper", 
+      clean: true,
+      export_method: "app-store",
+      # Let Match handle the code signing automatically
+      skip_codesigning: false
+    )
+    
+    # Upload binary to App Store Connect
+    upload_to_app_store(
+      force: true,
+      skip_metadata: false,
+      skip_screenshots: true,
+      submit_for_review: false,
+      automatic_release: false
+    )
+    
+    # Commit version bump
+    commit_version_bump(
+      message: "Version bump for App Store submission",
+      xcodeproj: "MirrorSmokerStopper.xcodeproj"
+    )
+    
+    # Tag the release
+    add_git_tag(
+      tag: "v1.0.1"
+    )
+    
+    # Push changes
+    push_to_git_remote
+  end
+
   # Complete App Store submission without screenshots
   desc "Complete App Store submission ready for review - builds, uploads binary and metadata"
   lane :submit_for_review do

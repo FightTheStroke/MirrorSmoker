@@ -162,6 +162,9 @@ class SyncCoordinator: ObservableObject {
             
             logger.info("External changes detected, syncing...")
             
+            // Process any pending widget actions first
+            PendingWidgetActionsManager.shared.processPendingIfAny()
+            
             // Reload widgets
             WidgetCenter.shared.reloadAllTimelines()
             
@@ -182,6 +185,8 @@ class SyncCoordinator: ObservableObject {
         logger.info("Performing full sync...")
         
         Task {
+            // Process pending widget actions if any
+            PendingWidgetActionsManager.shared.processPendingIfAny()
             // Update all components
             updateSharedUserDefaults()
             WidgetCenter.shared.reloadAllTimelines()

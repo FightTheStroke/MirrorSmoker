@@ -15,141 +15,21 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios screenshots
+### ios screenshots_single_lang
 
 ```sh
-[bundle exec] fastlane ios screenshots
+[bundle exec] fastlane ios screenshots_single_lang
 ```
 
-Generate screenshots for iPhone and Apple Watch with iOS 26 features
+Generate screenshots for a single language
 
-### ios screenshots_marketing
+### ios screenshots_all_serial
 
 ```sh
-[bundle exec] fastlane ios screenshots_marketing
+[bundle exec] fastlane ios screenshots_all_serial
 ```
 
-Genera screenshots + frame con titoli marketing
-
-### ios screenshots_marketing_ai
-
-```sh
-[bundle exec] fastlane ios screenshots_marketing_ai
-```
-
-Screenshots + frame + badge AI Powered
-
-### ios store_assets_full
-
-```sh
-[bundle exec] fastlane ios store_assets_full
-```
-
-Pipeline completa: screenshots (iPhone+Watch), normalizza, frame, badge, validazione
-
-### ios fix_screenshot_sizes
-
-```sh
-[bundle exec] fastlane ios fix_screenshot_sizes
-```
-
-Solo normalizza dimensioni screenshot (senza rigenerarli)
-
-### ios screenshots_quick
-
-```sh
-[bundle exec] fastlane ios screenshots_quick
-```
-
-Generate screenshots quickly for development
-
-### ios watch_screenshots
-
-```sh
-[bundle exec] fastlane ios watch_screenshots
-```
-
-Generate Apple Watch screenshots using UI tests
-
-### ios all_screenshots
-
-```sh
-[bundle exec] fastlane ios all_screenshots
-```
-
-Generate screenshots for both iPhone and Apple Watch
-
-### ios screenshots_and_upload
-
-```sh
-[bundle exec] fastlane ios screenshots_and_upload
-```
-
-Generate screenshots and upload to App Store Connect
-
-### ios upload_metadata
-
-```sh
-[bundle exec] fastlane ios upload_metadata
-```
-
-Upload metadata and screenshots to App Store Connect
-
-### ios upload_ready_for_submission
-
-```sh
-[bundle exec] fastlane ios upload_ready_for_submission
-```
-
-Upload app binary and metadata without screenshots - ready for manual submission
-
-### ios manual_upload_to_app_store
-
-```sh
-[bundle exec] fastlane ios manual_upload_to_app_store
-```
-
-Upload built app and metadata to App Store Connect (ready for manual submission)
-
-### ios submit_for_review
-
-```sh
-[bundle exec] fastlane ios submit_for_review
-```
-
-Complete App Store submission ready for review - builds, uploads binary and metadata
-
-### ios test
-
-```sh
-[bundle exec] fastlane ios test
-```
-
-Run tests and build the app
-
-### ios beta
-
-```sh
-[bundle exec] fastlane ios beta
-```
-
-Build and upload to TestFlight
-
-### ios release
-
-```sh
-[bundle exec] fastlane ios release
-```
-
-Build and release to App Store
-
-### ios cleanup
-
-```sh
-[bundle exec] fastlane ios cleanup
-```
-
-Clean up build artifacts and old screenshots
+Generate screenshots for all languages serially
 
 ----
 

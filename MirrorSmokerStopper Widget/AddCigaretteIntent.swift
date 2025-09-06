@@ -28,20 +28,22 @@ struct AddCigaretteIntent: AppIntent {
     }
     
     func perform() async throws -> some IntentResult {
-        // In a real app, you would access the SwiftData context here
-        // and insert the new cigarette
+        // Enqueue a pending cigarette in the shared App Group for the main app to process
+        let groupIdentifier = "group.fightthestroke.mirrorsmoker"
+        guard let ud = UserDefaults(suiteName: groupIdentifier) else {
+            return .result(value: "Shared group not available")
+        }
+        var pending = ud.array(forKey: "widget_pending_cigarettes") as? [Double] ?? []
+        pending.append(Date().timeIntervalSince1970)
+        ud.set(pending, forKey: "widget_pending_cigarettes")
+        // Bump lastUpdated so the app's SyncCoordinator detects external changes
+        ud.set(Date(), forKey: "lastUpdated")
         
-        let timestamp = Date()
-        let noteText = note ?? ""
-        let tagNames = tags ?? []
+        // Ask WidgetKit to refresh
+        WidgetKit.WidgetCenter.shared.reloadAllTimelines()
         
-        // This is a placeholder - in reality you'd need to:
-        // 1. Access the shared ModelContainer
-        // 2. Create a new Cigarette
-        // 3. Find or create the specified tags
-        // 4. Insert the cigarette into the context
-        
-        return .result(value: "Added cigarette at \(timestamp.formatted(date: .omitted, time: .shortened))")
+        let ts = Date()
+        return .result(value: "Added at \(ts.formatted(date: .omitted, time: .shortened))")
     }
 }
 

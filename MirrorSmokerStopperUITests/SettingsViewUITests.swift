@@ -1,5 +1,4 @@
 import XCTest
-@testable import MirrorSmokerStopper
 
 final class SettingsViewUITests: XCTestCase {
     var app: XCUIApplication!

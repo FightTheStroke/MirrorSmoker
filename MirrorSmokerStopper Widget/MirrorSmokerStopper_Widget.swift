@@ -15,42 +15,50 @@ struct CigaretteWidgetProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (CigaretteWidgetEntry) -> Void) {
-        let data = WidgetStore.readSnapshot()
-        let pendingCount = WidgetStore.shared.getPendingCount()
-        let entry = CigaretteWidgetEntry(
-            date: Date(),
-            todayCount: data.todayCount,
-            lastCigaretteTime: data.lastCigaretteTime,
-            hasPending: pendingCount > 0
-        )
+        let snap = readSharedSnapshot()
+        let entry = CigaretteWidgetEntry(date: Date(), todayCount: snap.todayCount, lastCigaretteTime: snap.lastTime, hasPending: snap.pending > 0)
         completion(entry)
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<CigaretteWidgetEntry>) -> Void) {
-        let data = WidgetStore.readSnapshot()
-        let pendingCount = WidgetStore.shared.getPendingCount()
-        let isFirstRun = !WidgetStore.shared.hasBeenInitialized()
-        
-        let entry = CigaretteWidgetEntry(
-            date: Date(),
-            todayCount: data.todayCount,
-            lastCigaretteTime: data.lastCigaretteTime,
-            hasPending: pendingCount > 0
-        )
-        
-        let refreshMinutes: Int
-        if isFirstRun {
-            refreshMinutes = 1
-        } else if pendingCount > 0 {
-            refreshMinutes = 2
-        } else {
-            refreshMinutes = 15
+        let snap = readSharedSnapshot()
+        let entry = CigaretteWidgetEntry(date: Date(), todayCount: snap.todayCount, lastCigaretteTime: snap.lastTime, hasPending: snap.pending > 0)
+        // Update more often if there are pendings
+        let refresh = snap.pending > 0 ? 2 : 15
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: refresh, to: Date()) ?? Date().addingTimeInterval(Double(refresh) * 60)
+        completion(Timeline(entries: [entry], policy: .after(nextUpdate)))
+    }
+
+    // Read from shared App Group UD written by the main app's SyncCoordinator
+    private func readSharedSnapshot() -> (todayCount: Int, lastTime: String, pending: Int) {
+        let group = "group.fightthestroke.mirrorsmoker"
+        let ud = UserDefaults(suiteName: group)
+        let todayCount = ud?.integer(forKey: "todayCount") ?? 0
+        let pending = (ud?.array(forKey: "widget_pending_cigarettes") as? [Double])?.count ?? 0
+        let lastTime = latestTimeString(from: ud)
+        return (todayCount, lastTime, pending)
+    }
+    
+    private func latestTimeString(from ud: UserDefaults?) -> String {
+        guard let ud = ud else { return "--:--" }
+        let key = dateKey(for: Date())
+        if let data = ud.data(forKey: key),
+           let list = try? JSONSerialization.jsonObject(with: data) as? [[String: Any]] {
+            let lastTs = list.compactMap { $0["timestamp"] as? Double }.max()
+            if let ts = lastTs {
+                let d = Date(timeIntervalSince1970: ts)
+                let f = DateFormatter()
+                f.timeStyle = .short
+                return f.string(from: d)
+            }
         }
-        
-        let nextUpdate = Calendar.current.date(byAdding: .minute, value: refreshMinutes, to: Date()) ?? Date()
-        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
-        
-        completion(timeline)
+        return "--:--"
+    }
+    
+    private func dateKey(for date: Date) -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "yyyy-MM-dd"
+        return "cigarettes_\(fmt.string(from: date))"
     }
 }
 

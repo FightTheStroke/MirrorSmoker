@@ -94,6 +94,12 @@ The app includes home screen widgets that allow quick cigarette logging:
 
 - **Small Widget**: Shows today's cigarette count with color-coded status and quick add button
 - **Medium Widget**: Displays today's count, last cigarette time, daily average, and add button
+
+Sync architecture for Widgets, App, and Watch is unified:
+- Widgets and the app both read/write from the same SwiftData store located in the App Group (`group.fightthestroke.mirrorsmoker`).
+- For fast loading, the app publishes a shared snapshot to App Group UserDefaults: `todayCount` and a day-scoped JSON (`cigarettes_yyyy-MM-dd`). Widgets use this when appropriate.
+- Adding from the widget uses App Intents and writes directly into the App Group SwiftData store; the app updates the shared snapshot and reloads widget timelines.
+- The watch app syncs via WatchConnectivity and the same App Group snapshot to keep the count aligned everywhere.
 - **Real-time Sync**: Changes in the app appear in widgets instantly and vice versa
 - **Localized**: Widget text adapts to your device language automatically
 
@@ -387,4 +393,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Disclaimer**: This app is designed to help track smoking habits and should not replace professional medical advice. Please consult healthcare professionals for smoking cessation guidance.
 
 *“We live in a twilight world, and there are no friends at dusk.”* - Tenet
-

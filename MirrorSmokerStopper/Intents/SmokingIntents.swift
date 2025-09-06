@@ -8,6 +8,7 @@
 import AppIntents
 import SwiftData
 import SwiftUI
+import WidgetKit
 import os.log
 
 // MARK: - Logger
@@ -26,31 +27,31 @@ extension AppIntent {
             UrgeLog.self
         ])
         
-        // Use the same versioned configuration as the main app
-        let configuration = ModelConfiguration(
-            "MirrorSmokerModel_v2", // Same version as main app
-            schema: schema,
-            isStoredInMemoryOnly: false,
-            cloudKitDatabase: .automatic
-        )
-        
-        do {
-            return try ModelContainer(for: schema, configurations: [configuration])
-        } catch {
-            logger.critical("Failed to create ModelContainer in Intent: \(error)")
-            // Fallback to in-memory container
-            let fallbackConfig = ModelConfiguration(
-                "MirrorSmokerModel_v2_memory",
-                schema: schema,
-                isStoredInMemoryOnly: true,
-                cloudKitDatabase: .automatic
-            )
+        // Mirror the main app config: use App Group store URL
+        let groupID = "group.fightthestroke.mirrorsmoker"
+        if let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupID) {
+            let appSupport = groupURL.appendingPathComponent("Library/Application Support")
+            let storeURL = appSupport.appendingPathComponent("MirrorSmokerModel.store")
             do {
-                return try ModelContainer(for: schema, configurations: [fallbackConfig])
+                let configuration = ModelConfiguration(
+                    "MirrorSmokerModel_v2",
+                    schema: schema,
+                    url: storeURL,
+                    cloudKitDatabase: .automatic
+                )
+                return try ModelContainer(for: schema, configurations: [configuration])
             } catch {
-                fatalError("Could not create fallback ModelContainer in Intent: \(error)")
+                logger.critical("Failed AppGroup ModelContainer in Intent: \(error)")
             }
         }
+        // Fallback to in-memory to avoid crashes; not persisted
+        let fallbackConfig = ModelConfiguration(
+            "MirrorSmokerModel_v2_memory",
+            schema: schema,
+            isStoredInMemoryOnly: true,
+            cloudKitDatabase: .automatic
+        )
+        return try! ModelContainer(for: schema, configurations: [fallbackConfig])
     }
 }
 
@@ -108,6 +109,12 @@ struct AddCigaretteIntent: AppIntent {
         modelContext.insert(cigarette)
         try modelContext.save()
         
+        // Update shared UserDefaults snapshot for Widget/Watch
+        updateSharedSnapshot(using: modelContext)
+        
+        // Ask widgets to reload
+        WidgetCenter.shared.reloadAllTimelines()
+        
         let message = tags?.isEmpty == false ? 
             "Cigarette recorded with tags: \(tags?.joined(separator: ", ") ?? "")" :
             "Cigarette recorded successfully"
@@ -115,6 +122,42 @@ struct AddCigaretteIntent: AppIntent {
         return .result(dialog: IntentDialog(stringLiteral: message)) {
             CigaretteRecordedView(timestamp: cigarette.timestamp, tags: tags)
         }
+    }
+}
+
+// MARK: - Shared snapshot update for Intents
+@available(iOS 16.0, macOS 13.0, watchOS 9.0, *)
+private func updateSharedSnapshot(using context: ModelContext) {
+    let groupID = "group.fightthestroke.mirrorsmoker"
+    guard let ud = UserDefaults(suiteName: groupID) else { return }
+    
+    let cal = Calendar.current
+    let today = cal.startOfDay(for: Date())
+    let tomorrow = cal.date(byAdding: .day, value: 1, to: today)!
+    
+    let descriptor = FetchDescriptor<Cigarette>(
+        predicate: #Predicate { cig in
+            cig.timestamp >= today && cig.timestamp < tomorrow
+        },
+        sortBy: [SortDescriptor(\.timestamp, order: .reverse)]
+    )
+    
+    if let cigs = try? context.fetch(descriptor) {
+        ud.set(cigs.count, forKey: "todayCount")
+        let list = cigs.map { [
+            "id": $0.id.uuidString,
+            "timestamp": $0.timestamp.timeIntervalSince1970,
+            "note": $0.note
+        ]}
+        if let encoded = try? JSONSerialization.data(withJSONObject: list) {
+            let key = {
+                let f = DateFormatter()
+                f.dateFormat = "yyyy-MM-dd"
+                return "cigarettes_\(f.string(from: Date()))"
+            }()
+            ud.set(encoded, forKey: key)
+        }
+        ud.set(Date(), forKey: "lastUpdated")
     }
 }
 

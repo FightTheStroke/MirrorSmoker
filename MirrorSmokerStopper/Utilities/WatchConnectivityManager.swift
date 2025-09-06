@@ -255,8 +255,8 @@ extension WatchConnectivityManager: WCSessionDelegate {
                 object: cigarette
             )
             
-            // Also update widget data via App Group
-            WidgetManager.shared.updateWidgetData()
+            // Update shared state and widgets/watch via SyncCoordinator
+            SyncCoordinator.shared.cigaretteAdded(from: .watch, cigarette: cigarette)
             
             replyHandler([
                 "success": true,

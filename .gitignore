@@ -10,3 +10,4 @@ scripts/
 fastlane/report.xml
 /TestResults.xcresult
 fastlane/report.xml
+fastlane/report.xml

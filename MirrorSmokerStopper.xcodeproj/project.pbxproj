@@ -7,16 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A909B6AD2E68685A00EA757C /* Fixes.md in Resources */ = {isa = PBXBuildFile; fileRef = A909B6AC2E68685A00EA757C /* Fixes.md */; };
+		2BF579D4210645B99912C38C /* JetBrainsMonoNL-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2BF579D4210645B99912C38B /* JetBrainsMonoNL-Bold.ttf */; };
 		A96040B62E675A840042AE8B /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F5E5742E65FEFD004181D9 /* WidgetKit.framework */; };
 		A96040B72E675A840042AE8B /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9F5E5762E65FEFD004181D9 /* SwiftUI.framework */; };
 		A96040C82E675A850042AE8B /* HomeWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A96040B52E675A840042AE8B /* HomeWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A96042782E69EBFB0042AE8B /* AiCoach.md in Resources */ = {isa = PBXBuildFile; fileRef = A96042772E69EBFB0042AE8B /* AiCoach.md */; };
 		A9F5E4C72E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A9F5E4C62E65FBA5004181D9 /* MirrorSmokerStopper Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A9F5E5032E65FBB4004181D9 /* CODE_OF_CONDUCT.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E4FD2E65FBB4004181D9 /* CODE_OF_CONDUCT.md */; };
 		A9F5E5042E65FBB4004181D9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E4FF2E65FBB4004181D9 /* LICENSE */; };
 		A9F5E5052E65FBB4004181D9 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E5002E65FBB4004181D9 /* README.md */; };
 		A9F5E5072E65FBB4004181D9 /* SECURITY.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E5022E65FBB4004181D9 /* SECURITY.md */; };
 		A9F5E5092E65FBB4004181D9 /* CONTRIBUTING.md in Resources */ = {isa = PBXBuildFile; fileRef = A9F5E4FE2E65FBB4004181D9 /* CONTRIBUTING.md */; };
+		AF64354EC20249178E1C8817 /* JetBrainsMonoNL-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF64354EC20249178E1C8816 /* JetBrainsMonoNL-Regular.ttf */; };
+		C37C3BEFEDDF4E75A09DD0C3 /* JetBrainsMonoNL-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C37C3BEFEDDF4E75A09DD0C2 /* JetBrainsMonoNL-SemiBold.ttf */; };
+		E680F9794E664051B6315F36 /* JetBrainsMonoNL-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E680F9794E664051B6315F35 /* JetBrainsMonoNL-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,9 +94,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		A909B6AC2E68685A00EA757C /* Fixes.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Fixes.md; sourceTree = "<group>"; };
+		2BF579D4210645B99912C38B /* JetBrainsMonoNL-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-Bold.ttf"; sourceTree = "<group>"; };
 		A96040B52E675A840042AE8B /* HomeWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HomeWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A96040D12E675B440042AE8B /* HomeWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HomeWidgetExtension.entitlements; sourceTree = "<group>"; };
+		A96042772E69EBFB0042AE8B /* AiCoach.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AiCoach.md; sourceTree = "<group>"; };
 		A9F5E4A32E65FBA4004181D9 /* MirrorSmokerStopper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MirrorSmokerStopper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9F5E4B02E65FBA5004181D9 /* MirrorSmokerStopperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MirrorSmokerStopperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9F5E4BA2E65FBA5004181D9 /* MirrorSmokerStopperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MirrorSmokerStopperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +111,9 @@
 		A9F5E5022E65FBB4004181D9 /* SECURITY.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SECURITY.md; sourceTree = "<group>"; };
 		A9F5E5742E65FEFD004181D9 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A9F5E5762E65FEFD004181D9 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		AF64354EC20249178E1C8816 /* JetBrainsMonoNL-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-Regular.ttf"; sourceTree = "<group>"; };
+		C37C3BEFEDDF4E75A09DD0C2 /* JetBrainsMonoNL-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-SemiBold.ttf"; sourceTree = "<group>"; };
+		E680F9794E664051B6315F35 /* JetBrainsMonoNL-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-Medium.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -237,6 +245,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A96043CF2E6AC7BA0042AE8B /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				AF64354EC20249178E1C8816 /* JetBrainsMonoNL-Regular.ttf */,
+				E680F9794E664051B6315F35 /* JetBrainsMonoNL-Medium.ttf */,
+				C37C3BEFEDDF4E75A09DD0C2 /* JetBrainsMonoNL-SemiBold.ttf */,
+				2BF579D4210645B99912C38B /* JetBrainsMonoNL-Bold.ttf */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		A9F5E49A2E65FBA3004181D9 = {
 			isa = PBXGroup;
 			children = (
@@ -255,7 +274,8 @@
 				A9F5E4FF2E65FBB4004181D9 /* LICENSE */,
 				A9F5E5002E65FBB4004181D9 /* README.md */,
 				A9F5E5022E65FBB4004181D9 /* SECURITY.md */,
-				A909B6AC2E68685A00EA757C /* Fixes.md */,
+				A96042772E69EBFB0042AE8B /* AiCoach.md */,
+				A96043CF2E6AC7BA0042AE8B /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -527,9 +547,9 @@
 			files = (
 				A9F5E5032E65FBB4004181D9 /* CODE_OF_CONDUCT.md in Resources */,
 				A9F5E5042E65FBB4004181D9 /* LICENSE in Resources */,
-				A909B6AD2E68685A00EA757C /* Fixes.md in Resources */,
 				A9F5E5052E65FBB4004181D9 /* README.md in Resources */,
 				A9F5E5072E65FBB4004181D9 /* SECURITY.md in Resources */,
+				A96042782E69EBFB0042AE8B /* AiCoach.md in Resources */,
 				A9F5E5092E65FBB4004181D9 /* CONTRIBUTING.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -552,6 +572,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF64354EC20249178E1C8817 /* JetBrainsMonoNL-Regular.ttf in Resources */,
+				E680F9794E664051B6315F36 /* JetBrainsMonoNL-Medium.ttf in Resources */,
+				C37C3BEFEDDF4E75A09DD0C3 /* JetBrainsMonoNL-SemiBold.ttf in Resources */,
+				2BF579D4210645B99912C38C /* JetBrainsMonoNL-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,7 +867,7 @@
 		A9F5E4EA2E65FBA6004181D9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWatch;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "MirrorSmokerStopper Watch App/MirrorSmokerStopper Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
@@ -874,7 +898,7 @@
 		A9F5E4EB2E65FBA6004181D9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIconWatch;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "MirrorSmokerStopper Watch App/MirrorSmokerStopper Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;

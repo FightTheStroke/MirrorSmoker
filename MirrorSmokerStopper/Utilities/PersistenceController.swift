@@ -24,14 +24,41 @@ struct PersistenceController {
                 Tag.self,
                 UserProfile.self,
                 Product.self,
-                Purchase.self // Add Purchase model to schema
+                Purchase.self,
+                UrgeLog.self
             ])
             
+            // Get the App Group container URL
+            let groupURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: "group.fightthestroke.mirrorsmoker")
+            
             // Create configuration with a versioned name
-            let configuration = ModelConfiguration(
-                schema: schema,
-                isStoredInMemoryOnly: inMemory
-            )
+            let configuration: ModelConfiguration
+            if inMemory {
+                configuration = ModelConfiguration(
+                    schema: schema,
+                    isStoredInMemoryOnly: true
+                )
+            } else if let groupURL = groupURL {
+                // Ensure the directory exists
+                let applicationSupportURL = groupURL.appendingPathComponent("Library/Application Support")
+                try FileManager.default.createDirectory(at: applicationSupportURL, withIntermediateDirectories: true)
+                
+                let storeURL = applicationSupportURL.appendingPathComponent("MirrorSmokerModel.store")
+                configuration = ModelConfiguration(
+                    "MirrorSmokerModel_v2",
+                    schema: schema,
+                    url: storeURL,
+                    cloudKitDatabase: .automatic
+                )
+            } else {
+                // Fallback to default location
+                Self.logger.warning("App Group not available, using default location")
+                configuration = ModelConfiguration(
+                    "MirrorSmokerModel_v2",
+                    schema: schema,
+                    isStoredInMemoryOnly: false
+                )
+            }
             
             // Create the container
             container = try ModelContainer(for: schema, configurations: configuration)
@@ -52,7 +79,7 @@ struct PersistenceController {
         
         do {
             let container = try ModelContainer(
-                for: Cigarette.self, Tag.self, UserProfile.self, Product.self, Purchase.self,
+                for: Cigarette.self, Tag.self, UserProfile.self, Product.self, Purchase.self, UrgeLog.self,
                 configurations: configuration
             )
             

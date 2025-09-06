@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct WatchMainContentView: View {
-    @StateObject private var watchConnectivity = WatchConnectivityManager.shared
+    @EnvironmentObject private var watchConnectivity: WatchConnectivityManager
+    @EnvironmentObject private var sharedDataManager: SharedDataManager
     
-    // Use WatchConnectivity data
+    // Use SharedDataManager as primary source, fallback to WatchConnectivity
     private var todayCount: Int {
-        watchConnectivity.todayCount
+        sharedDataManager.todayCount > 0 ? sharedDataManager.todayCount : watchConnectivity.todayCount
     }
     
     private var yesterdayCount: Int {
@@ -24,7 +25,7 @@ struct WatchMainContentView: View {
     }
     
     private var todayCigarettes: [WatchCigarette] {
-        watchConnectivity.todayCigarettes
+        !sharedDataManager.todayCigarettes.isEmpty ? sharedDataManager.todayCigarettes : watchConnectivity.todayCigarettes
     }
     
     var body: some View {
@@ -135,8 +136,8 @@ struct WatchMainContentView: View {
     }
     
     private func addCigarette() {
-        // Use WatchConnectivity to add cigarette and sync with iPhone
-        watchConnectivity.addCigarette()
+        // Add cigarette via SharedDataManager for immediate local update
+        sharedDataManager.addCigarette()
     }
     
     private func refreshData() {

@@ -21,6 +21,7 @@ struct TagSelectionSheet: View {
     @State private var newTagName = ""
     @State private var newTagColor = "#007AFF"
     @State private var isCreatingTag = false
+    @State private var showStandardTags = true
     
     let onSave: ([Tag]) -> Void
     
@@ -30,6 +31,11 @@ struct TagSelectionSheet: View {
         "#34C759", "#5AC8FA", "#AF52DE", "#FF2D92",
         "#8E8E93", "#00C7BE", "#FF6B35", "#5856D6"
     ]
+    
+    // Get only custom tags (non-standard)
+    private var customTags: [Tag] {
+        allTags.filter { !$0.isStandardTag }
+    }
     
     var body: some View {
         NavigationStack {
@@ -42,8 +48,25 @@ struct TagSelectionSheet: View {
                     selectedTagsPreview
                 }
                 
-                // Tags list
-                tagsList
+                // Segmented control to switch between standard and custom tags
+                Picker("", selection: $showStandardTags) {
+                    Text("tags.standard.title".local()).tag(true)
+                    Text("tags.custom.title".local()).tag(false)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.horizontal, DS.Space.lg)
+                .padding(.vertical, DS.Space.md)
+                
+                // Tags content based on selection
+                if showStandardTags {
+                    ScrollView {
+                        StandardTagsView(selectedTags: $selectedTags)
+                            .padding(.vertical, DS.Space.md)
+                    }
+                } else {
+                    // Custom tags list
+                    tagsList
+                }
             }
             .navigationTitle("tags.select.title".local())
             .navigationBarTitleDisplayMode(.inline)
@@ -142,10 +165,10 @@ struct TagSelectionSheet: View {
     private var tagsList: some View {
         ScrollView {
             LazyVStack(spacing: DS.Space.sm) {
-                if allTags.isEmpty {
+                if customTags.isEmpty {
                     emptyStateView
                 } else {
-                    ForEach(allTags) { tag in
+                    ForEach(customTags) { tag in
                         tagRow(tag: tag)
                     }
                 }

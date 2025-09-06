@@ -22,7 +22,8 @@ extension AppIntent {
             Tag.self,
             UserProfile.self,
             Product.self,
-            Purchase.self  // Add Purchase model to schema
+            Purchase.self,
+            UrgeLog.self
         ])
         
         // Use the same versioned configuration as the main app

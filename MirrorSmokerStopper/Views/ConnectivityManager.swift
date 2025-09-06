@@ -24,24 +24,9 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     }
     
     func activate() {
-        // Temporarily disable WCSession to fix performance issues
-        // TODO: Re-enable once Watch connectivity is stable
+        // WCSession disabled for performance optimization
+        // Watch connectivity handled through App Groups instead
         return
-        
-        // COMMENTED OUT: WCSession code temporarily disabled
-        // guard WCSession.isSupported() else { return }
-        // guard !isActivated else { return }
-        // DispatchQueue.main.async { [weak self] in
-        //     guard let self = self else { return }
-        //     self.session = WCSession.default
-        //     self.session?.delegate = self
-        //     DispatchQueue.global(qos: .utility).async {
-        //         self.session?.activate()
-        //         DispatchQueue.main.async {
-        //             self.isActivated = true
-        //         }
-        //     }
-        // }
     }
     
     func configure(modelContext: ModelContext) {
@@ -114,7 +99,10 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         }
         
         let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
+            Self.logger.warning("Failed to calculate tomorrow's date")
+            return
+        }
         let todayCount = cigarettes.filter { $0.timestamp >= today && $0.timestamp < tomorrow }.count
         
         let message = [

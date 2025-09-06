@@ -16,7 +16,7 @@ public class WidgetStore {
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "WidgetStore")
     
     // Torniamo all'App Group originale
-    private let appGroupID = "group.org.mirror-labs.mirrorsmoker"
+    private let appGroupID = "group.fightthestroke.mirrorsmoker"
     public let userDefaults: UserDefaults?
     
     // Fallback su UserDefaults standard se App Group non disponibile

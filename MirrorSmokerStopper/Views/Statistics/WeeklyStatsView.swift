@@ -140,7 +140,7 @@ struct WeeklyStatsView: View {
             HStack(alignment: .bottom, spacing: 4) {
                 ForEach(0..<7, id: \.self) { dayIndex in
                     let count = week.daily[dayIndex]
-                    let dayDate = Calendar.current.date(byAdding: .day, value: dayIndex, to: week.weekStart)!
+                    let dayDate = Calendar.current.date(byAdding: .day, value: dayIndex, to: week.weekStart) ?? week.weekStart.addingTimeInterval(TimeInterval(dayIndex * 86400))
                     
                     VStack(spacing: 4) {
                         Rectangle()

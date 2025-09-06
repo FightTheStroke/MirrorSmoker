@@ -83,7 +83,10 @@ class WatchConnectivityManager: NSObject, ObservableObject {
         
         // Get today's cigarettes
         let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
+            logger.error("Failed to calculate tomorrow's date for sync")
+            return
+        }
         
         let descriptor = FetchDescriptor<Cigarette>(
             predicate: #Predicate<Cigarette> { cigarette in
@@ -150,7 +153,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
 
 extension WatchConnectivityManager: WCSessionDelegate {
     
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+    nonisolated func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         DispatchQueue.main.async {
             self.isWatchConnected = activationState == .activated
             
@@ -168,21 +171,21 @@ extension WatchConnectivityManager: WCSessionDelegate {
         }
     }
     
-    func sessionDidBecomeInactive(_ session: WCSession) {
+    nonisolated func sessionDidBecomeInactive(_ session: WCSession) {
         DispatchQueue.main.async {
             self.logger.info("WCSession became inactive")
             self.isWatchConnected = false
         }
     }
     
-    func sessionDidDeactivate(_ session: WCSession) {
+    nonisolated func sessionDidDeactivate(_ session: WCSession) {
         DispatchQueue.main.async {
             self.logger.info("WCSession deactivated")
             self.isWatchConnected = false
         }
     }
     
-    func sessionReachabilityDidChange(_ session: WCSession) {
+    nonisolated func sessionReachabilityDidChange(_ session: WCSession) {
         DispatchQueue.main.async {
             self.logger.info("Watch reachability changed: \(session.isReachable)")
             
@@ -195,7 +198,7 @@ extension WatchConnectivityManager: WCSessionDelegate {
     
     // MARK: - Receive Messages from Watch
     
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+    nonisolated func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
         
         guard let action = message["action"] as? String else {
             replyHandler(["error": "Invalid message format"])
@@ -206,13 +209,19 @@ extension WatchConnectivityManager: WCSessionDelegate {
         
         switch action {
         case "addCigarette":
-            handleAddCigaretteFromWatch(message: message, replyHandler: replyHandler)
+            Task { @MainActor in
+                handleAddCigaretteFromWatch(message: message, replyHandler: replyHandler)
+            }
             
         case "requestSync":
-            handleSyncRequest(replyHandler: replyHandler)
+            Task { @MainActor in
+                handleSyncRequest(replyHandler: replyHandler)
+            }
             
         case "getStats":
-            handleStatsRequest(replyHandler: replyHandler)
+            Task { @MainActor in
+                handleStatsRequest(replyHandler: replyHandler)
+            }
             
         default:
             logger.warning("Unknown action from Watch: \(action)")
@@ -268,7 +277,10 @@ extension WatchConnectivityManager: WCSessionDelegate {
         
         // Get today's stats
         let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
+            replyHandler(["error": "Failed to calculate date range"])
+            return
+        }
         
         let descriptor = FetchDescriptor<Cigarette>(
             predicate: #Predicate<Cigarette> { cigarette in

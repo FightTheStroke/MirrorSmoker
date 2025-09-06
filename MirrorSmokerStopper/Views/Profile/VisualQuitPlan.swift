@@ -31,7 +31,7 @@ struct VisualQuitPlan: View {
                 
                 Spacer()
                 
-                StatusIndicator(isActive: enableGradualReduction)
+                QuitPlanStatusIndicator(isActive: enableGradualReduction)
             }
             
             VStack(spacing: DS.AdaptiveSpace.md) {
@@ -118,7 +118,7 @@ struct VisualQuitPlan: View {
 }
 
 // MARK: - Status Indicator
-struct StatusIndicator: View {
+struct QuitPlanStatusIndicator: View {
     let isActive: Bool
     
     var body: some View {

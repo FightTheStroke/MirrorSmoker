@@ -96,8 +96,8 @@ final class CigaretteTests: XCTestCase {
     
     func testCigaretteFiltering() throws {
         let now = Date()
-        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now)!
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: now)!
+        let yesterday = Calendar.current.date(byAdding: .day, value: -1, to: now) ?? now.addingTimeInterval(-86400)
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: now) ?? now.addingTimeInterval(86400)
         
         // Create cigarettes at different times
         let todayCig = Cigarette(timestamp: now, note: "Today")
@@ -112,7 +112,7 @@ final class CigaretteTests: XCTestCase {
         
         // Test filtering for today
         let startOfDay = Calendar.current.startOfDay(for: now)
-        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay)!
+        let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay.addingTimeInterval(86400)
         
         let todayPredicate = #Predicate<Cigarette> { cigarette in
             cigarette.timestamp >= startOfDay && cigarette.timestamp < endOfDay

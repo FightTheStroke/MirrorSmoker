@@ -19,6 +19,7 @@ final class PreviewDataProvider {
                 Tag.self,
                 UserProfile.self,
                 Product.self,
+                Purchase.self,
                 UrgeLog.self
             ])
             

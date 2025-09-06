@@ -120,7 +120,7 @@ struct InteractiveHourlyChart: View {
         },
         selectedDate: Date()
     ) { hour in
-        print("Selected hour: \(hour)")
+        // Selected hour: \(hour)
     }
     .padding()
 }

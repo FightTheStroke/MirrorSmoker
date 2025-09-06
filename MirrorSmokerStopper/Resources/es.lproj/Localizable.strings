@@ -17,6 +17,11 @@
 "button.cancel" = "Cancelar";
 
 // Settings
+"settings.ai.coach.title" = "Configuración del AI Coach";
+"settings.ai.coach.configure" = "Configurar AI Coach";
+"settings.ai.coach.personalize" = "Personaliza tu experiencia de coaching con IA";
+
+// Settings
 "settings.title" = "Ajustes";
 "settings.profile" = "Perfil Personal";
 "settings.profile.footer" = "Esta información ayuda a personalizar estadísticas y recomendaciones";
@@ -48,6 +53,17 @@
 "smoking.type.picker.label" = "Tipo";
 "debug.toggle.panel" = "Alternar Panel de Debug";
 "health.insights.general.info" = "Información General";
+
+// Standard Trigger Tags (5 most common)
+"tag.stress" = "Estrés";
+"tag.coffee" = "Café";
+"tag.meal" = "Después de comer";
+"tag.work" = "Trabajo";
+"tag.alcohol" = "Alcohol";
+
+// Tag UI
+"tags.standard.title" = "Etiquetas Rápidas";
+"tags.custom.title" = "Tus Etiquetas";
 "health.insights.age.weight.format" = "Edad: %d años • Peso: %.1f kg";
 "health.insights.smoking.duration" = "Duración del Tabaquismo";
 "health.insights.smoking.duration.format" = "%d años de %@";
@@ -201,6 +217,22 @@
 
 // Statistics
 "statistics.title" = "Estadísticas";
+
+// Estadísticas de Etiquetas
+"statistics.tags.title" = "Análisis de Etiquetas e Insights";
+"statistics.tags.empty" = "No hay etiquetas creadas. Añade etiquetas para rastrear tus desencadenantes.";
+"statistics.tags.no.data" = "No hay cigarrillos con etiquetas en este período.";
+"statistics.tags.insight.stress" = "Alto desencadenante de estrés - considera técnicas de manejo del estrés";
+"statistics.tags.insight.social" = "Desencadenante de situaciones sociales - planifica alternativas para eventos sociales";
+"statistics.tags.insight.habits" = "Desencadenante de rutina - intenta romper este patrón de hábitos";
+"statistics.tags.insight.high" = "Esto representa el %d%% de tus cigarrillos etiquetados";
+"statistics.tags.insight.rare" = "Ocurrencia rara - buen control sobre este desencadenante";
+"tag.stress" = "estrés";
+"tag.work" = "trabajo";
+"tag.social" = "social";
+"tag.friends" = "amigos";
+"tag.coffee" = "café";
+"tag.meal" = "comida";
 "statistics.analyze.period" = "Analizar Período";
 "statistics.today" = "Hoy";
 "statistics.yesterday" = "Ayer";
@@ -808,6 +840,14 @@
 "help.main.features.3" = "Ve estadísticas detalladas y tendencias";
 "help.main.features.4" = "Sincroniza datos en todos tus dispositivos con iCloud";
 
+// AI Coach
+"help.ai.coach.title" = "AI Coach con Inteligencia Cardíaca";
+"help.ai.coach.1" = "El AI Coach monitorea tu frecuencia cardíaca para predecir antojos 15-30 minutos antes de que ocurran";
+"help.ai.coach.2" = "Respeta tus configuraciones de Modo Enfoque - no te molesta durante reuniones, sueño o conducción";
+"help.ai.coach.3" = "Envía notificaciones inteligentes solo cuando eres vulnerable a los antojos, no con horarios fijos";
+"help.ai.coach.4" = "Usa datos de HealthKit para aprender tus patrones personales y desencadenantes de estrés";
+"help.ai.coach.5" = "NO es un dispositivo médico - solo para apoyo de bienestar. Siempre consulta profesionales de salud para consejos médicos";
+
 // Cigarette Management
 "help.cigarette.management.title" = "Gestionar Tus Registros";
 "help.cigarette.management.1" = "Desliza hacia la izquierda en cualquier entrada de cigarrillo para eliminarla";
@@ -867,6 +907,12 @@
 "settings.are.you.sure" = "¿Estás seguro?";
 "settings.delete.warning" = "Esto eliminará permanentemente todos tus datos de fumar. Esta acción no se puede deshacer.";
 "settings.plan.cigarettes.per.day.format" = "%.1f cigarrillos/día";
+
+// Financial Preferences
+"settings.financial.preferences.section" = "Preferencias Financieras";
+"settings.financial.preferences.footer" = "Configura tu moneda preferida para gastos y estadísticas";
+"settings.preferred.currency.label" = "Moneda Preferida";
+
 "error" = "Error";
 "loading" = "Cargando...";
 "save" = "Guardar";
@@ -921,6 +967,12 @@
 "status.on.track" = "En el buen camino - mantente consciente";
 "status.exceed.target" = "Sobre el objetivo - respira profundo";
 "last.cigarette.time" = "Último:";
+
+// Aviso Legal
+"disclaimer.title" = "AVISO IMPORTANTE";
+"disclaimer.not_medical_device" = "Esta aplicación NO es un dispositivo médico y no proporciona consejos médicos, diagnósticos o tratamientos. El AI Coach y el monitoreo de frecuencia cardíaca son solo para bienestar y apoyo motivacional.";
+"disclaimer.consult_professionals" = "Siempre consulte con profesionales de la salud calificados para obtener consejos médicos. En caso de emergencia, contacte inmediatamente a los servicios de emergencia.";
+"disclaimer.predictions_estimate" = "Las predicciones de frecuencia cardíaca y el análisis de antojos son estimaciones basadas en patrones y no deben usarse para decisiones médicas.";
 
 // AI Coach Integration Phase 2
 "coach.daily.tip" = "Consejo Diario";
@@ -1156,6 +1208,12 @@
 "privacy.description" = "Todo el procesamiento de datos ocurre en el dispositivo. No se comparte información con servicios externos.";
 "healthkit.data" = "Datos HealthKit";
 "healthkit.data.description" = "Sueño, actividad, medicamentos";
+"Heart rate monitoring for craving prediction" = "Monitoreo de frecuencia cardíaca para predicción de antojos";
+"Pattern recognition for personalized coaching" = "Reconocimiento de patrones para coaching personalizado";
+"smart.notifications" = "Notificaciones inteligentes";
+"Just-in-time interventions based on your patterns" = "Intervenciones justo a tiempo basadas en tus patrones";
+"AI Coach Features" = "Funciones del Coach IA";
+"When AI Coach is ON, all wellness features are enabled for best results. All processing happens on your device." = "Cuando el Coach IA está ACTIVO, todas las funciones de bienestar están habilitadas para mejores resultados. Todo el procesamiento ocurre en tu dispositivo.";
 "location.analysis" = "Análisis de Ubicación";
 "location.analysis.description" = "Patrones de ubicación general";
 "detailed.behavioral.analysis" = "Análisis Conductual Detallado";
@@ -1412,8 +1470,11 @@
 "purchase.log.subtitle" = "Registra tu compra de producto de tabaco";
 "purchase.product.name" = "Nombre del Producto";
 "purchase.product.placeholder" = "ej. Marlboro Red";
+"purchase.recent.products" = "Reciente";
 "purchase.amount" = "Cantidad";
 "purchase.amount.placeholder" = "0.00";
+"purchase.common.currencies" = "Común";
+"purchase.currency.info" = "Usando moneda de la configuración";
 "purchase.currency" = "Moneda";
 "purchase.currency.placeholder" = "EUR";
 "purchase.quantity" = "Cantidad";
@@ -1421,6 +1482,18 @@
 "purchase.error.valid.amount" = "Por favor introduce una cantidad válida";
 "purchase.error.amount.positive" = "La cantidad debe ser mayor que cero";
 "purchase.error.save" = "No se pudo guardar la compra: %@";
+
+// Purchase History
+"purchase.history.title" = "Historial de Compras";
+"purchase.history.week" = "Última Semana";
+"purchase.history.month" = "Último Mes";
+"purchase.history.three.months" = "Últimos 3 Meses";
+"purchase.history.all" = "Todo el Tiempo";
+"purchase.history.total.spent" = "Total Gastado";
+"purchase.history.total.purchases" = "Total de Compras";
+"purchase.history.search.placeholder" = "Buscar productos...";
+"purchase.history.empty.title" = "Aún No Hay Compras";
+"purchase.history.empty.subtitle" = "Comienza a registrar tus compras de productos de tabaco para ver tu historial de gastos aquí";
 
 // FAB Actions
 "fab.log.purchase" = "Registrar Compra";
@@ -1431,4 +1504,140 @@
 
 // More Statistics
 "statistics.money.spent" = "Dinero Gastado";
-"statistics.money.saved" = "Dinero Ahorrado";
+"statistics.money.saved" = "Dinero Ahorrado (Estimado)";
+"statistics.purchase.history.button" = "Historial de Compras";
+"statistics.financial.breakdown" = "Desglose Financiero";
+"statistics.weekly.spending" = "Gasto Semanal";
+"statistics.monthly.spending" = "Gasto Mensual";
+
+"hour.format" = "%02d:00";
+
+// Onboarding
+"onboarding.welcome.title" = "Bienvenido a MirrorSmoker";
+"onboarding.welcome.subtitle" = "Tu viaje hacia una vida libre de humo comienza aquí";
+"onboarding.feature.ai" = "Coaching impulsado por IA para soporte personalizado";
+"onboarding.feature.health" = "Rastrea las mejoras de salud mientras dejas de fumar";
+"onboarding.feature.stats" = "Estadísticas detalladas y seguimiento del progreso";
+"onboarding.feature.notifications" = "Notificaciones inteligentes te ayudan a mantenerte en el camino";
+"onboarding.profile.title" = "Configura tu Perfil";
+"onboarding.profile.subtitle" = "Ayúdanos a personalizar tu viaje para dejar de fumar";
+"onboarding.profile.name" = "Tu Nombre";
+"onboarding.profile.quit.date" = "Fecha Objetivo para Dejar";
+"onboarding.profile.set.quit.date" = "Establece tu Fecha para Dejar";
+"onboarding.habits.title" = "Tus Hábitos de Fumar";
+"onboarding.habits.subtitle" = "Cuéntanos sobre tus patrones actuales de fumar";
+"onboarding.habits.daily" = "Cigarrillos por día";
+"onboarding.habits.pack.price" = "Precio por paquete";
+"onboarding.habits.pack.size" = "Cigarrillos por paquete";
+"onboarding.ai.title" = "Configuración del Coach IA";
+"onboarding.ai.subtitle" = "Obtén apoyo personalizado impulsado por IA";
+"onboarding.ai.enable" = "Habilitar Coaching IA";
+"onboarding.ai.description" = "El coaching IA proporciona consejos personalizados e intervenciones basadas en tus patrones";
+"onboarding.ai.setup.healthkit" = "Configurar integración con HealthKit para mejores perspectivas";
+"onboarding.complete.title" = "¡Todo Listo!";
+"onboarding.complete.subtitle" = "Tu plan personalizado para dejar está listo";
+"onboarding.complete.daily" = "Cigarrillos diarios";
+"onboarding.complete.ai.enabled" = "Coaching IA habilitado";
+"onboarding.button.back" = "Atrás";
+"onboarding.button.next" = "Siguiente";
+"onboarding.button.start" = "Comenzar mi Viaje";
+"onboarding.healthkit.title" = "Acceso a Datos de Salud";
+"onboarding.healthkit.description" = "Permite a MirrorSmoker acceder a tus datos de salud para mejores perspectivas";
+"onboarding.healthkit.heart.rate" = "Monitoreo de ritmo cardíaco";
+"onboarding.healthkit.activity" = "Seguimiento de actividad";
+"onboarding.healthkit.sleep" = "Datos de sueño";
+"onboarding.healthkit.granted" = "Acceso concedido";
+"onboarding.healthkit.request" = "Solicitar Acceso";
+"onboarding.healthkit.skip" = "Omitir por ahora";
+
+// Progreso y Metas de Ahorro
+"progress.goal.details" = "Detalles de la Meta";
+"progress.goal.title" = "Título de la Meta";
+"progress.goal.target" = "Cantidad Objetivo";
+"progress.goal.has.deadline" = "Establecer Fecha Límite";
+"progress.goal.deadline" = "Fecha Límite";
+"progress.goal.progress" = "Progreso";
+"progress.goal.current" = "Actual";
+"progress.goal.remaining" = "Restante";
+"progress.goal.completion" = "Completado";
+"progress.goal.edit" = "Editar Meta";
+"progress.goal.new" = "Nueva Meta";
+"progress.goal.title.placeholder" = "Ingresa título de la meta";
+"progress.goal.target.amount" = "Cantidad Objetivo";
+"progress.goal.category" = "Categoría";
+"progress.goal.set.deadline" = "Establecer Fecha Límite";
+"progress.goal.target.date" = "Fecha Objetivo";
+"progress.goal.tip" = "Consejo: Establece metas realistas para mantenerte motivado";
+"progress.goal.add.new" = "Agregar Nueva Meta";
+"button.cancel" = "Cancelar";
+"button.save" = "Guardar";
+"button.add" = "Agregar";
+
+// CLAVES FALTANTES DE COMPONENTES UI
+"add.with.tags" = "Añadir con Etiquetas";
+"ai.coach.personal" = "AI Coach Personal";
+"ai.coach.tip.title" = "Consejo del AI Coach";
+"no.cigarettes.placeholder" = "Ningún cigarrillo registrado";
+"monthly.stats.last.6.months" = "Últimos 6 Meses";
+"stats.advanced" = "Estadísticas Avanzadas";
+"stats.chartType" = "Tipo de Gráfico";
+"stats.monthly" = "Mensual";
+"stats.weekly" = "Semanal";
+"stats.per.day.format" = "%.1f por día";
+
+// CLAVES FALTANTES DE PREMIUM/PAYWALL
+"paywall.ai.coaching.title" = "Coaching IA";
+"paywall.ai.coaching.subtitle" = "Obtén coaching personalizado con IA";
+"paywall.analytics.title" = "Análisis Avanzado";
+"paywall.analytics.subtitle" = "Perspectivas profundas sobre tus hábitos de fumar";
+"paywall.export.title" = "Exportar Datos";
+"paywall.export.subtitle" = "Exporta tus datos en múltiples formatos";
+"paywall.onboarding.title" = "Onboarding Premium";
+"paywall.onboarding.subtitle" = "Configuración guiada para resultados óptimos";
+"paywall.settings.title" = "Configuración Avanzada";
+"paywall.settings.subtitle" = "Personaliza tu viaje para dejar de fumar";
+"paywall.social.title" = "Características Sociales";
+"paywall.social.subtitle" = "Conéctate con la comunidad para dejar de fumar";
+"paywall.tags.limit.title" = "Etiquetas Ilimitadas";
+"paywall.tags.limit.subtitle" = "Crea tantas etiquetas como necesites";
+"paywall.widgets.title" = "Widgets Premium";
+"paywall.widgets.subtitle" = "Widgets avanzados para pantalla de inicio";
+
+// CLAVES FALTANTES DE CONFIGURACIÓN PREMIUM
+"premium.feature.locked" = "Característica Premium";
+"premium.upgrade.now" = "Actualizar Ahora";
+"settings.continue.free" = "Continuar Gratis";
+"settings.feature.ai.coaching" = "Coaching IA";
+"settings.feature.analytics" = "Análisis Avanzado";
+"settings.feature.export" = "Exportar Datos";
+"settings.feature.unlimited.tags" = "Etiquetas Ilimitadas";
+"settings.premium.active.subtitle" = "Todas las características premium desbloqueadas";
+"settings.premium.description" = "Desbloquea características avanzadas para acelerar tu viaje para dejar de fumar";
+"settings.premium.features.unlocked" = "Características Premium Desbloqueadas";
+"settings.premium.free.subtitle" = "Características básicas disponibles";
+"settings.premium.title" = "Suscripción Premium";
+"settings.upgrade.now" = "Actualizar Ahora";
+
+// CLAVES FALTANTES DE ERRORES DE TIENDA
+"store.error.unknown" = "Ocurrió un error desconocido";
+"store.error.verification" = "Falló la verificación de compra";
+
+// CLAVES FALTANTES DE SALUD DINÁMICAS
+"health.category.cardiovascular" = "Corazón";
+"health.category.respiratory" = "Pulmones";
+"health.category.circulation" = "Circulación";
+"health.category.energy" = "Energía";
+"health.category.immune" = "Inmunidad";
+"health.category.appearance" = "Apariencia";
+"health.range.week" = "1 Semana";
+"health.range.month" = "1 Mes";
+"health.range.three_months" = "3 Meses";
+"health.range.year" = "1 Año";
+"health.timeframe.20_minutes" = "20 min";
+"health.timeframe.8_hours" = "8 horas";
+"health.timeframe.24_hours" = "1 día";
+"health.timeframe.3_days" = "3 días";
+"health.timeframe.2_weeks" = "2 semanas";
+"health.timeframe.1_month" = "1 mes";
+"health.timeframe.3_months" = "3 meses";
+"health.timeframe.1_year" = "1 año";

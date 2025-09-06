@@ -22,5 +22,13 @@
 		<string>JetBrainsMonoNL-SemiBold.ttf</string>
 		<string>JetBrainsMonoNL-Bold.ttf</string>
 	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>The app needs to read your heart rate data to predict cravings and provide timely coaching interventions. This helps the AI Coach warn you 15-30 minutes before a potential craving.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>The app can optionally write your smoking cessation milestones to Health to track your wellness journey.</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>The app sends smart notifications only when you're vulnerable to cravings, respecting your Focus Mode settings.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>The app uses motion data to detect when you're driving and avoid disturbing you with notifications.</string>
 </dict>
 </plist>

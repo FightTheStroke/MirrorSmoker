@@ -164,7 +164,7 @@ final class JITAIPlanner: ObservableObject {
     private func updateWidgetWithTip(_ tip: String) async {
         // Store the tip for widget consumption
         if let groupContainer = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: "group.com.mirror-labs.mirrorsmoker"
+            forSecurityApplicationGroupIdentifier: "group.fightthestroke.mirrorsmoker"
         ) {
             let tipURL = groupContainer.appendingPathComponent("latest_tip.json")
             
@@ -285,6 +285,7 @@ final class JITAIPlanner: ObservableObject {
             Tag.self,
             UserProfile.self,
             Product.self,
+            Purchase.self,
             UrgeLog.self
         ])
         

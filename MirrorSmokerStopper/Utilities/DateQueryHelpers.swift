@@ -16,7 +16,11 @@ struct DateQueryHelpers {
     }
     
     static func endOfDay(for date: Date = Date()) -> Date {
-        Calendar.current.date(byAdding: .day, value: 1, to: startOfDay(for: date))!
+        guard let endOfDay = Calendar.current.date(byAdding: .day, value: 1, to: startOfDay(for: date)) else {
+            // Fallback to 23:59:59 of the same day
+            return Calendar.current.date(bySettingHour: 23, minute: 59, second: 59, of: date) ?? date
+        }
+        return endOfDay
     }
     
     static func weekAgo(from date: Date = Date()) -> Date {
@@ -120,7 +124,7 @@ extension DateQueryHelpers {
         do {
             return try fetchCigarettes(with: predicate, from: context, sortBy: sortBy)
         } catch {
-            print("SwiftData query failed, using fallback: \(error)")
+            // SwiftData query failed, using fallback
             return fallback
         }
     }

@@ -56,6 +56,20 @@ struct HelpView: View {
                         ]
                     )
                     
+                    // AI Coach Section
+                    helpSection(
+                        title: NSLocalizedString("help.ai.coach.title", comment: ""),
+                        icon: "brain.head.profile",
+                        color: DS.Colors.chart5,
+                        content: [
+                            NSLocalizedString("help.ai.coach.1", comment: ""),
+                            NSLocalizedString("help.ai.coach.2", comment: ""),
+                            NSLocalizedString("help.ai.coach.3", comment: ""),
+                            NSLocalizedString("help.ai.coach.4", comment: ""),
+                            NSLocalizedString("help.ai.coach.5", comment: "")
+                        ]
+                    )
+                    
                     // Cigarette Management Section
                     helpSection(
                         title: NSLocalizedString("help.cigarette.management.title", comment: ""),

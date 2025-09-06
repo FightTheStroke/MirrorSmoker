@@ -122,7 +122,7 @@ struct CreateNewTagSheet: View {
                             onSave(newTag)
                             isPresented = false
                         } catch {
-                            print("Error saving tag: \(error)")
+                            // Error saving tag
                         }
                     }
                     .disabled(tagName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)

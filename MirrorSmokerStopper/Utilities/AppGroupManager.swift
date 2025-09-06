@@ -10,7 +10,7 @@ import SwiftData
 
 // MARK: - App Group Configuration
 struct AppGroupManager {
-    static let groupIdentifier = "group.com.mirror-labs.mirrorsmoker"
+    static let groupIdentifier = "group.fightthestroke.mirrorsmoker"
     
     static var sharedContainer: URL? {
         FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)
@@ -18,11 +18,11 @@ struct AppGroupManager {
     
     static var sharedModelContainer: ModelContainer? {
         guard let url = sharedContainer else {
-            print("❌ App Group container not found")
+            // App Group container not found
             return nil
         }
         
-        let storeURL = url.appendingPathComponent("MirrorSmokerModel_v2.store")
+        let storeURL = url.appendingPathComponent("Library/Application Support/MirrorSmokerModel.store")
         
         do {
             let schema = Schema([
@@ -30,7 +30,7 @@ struct AppGroupManager {
                 Tag.self,
                 UserProfile.self,
                 Product.self,
-                UrgeLog.self
+                Purchase.self
             ])
             let config = ModelConfiguration(
                 "MirrorSmokerModel_v2",
@@ -40,7 +40,7 @@ struct AppGroupManager {
             )
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
-            print("❌ Failed to create shared model container: \(error)")
+            // Failed to create shared model container
             return nil
         }
     }
@@ -102,7 +102,7 @@ class WidgetDataProvider: ObservableObject {
             
             return true
         } catch {
-            print("❌ Failed to add cigarette from widget: \(error)")
+            // Failed to add cigarette from widget
             return false
         }
     }

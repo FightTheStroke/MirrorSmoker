@@ -17,8 +17,11 @@ struct ContentView: View {
     @State private var showingPurchaseSheet = false // Add this state
     @State private var lastSavedCigaretteTagCount = 0
     @State private var selectedCigaretteForTags: Cigarette? = nil
+    @State private var tempSelectedTags: [Tag] = []
     @State private var insightsViewModel = InsightsViewModel()
     @StateObject private var watchConnectivity = WatchConnectivityManager.shared
+    @StateObject private var aiCoach = AICoachManagerCompat.shared
+    @StateObject private var syncCoordinator = SyncCoordinator.shared
     
     private static let logger = Logger(subsystem: "com.fightthestroke.MirrorSmokerStopper", category: "ContentView")
     
@@ -126,33 +129,52 @@ struct ContentView: View {
                 LazyVStack(spacing: DS.Space.lg) {
                     heroSection
                     quickStatsSection
+                    quickTagButtons
                     coachMessageSection
                     todayCigarettesSection
                     todaysInsightSection
+                    aiCoachTipSection
                 }
                 .padding(DS.Space.lg)
             }
             .background(DS.Colors.background)
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("CigaretteAddedFromWatch"))) { _ in
+                // UI will auto-refresh due to @Query
+                Self.logger.info("Received cigarette added notification from Watch")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("CigaretteAddedFromWidget"))) { _ in
+                // UI will auto-refresh due to @Query
+                Self.logger.info("Received cigarette added notification from Widget")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ExternalDataChanged"))) { _ in
+                // External data change detected
+                Self.logger.info("External data change detected, UI will refresh")
+            }
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
             }
             .sheet(isPresented: $showingTagSelection) {
-                TagSelectionSheet { selectedTags in
-                    if let cigarette = selectedCigaretteForTags {
-                        // Adding tags to existing cigarette
-                        cigarette.tags = selectedTags
-                        do {
-                            try modelContext.save()
-                            Self.logger.info("Tags added to existing cigarette")
-                        } catch {
-                            Self.logger.error("Error adding tags to cigarette: \(error.localizedDescription)")
+                UnifiedTagPickerView(selectedTags: $tempSelectedTags)
+                    .onDisappear {
+                        if !tempSelectedTags.isEmpty || showingTagSelection {
+                            // Create cigarette with selected tags if sheet was dismissed with Done
+                            if let cigarette = selectedCigaretteForTags {
+                                // Adding tags to existing cigarette  
+                                cigarette.tags = tempSelectedTags
+                                do {
+                                    try modelContext.save()
+                                    Self.logger.info("Tags added to existing cigarette")
+                                } catch {
+                                    Self.logger.error("Error adding tags to cigarette: \(error.localizedDescription)")
+                                }
+                                selectedCigaretteForTags = nil
+                            } else if !tempSelectedTags.isEmpty {
+                                // Creating new cigarette with tags
+                                addCigaretteWithTags(tempSelectedTags)
+                            }
+                            tempSelectedTags = []
                         }
-                        selectedCigaretteForTags = nil
-                    } else {
-                        // Creating new cigarette with tags
-                        addCigaretteWithTags(selectedTags)
                     }
-                }
             }
             .sheet(isPresented: $showingPurchaseSheet) { // Add this sheet
                 PurchaseLoggingSheet()
@@ -196,9 +218,7 @@ struct ContentView: View {
             watchConnectivity.setModelContext(modelContext)
         }
         .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("CigaretteAddedFromWatch"))) { notification in
-            // Refresh insights when cigarette is added from watch
-            refreshInsights()
-            // Update widget
+            // Update widget when cigarette is added from watch
             WidgetCenter.shared.reloadAllTimelines()
         }
     }
@@ -412,6 +432,89 @@ struct ContentView: View {
         }
     }
     
+    private var aiCoachTipSection: some View {
+        Group {
+            if let tip = aiCoach.currentTip {
+                LegacyDSCard {
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        HStack(spacing: DS.Space.sm) {
+                            Image(systemName: "brain.head.profile")
+                                .font(.title3)
+                                .foregroundStyle(.blue)
+                                .frame(width: 24, height: 24)
+                            
+                            VStack(alignment: .leading, spacing: DS.Space.xxs) {
+                                Text("ai.coach.tip.title".local())
+                                    .font(DS.Text.headline)
+                                    .foregroundStyle(DS.Colors.textPrimary)
+                                
+                                Text("ai.coach.personal".local())
+                                    .font(DS.Text.caption2)
+                                    .foregroundStyle(DS.Colors.textSecondary)
+                            }
+                            
+                            Spacer()
+                            
+                            if aiCoach.isGeneratingTip {
+                                ProgressView()
+                                    .scaleEffect(0.7)
+                            }
+                        }
+                        
+                        Text(tip)
+                            .font(DS.Text.body)
+                            .foregroundStyle(DS.Colors.textPrimary)
+                            .lineLimit(nil)
+                    }
+                    .padding(DS.Space.md)
+                }
+                .transition(.asymmetric(
+                    insertion: .move(edge: .top).combined(with: .opacity),
+                    removal: .move(edge: .trailing).combined(with: .opacity)
+                ))
+            }
+        }
+    }
+    
+    private var quickTagButtons: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: DS.Space.sm) {
+                ForEach(allTags.prefix(5), id: \.id) { tag in
+                    Button(action: {
+                        addCigaretteWithQuickTag(tag)
+                    }) {
+                        HStack(spacing: DS.Space.xs) {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.footnote)
+                            Text(tag.name)
+                                .font(DS.Text.caption)
+                        }
+                        .padding(.horizontal, DS.Space.md)
+                        .padding(.vertical, DS.Space.xs)
+                        .background(Color(hex: tag.colorHex).opacity(0.2))
+                        .foregroundColor(Color(hex: tag.colorHex))
+                        .cornerRadius(20)
+                    }
+                }
+                
+                Button(action: { showingTagSelection = true }) {
+                    HStack(spacing: DS.Space.xs) {
+                        Image(systemName: "plus")
+                            .font(.footnote)
+                        Text("add.with.tags".local())
+                            .font(DS.Text.caption)
+                    }
+                    .padding(.horizontal, DS.Space.md)
+                    .padding(.vertical, DS.Space.xs)
+                    .background(DS.Colors.primary.opacity(0.1))
+                    .foregroundColor(DS.Colors.primary)
+                    .cornerRadius(20)
+                }
+            }
+            .padding(.horizontal, DS.Space.lg)
+        }
+    }
+    
     private var todayCigarettesSection: some View {
         TodayCigarettesList(
             todayCigarettes: todaysCigarettes,
@@ -444,17 +547,14 @@ struct ContentView: View {
         do { 
             try modelContext.save()
             
-            // Send to Watch via WatchConnectivity
-            watchConnectivity.sendCigaretteAdded(newCigarette)
-            
-            // Update widget
-            WidgetCenter.shared.reloadAllTimelines()
+            // Use SyncCoordinator for centralized sync
+            syncCoordinator.cigaretteAdded(from: .app, cigarette: newCigarette)
             
             // Show success notification
             lastSavedCigaretteTagCount = tagCount
             showingCigaretteSavedNotification = true
             
-            Self.logger.info("Cigarette saved with \(tagCount) tags and synced to Watch")
+            Self.logger.info("Cigarette saved with \(tagCount) tags and synced via SyncCoordinator")
             
         } catch { 
             Self.logger.error("Error saving cigarette: \(error.localizedDescription)")
@@ -463,6 +563,10 @@ struct ContentView: View {
     
     private func addCigaretteWithTags(_ tags: [Tag]) {
         addCigarette(tags: tags.isEmpty ? nil : tags, tagCount: tags.count)
+    }
+    
+    private func addCigaretteWithQuickTag(_ tag: Tag) {
+        addCigarette(tags: [tag], tagCount: 1)
     }
     
     private func deleteCigarette(_ cigarette: Cigarette) {

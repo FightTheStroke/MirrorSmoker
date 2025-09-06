@@ -6,6 +6,7 @@ struct EnhancedStatisticsView: View {
     @Query(sort: \Cigarette.timestamp, order: .reverse) private var allCigarettes: [Cigarette]
     @Query private var userProfiles: [UserProfile]
     @Query(sort: \Purchase.timestamp, order: .reverse) private var allPurchases: [Purchase] // Add this query
+    @Query(sort: \Tag.name) private var allTags: [Tag]
     
     @State private var selectedTimeRange: TimeRange = .week
     
@@ -189,6 +190,7 @@ struct EnhancedStatisticsView: View {
                 todayOverviewSection
                 financialSavingsSection // Add this section
                 statisticsSection
+                tagStatisticsSection // Tag-based statistics with insights
                 chartsSection
                 detailedStatsSection
             }
@@ -281,6 +283,133 @@ struct EnhancedStatisticsView: View {
                     .foregroundColor(DS.Colors.danger)
             }
         }
+    }
+    
+    // MARK: - Tag Statistics
+    
+    private var tagStatisticsSection: some View {
+        LegacyDSCard {
+            VStack(alignment: .leading, spacing: DS.Space.lg) {
+                DSSectionHeader(NSLocalizedString("statistics.tags.title", comment: ""))
+                
+                if allTags.isEmpty {
+                    Text(NSLocalizedString("statistics.tags.empty", comment: ""))
+                        .font(DS.Text.body)
+                        .foregroundColor(DS.Colors.textSecondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, DS.Space.md)
+                } else {
+                    // Tag frequency analysis
+                    let tagStats = calculateTagStatistics()
+                    
+                    if tagStats.isEmpty {
+                        Text(NSLocalizedString("statistics.tags.no.data", comment: ""))
+                            .font(DS.Text.body)
+                            .foregroundColor(DS.Colors.textSecondary)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, DS.Space.md)
+                    } else {
+                        VStack(spacing: DS.Space.md) {
+                            ForEach(tagStats.prefix(5), id: \.tag.id) { stat in
+                                HStack {
+                                    // Tag name with color indicator
+                                    HStack(spacing: DS.Space.xs) {
+                                        Circle()
+                                            .fill(Color(hex: stat.tag.colorHex) ?? DS.Colors.primary)
+                                            .frame(width: 10, height: 10)
+                                        
+                                        Text(stat.tag.name)
+                                            .font(DS.Text.body)
+                                            .fontWeight(.medium)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    // Count and percentage
+                                    VStack(alignment: .trailing, spacing: 2) {
+                                        Text("\(stat.count)")
+                                            .font(DS.Text.bodyMono)
+                                            .fontWeight(.semibold)
+                                        
+                                        Text("\(Int(stat.percentage))%")
+                                            .font(DS.Text.caption)
+                                            .foregroundColor(DS.Colors.textSecondary)
+                                    }
+                                }
+                                .padding(.vertical, DS.Space.xs)
+                                
+                                // Progress bar
+                                GeometryReader { geometry in
+                                    ZStack(alignment: .leading) {
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .fill(DS.Colors.glassSecondary)
+                                            .frame(height: 4)
+                                        
+                                        RoundedRectangle(cornerRadius: 4)
+                                            .fill(Color(hex: stat.tag.colorHex) ?? DS.Colors.primary)
+                                            .frame(width: geometry.size.width * (stat.percentage / 100), height: 4)
+                                    }
+                                }
+                                .frame(height: 4)
+                                
+                                // Insight for this tag
+                                if let insight = getInsightForTag(stat) {
+                                    Text(insight)
+                                        .font(DS.Text.caption)
+                                        .foregroundColor(DS.Colors.textSecondary)
+                                        .italic()
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    private func calculateTagStatistics() -> [(tag: Tag, count: Int, percentage: Double)] {
+        let cigarettesWithTags = cigarettesForSelectedRange.filter { $0.tags != nil && !($0.tags!.isEmpty) }
+        let totalWithTags = cigarettesWithTags.count
+        
+        guard totalWithTags > 0 else { return [] }
+        
+        var tagCounts: [Tag: Int] = [:]
+        
+        for cigarette in cigarettesWithTags {
+            if let tags = cigarette.tags {
+                for tag in tags {
+                    tagCounts[tag, default: 0] += 1
+                }
+            }
+        }
+        
+        return tagCounts.map { (tag, count) in
+            (tag: tag, count: count, percentage: Double(count) * 100.0 / Double(totalWithTags))
+        }.sorted { $0.count > $1.count }
+    }
+    
+    private func getInsightForTag(_ stat: (tag: Tag, count: Int, percentage: Double)) -> String? {
+        let tagName = stat.tag.name.lowercased()
+        
+        // Provide localized insights based on tag patterns
+        if stat.percentage > 30 {
+            if tagName.contains(NSLocalizedString("tag.stress", comment: "").lowercased()) ||
+               tagName.contains(NSLocalizedString("tag.work", comment: "").lowercased()) {
+                return NSLocalizedString("statistics.tags.insight.stress", comment: "")
+            } else if tagName.contains(NSLocalizedString("tag.social", comment: "").lowercased()) ||
+                      tagName.contains(NSLocalizedString("tag.friends", comment: "").lowercased()) {
+                return NSLocalizedString("statistics.tags.insight.social", comment: "")
+            } else if tagName.contains(NSLocalizedString("tag.coffee", comment: "").lowercased()) ||
+                      tagName.contains(NSLocalizedString("tag.meal", comment: "").lowercased()) {
+                return NSLocalizedString("statistics.tags.insight.habits", comment: "")
+            } else {
+                return String(format: NSLocalizedString("statistics.tags.insight.high", comment: ""), Int(stat.percentage))
+            }
+        } else if stat.count == 1 {
+            return NSLocalizedString("statistics.tags.insight.rare", comment: "")
+        }
+        
+        return nil
     }
     
     private var statisticsSection: some View {

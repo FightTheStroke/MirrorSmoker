@@ -430,48 +430,79 @@ platform :ios do
   # 1. Signing: usa direttamente configurazione Xcode (Automatic Signing)
   UI.message('[release] Using Xcode Automatic Signing')
 
-    # 2. Versioning: se NEW_VERSION impostato lo usa, altrimenti incrementa patch
-    # MARKETING_VERSION gestita da Xcode build settings (GENERATE_INFOPLIST_FILE=YES)
+    # 2. Versioning manuale (niente agvtool / increment_* Fastlane)
+    plist_path = "MirrorSmokerStopper/Info.plist"
+    # Leggi versione corrente dal plist (fallback 1.0.0 se mancante)
+    current_v = ` /usr/libexec/PlistBuddy -c "Print :CFBundleShortVersionString" "#{plist_path}" 2>/dev/null`.strip
+    current_v = "1.0.0" if current_v.empty?
     if ENV['NEW_VERSION'] && !ENV['NEW_VERSION'].empty?
-      increment_version_number(
-        version_number: ENV['NEW_VERSION'],
-        xcodeproj: "MirrorSmokerStopper.xcodeproj"
-      )
+      new_version = ENV['NEW_VERSION']
     else
-      # Legge marketing version attuale; se manca, setta 1.0.0
-  current_v = '1.0.0'
       bump = (ENV['BUMP_TYPE'] || 'patch').downcase
-      segments = current_v.split('.')
-      segments << '0' while segments.length < 3
+      parts = current_v.split('.')
+      parts << '0' while parts.length < 3
       case bump
       when 'patch'
-        segments[2] = (segments[2].to_i + 1).to_s
+        parts[2] = (parts[2].to_i + 1).to_s
       when 'minor'
-        segments[1] = (segments[1].to_i + 1).to_s
-        segments[2] = '0'
+        parts[1] = (parts[1].to_i + 1).to_s
+        parts[2] = '0'
       when 'major'
-        segments[0] = (segments[0].to_i + 1).to_s
-        segments[1] = '0'
-        segments[2] = '0'
+        parts[0] = (parts[0].to_i + 1).to_s
+        parts[1] = '0'
+        parts[2] = '0'
       else
         UI.user_error!("BUMP_TYPE deve essere patch|minor|major")
       end
-      new_marketing = segments.join('.')
-      increment_version_number(version_number: new_marketing, xcodeproj: "MirrorSmokerStopper.xcodeproj")
+      new_version = parts.join('.')
+    end
+    UI.message("[release] Marketing version: #{current_v} -> #{new_version}")
+
+    # Scrivi nuova marketing version nel plist (add se non esiste)
+    sh(%Q{/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString #{new_version}" "#{plist_path}" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string #{new_version}" "#{plist_path}"})
+
+    # Aggiorna anche project.pbxproj (MARKETING_VERSION) per coerenza con Xcode build settings
+    pbxproj = "MirrorSmokerStopper.xcodeproj/project.pbxproj"
+    if File.exist?(pbxproj)
+      # Usa Ruby inline edit evitando duplicare se già uguale
+      ruby_cmd = <<~RUBY
+        path = '#{pbxproj}'
+        txt = File.read(path)
+        new_txt = txt.gsub(/MARKETING_VERSION = [0-9.]+;/, "MARKETING_VERSION = #{new_version};")
+        if txt != new_txt
+          File.open(path, 'w'){|f| f.write(new_txt)}
+        end
+      RUBY
+      sh("ruby -e \"#{ruby_cmd.gsub("\n", ';')}\"")
     end
 
-    # 3. Increment build number sempre (per evitare duplicati su App Store Connect)
+    # 3. Build number manuale
+    current_build = ` /usr/libexec/PlistBuddy -c "Print :CFBundleVersion" "#{plist_path}" 2>/dev/null`.strip
     if ENV['USE_TIMESTAMP_BUILD'] == '1'
-      ts = Time.now.strftime('%Y%m%d%H%M')
-      increment_build_number(
-        build_number: ts,
-        xcodeproj: "MirrorSmokerStopper.xcodeproj"
-      )
+      new_build = Time.now.strftime('%Y%m%d%H%M')
     else
-      increment_build_number(
-        xcodeproj: "MirrorSmokerStopper.xcodeproj"
-      )
+      numeric = current_build.to_i.to_s == current_build
+      new_build = numeric ? (current_build.to_i + 1).to_s : '1'
     end
+    UI.message("[release] Build number: #{current_build.empty? ? '(nil)' : current_build} -> #{new_build}")
+    sh(%Q{/usr/libexec/PlistBuddy -c "Set :CFBundleVersion #{new_build}" "#{plist_path}" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string #{new_build}" "#{plist_path}"})
+
+    # Aggiorna CURRENT_PROJECT_VERSION nel project.pbxproj
+    if File.exist?(pbxproj)
+      ruby_cmd2 = <<~RUBY
+        path = '#{pbxproj}'
+        txt = File.read(path)
+        new_txt = txt.gsub(/CURRENT_PROJECT_VERSION = [0-9A-Za-z_.-]+;/, "CURRENT_PROJECT_VERSION = #{new_build};")
+        if txt != new_txt
+          File.open(path, 'w'){|f| f.write(new_txt)}
+        end
+      RUBY
+      sh("ruby -e \"#{ruby_cmd2.gsub("\n", ';')}\"")
+    end
+
+    # Esponi variabili in ambiente lane
+    ENV['EFFECTIVE_MARKETING_VERSION'] = new_version
+    ENV['EFFECTIVE_BUILD_NUMBER'] = new_build
 
 
     # 4. Test rapidi (opzionale: si può abilitare var FASTLANE_SKIP_TESTS)
@@ -505,7 +536,7 @@ platform :ios do
       clean: true,
       export_method: "app-store",
       output_directory: "build",
-      output_name: "MirrorSmokerStopper_#{new_version}.ipa",
+  output_name: "MirrorSmokerStopper_#{ENV['EFFECTIVE_MARKETING_VERSION']}.ipa",
       skip_codesigning: false
     )
 
@@ -528,7 +559,7 @@ platform :ios do
     unless ENV['DRY_RUN'] == '1'
       deliver(
         force: true,
-        ipa: "build/MirrorSmokerStopper_#{new_version}.ipa",
+  ipa: "build/MirrorSmokerStopper_#{ENV['EFFECTIVE_MARKETING_VERSION']}.ipa",
         screenshots_path: "./fastlane/screenshots",
         submit_for_review: true,
         automatic_release: false,
@@ -541,13 +572,13 @@ platform :ios do
     end
 
   # 10. Commit version + build bump + release info json
-  sh("git add -A && git commit -m 'release: #{new_version}' || true")
+  sh("git add -A && git commit -m 'release: #{ENV['EFFECTIVE_MARKETING_VERSION']}' || true")
 
   # 11. Tag + push
-  add_git_tag(tag: "v#{new_version}") unless ENV['DRY_RUN'] == '1'
+  add_git_tag(tag: "v#{ENV['EFFECTIVE_MARKETING_VERSION']}") unless ENV['DRY_RUN'] == '1'
   push_to_git_remote unless ENV['DRY_RUN'] == '1'
 
-    UI.success("Release #{new_version} inviata per review su App Store Connect.")
+  UI.success("Release #{ENV['EFFECTIVE_MARKETING_VERSION']} (#{ENV['EFFECTIVE_BUILD_NUMBER']}) inviata per review su App Store Connect.")
   end
   
   # Clean up old screenshots and builds

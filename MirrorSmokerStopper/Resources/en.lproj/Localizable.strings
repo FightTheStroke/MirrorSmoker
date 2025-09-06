@@ -788,6 +788,7 @@
 "preview.label" = "Preview";
 "tag.name.preview" = "Tag name";
 "new.tag.title" = "New Tag";
+"tag.title" = "New Tag"; // Alias for backward compatibility
 "cancel.button" = "Cancel";
 "save.button" = "Save";
 "insight.pattern.format" = "Pattern: %@";

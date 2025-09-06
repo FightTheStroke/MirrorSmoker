@@ -789,6 +789,7 @@
 "preview.label" = "Vista previa";
 "tag.name.preview" = "Nombre de etiqueta";
 "new.tag.title" = "Nueva Etiqueta";
+"tag.title" = "Nueva Etiqueta"; // Alias para compatibilidad
 "cancel.button" = "Cancelar";
 "save.button" = "Guardar";
 "insight.pattern.format" = "Patrón: %@";

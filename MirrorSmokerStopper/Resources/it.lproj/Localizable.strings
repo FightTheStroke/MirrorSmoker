@@ -788,6 +788,7 @@
 "preview.label" = "Anteprima";
 "tag.name.preview" = "Nome tag";
 "new.tag.title" = "Nuovo Tag";
+"tag.title" = "Nuovo Tag"; // Alias per compatibilità
 "cancel.button" = "Annulla";
 "save.button" = "Salva";
 "insight.pattern.format" = "Schema: %@";

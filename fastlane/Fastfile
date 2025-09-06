@@ -11,22 +11,25 @@ platform :ios do
 
   def detect_ios_devices
     required_name = ENV['REQUIRED_IOS_SIM_NAME'] || 'RoberdanTests26'
+    required_udid = ENV['REQUIRED_IOS_SIM_UDID'] || '2911099D-669D-4DB6-8FB9-6DAD0DC0D945'
     require 'json'
     data = JSON.parse(`xcrun simctl list devices -j 2>/dev/null`)
-    candidates = []
+    found_device = nil
     data['devices'].each_value do |arr|
       arr.each do |dev|
         next unless dev['isAvailable']
-        if dev['name'] == required_name
-          candidates << dev['name']
+        if dev['name'] == required_name || dev['udid'] == required_udid
+          found_device = dev
+          break
         end
       end
+      break if found_device
     end
-    if candidates.empty?
-      UI.user_error!("Simulator '#{required_name}' non trovato o non disponibile. Crealo con Xcode e riprova.")
+    if found_device.nil?
+      UI.user_error!("Simulator '#{required_name}' (#{required_udid}) non trovato o non disponibile. Crealo con Xcode e riprova.")
     end
-    UI.message("[screenshots] Uso forzato device: #{candidates.first}")
-    [candidates.first]
+    UI.message("[screenshots] Uso device: #{found_device['name']} (#{found_device['udid']})")
+    [found_device['name']]
   rescue => e
     UI.user_error!("Errore individuazione simulatori richiesti: #{e}")
   end
@@ -49,7 +52,6 @@ platform :ios do
       output_directory: "./fastlane/screenshots",
       clear_previous_screenshots: true,
       override_status_bar: true,
-      reuse_simulator: true,
       concurrent_simulators: false, # più stabile con molte lingue
       devices: dynamic_devices,
       languages: [
@@ -169,25 +171,26 @@ platform :ios do
   # Rileva simulatori Apple Watch (priorità serie più recente, 2 taglie)
   def detect_watch_devices
     required_watch = ENV['REQUIRED_WATCH_SIM_NAME'] || 'RoberdanWatch26'
+    required_watch_udid = ENV['REQUIRED_WATCH_SIM_UDID'] || 'C8EDC314-2FBD-43F9-A516-22FE58163E35'
     require 'json'
     data = JSON.parse(`xcrun simctl list devices -j 2>/dev/null`)
-    found = nil
+    found_device = nil
     data['devices'].each_value do |arr|
       arr.each do |dev|
         next unless dev['isAvailable']
-        if dev['name'] == required_watch
-          found = dev['name']
+        if dev['name'] == required_watch || dev['udid'] == required_watch_udid
+          found_device = dev
           break
         end
       end
-      break if found
+      break if found_device
     end
-    if found.nil?
-      UI.important("Simulator watch '#{required_watch}' non trovato: salto screenshots watch.")
+    if found_device.nil?
+      UI.important("Simulator watch '#{required_watch}' (#{required_watch_udid}) non trovato: salto screenshots watch.")
       return []
     end
-    UI.message("[screenshots] Uso forzato Apple Watch: #{found}")
-    [found]
+    UI.message("[screenshots] Uso Apple Watch: #{found_device['name']} (#{found_device['udid']})")
+    [found_device['name']]
   rescue => e
     UI.important("Errore individuazione watch richiesto: #{e}")
     []
@@ -398,7 +401,7 @@ platform :ios do
     scan(
       project: "MirrorSmokerStopper.xcodeproj",
       scheme: "MirrorSmokerStopper",
-      device: "iPhone 16 Pro Max",
+      device: "RoberdanTests26",
       clean: true
     )
   end
@@ -561,7 +564,7 @@ platform :ios do
       scan(
         project: "MirrorSmokerStopper.xcodeproj",
         scheme: "MirrorSmokerStopper",
-        device: "iPhone 16 Pro Max",
+        device: "RoberdanTests26",
         clean: true
       )
     end

@@ -21,7 +21,6 @@
 		AF64354EC20249178E1C8817 /* JetBrainsMonoNL-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF64354EC20249178E1C8816 /* JetBrainsMonoNL-Regular.ttf */; };
 		C37C3BEFEDDF4E75A09DD0C3 /* JetBrainsMonoNL-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C37C3BEFEDDF4E75A09DD0C2 /* JetBrainsMonoNL-SemiBold.ttf */; };
 		E680F9794E664051B6315F36 /* JetBrainsMonoNL-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E680F9794E664051B6315F35 /* JetBrainsMonoNL-Medium.ttf */; };
-		AC644EAA8882E2B973244C86 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DA6D48198B53DF92AC16DD /* SnapshotHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,7 +114,6 @@
 		AF64354EC20249178E1C8816 /* JetBrainsMonoNL-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-Regular.ttf"; sourceTree = "<group>"; };
 		C37C3BEFEDDF4E75A09DD0C2 /* JetBrainsMonoNL-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-SemiBold.ttf"; sourceTree = "<group>"; };
 		E680F9794E664051B6315F35 /* JetBrainsMonoNL-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-Medium.ttf"; sourceTree = "<group>"; };
-		25DA6D48198B53DF92AC16DD /* SnapshotHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -142,6 +140,13 @@
 				Models/SharedModels.swift,
 				Models/Tag.swift,
 				Models/UserProfile.swift,
+			);
+			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
+		};
+		A9F5E56E2E65FD9B004181D9 /* Exceptions for "MirrorSmokerStopper Watch App" folder in "MirrorSmokerStopper Watch App" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
 			);
 			target = A9F5E4C52E65FBA5004181D9 /* MirrorSmokerStopper Watch App */;
 		};
@@ -177,6 +182,9 @@
 		};
 		A9F5E4CA2E65FBA5004181D9 /* MirrorSmokerStopper Watch App */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				A9F5E56E2E65FD9B004181D9 /* Exceptions for "MirrorSmokerStopper Watch App" folder in "MirrorSmokerStopper Watch App" target */,
+			);
 			path = "MirrorSmokerStopper Watch App";
 			sourceTree = "<group>";
 		};
@@ -876,11 +884,8 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "MirrorSmokerStopper-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mirror-labs.MirrorSmokerStopper";
+				GENERATE_INFOPLIST_FILE = NO; // Use custom Info.plist we added to project
+				INFOPLIST_FILE = "MirrorSmokerStopper Watch App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -907,11 +912,8 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "MirrorSmokerStopper-Watch-App-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "com.mirror-labs.MirrorSmokerStopper";
+				GENERATE_INFOPLIST_FILE = NO; // Use custom Info.plist we added to project
+				INFOPLIST_FILE = "MirrorSmokerStopper Watch App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

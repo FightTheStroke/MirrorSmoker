@@ -17,9 +17,7 @@ languages([
 scheme("MirrorSmokerStopper")
 test_target_name("MirrorSmokerStopperUITests")
 only_testing([
-  "MirrorSmokerStopperUITests/BasicScreenshotTests/testAppScreenshots",
-  "MirrorSmokerStopperUITests/AICoachScreenshotTests/testAICoachScreenshots",
-  "MirrorSmokerStopperUITests/WidgetScreenshotTests/testWidgetScreenshots"
+  "MirrorSmokerStopperUITests/BasicScreenshotTests/testAppScreenshots"
 ])
 project("./MirrorSmokerStopper.xcodeproj")
 output_directory("./fastlane/screenshots")

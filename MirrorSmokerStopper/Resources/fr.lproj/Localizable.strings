@@ -789,6 +789,7 @@
 "preview.label" = "Aperçu";
 "tag.name.preview" = "Nom du tag";
 "new.tag.title" = "Nouveau Tag";
+"tag.title" = "Nouveau Tag"; // Alias pour compatibilité
 "cancel.button" = "Annuler";
 "save.button" = "Sauvegarder";
 "insight.pattern.format" = "Modèle : %@";

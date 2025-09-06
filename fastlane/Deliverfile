@@ -1,0 +1,8 @@
+# Deliverfile for MirrorSmokerStopper
+# Global settings for App Store metadata delivery
+
+# Force mode to skip interactive confirmations 
+force(true)
+
+# Skip HTML validation to avoid interactive prompts
+skip_binary_upload(false)

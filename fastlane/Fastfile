@@ -123,7 +123,8 @@ platform :ios do
       skip_metadata: false,
       skip_screenshots: true,
       submit_for_review: false,
-      automatic_release: false
+      automatic_release: false,
+      skip_app_version_update: false
     )
     
     # Commit version bump

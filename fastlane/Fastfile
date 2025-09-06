@@ -460,20 +460,38 @@ platform :ios do
   UI.message('[release] Using Xcode Automatic Signing')
 
     # 2. Versioning: se NEW_VERSION impostato lo usa, altrimenti incrementa patch
+    # MARKETING_VERSION gestita da Xcode build settings (GENERATE_INFOPLIST_FILE=YES)
     if ENV['NEW_VERSION'] && !ENV['NEW_VERSION'].empty?
       increment_version_number(
         version_number: ENV['NEW_VERSION'],
         xcodeproj: "MirrorSmokerStopper.xcodeproj"
       )
     else
-      bump = (ENV['BUMP_TYPE'] || 'patch').downcase
-      unless %w[patch minor major].include?(bump)
-        UI.user_error!("BUMP_TYPE deve essere uno di: patch|minor|major")
+      # Legge marketing version attuale; se manca, setta 1.0.0
+      begin
+        current_v = get_version_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
+      rescue
+        current_v = '1.0.0'
+        increment_version_number(version_number: current_v, xcodeproj: "MirrorSmokerStopper.xcodeproj")
       end
-      increment_version_number(
-        bump_type: bump,
-        xcodeproj: "MirrorSmokerStopper.xcodeproj"
-      )
+      bump = (ENV['BUMP_TYPE'] || 'patch').downcase
+      segments = current_v.split('.')
+      segments << '0' while segments.length < 3
+      case bump
+      when 'patch'
+        segments[2] = (segments[2].to_i + 1).to_s
+      when 'minor'
+        segments[1] = (segments[1].to_i + 1).to_s
+        segments[2] = '0'
+      when 'major'
+        segments[0] = (segments[0].to_i + 1).to_s
+        segments[1] = '0'
+        segments[2] = '0'
+      else
+        UI.user_error!("BUMP_TYPE deve essere patch|minor|major")
+      end
+      new_marketing = segments.join('.')
+      increment_version_number(version_number: new_marketing, xcodeproj: "MirrorSmokerStopper.xcodeproj")
     end
 
     # 3. Increment build number sempre (per evitare duplicati su App Store Connect)

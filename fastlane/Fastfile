@@ -107,20 +107,14 @@ platform :ios do
       xcodeproj: "MirrorSmokerStopper.xcodeproj"
     )
     
-    # Build the app with automatic code signing
+    # Build the app using Match provisioning profiles
     build_app(
       project: "MirrorSmokerStopper.xcodeproj",
       scheme: "MirrorSmokerStopper", 
       clean: true,
       export_method: "app-store",
-      codesigning_identity: "Apple Distribution",
-      export_options: {
-        provisioningProfiles: {
-          "com.mirror-labs.MirrorSmokerStopper" => "match AppStore com.mirror-labs.MirrorSmokerStopper",
-          "com.mirror-labs.MirrorSmokerStopper.watchkitapp" => "match AppStore com.mirror-labs.MirrorSmokerStopper.watchkitapp",
-          "com.mirror-labs.MirrorSmokerStopper.HomeWidget" => "match AppStore com.mirror-labs.MirrorSmokerStopper.HomeWidget"
-        }
-      }
+      # Let Match handle the code signing automatically
+      skip_codesigning: false
     )
     
     # Upload metadata first

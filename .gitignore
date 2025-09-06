@@ -6,3 +6,5 @@ Gemfile
 Gemfile.lock
 backup_l10n/
 scripts/
+/fastlane/test_output
+fastlane/report.xml

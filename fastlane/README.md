@@ -79,6 +79,14 @@ Download metadata from App Store Connect
 
 Upload only metadata to App Store Connect
 
+### ios quick_release
+
+```sh
+[bundle exec] fastlane ios quick_release
+```
+
+Quick release without tests (for initial submission)
+
 ### ios validate
 
 ```sh

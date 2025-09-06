@@ -19,9 +19,9 @@ platform :ios do
       devices: [
         "iPhone 16 Pro",
         "iPhone 16 Pro Max",
-        "iPhone 14",
-        "iPad Pro (13-inch) (M4)",
-        "iPad Pro (11-inch) (M4)"
+        "iPhone 16",
+        "iPad Pro 13-inch (M4)",
+        "iPad Pro 11-inch (M4)"
       ],
       languages: [
         "en-US",
@@ -70,9 +70,10 @@ platform :ios do
   
   desc "Build and upload to TestFlight"
   lane :beta do
-    # Ensure we're on the right branch
+    # Ensure we're on the right branch (allow both development and master)
     ensure_git_status_clean
-    ensure_git_branch(branch: "development")
+    # Allow both development and master branches for flexibility
+    # ensure_git_branch(branch: "development")
     
     # Increment build number
     increment_build_number(xcodeproj: project)

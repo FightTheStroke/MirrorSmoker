@@ -292,7 +292,7 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
         guard !streaks.isEmpty else { return insights }
         
         let averageStreak = Double(streaks.reduce(0, +)) / Double(streaks.count)
-        let longestStreak = streaks.max() ?? 0
+        let _ = streaks.max() ?? 0
         
         // Analyze streak breaking patterns
         if averageStreak > 0 {

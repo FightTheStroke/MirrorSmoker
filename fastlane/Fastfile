@@ -47,12 +47,12 @@ platform :ios do
     capture_screenshots(
       project: "MirrorSmokerStopper.xcodeproj",
       scheme: "MirrorSmokerStopper",
-  configuration: "Release",
+      configuration: "Release",
       test_target_name: "MirrorSmokerStopperUITests",
       output_directory: "./fastlane/screenshots",
       clear_previous_screenshots: true,
       override_status_bar: true,
-      concurrent_simulators: false, # più stabile con molte lingue
+      concurrent_simulators: false,
       devices: dynamic_devices,
       languages: [
         "en-US",
@@ -62,12 +62,7 @@ platform :ios do
         "it-IT"
       ],
       only_testing: [
-        # App core flow
-        "MirrorSmokerStopperUITests/BasicScreenshotTests/testAppScreenshots",
-        # AI Coach dettagliato
-        "MirrorSmokerStopperUITests/AICoachScreenshotTests/testAICoachScreenshots",
-        # Widget
-        "MirrorSmokerStopperUITests/WidgetScreenshotTests/testWidgetScreenshots"
+        "MirrorSmokerStopperUITests/BasicScreenshotTests/testAppScreenshots"
       ],
       launch_arguments: [
         "-FASTLANE_SNAPSHOT YES",

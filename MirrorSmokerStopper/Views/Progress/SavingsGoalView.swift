@@ -513,7 +513,7 @@ struct AddSavingsGoalView: View {
     
     private func addGoal() {
         guard !title.isEmpty,
-              let amount = Double(targetAmount) else { return }
+              let _ = Double(targetAmount) else { return }
         
         // Create and save the goal
         // This would integrate with your SwiftData model

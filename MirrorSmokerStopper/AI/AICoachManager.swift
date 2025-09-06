@@ -62,7 +62,7 @@ class AICoachManager: ObservableObject {
     func generateMotivationalMessage(mood: CoachMood, modelContext: ModelContext, userProfile: UserProfile? = nil) async -> String {
         logger.info("Generating motivational message with mood: \(mood.rawValue)")
         
-        guard #available(iOS 26, *), AIConfiguration.shared.isAIAvailable else {
+        guard AIConfiguration.shared.isAIAvailable else {
             return getFallbackMotivationalMessage(mood: mood)
         }
         

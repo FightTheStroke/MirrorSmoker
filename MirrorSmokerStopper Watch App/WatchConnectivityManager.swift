@@ -186,7 +186,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
 
 // MARK: - WCSessionDelegate
 
-extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
+extension WatchConnectivityManager: WCSessionDelegate {
     
     nonisolated func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         DispatchQueue.main.async {

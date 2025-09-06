@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import WatchConnectivity
+@preconcurrency import WatchConnectivity
 import SwiftData
 import os.log
 

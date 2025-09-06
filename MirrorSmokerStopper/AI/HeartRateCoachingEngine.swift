@@ -286,7 +286,7 @@ class HeartRateCoachingEngine: ObservableObject {
     
     private func triggerIntervention() {
         // Select optimal intervention based on current context
-        let intervention = selectOptimalIntervention()
+        let _ = selectOptimalIntervention()
         
         // Create notification or in-app alert
         // Integrate with NotificationManager when implemented
@@ -364,7 +364,7 @@ class HeartRateCoachingEngine: ObservableObject {
     // MARK: - Progress Tracking
     
     func getCardiovascularProgress() -> CardiovascularProgress {
-        guard let profile = personalProfile else {
+        guard personalProfile != nil else {
             return CardiovascularProgress()
         }
         

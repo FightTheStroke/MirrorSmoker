@@ -64,7 +64,7 @@ class SharedDataManager: ObservableObject {
     }
     
     private func loadSharedData() {
-        guard let userDefaults = userDefaults else { return }
+        guard userDefaults != nil else { return }
         
         // Load today's cigarettes
         let todayKey = dateKey(for: Date())

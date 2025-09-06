@@ -75,7 +75,7 @@ final class HealthKitManager: ObservableObject {
         }
         
         let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)
-        let query = HKSampleQuery(
+        let _ = HKSampleQuery(
             sampleType: mindfulType,
             predicate: nil,
             limit: 1,

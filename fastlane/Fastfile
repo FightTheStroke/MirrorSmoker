@@ -75,7 +75,7 @@ platform :ios do
       skip_open_summary: true
     )
 
-    # Apple Watch Screenshots (se presenti simulatori watchOS)
+  # Apple Watch Screenshots (se presenti simulatori watchOS)
     begin
   watch_devices = detect_watch_devices
       if watch_devices.any?
@@ -503,8 +503,15 @@ platform :ios do
     end
 
     # 5. Genera assets store (screenshots + frame + badge + validazione)
-  # 5 bis. Screenshots completi salvo skip esplicito
-  store_assets_full unless ENV['SKIP_SCREENSHOTS'] == '1'
+    # 5 bis. Screenshots completi (iPhone + Watch) salvo skip esplicito
+    unless ENV['SKIP_SCREENSHOTS'] == '1'
+      store_assets_full
+      # Copia anche eventuali widget specific preview se presenti altrove
+      if Dir.exist?('HomeWidget')
+        UI.message('[release] Raccolgo asset widget')
+        # Placeholder: se in futuro generazione ad-hoc
+      end
+    end
 
     # 6. Precheck metadata (App Store guideline issues)
     precheck(api_key_path: ENV['APP_STORE_CONNECT_API_KEY_PATH']) if File.exist?(ENV['APP_STORE_CONNECT_API_KEY_PATH'].to_s)
@@ -520,7 +527,10 @@ platform :ios do
       skip_codesigning: false
     )
 
-    # 8. Upload + metadata + screenshots + submit for review (no auto release)
+  # 8. Genera report info release
+  sh('bash fastlane/scripts/generate_release_info.sh')
+
+  # 9. Upload + metadata + screenshots + submit for review (no auto release)
     submission_info = {
       add_id_info_uses_idfa: false,
       add_id_info_serves_ads: false,
@@ -548,13 +558,13 @@ platform :ios do
       UI.important("[release] DRY_RUN=1: salto deliver/upload.")
     end
 
-    # 9. Commit version + build bump
+  # 10. Commit version + build bump + release info json
     commit_version_bump(
       message: "Release #{new_version} submitted for review",
       xcodeproj: "MirrorSmokerStopper.xcodeproj"
     )
 
-    # 10. Tag + push
+  # 11. Tag + push
   add_git_tag(tag: "v#{new_version}") unless ENV['DRY_RUN'] == '1'
   push_to_git_remote unless ENV['DRY_RUN'] == '1'
 

@@ -1,6 +1,6 @@
-# Contributing to Mirror Smoker 🤝
+# Contributing to MirrorSmoker 🤝
 
-Thank you for your interest in contributing to Mirror Smoker! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to MirrorSmoker! This document provides guidelines and information for contributors to this production-ready iOS smoking cessation app.
 
 ## 🎯 Ways to Contribute
 
@@ -21,32 +21,51 @@ Thank you for your interest in contributing to Mirror Smoker! This document prov
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Xcode 15.0 or later
-- iOS 17.0+ / watchOS 10.0+ development experience
-- Familiarity with SwiftUI and SwiftData
-- Basic understanding of CloudKit (for sync features)
+- **Xcode 15.0 or later**
+- **iOS 17.0+ / watchOS 10.0+** development experience
+- **SwiftUI and SwiftData** proficiency
+- **CloudKit** understanding for sync features
+- **Fastlane** knowledge for deployment (optional)
+- **Ruby/Bundler** for automation tools
 
 ### Development Setup
 
-1. **Fork the repository**
+1. **Fork and clone the repository**
    ```bash
    git clone https://github.com/yourusername/mirror-smoker.git
    cd mirror-smoker
    ```
 
-2. **Open in Xcode**
+2. **Install dependencies**
+   ```bash
+   # Install Fastlane dependencies
+   bundle install
+   ```
+
+3. **Open in Xcode**
    ```bash
    open MirrorSmokerStopper.xcodeproj
    ```
 
-3. **Configure development team**
+4. **Configure development environment**
    - Select your development team in project settings
-   - Update bundle identifiers if needed for testing
+   - Update bundle identifiers for testing:
+     - Main app: `com.yourteam.mirrorsmoker`
+     - Widget: `com.yourteam.mirrorsmoker.widget`  
+     - Watch app: `com.yourteam.mirrorsmoker.watchapp`
+   - Enable required capabilities (iCloud, App Groups, HealthKit)
 
-4. **Build and test**
-   - Build the project (⌘+B)
-   - Run tests (⌘+U)
-   - Test on device/simulator
+5. **Build and test**
+   ```bash
+   # Build the project
+   ⌘+B in Xcode
+   
+   # Run comprehensive tests
+   bundle exec fastlane test
+   # or ⌘+U in Xcode
+   
+   # Test on physical device (recommended)
+   ```
 
 ## 📋 Development Guidelines
 
@@ -58,10 +77,12 @@ Thank you for your interest in contributing to Mirror Smoker! This document prov
 - Use meaningful variable and function names
 
 ### Architecture Patterns
-- **MVVM**: Use SwiftUI's built-in patterns with `@State`, `@Observable`, etc.
-- **SwiftData**: Use `@Query` and `@Model` for data management
-- **Design System**: Use the existing `DS` (Design System) components
-- **Localization**: All user-facing strings must be localized
+- **MVVM**: Use SwiftUI patterns with `@State`, `@Observable`, `@Query`
+- **SwiftData**: Leverage `@Model` for persistence, `@Query` for data fetching
+- **Design System**: Utilize existing `DS` components for consistency
+- **Privacy-First**: No third-party analytics, local-only AI processing
+- **Localization**: All strings must support 5 languages (EN, IT, ES, FR, DE)
+- **Sync Architecture**: CloudKit + App Groups for seamless device sync
 
 ### Comment Guidelines
 - All comments and documentation must be in English
@@ -69,11 +90,13 @@ Thank you for your interest in contributing to Mirror Smoker! This document prov
 - Document complex algorithms and business logic
 - Include TODO/FIXME comments with context
 
-### Testing
-- Write unit tests for new functionality using Swift Testing
-- Include UI tests for critical user flows
-- Test on both iOS and watchOS when applicable
-- Verify CloudKit sync functionality
+### Testing Requirements
+- **Unit Tests**: Use Swift Testing framework for business logic
+- **UI Tests**: Cover critical user flows and accessibility
+- **Integration Tests**: Verify CloudKit sync, widget updates, watch connectivity
+- **Localization Tests**: Test in all 5 supported languages
+- **Device Testing**: Test on physical iPhone and Apple Watch
+- **Performance Tests**: Monitor memory usage and battery impact
 
 ## 🐛 Reporting Issues
 
@@ -103,13 +126,18 @@ Please include:
 5. **Test thoroughly** on devices when possible
 
 ### Pull Request Checklist
-- [ ] Code follows project style guidelines
+- [ ] Code follows Swift API Design Guidelines
 - [ ] All comments and documentation are in English
-- [ ] Tests pass (unit and UI tests)
-- [ ] New functionality includes appropriate tests
-- [ ] Documentation has been updated
-- [ ] Localization keys added for new strings
-- [ ] No merge conflicts with main branch
+- [ ] Comprehensive tests pass (unit, UI, integration)
+- [ ] New functionality includes appropriate test coverage
+- [ ] Documentation updated (README, ARCHITECTURE.md if needed)
+- [ ] Localization complete for all 5 languages
+- [ ] Widget and Watch app compatibility verified
+- [ ] CloudKit sync functionality tested
+- [ ] AI Coach integration considered (if applicable)
+- [ ] Privacy implications reviewed
+- [ ] Performance impact assessed
+- [ ] No merge conflicts with development branch
 
 ### Pull Request Template
 ```markdown
@@ -141,12 +169,36 @@ Include screenshots for UI changes
 
 ## 🌍 Localization
 
+### Current Languages (Production Ready)
+- **English (en)** - Base language
+- **Italian (it)** - Complete localization
+- **Spanish (es)** - Full translation
+- **French (fr)** - Native localization
+- **German (de)** - Complete German support
+
 ### Adding New Languages
-1. Create new `.lproj` folder in `Resources/`
-2. Copy `en.lproj/Localizable.strings` as template
-3. Translate all strings maintaining key format
-4. Test with new language setting
-5. Update README with supported languages
+1. **App Localization**
+   - Create new `.lproj` folder in `Resources/`
+   - Copy `en.lproj/Localizable.strings` as template
+   - Translate all strings maintaining key format
+   - Update Info.plist for new language support
+
+2. **App Store Localization**
+   - Create new language folder in `fastlane/metadata/`
+   - Copy `en-US/` metadata structure
+   - Translate app description, keywords, release notes
+   - Add localized screenshots
+
+3. **Testing**
+   - Test with new language device setting
+   - Verify widget text updates correctly
+   - Test Siri integration in new language
+   - Check text truncation and layout
+
+4. **Documentation**
+   - Update README with new supported language
+   - Add language to DEPLOYMENT.md
+   - Update App Store listing information
 
 ### Translation Guidelines
 - Maintain context and meaning
@@ -173,22 +225,32 @@ Include screenshots for UI changes
 ## 🧪 Testing Strategy
 
 ### Unit Tests
-- Test business logic and data models
-- Mock external dependencies
-- Use Swift Testing framework
-- Aim for meaningful test coverage
+- **Data Models**: SwiftData persistence, relationships, migrations
+- **Business Logic**: AI Coach algorithms, pattern recognition, statistics
+- **Managers**: TagManager, AppGroupManager, CloudKit sync logic
+- **Utilities**: Date helpers, design system components
+- **Coverage Target**: 80%+ for critical business logic
+
+### Integration Tests
+- **CloudKit Sync**: Multi-device data synchronization
+- **Widget Integration**: App Groups data sharing and timeline updates
+- **Watch Connectivity**: iPhone-Watch real-time sync
+- **HealthKit Integration**: Data reading and privacy compliance
+- **Siri Integration**: App Intents and voice command handling
 
 ### UI Tests
-- Test critical user flows
-- Verify accessibility features
-- Test on different screen sizes
-- Include error scenarios
+- **Critical User Flows**: Cigarette logging, tag management, statistics
+- **Accessibility**: VoiceOver navigation, Dynamic Type support
+- **Multi-Platform**: iPhone, Apple Watch interfaces
+- **Localization**: UI layout with different text lengths
+- **Error States**: Network failures, permission denials
 
-### Manual Testing
-- Test on physical devices when possible
-- Verify CloudKit sync functionality
-- Test widget and Siri integration
-- Check performance and battery usage
+### Manual Testing (Required)
+- **Physical Devices**: iPhone and Apple Watch testing
+- **Real iCloud Account**: Multi-device sync verification
+- **All 5 Languages**: Complete localization testing
+- **Performance**: Battery usage, memory consumption
+- **Privacy**: Data isolation, no third-party connections
 
 ## 📚 Documentation
 
@@ -258,7 +320,7 @@ By contributing, you agree that your contributions will be licensed under the MI
 
 ---
 
-**Thank you for contributing to Mirror Smoker!** 🚭
+**Thank you for contributing to MirrorSmoker!** 🚭
 
-Your contributions help create a better tool for people working to reduce their smoking habits. Every bug fix, feature, and improvement makes a difference in someone's health journey.
+Your contributions help maintain and enhance this production-ready, privacy-first smoking cessation platform. With 147 Swift files implementing comprehensive AI coaching, premium features, and full internationalization, every contribution makes a real difference in users' health journeys. Together, we're evolving a complete smoking cessation ecosystem that respects user privacy while providing powerful, AI-powered insights and personalized support.
 

@@ -21,7 +21,39 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios screenshots
 ```
 
-Generate new localized screenshots
+Generate screenshots for all device types and languages
+
+### ios screenshots_quick
+
+```sh
+[bundle exec] fastlane ios screenshots_quick
+```
+
+Generate screenshots quickly for development
+
+### ios screenshots_and_upload
+
+```sh
+[bundle exec] fastlane ios screenshots_and_upload
+```
+
+Generate screenshots and upload to App Store Connect
+
+### ios upload_metadata
+
+```sh
+[bundle exec] fastlane ios upload_metadata
+```
+
+Upload metadata and screenshots to App Store Connect
+
+### ios submit_for_review
+
+```sh
+[bundle exec] fastlane ios submit_for_review
+```
+
+Complete App Store submission ready for review - builds, uploads binary and metadata
 
 ### ios test
 
@@ -29,15 +61,7 @@ Generate new localized screenshots
 [bundle exec] fastlane ios test
 ```
 
-Run tests
-
-### ios sync_signing
-
-```sh
-[bundle exec] fastlane ios sync_signing
-```
-
-Setup automatic code signing (Xcode managed)
+Run tests and build the app
 
 ### ios beta
 
@@ -53,47 +77,15 @@ Build and upload to TestFlight
 [bundle exec] fastlane ios release
 ```
 
-Deploy to App Store
+Build and release to App Store
 
-### ios create_app
-
-```sh
-[bundle exec] fastlane ios create_app
-```
-
-Create App Store Connect app
-
-### ios download_metadata
+### ios cleanup
 
 ```sh
-[bundle exec] fastlane ios download_metadata
+[bundle exec] fastlane ios cleanup
 ```
 
-Download metadata from App Store Connect
-
-### ios upload_metadata
-
-```sh
-[bundle exec] fastlane ios upload_metadata
-```
-
-Upload only metadata to App Store Connect
-
-### ios quick_release
-
-```sh
-[bundle exec] fastlane ios quick_release
-```
-
-Quick release without tests (for initial submission)
-
-### ios validate
-
-```sh
-[bundle exec] fastlane ios validate
-```
-
-Validate app before submission
+Clean up build artifacts and old screenshots
 
 ----
 

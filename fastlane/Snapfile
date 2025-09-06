@@ -1,0 +1,17 @@
+# Minimal Snapfile for MirrorSmokerStopper
+devices([
+  "iPhone 16 Pro Max",
+  "iPhone 16 Pro",
+  "iPhone 16"
+])
+
+languages([
+  "en-US"
+])
+
+scheme("MirrorSmokerStopper")
+test_target_name("MirrorSmokerStopperUITests")
+project("./MirrorSmokerStopper.xcodeproj")
+output_directory("./fastlane/screenshots")
+clear_previous_screenshots(true)
+override_status_bar(true)

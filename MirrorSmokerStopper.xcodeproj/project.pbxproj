@@ -21,6 +21,7 @@
 		AF64354EC20249178E1C8817 /* JetBrainsMonoNL-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AF64354EC20249178E1C8816 /* JetBrainsMonoNL-Regular.ttf */; };
 		C37C3BEFEDDF4E75A09DD0C3 /* JetBrainsMonoNL-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C37C3BEFEDDF4E75A09DD0C2 /* JetBrainsMonoNL-SemiBold.ttf */; };
 		E680F9794E664051B6315F36 /* JetBrainsMonoNL-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E680F9794E664051B6315F35 /* JetBrainsMonoNL-Medium.ttf */; };
+		AC644EAA8882E2B973244C86 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DA6D48198B53DF92AC16DD /* SnapshotHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,6 +115,7 @@
 		AF64354EC20249178E1C8816 /* JetBrainsMonoNL-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-Regular.ttf"; sourceTree = "<group>"; };
 		C37C3BEFEDDF4E75A09DD0C2 /* JetBrainsMonoNL-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-SemiBold.ttf"; sourceTree = "<group>"; };
 		E680F9794E664051B6315F35 /* JetBrainsMonoNL-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "JetBrainsMonoNL-Medium.ttf"; sourceTree = "<group>"; };
+		25DA6D48198B53DF92AC16DD /* SnapshotHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */

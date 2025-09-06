@@ -1,0 +1,218 @@
+name: 🚀 iOS CI/CD Pipeline - Complete Automation
+
+on:
+  push:
+    branches: [ master, development ]
+    paths-ignore: ['**.md', 'docs/**']
+  pull_request:
+    branches: [ master ]
+    paths-ignore: ['**.md', 'docs/**']
+  workflow_dispatch:
+    inputs:
+      deployment_type:
+        description: 'Deployment Type'
+        required: true
+        default: 'beta'
+        type: choice
+        options:
+        - beta
+        - release
+        - screenshots_only
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+
+jobs:
+  # 📋 Pre-flight checks
+  preflight:
+    name: 🔍 Pre-flight Checks
+    runs-on: macos-14
+    outputs:
+      should_deploy: ${{ steps.check.outputs.should_deploy }}
+      version: ${{ steps.version.outputs.version }}
+      build: ${{ steps.version.outputs.build }}
+    steps:
+    - name: 📁 Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: 🔍 Check Changes
+      id: check
+      run: |
+        if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+          echo "should_deploy=true" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.ref }}" == "refs/heads/master" ]]; then
+          echo "should_deploy=true" >> $GITHUB_OUTPUT
+        else
+          echo "should_deploy=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: 📊 Extract Version Info
+      id: version
+      run: |
+        VERSION=$(xcodebuild -project MirrorSmokerStopper.xcodeproj -showBuildSettings -configuration Release | grep MARKETING_VERSION | awk '{print $3}')
+        BUILD=$(xcodebuild -project MirrorSmokerStopper.xcodeproj -showBuildSettings -configuration Release | grep CURRENT_PROJECT_VERSION | awk '{print $3}')
+        echo "version=${VERSION}" >> $GITHUB_OUTPUT
+        echo "build=${BUILD}" >> $GITHUB_OUTPUT
+
+  # 🧪 Automated Testing
+  test:
+    name: 🧪 Run Tests
+    runs-on: macos-14
+    needs: preflight
+    steps:
+    - name: 📁 Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: 🛠️ Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+
+    - name: 💎 Setup Ruby & Fastlane
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+        bundler-cache: true
+
+    - name: 🧪 Run Unit Tests
+      run: |
+        xcodebuild test \
+          -project MirrorSmokerStopper.xcodeproj \
+          -scheme MirrorSmokerStopper \
+          -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+          -only-testing:MirrorSmokerStopperTests \
+          -resultBundlePath TestResults.xcresult \
+          CODE_SIGN_IDENTITY="" \
+          CODE_SIGNING_REQUIRED=NO
+
+    - name: 📊 Upload Test Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: TestResults.xcresult
+
+  # 📸 Screenshots Generation
+  screenshots:
+    name: 📸 Generate Screenshots
+    runs-on: macos-14
+    needs: [preflight, test]
+    if: needs.preflight.outputs.should_deploy == 'true' || github.event.inputs.deployment_type == 'screenshots_only'
+    steps:
+    - name: 📁 Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: 🛠️ Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+
+    - name: 💎 Setup Ruby & Fastlane
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+        bundler-cache: true
+
+    - name: 📸 Generate Screenshots
+      run: |
+        # Try to generate screenshots, but don't fail the build if UI tests aren't ready
+        bundle exec fastlane screenshots || echo "Screenshots failed - UI tests may need completion"
+
+    - name: 📤 Upload Screenshots
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: app-screenshots
+        path: fastlane/screenshots/
+
+  # 🚀 Build and Deploy
+  deploy:
+    name: 🚀 Build & Deploy
+    runs-on: macos-14
+    needs: [preflight, test]
+    if: needs.preflight.outputs.should_deploy == 'true'
+    environment: production
+    steps:
+    - name: 📁 Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: 🛠️ Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+
+    - name: 💎 Setup Ruby & Fastlane
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.3'
+        bundler-cache: true
+
+    - name: 🔐 Setup CI Keychain
+      run: bundle exec fastlane run setup_ci
+
+    - name: 📱 Beta Deployment
+      if: github.event.inputs.deployment_type == 'beta' || github.ref == 'refs/heads/development'
+      env:
+        FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+        APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_API_KEY_PATH: ${{ secrets.APP_STORE_CONNECT_API_KEY_PATH }}
+      run: |
+        bundle exec fastlane beta
+
+    - name: 🏪 App Store Release
+      if: github.event.inputs.deployment_type == 'release' || github.ref == 'refs/heads/master'
+      env:
+        FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+        MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+        MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+        APP_STORE_CONNECT_API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        APP_STORE_CONNECT_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+        APP_STORE_CONNECT_API_KEY_PATH: ${{ secrets.APP_STORE_CONNECT_API_KEY_PATH }}
+      run: |
+        bundle exec fastlane release
+
+    - name: 📤 Upload Build Artifacts
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: build-artifacts
+        path: |
+          build/
+          fastlane/report.xml
+
+  # 🔔 Notifications
+  notify:
+    name: 🔔 Send Notifications
+    runs-on: ubuntu-latest
+    needs: [preflight, test, deploy]
+    if: always()
+    steps:
+    - name: 📊 Build Summary
+      run: |
+        echo "## 🚀 iOS Build Summary" >> $GITHUB_STEP_SUMMARY
+        echo "| Component | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Pre-flight | ${{ needs.preflight.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Tests | ${{ needs.test.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Deployment | ${{ needs.deploy.result }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Version | ${{ needs.preflight.outputs.version }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Build | ${{ needs.preflight.outputs.build }} |" >> $GITHUB_STEP_SUMMARY
+
+    - name: 🎉 Success Notification
+      if: needs.deploy.result == 'success'
+      run: |
+        echo "🎉 Deployment successful!"
+        echo "✅ Version ${{ needs.preflight.outputs.version }} (${{ needs.preflight.outputs.build }}) deployed successfully"
+
+    - name: ❌ Failure Notification
+      if: needs.deploy.result == 'failure'
+      run: |
+        echo "❌ Deployment failed!"
+        echo "🔍 Check the logs for more details"

@@ -257,15 +257,7 @@ platform :ios do
     ensure_git_status_clean
     ensure_git_branch(branch: "master")
     
-    # Setup code signing with Fastlane Match
-    match(
-      type: "appstore",
-      app_identifier: [
-        "com.mirror-labs.MirrorSmokerStopper",
-        "com.mirror-labs.MirrorSmokerStopper.watchkitapp", 
-        "com.mirror-labs.MirrorSmokerStopper.HomeWidget"
-      ]
-    )
+  # Usa firma automatica Xcode (nessun match)
     
     # Set explicit version number for App Store submission
     increment_version_number(
@@ -273,7 +265,7 @@ platform :ios do
       xcodeproj: "MirrorSmokerStopper.xcodeproj"
     )
     
-    # Build the app using Match provisioning profiles
+  # Build (firma automatica)
     build_app(
       project: "MirrorSmokerStopper.xcodeproj",
       scheme: "MirrorSmokerStopper", 
@@ -315,15 +307,7 @@ platform :ios do
     ensure_git_status_clean
     ensure_git_branch(branch: "master")
     
-    # Setup code signing with Fastlane Match
-    match(
-      type: "appstore",
-      app_identifier: [
-        "com.mirror-labs.MirrorSmokerStopper",
-        "com.mirror-labs.MirrorSmokerStopper.watchkitapp", 
-        "com.mirror-labs.MirrorSmokerStopper.HomeWidget"
-      ]
-    )
+  # Usa firma automatica Xcode (nessun match)
     
     # Set explicit version number for App Store submission
     increment_version_number(
@@ -331,7 +315,7 @@ platform :ios do
       xcodeproj: "MirrorSmokerStopper.xcodeproj"
     )
     
-    # Build the app using Match provisioning profiles
+  # Build (firma automatica)
     build_app(
       project: "MirrorSmokerStopper.xcodeproj",
       scheme: "MirrorSmokerStopper", 
@@ -403,12 +387,13 @@ platform :ios do
       )
     end
     
-    # Build the app
+    UI.message('[beta] Using Xcode Automatic Signing (project settings)')
     build_app(
       project: "MirrorSmokerStopper.xcodeproj",
       scheme: "MirrorSmokerStopper",
       clean: true,
-      export_method: "app-store"
+      export_method: "app-store",
+      skip_codesigning: false
     )
     
     # Upload to TestFlight
@@ -452,16 +437,8 @@ platform :ios do
     end
     ensure_git_branch(branch: "master")
 
-    # 1. Carica certificati e profili per tutti i target (app, watch, widget)
-    match(
-      type: "appstore",
-      readonly: false,
-      app_identifier: [
-        "com.mirror-labs.MirrorSmokerStopper",
-        "com.mirror-labs.MirrorSmokerStopper.watchkitapp",
-        "com.mirror-labs.MirrorSmokerStopper.HomeWidget"
-      ]
-    )
+  # 1. Signing: usa direttamente configurazione Xcode (Automatic Signing)
+  UI.message('[release] Using Xcode Automatic Signing (no match)')
 
     # 2. Versioning: se NEW_VERSION impostato lo usa, altrimenti incrementa patch
     if ENV['NEW_VERSION'] && !ENV['NEW_VERSION'].empty?
@@ -507,6 +484,7 @@ platform :ios do
     end
 
     # 5. Genera assets store (screenshots + frame + badge + validazione)
+  # 5 bis. Screenshots completi salvo skip esplicito
   store_assets_full unless ENV['SKIP_SCREENSHOTS'] == '1'
 
     # 6. Precheck metadata (App Store guideline issues)
@@ -519,7 +497,8 @@ platform :ios do
       clean: true,
       export_method: "app-store",
       output_directory: "build",
-      output_name: "MirrorSmokerStopper_#{new_version}.ipa"
+      output_name: "MirrorSmokerStopper_#{new_version}.ipa",
+      skip_codesigning: false
     )
 
     # 8. Upload + metadata + screenshots + submit for review (no auto release)

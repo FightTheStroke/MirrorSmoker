@@ -1,0 +1,20 @@
+# App identifier
+app_identifier("com.mirror-labs.MirrorSmokerStopper")
+
+# Apple ID - will be set via environment variable
+apple_id(ENV["APPLE_ID"] || "roberdan@microsoft.com")
+
+# iTunes Connect Team ID
+itc_team_id(ENV["ITC_TEAM_ID"] || "123456")
+
+# Developer Portal Team ID  
+team_id(ENV["TEAM_ID"] || "ABCDEF123")
+
+# For multiple teams, use:
+# for_platform :ios do
+#   app_identifier "com.mirror-labs.MirrorSmokerStopper"
+# end
+
+for_lane :release do
+  app_identifier "com.mirror-labs.MirrorSmokerStopper"
+end

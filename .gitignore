@@ -2,8 +2,7 @@ build/
 backup_l10n/
 scripts/
 fastlane/test_output/
-fastlane/report.xml
-fastlane/report.html
+fastlane/report.*
 fastlane/screenshots/
 TestResults.xcresult/
 # Temporary notes (ensure not committed)

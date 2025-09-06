@@ -943,7 +943,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MirrorSmokerStopper/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
+				INFOPLIST_KEY_CFBundleDisplayName = "Fight The Smoke";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "MirrorSmokerStopper uses Health data to track your smoking cessation progress and provide better insights.";
@@ -984,7 +984,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MirrorSmokerStopper/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MirrorSmokerStopper;
+				INFOPLIST_KEY_CFBundleDisplayName = "Fight The Smoke";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "MirrorSmokerStopper uses Health data to track your smoking cessation progress and provide better insights.";

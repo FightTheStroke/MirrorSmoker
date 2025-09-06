@@ -36,57 +36,51 @@ final class BasicScreenshotTests: XCTestCase {
     }
 
     func testAppScreenshots() throws {
-        // Screenshot 1: Main Dashboard - iOS 26 ready app
+        // Screenshot 1: Main Dashboard - always take this first
         snapshot("01_MainDashboard")
-        sleep(3)
+        sleep(5)
         
-        // Screenshot 2: Navigate to AI Coach (second tab typically)
+        // Screenshot 2: Try to find tabs and navigate
         let tabBar = app.tabBars.firstMatch
-        if tabBar.buttons.count > 1 {
+        if tabBar.exists && tabBar.buttons.count > 1 {
             tabBar.buttons.element(boundBy: 1).tap()
             sleep(3)
-            snapshot("02_AICoach")
+            snapshot("02_SecondTab")
+        } else {
+            // If no tabs, just take another screenshot
+            snapshot("02_MainView")
         }
         
-        // Screenshot 3: Navigate to Statistics (third tab typically)
-        if tabBar.buttons.count > 2 {
+        // Screenshot 3: Try third tab or just take current view
+        if tabBar.exists && tabBar.buttons.count > 2 {
             tabBar.buttons.element(boundBy: 2).tap()
-            sleep(2)
-            snapshot("03_Statistics")
+            sleep(3)
+            snapshot("03_ThirdTab")
+        } else {
+            snapshot("03_CurrentView")
         }
         
-        // Screenshot 4: Navigate to Settings (fourth tab typically)
-        if tabBar.buttons.count > 3 {
+        // Screenshot 4: Try fourth tab or settings
+        if tabBar.exists && tabBar.buttons.count > 3 {
             tabBar.buttons.element(boundBy: 3).tap()
-            sleep(2)
-            snapshot("04_Settings")
-        }
-        
-        // Screenshot 5: Back to main and try to trigger add cigarette
-        if tabBar.buttons.count > 0 {
-            tabBar.buttons.element(boundBy: 0).tap()
-            sleep(2)
-            
-            // Try to find and tap add button
+            sleep(3)
+            snapshot("04_FourthTab")
+        } else {
+            // Try to find any settings or menu
             let buttons = app.buttons.allElementsBoundByIndex
-            for i in 0..<min(buttons.count, 10) {
-                let button = buttons[i]
-                if button.isHittable && button.label.contains("Add") || button.label.contains("+") {
-                    button.tap()
+            if !buttons.isEmpty {
+                let lastButton = buttons[buttons.count - 1]
+                if lastButton.isHittable {
+                    lastButton.tap()
                     sleep(2)
-                    snapshot("05_AddCigarette")
-                    
-                    // Try to dismiss
-                    let cancelButtons = app.buttons.allElementsBoundByIndex
-                    for cancelButton in cancelButtons {
-                        if cancelButton.label.contains("Cancel") || cancelButton.label.contains("Close") {
-                            cancelButton.tap()
-                            break
-                        }
-                    }
-                    break
+                    snapshot("04_LastButton")
                 }
+            } else {
+                snapshot("04_NoButtons")
             }
         }
+        
+        // Screenshot 5: Final screenshot
+        snapshot("05_FinalView")
     }
 }

@@ -268,10 +268,6 @@ platform :ios do
   # Firma automatica Xcode
     
     # Set explicit version number for App Store submission
-    increment_version_number(
-      version_number: "1.0.1",
-      xcodeproj: "MirrorSmokerStopper.xcodeproj"
-    )
     
   # Build (firma automatica)
     build_app(
@@ -294,10 +290,6 @@ platform :ios do
     )
     
     # Commit version bump
-    commit_version_bump(
-      message: "Version bump for App Store submission",
-      xcodeproj: "MirrorSmokerStopper.xcodeproj"
-    )
     
     # Tag the release
     add_git_tag(
@@ -318,10 +310,6 @@ platform :ios do
   # Firma automatica Xcode
     
     # Set explicit version number for App Store submission
-    increment_version_number(
-      version_number: "1.0.1",
-      xcodeproj: "MirrorSmokerStopper.xcodeproj"
-    )
     
   # Build (firma automatica)
     build_app(
@@ -351,10 +339,6 @@ platform :ios do
     )
     
     # Commit version bump
-    commit_version_bump(
-      message: "Version bump for App Store submission",
-      xcodeproj: "MirrorSmokerStopper.xcodeproj"
-    )
     
     # Tag the release
     add_git_tag(
@@ -383,17 +367,7 @@ platform :ios do
     ensure_git_status_clean
     
     # Increment build number
-    if ENV['USE_TIMESTAMP_BUILD'] == '1'
-      ts = Time.now.strftime('%Y%m%d%H%M')
-      increment_build_number(
-        build_number: ts,
-        xcodeproj: "MirrorSmokerStopper.xcodeproj"
-      )
-    else
-      increment_build_number(
-        xcodeproj: "MirrorSmokerStopper.xcodeproj"
-      )
-    end
+  # Build number handled in release lane only; beta usa agvtool manuale? -> no: skip
     
     UI.message('[beta] Using Xcode Automatic Signing (project settings)')
     build_app(
@@ -410,10 +384,7 @@ platform :ios do
     )
     
     # Commit version bump
-    commit_version_bump(
-      message: "Version bump for TestFlight build",
-      xcodeproj: "MirrorSmokerStopper.xcodeproj"
-    )
+  # Nessun commit_version_bump: gestione manuale nella release
   end
   
   # Full App Store Release
@@ -577,10 +548,7 @@ platform :ios do
     end
 
   # 10. Commit version + build bump + release info json
-    commit_version_bump(
-      message: "Release #{new_version} submitted for review",
-      xcodeproj: "MirrorSmokerStopper.xcodeproj"
-    )
+  sh("git add -A && git commit -m 'release: #{new_version}' || true")
 
   # 11. Tag + push
   add_git_tag(tag: "v#{new_version}") unless ENV['DRY_RUN'] == '1'

@@ -5,9 +5,10 @@ default_platform(:ios)
 
 platform :ios do
   
-  # Automated Screenshot Generation
-  desc "Generate screenshots for all device types and languages"
+  # Automated Screenshot Generation - iOS 26 Features
+  desc "Generate screenshots for iPhone and Apple Watch with iOS 26 features"
   lane :screenshots do
+    # iPhone Screenshots
     capture_screenshots(
       project: "MirrorSmokerStopper.xcodeproj",
       scheme: "MirrorSmokerStopper",
@@ -18,9 +19,7 @@ platform :ios do
       devices: [
         "iPhone 16 Pro Max",
         "iPhone 16 Pro",
-        "iPhone 16",
-        "iPad Pro 11-inch (M4)",
-        "iPad Pro 13-inch (M4)"
+        "iPhone 16"
       ],
       languages: [
         "en-US",
@@ -28,6 +27,29 @@ platform :ios do
         "fr-FR",
         "de-DE",
         "it"
+      ],
+      launch_arguments: [
+        "-FASTLANE_SNAPSHOT YES",
+        "-ui_testing",
+        "SCREENSHOT_MODE"
+      ]
+    )
+    
+    # Apple Watch Screenshots
+    capture_screenshots(
+      project: "MirrorSmokerStopper.xcodeproj",
+      scheme: "MirrorSmokerStopper Watch App",
+      test_target_name: "MirrorSmokerStopperUITests",
+      test_plan: "AppleWatchScreenshotTests",
+      output_directory: "./fastlane/screenshots",
+      clear_previous_screenshots: false,
+      override_status_bar: true,
+      devices: [
+        "Apple Watch Series 10 (46mm)",
+        "Apple Watch Series 10 (42mm)"
+      ],
+      languages: [
+        "en-US"
       ],
       launch_arguments: [
         "-FASTLANE_SNAPSHOT YES",
@@ -79,8 +101,21 @@ platform :ios do
   lane :upload_metadata do
     deliver(
       skip_binary_upload: true,
-      skip_screenshots: true,  # Skip screenshots for now
+      skip_screenshots: true,
       force: true
+    )
+  end
+  
+  # Upload without screenshots - Ready for submission
+  desc "Upload app binary and metadata without screenshots - ready for manual submission"
+  lane :upload_ready_for_submission do
+    deliver(
+      ipa: "MirrorSmokerStopper.ipa",
+      skip_screenshots: true,  # Skip problematic screenshots
+      skip_metadata: false,
+      force: true,
+      submit_for_review: false,
+      automatic_release: false
     )
   end
   

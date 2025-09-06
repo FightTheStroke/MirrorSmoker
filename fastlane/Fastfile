@@ -426,8 +426,30 @@ platform :ios do
   # Full App Store Release
   desc "Build and release to App Store"
   lane :release do
-    # 0. Safety checks
-    ensure_git_status_clean
+    # 0. Safety checks + debug
+    if ENV['DEBUG_RELEASE'] == '1'
+      sh <<~'SH'
+        echo '--- FASTLANE RELEASE DEBUG ---'
+        echo "PWD: $(pwd)"
+        echo -n 'TOPLEVEL: '; git rev-parse --show-toplevel || true
+        echo -n 'IGNORECASE: '; git config --get core.ignorecase || echo '(unset)'
+        echo 'First 40 entries:'
+        ls -1 | head -n 40 || true
+        echo 'Git porcelain (first 80 lines):'
+        git status --porcelain | head -n 80 || true
+        echo 'Git diff --name-status (first 40):'
+        git diff --name-status | head -n 40 || true
+        echo 'File count (depth1):'
+        find . -maxdepth 1 -mindepth 1 | wc -l | tr -d ' '
+        echo '--- END DEBUG ---'
+      SH
+    end
+
+    unless ENV['ALLOW_DIRTY'] == '1'
+      ensure_git_status_clean
+    else
+      UI.important("[release] Skipping ensure_git_status_clean (ALLOW_DIRTY=1)")
+    end
     ensure_git_branch(branch: "master")
 
     # 1. Carica certificati e profili per tutti i target (app, watch, widget)

@@ -87,10 +87,10 @@ Upload metadata and screenshots to App Store Connect
 
 Upload app binary and metadata without screenshots - ready for manual submission
 
-### ios upload_to_app_store
+### ios manual_upload_to_app_store
 
 ```sh
-[bundle exec] fastlane ios upload_to_app_store
+[bundle exec] fastlane ios manual_upload_to_app_store
 ```
 
 Upload built app and metadata to App Store Connect (ready for manual submission)

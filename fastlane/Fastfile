@@ -121,12 +121,10 @@ platform :ios do
     deliver(
       force: true,
       skip_metadata: false,
-      skip_screenshots: false,  # Now we have screenshots to upload
-      screenshots_path: "./fastlane/screenshots",
+      skip_screenshots: true,  # Skip for now - dimensions need fixing
       submit_for_review: false,
       automatic_release: false,
-      skip_app_version_update: false,
-      overwrite_screenshots: true
+      skip_app_version_update: false
     )
     
     # Commit version bump

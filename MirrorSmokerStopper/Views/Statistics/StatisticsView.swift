@@ -19,7 +19,7 @@ struct StatisticsView: View {
     // Optimized queries with predicates
     private var todayPredicate: Predicate<Cigarette> {
         let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? today.addingTimeInterval(86400)
         return #Predicate<Cigarette> { cigarette in
             cigarette.timestamp >= today && cigarette.timestamp < tomorrow
         }

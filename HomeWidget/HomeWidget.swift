@@ -27,7 +27,7 @@ struct AppGroupManager {
         let storeURL = url.appendingPathComponent("Library/Application Support/MirrorSmokerModel.store")
         
         do {
-            // Import only the models that the widget needs to read
+            // Import the same models as the main app for consistency
             let schema = Schema([
                 Cigarette.self,
                 Tag.self,
@@ -182,7 +182,9 @@ struct CigaretteProvider: TimelineProvider {
         do {
             // Get today's cigarettes using the real Cigarette model
             let today = Calendar.current.startOfDay(for: Date())
-            let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+            guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
+                return WidgetTodayStats.fallback
+            }
             
             let todayDescriptor = FetchDescriptor<Cigarette>(
                 predicate: #Predicate<Cigarette> { cigarette in
@@ -197,7 +199,9 @@ struct CigaretteProvider: TimelineProvider {
             let lastCigaretteTime = todayCigarettes.first?.timestamp
             
             // Calculate 30-day average
-            let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date())!
+            guard let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) else {
+                return WidgetTodayStats.fallback
+            }
             let recentDescriptor = FetchDescriptor<Cigarette>(
                 predicate: #Predicate<Cigarette> { cigarette in
                     cigarette.timestamp >= thirtyDaysAgo

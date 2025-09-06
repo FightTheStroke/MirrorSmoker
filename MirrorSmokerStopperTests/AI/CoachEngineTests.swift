@@ -25,6 +25,7 @@ final class CoachEngineTests: XCTestCase {
             Tag.self,
             UserProfile.self,
             Product.self,
+            Purchase.self,
             UrgeLog.self
         ])
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
@@ -90,7 +91,7 @@ final class CoachEngineTests: XCTestCase {
     
     func testHighRiskScenarioGeneratesNudge() async {
         // Create high-risk scenario - recent cigarette, morning (trigger time)
-        let morningTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
+        let morningTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date()) ?? Date()
         let recentCigarette = Cigarette(timestamp: morningTime.addingTimeInterval(-10 * 60.0)) // 10 min ago
         
         modelContext.insert(recentCigarette)
@@ -266,7 +267,7 @@ final class FeatureStoreTests: XCTestCase {
     override func setUp() async throws {
         try await super.setUp()
         
-        let schema = Schema([Cigarette.self, Tag.self, UserProfile.self, Product.self, UrgeLog.self])
+        let schema = Schema([Cigarette.self, Tag.self, UserProfile.self, Product.self, Purchase.self, UrgeLog.self])
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         modelContainer = try ModelContainer(for: schema, configurations: [config])
         modelContext = ModelContext(modelContainer)

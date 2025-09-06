@@ -64,8 +64,10 @@ struct WeeklyChart: View {
 
 #Preview {
     WeeklyChart(
-        weeklyStats: (0..<7).map { 
-            let date = Calendar.current.date(byAdding: .day, value: -$0, to: Date())!
+        weeklyStats: (0..<7).compactMap { dayOffset in
+            guard let date = Calendar.current.date(byAdding: .day, value: -dayOffset, to: Date()) else { 
+                return nil 
+            }
             return (date, Int.random(in: 0...15))
         }
     )

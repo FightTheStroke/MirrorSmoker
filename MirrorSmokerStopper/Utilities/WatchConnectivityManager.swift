@@ -83,7 +83,10 @@ class WatchConnectivityManager: NSObject, ObservableObject {
         
         // Get today's cigarettes
         let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
+            logger.error("Failed to calculate tomorrow's date for sync")
+            return
+        }
         
         let descriptor = FetchDescriptor<Cigarette>(
             predicate: #Predicate<Cigarette> { cigarette in
@@ -274,7 +277,10 @@ extension WatchConnectivityManager: WCSessionDelegate {
         
         // Get today's stats
         let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
+            replyHandler(["error": "Failed to calculate date range"])
+            return
+        }
         
         let descriptor = FetchDescriptor<Cigarette>(
             predicate: #Predicate<Cigarette> { cigarette in

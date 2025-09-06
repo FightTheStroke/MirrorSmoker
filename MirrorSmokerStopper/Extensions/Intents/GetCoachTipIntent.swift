@@ -27,7 +27,9 @@ struct GetCoachTipIntent: AppIntent {
                 Cigarette.self,
                 Tag.self,
                 UserProfile.self,
-                Product.self
+                Product.self,
+                Purchase.self,
+                UrgeLog.self
             ])
             
             let configuration = ModelConfiguration(
@@ -116,7 +118,8 @@ struct LogUrgeIntent: AppIntent {
                 Tag.self,
                 UserProfile.self,
                 Product.self,
-                UrgeLog.self // We'll need to create this model
+                Purchase.self,
+                UrgeLog.self
             ])
             
             let configuration = ModelConfiguration(

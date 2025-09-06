@@ -24,7 +24,8 @@ struct PersistenceController {
                 Tag.self,
                 UserProfile.self,
                 Product.self,
-                Purchase.self // Add Purchase model to schema
+                Purchase.self,
+                UrgeLog.self
             ])
             
             // Get the App Group container URL
@@ -44,6 +45,7 @@ struct PersistenceController {
                 
                 let storeURL = applicationSupportURL.appendingPathComponent("MirrorSmokerModel.store")
                 configuration = ModelConfiguration(
+                    "MirrorSmokerModel_v2",
                     schema: schema,
                     url: storeURL,
                     cloudKitDatabase: .automatic
@@ -52,6 +54,7 @@ struct PersistenceController {
                 // Fallback to default location
                 Self.logger.warning("App Group not available, using default location")
                 configuration = ModelConfiguration(
+                    "MirrorSmokerModel_v2",
                     schema: schema,
                     isStoredInMemoryOnly: false
                 )
@@ -76,7 +79,7 @@ struct PersistenceController {
         
         do {
             let container = try ModelContainer(
-                for: Cigarette.self, Tag.self, UserProfile.self, Product.self, Purchase.self,
+                for: Cigarette.self, Tag.self, UserProfile.self, Product.self, Purchase.self, UrgeLog.self,
                 configurations: configuration
             )
             

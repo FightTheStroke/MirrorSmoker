@@ -99,7 +99,10 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
         }
         
         let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
+            Self.logger.warning("Failed to calculate tomorrow's date")
+            return
+        }
         let todayCount = cigarettes.filter { $0.timestamp >= today && $0.timestamp < tomorrow }.count
         
         let message = [

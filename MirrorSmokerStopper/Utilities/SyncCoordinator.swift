@@ -158,7 +158,9 @@ class SyncCoordinator: ObservableObject {
         do {
             // Get today's cigarettes
             let today = Calendar.current.startOfDay(for: Date())
-            let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+            guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
+                return
+            }
             
             let descriptor = FetchDescriptor<Cigarette>(
                 predicate: #Predicate<Cigarette> { cigarette in

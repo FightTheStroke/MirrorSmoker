@@ -24,7 +24,9 @@ final class DataPersistenceIntegrationTests: XCTestCase {
             Cigarette.self,
             Tag.self,
             UserProfile.self,
-            Product.self
+            Product.self,
+            Purchase.self,
+            UrgeLog.self
         ])
         let config = ModelConfiguration(isStoredInMemoryOnly: true)
         modelContainer = try ModelContainer(for: schema, configurations: [config])
@@ -109,7 +111,7 @@ final class DataPersistenceIntegrationTests: XCTestCase {
         
         // 6. Test today's count
         let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? today.addingTimeInterval(86400)
         
         let todayPredicate = #Predicate<Cigarette> { cigarette in
             cigarette.timestamp >= today && cigarette.timestamp < tomorrow
@@ -144,7 +146,7 @@ final class DataPersistenceIntegrationTests: XCTestCase {
     }
     
     func testUserProfileQuitPlanIntegration() throws {
-        let quitDate = Calendar.current.date(byAdding: .day, value: 14, to: Date())!
+        let quitDate = Calendar.current.date(byAdding: .day, value: 14, to: Date()) ?? Date().addingTimeInterval(14 * 86400)
         let profile = UserProfile(
             name: "Quitting User",
             quitDate: quitDate, enableGradualReduction: true, reductionCurve: .exponential, dailyAverage: 20.0
@@ -161,7 +163,7 @@ final class DataPersistenceIntegrationTests: XCTestCase {
         // Test as we approach quit date
         let laterProfile = UserProfile(
             name: "Close to Quit",
-            quitDate: Calendar.current.date(byAdding: .day, value: 1, to: Date())!, enableGradualReduction: true, dailyAverage: 20.0
+            quitDate: Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date().addingTimeInterval(86400), enableGradualReduction: true, dailyAverage: 20.0
         )
         
         let finalTarget = laterProfile.todayTarget(dailyAverage: 20.0)
@@ -193,7 +195,7 @@ final class DataPersistenceIntegrationTests: XCTestCase {
         
         // Test today count
         let today = Calendar.current.startOfDay(for: Date())
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) ?? today.addingTimeInterval(86400)
         
         let todayPredicate = #Predicate<Cigarette> { cigarette in
             cigarette.timestamp >= today && cigarette.timestamp < tomorrow
@@ -202,7 +204,7 @@ final class DataPersistenceIntegrationTests: XCTestCase {
         XCTAssertEqual(todayCount, 2)
         
         // Test weekly count
-        let weekAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date())!
+        let weekAgo = Calendar.current.date(byAdding: .day, value: -7, to: Date()) ?? Date().addingTimeInterval(-7 * 86400)
         let weekPredicate = #Predicate<Cigarette> { cigarette in
             cigarette.timestamp >= weekAgo
         }
@@ -210,7 +212,7 @@ final class DataPersistenceIntegrationTests: XCTestCase {
         XCTAssertEqual(weekCount, 5) // 3 this week + 2 today
         
         // Test monthly count
-        let monthAgo = Calendar.current.date(byAdding: .month, value: -1, to: Date())!
+        let monthAgo = Calendar.current.date(byAdding: .month, value: -1, to: Date()) ?? Date().addingTimeInterval(-30 * 86400)
         let monthPredicate = #Predicate<Cigarette> { cigarette in
             cigarette.timestamp >= monthAgo
         }

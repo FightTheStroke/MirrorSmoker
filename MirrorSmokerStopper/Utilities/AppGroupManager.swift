@@ -30,7 +30,7 @@ struct AppGroupManager {
                 Tag.self,
                 UserProfile.self,
                 Product.self,
-                UrgeLog.self
+                Purchase.self
             ])
             let config = ModelConfiguration(
                 "MirrorSmokerModel_v2",

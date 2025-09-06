@@ -206,9 +206,9 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
             .sorted { $0.value > $1.value }
             .prefix(3)
         
-        if !peakHours.isEmpty {
-            let mainPeakHour = peakHours.first!.key
-            let peakPercentage = Double(peakHours.first!.value) / Double(totalCigarettes) * 100
+        if let firstPeakHour = peakHours.first {
+            let mainPeakHour = firstPeakHour.key
+            let peakPercentage = Double(firstPeakHour.value) / Double(totalCigarettes) * 100
             
             insights.append(BehavioralInsight(
                 type: .timePattern,
@@ -298,8 +298,7 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
         if averageStreak > 0 {
             let relapseAnalysis = analyzeRelapsePatterns(cigarettes: cigarettes, streaks: streaks)
             
-            if !relapseAnalysis.isEmpty {
-                let commonPattern = relapseAnalysis.first!
+            if let commonPattern = relapseAnalysis.first {
                 
                 insights.append(BehavioralInsight(
                     type: .streakBreaker,
@@ -498,11 +497,16 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
         var streaks: [Int] = []
         var currentStreak = 0
         
-        let dateRange = generateDateRange(from: sortedCigarettes.first!.timestamp, to: Date())
+        guard let firstCigarette = sortedCigarettes.first else {
+            return []
+        }
+        let dateRange = generateDateRange(from: firstCigarette.timestamp, to: Date())
         
         for date in dateRange {
             let dayStart = calendar.startOfDay(for: date)
-            let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart)!
+            guard let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) else {
+                continue
+            }
             
             let cigarettesThisDay = sortedCigarettes.filter { 
                 $0.timestamp >= dayStart && $0.timestamp < dayEnd
@@ -591,7 +595,10 @@ final class BehavioralAnalyzer: ObservableObject, Sendable {
         
         while currentDate <= end {
             dates.append(currentDate)
-            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate)!
+            guard let nextDate = calendar.date(byAdding: .day, value: 1, to: currentDate) else {
+                break
+            }
+            currentDate = nextDate
         }
         
         return dates

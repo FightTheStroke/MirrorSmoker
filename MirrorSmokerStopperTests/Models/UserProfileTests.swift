@@ -48,8 +48,8 @@ final class UserProfileTests: XCTestCase {
     }
     
     func testUserProfileCustomInitialization() {
-        let customBirthDate = Calendar.current.date(from: DateComponents(year: 1990, month: 5, day: 15))!
-        let customQuitDate = Calendar.current.date(byAdding: .day, value: 30, to: Date())!
+        let customBirthDate = Calendar.current.date(from: DateComponents(year: 1990, month: 5, day: 15)) ?? Date()
+        let customQuitDate = Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date().addingTimeInterval(30 * 86400)
         
         let profile = UserProfile(
             name: "Test User",
@@ -79,7 +79,7 @@ final class UserProfileTests: XCTestCase {
     }
     
     func testAgeCalculation() {
-        let birthDate = Calendar.current.date(from: DateComponents(year: 1990, month: 1, day: 1))!
+        let birthDate = Calendar.current.date(from: DateComponents(year: 1990, month: 1, day: 1)) ?? Date()
         let profile = UserProfile(birthDate: birthDate)
         
         let expectedAge = Calendar.current.component(.year, from: Date()) - 1990
@@ -91,7 +91,7 @@ final class UserProfileTests: XCTestCase {
     }
     
     func testYearsSmokingSinceCalculation() {
-        let birthDate = Calendar.current.date(from: DateComponents(year: 1980, month: 1, day: 1))!
+        let birthDate = Calendar.current.date(from: DateComponents(year: 1980, month: 1, day: 1)) ?? Date()
         let profile = UserProfile(birthDate: birthDate, startedSmokingAge: 20)
         
         let currentYear = Calendar.current.component(.year, from: Date())
@@ -144,7 +144,7 @@ final class UserProfileTests: XCTestCase {
     }
     
     func testTodayTargetWithQuitPlan() {
-        let quitDate = Calendar.current.date(byAdding: .day, value: 30, to: Date())!
+        let quitDate = Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date().addingTimeInterval(30 * 86400)
         let profile = UserProfile(quitDate: quitDate, enableGradualReduction: true)
         let dailyAverage = 20.0
         
@@ -156,7 +156,7 @@ final class UserProfileTests: XCTestCase {
     }
     
     func testTodayTargetPastQuitDate() {
-        let pastQuitDate = Calendar.current.date(byAdding: .day, value: -1, to: Date())!
+        let pastQuitDate = Calendar.current.date(byAdding: .day, value: -1, to: Date()) ?? Date().addingTimeInterval(-86400)
         let profile = UserProfile(quitDate: pastQuitDate, enableGradualReduction: true)
         let dailyAverage = 20.0
         
@@ -181,7 +181,7 @@ final class UserProfileTests: XCTestCase {
     }
     
     func testReductionCurveCalculations() {
-        let quitDate = Calendar.current.date(byAdding: .day, value: 30, to: Date())!
+        let quitDate = Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date().addingTimeInterval(30 * 86400)
         let profile = UserProfile(quitDate: quitDate, enableGradualReduction: true)
         
         // Test different curves produce different results

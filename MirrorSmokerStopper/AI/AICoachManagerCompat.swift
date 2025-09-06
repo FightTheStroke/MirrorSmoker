@@ -35,7 +35,12 @@ class AICoachManagerCompat: ObservableObject {
             if modernManager == nil {
                 modernManager = AICoachManager.shared
             }
-            let manager = modernManager as! AICoachManager
+            guard let manager = modernManager as? AICoachManager else {
+                logger.error("Failed to cast modernManager to AICoachManager")
+                await generateFallbackTip(modelContext: modelContext, userProfile: userProfile)
+                isGeneratingTip = false
+                return
+            }
             await manager.generateDailyTip(modelContext: modelContext, userProfile: userProfile)
             currentTip = manager.currentTip
         } else {

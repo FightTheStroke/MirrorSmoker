@@ -1507,3 +1507,114 @@
 "statistics.monthly.spending" = "Monthly Spending";
 
 "hour.format" = "%02d:00";
+
+// Onboarding
+"onboarding.welcome.title" = "Welcome to MirrorSmoker";
+"onboarding.welcome.subtitle" = "Your journey to a smoke-free life starts here";
+"onboarding.feature.ai" = "AI-powered coaching for personalized support";
+"onboarding.feature.health" = "Track health improvements as you quit";
+"onboarding.feature.stats" = "Detailed statistics and progress tracking";
+"onboarding.feature.notifications" = "Smart notifications to help you stay on track";
+"onboarding.profile.title" = "Set Up Your Profile";
+"onboarding.profile.subtitle" = "Help us personalize your quit journey";
+"onboarding.profile.name" = "Your Name";
+"onboarding.profile.quit.date" = "Target Quit Date";
+"onboarding.profile.set.quit.date" = "Set Your Quit Date";
+"onboarding.habits.title" = "Your Smoking Habits";
+"onboarding.habits.subtitle" = "Tell us about your current smoking patterns";
+"onboarding.habits.daily" = "Cigarettes per day";
+"onboarding.habits.pack.price" = "Price per pack";
+"onboarding.habits.pack.size" = "Cigarettes per pack";
+"onboarding.ai.title" = "AI Coach Setup";
+"onboarding.ai.subtitle" = "Get personalized support powered by AI";
+"onboarding.ai.enable" = "Enable AI Coaching";
+"onboarding.ai.description" = "AI coaching provides personalized tips and interventions based on your patterns";
+"onboarding.ai.setup.healthkit" = "Set up HealthKit integration for better insights";
+"onboarding.complete.title" = "You're All Set!";
+"onboarding.complete.subtitle" = "Your personalized quit plan is ready";
+"onboarding.complete.daily" = "Daily cigarettes";
+"onboarding.complete.ai.enabled" = "AI coaching enabled";
+"onboarding.button.back" = "Back";
+"onboarding.button.next" = "Next";
+"onboarding.button.start" = "Start My Journey";
+"onboarding.healthkit.title" = "Health Data Access";
+"onboarding.healthkit.description" = "Allow MirrorSmoker to access your health data for better insights";
+"onboarding.healthkit.heart.rate" = "Heart rate monitoring";
+"onboarding.healthkit.activity" = "Activity tracking";
+"onboarding.healthkit.sleep" = "Sleep data";
+"onboarding.healthkit.granted" = "Access granted";
+"onboarding.healthkit.request" = "Request Access";
+"onboarding.healthkit.skip" = "Skip for now";
+
+// Progress and Savings Goals
+"progress.goal.details" = "Goal Details";
+"progress.goal.title" = "Goal Title";
+"progress.goal.target" = "Target Amount";
+"progress.goal.has.deadline" = "Set Deadline";
+"progress.goal.deadline" = "Deadline";
+"progress.goal.progress" = "Progress";
+"progress.goal.current" = "Current";
+"progress.goal.remaining" = "Remaining";
+"progress.goal.completion" = "Completion";
+"progress.goal.edit" = "Edit Goal";
+"progress.goal.new" = "New Goal";
+"progress.goal.title.placeholder" = "Enter goal title";
+"progress.goal.target.amount" = "Target Amount";
+"progress.goal.category" = "Category";
+"progress.goal.set.deadline" = "Set Deadline";
+"progress.goal.target.date" = "Target Date";
+"progress.goal.tip" = "Tip: Set realistic goals to stay motivated";
+"progress.goal.add.new" = "Add New Goal";
+"button.save" = "Save";
+
+// MISSING UI COMPONENTS KEYS
+"add.with.tags" = "Add with Tags";
+"ai.coach.personal" = "Personal AI Coach";
+"ai.coach.tip.title" = "AI Coach Tip";
+"no.cigarettes.placeholder" = "No cigarettes recorded";
+"monthly.stats.last.6.months" = "Last 6 Months";
+"stats.advanced" = "Advanced Statistics";
+"stats.chartType" = "Chart Type";
+"stats.monthly" = "Monthly";
+"stats.weekly" = "Weekly";
+"stats.per.day.format" = "%.1f per day";
+
+// MISSING PREMIUM/PAYWALL KEYS
+"paywall.ai.coaching.title" = "AI Coaching";
+"paywall.ai.coaching.subtitle" = "Get personalized coaching powered by AI";
+"paywall.analytics.title" = "Advanced Analytics";
+"paywall.analytics.subtitle" = "Deep insights into your smoking patterns";
+"paywall.export.title" = "Data Export";
+"paywall.export.subtitle" = "Export your data in multiple formats";
+"paywall.onboarding.title" = "Premium Onboarding";
+"paywall.onboarding.subtitle" = "Guided setup for optimal results";
+"paywall.settings.title" = "Advanced Settings";
+"paywall.settings.subtitle" = "Customize your quit journey";
+"paywall.social.title" = "Social Features";
+"paywall.social.subtitle" = "Connect with the quit smoking community";
+"paywall.tags.limit.title" = "Unlimited Tags";
+"paywall.tags.limit.subtitle" = "Create as many tags as you need";
+"paywall.widgets.title" = "Premium Widgets";
+"paywall.widgets.subtitle" = "Advanced home screen widgets";
+
+// MISSING PREMIUM SETTINGS KEYS
+"premium.feature.locked" = "Premium Feature";
+"premium.upgrade.now" = "Upgrade Now";
+"settings.continue.free" = "Continue Free";
+"settings.feature.ai.coaching" = "AI Coaching";
+"settings.feature.analytics" = "Advanced Analytics";
+"settings.feature.export" = "Data Export";
+"settings.feature.unlimited.tags" = "Unlimited Tags";
+"settings.premium.active.subtitle" = "All premium features unlocked";
+"settings.premium.description" = "Unlock advanced features to accelerate your quit journey";
+"settings.premium.features.unlocked" = "Premium Features Unlocked";
+"settings.premium.free.subtitle" = "Basic features available";
+"settings.premium.title" = "Premium Subscription";
+"settings.upgrade.now" = "Upgrade Now";
+
+// MISSING STORE ERROR KEYS
+"store.error.unknown" = "Unknown error occurred";
+"store.error.verification" = "Purchase verification failed";
+
+// MISSING DYNAMIC HEALTH KEYS - These are already defined above in the file
+// Keeping the existing definitions to avoid duplicates

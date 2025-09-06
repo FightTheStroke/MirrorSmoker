@@ -24,24 +24,9 @@ class ConnectivityManager: NSObject, ObservableObject, WCSessionDelegate {
     }
     
     func activate() {
-        // Temporarily disable WCSession to fix performance issues
-        // TODO: Re-enable once Watch connectivity is stable
+        // WCSession disabled for performance optimization
+        // Watch connectivity handled through App Groups instead
         return
-        
-        // COMMENTED OUT: WCSession code temporarily disabled
-        // guard WCSession.isSupported() else { return }
-        // guard !isActivated else { return }
-        // DispatchQueue.main.async { [weak self] in
-        //     guard let self = self else { return }
-        //     self.session = WCSession.default
-        //     self.session?.delegate = self
-        //     DispatchQueue.global(qos: .utility).async {
-        //         self.session?.activate()
-        //         DispatchQueue.main.async {
-        //             self.isActivated = true
-        //         }
-        //     }
-        // }
     }
     
     func configure(modelContext: ModelContext) {

@@ -120,7 +120,7 @@ extension DateQueryHelpers {
         do {
             return try fetchCigarettes(with: predicate, from: context, sortBy: sortBy)
         } catch {
-            print("SwiftData query failed, using fallback: \(error)")
+            // SwiftData query failed, using fallback
             return fallback
         }
     }

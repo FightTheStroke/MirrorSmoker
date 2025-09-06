@@ -298,8 +298,7 @@ struct TagEditingSheet: View {
             
             dismiss()
         } catch {
-            // Handle error
-            print("Error saving tags: \(error)")
+            // Handle error saving tags
         }
         
         isLoading = false

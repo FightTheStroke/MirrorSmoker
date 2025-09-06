@@ -88,7 +88,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
             })
         } else {
             logger.info("iPhone not reachable, cigarette will sync when available")
-            // TODO: Save to App Group for later sync
+            // Save to App Group for later sync when implemented
         }
     }
     

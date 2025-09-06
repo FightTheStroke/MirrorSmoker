@@ -18,7 +18,7 @@ struct AppGroupManager {
     
     static var sharedModelContainer: ModelContainer? {
         guard let url = sharedContainer else {
-            print("❌ App Group container not found")
+            // App Group container not found
             return nil
         }
         
@@ -40,7 +40,7 @@ struct AppGroupManager {
             )
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
-            print("❌ Failed to create shared model container: \(error)")
+            // Failed to create shared model container
             return nil
         }
     }
@@ -102,7 +102,7 @@ class WidgetDataProvider: ObservableObject {
             
             return true
         } catch {
-            print("❌ Failed to add cigarette from widget: \(error)")
+            // Failed to add cigarette from widget
             return false
         }
     }

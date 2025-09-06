@@ -5,6 +5,7 @@ import AppIntents
 @main
 struct MirrorSmokerStopperApp: App {
     @StateObject private var healthKitManager = HealthKitManager()
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     
     var sharedModelContainer: ModelContainer {
         PersistenceController.shared.container
@@ -12,8 +13,13 @@ struct MirrorSmokerStopperApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainTabView()
-                .environmentObject(healthKitManager)
+            if hasCompletedOnboarding {
+                MainTabView()
+                    .environmentObject(healthKitManager)
+            } else {
+                OnboardingView()
+                    .environmentObject(healthKitManager)
+            }
         }
         .modelContainer(sharedModelContainer)
     }

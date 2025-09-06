@@ -1503,3 +1503,133 @@
 "statistics.monthly.spending" = "Monatliche Ausgaben";
 
 "hour.format" = "%02d:00";
+
+// Onboarding
+"onboarding.welcome.title" = "Willkommen bei MirrorSmoker";
+"onboarding.welcome.subtitle" = "Ihre Reise zu einem rauchfreien Leben beginnt hier";
+"onboarding.feature.ai" = "KI-gestütztes Coaching für personalisierte Unterstützung";
+"onboarding.feature.health" = "Verfolgen Sie Gesundheitsverbesserungen beim Aufhören";
+"onboarding.feature.stats" = "Detaillierte Statistiken und Fortschrittsverfolgung";
+"onboarding.feature.notifications" = "Intelligente Benachrichtigungen helfen Ihnen auf Kurs zu bleiben";
+"onboarding.profile.title" = "Profil einrichten";
+"onboarding.profile.subtitle" = "Helfen Sie uns, Ihre Aufhör-Reise zu personalisieren";
+"onboarding.profile.name" = "Ihr Name";
+"onboarding.profile.quit.date" = "Ziel-Aufhördatum";
+"onboarding.profile.set.quit.date" = "Aufhördatum festlegen";
+"onboarding.habits.title" = "Ihre Rauchgewohnheiten";
+"onboarding.habits.subtitle" = "Erzählen Sie uns von Ihren aktuellen Rauchmustern";
+"onboarding.habits.daily" = "Zigaretten pro Tag";
+"onboarding.habits.pack.price" = "Preis pro Packung";
+"onboarding.habits.pack.size" = "Zigaretten pro Packung";
+"onboarding.ai.title" = "KI-Coach Einrichtung";
+"onboarding.ai.subtitle" = "Erhalten Sie personalisierte Unterstützung durch KI";
+"onboarding.ai.enable" = "KI-Coaching aktivieren";
+"onboarding.ai.description" = "KI-Coaching bietet personalisierte Tipps und Interventionen basierend auf Ihren Mustern";
+"onboarding.ai.setup.healthkit" = "HealthKit-Integration für bessere Einblicke einrichten";
+"onboarding.complete.title" = "Alles bereit!";
+"onboarding.complete.subtitle" = "Ihr personalisierter Aufhörplan ist fertig";
+"onboarding.complete.daily" = "Tägliche Zigaretten";
+"onboarding.complete.ai.enabled" = "KI-Coaching aktiviert";
+"onboarding.button.back" = "Zurück";
+"onboarding.button.next" = "Weiter";
+"onboarding.button.start" = "Meine Reise beginnen";
+"onboarding.healthkit.title" = "Gesundheitsdaten-Zugriff";
+"onboarding.healthkit.description" = "Erlauben Sie MirrorSmoker den Zugriff auf Ihre Gesundheitsdaten für bessere Einblicke";
+"onboarding.healthkit.heart.rate" = "Herzfrequenz-Überwachung";
+"onboarding.healthkit.activity" = "Aktivitätsverfolgung";
+"onboarding.healthkit.sleep" = "Schlafdaten";
+"onboarding.healthkit.granted" = "Zugriff gewährt";
+"onboarding.healthkit.request" = "Zugriff anfordern";
+"onboarding.healthkit.skip" = "Vorerst überspringen";
+
+// Fortschritt und Sparziele
+"progress.goal.details" = "Ziel-Details";
+"progress.goal.title" = "Ziel-Titel";
+"progress.goal.target" = "Zielbetrag";
+"progress.goal.has.deadline" = "Frist setzen";
+"progress.goal.deadline" = "Frist";
+"progress.goal.progress" = "Fortschritt";
+"progress.goal.current" = "Aktuell";
+"progress.goal.remaining" = "Verbleibend";
+"progress.goal.completion" = "Abschluss";
+"progress.goal.edit" = "Ziel bearbeiten";
+"progress.goal.new" = "Neues Ziel";
+"progress.goal.title.placeholder" = "Ziel-Titel eingeben";
+"progress.goal.target.amount" = "Zielbetrag";
+"progress.goal.category" = "Kategorie";
+"progress.goal.set.deadline" = "Frist setzen";
+"progress.goal.target.date" = "Zieldatum";
+"progress.goal.tip" = "Tipp: Setzen Sie realistische Ziele, um motiviert zu bleiben";
+"progress.goal.add.new" = "Neues Ziel hinzufügen";
+"button.cancel" = "Abbrechen";
+"button.save" = "Speichern";
+"button.add" = "Hinzufügen";
+
+// FEHLENDE UI KOMPONENTEN KEYS
+"add.with.tags" = "Mit Tags hinzufügen";
+"ai.coach.personal" = "Persönlicher AI Coach";
+"ai.coach.tip.title" = "AI Coach Tipp";
+"no.cigarettes.placeholder" = "Keine Zigaretten erfasst";
+"monthly.stats.last.6.months" = "Letzte 6 Monate";
+"stats.advanced" = "Erweiterte Statistiken";
+"stats.chartType" = "Diagrammtyp";
+"stats.monthly" = "Monatlich";
+"stats.weekly" = "Wöchentlich";
+"stats.per.day.format" = "%.1f pro Tag";
+
+// FEHLENDE PREMIUM/PAYWALL KEYS
+"paywall.ai.coaching.title" = "AI Coaching";
+"paywall.ai.coaching.subtitle" = "Erhalten Sie personalisiertes Coaching mit KI";
+"paywall.analytics.title" = "Erweiterte Analysen";
+"paywall.analytics.subtitle" = "Tiefe Einblicke in Ihre Rauchgewohnheiten";
+"paywall.export.title" = "Datenexport";
+"paywall.export.subtitle" = "Exportieren Sie Ihre Daten in verschiedenen Formaten";
+"paywall.onboarding.title" = "Premium Onboarding";
+"paywall.onboarding.subtitle" = "Geführte Einrichtung für optimale Ergebnisse";
+"paywall.settings.title" = "Erweiterte Einstellungen";
+"paywall.settings.subtitle" = "Personalisieren Sie Ihre Quit-Journey";
+"paywall.social.title" = "Social Features";
+"paywall.social.subtitle" = "Verbinden Sie sich mit der Rauchstopp-Community";
+"paywall.tags.limit.title" = "Unbegrenzte Tags";
+"paywall.tags.limit.subtitle" = "Erstellen Sie so viele Tags wie Sie brauchen";
+"paywall.widgets.title" = "Premium Widgets";
+"paywall.widgets.subtitle" = "Erweiterte Homescreen-Widgets";
+
+// FEHLENDE PREMIUM EINSTELLUNGEN KEYS
+"premium.feature.locked" = "Premium-Feature";
+"premium.upgrade.now" = "Jetzt upgraden";
+"settings.continue.free" = "Kostenlos fortfahren";
+"settings.feature.ai.coaching" = "AI Coaching";
+"settings.feature.analytics" = "Erweiterte Analysen";
+"settings.feature.export" = "Datenexport";
+"settings.feature.unlimited.tags" = "Unbegrenzte Tags";
+"settings.premium.active.subtitle" = "Alle Premium-Features freigeschaltet";
+"settings.premium.description" = "Schalten Sie erweiterte Features frei, um Ihre Quit-Journey zu beschleunigen";
+"settings.premium.features.unlocked" = "Premium-Features freigeschaltet";
+"settings.premium.free.subtitle" = "Basis-Features verfügbar";
+"settings.premium.title" = "Premium-Abonnement";
+"settings.upgrade.now" = "Jetzt upgraden";
+
+// FEHLENDE STORE ERROR KEYS
+"store.error.unknown" = "Unbekannter Fehler aufgetreten";
+"store.error.verification" = "Kauf-Verifizierung fehlgeschlagen";
+
+// FEHLENDE DYNAMISCHE GESUNDHEITS KEYS
+"health.category.cardiovascular" = "Herz";
+"health.category.respiratory" = "Lunge";
+"health.category.circulation" = "Durchblutung";
+"health.category.energy" = "Energie";
+"health.category.immune" = "Immunsystem";
+"health.category.appearance" = "Aussehen";
+"health.range.week" = "1 Woche";
+"health.range.month" = "1 Monat";
+"health.range.three_months" = "3 Monate";
+"health.range.year" = "1 Jahr";
+"health.timeframe.20_minutes" = "20 Min";
+"health.timeframe.8_hours" = "8 Stunden";
+"health.timeframe.24_hours" = "1 Tag";
+"health.timeframe.3_days" = "3 Tage";
+"health.timeframe.2_weeks" = "2 Wochen";
+"health.timeframe.1_month" = "1 Monat";
+"health.timeframe.3_months" = "3 Monate";
+"health.timeframe.1_year" = "1 Jahr";

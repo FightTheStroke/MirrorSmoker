@@ -20,7 +20,7 @@ struct AppGroupManager {
     
     static var sharedModelContainer: ModelContainer? {
         guard let url = sharedContainer else {
-            print("❌ App Group container not found")
+            // App Group container not found
             return nil
         }
         
@@ -41,7 +41,7 @@ struct AppGroupManager {
             )
             return try ModelContainer(for: schema, configurations: [config])
         } catch {
-            print("❌ Widget failed to create shared model container: \(error)")
+            // Widget failed to create shared model container
             return nil
         }
     }
@@ -173,7 +173,7 @@ struct CigaretteProvider: TimelineProvider {
     // MARK: - Data Access
     private func getTodayStats() -> WidgetTodayStats {
         guard let container = AppGroupManager.sharedModelContainer else {
-            print("❌ Widget: Failed to get shared model container")
+            // Widget: Failed to get shared model container
             return WidgetTodayStats.fallback
         }
         
@@ -207,7 +207,7 @@ struct CigaretteProvider: TimelineProvider {
             let recentCigarettes = try context.fetch(recentDescriptor)
             let dailyAverage = recentCigarettes.isEmpty ? 0.0 : Double(recentCigarettes.count) / 30.0
             
-            print("🔄 Widget data loaded: Today=\(todayCigarettes.count), Average=\(String(format: "%.1f", dailyAverage))")
+            // Widget data loaded successfully
             
             return WidgetTodayStats(
                 todayCount: todayCigarettes.count,
@@ -216,7 +216,7 @@ struct CigaretteProvider: TimelineProvider {
             )
             
         } catch {
-            print("❌ Widget failed to fetch data: \(error)")
+            // Widget failed to fetch data
             return WidgetTodayStats.fallback
         }
     }

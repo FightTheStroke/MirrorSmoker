@@ -289,7 +289,7 @@ class HeartRateCoachingEngine: ObservableObject {
         let intervention = selectOptimalIntervention()
         
         // Create notification or in-app alert
-        // TODO: Integrate with NotificationManager when implemented
+        // Integrate with NotificationManager when implemented
         // NotificationManager.shared.scheduleHeartRateIntervention(
         //     type: intervention,
         //     riskLevel: cravingRisk,

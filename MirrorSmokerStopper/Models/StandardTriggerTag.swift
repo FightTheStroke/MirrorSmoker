@@ -85,7 +85,7 @@ enum StandardTriggerTag: String, CaseIterable {
             return newTag
             
         } catch {
-            print("Error fetching/creating standard tag: \(error)")
+            // Error fetching/creating standard tag
             return nil
         }
     }

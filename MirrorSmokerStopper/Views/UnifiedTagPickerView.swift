@@ -156,8 +156,7 @@ struct UnifiedTagPickerView: View {
             newTagName = ""
             showingAddTag = false
         } catch {
-            // Handle error (show alert)
-            print("Error adding tag: \(error)")
+            // Handle error adding tag - show alert to user
         }
     }
     
@@ -168,7 +167,7 @@ struct UnifiedTagPickerView: View {
             // Delete the tag
             try tagManager.deleteTag(tag, in: modelContext)
         } catch {
-            print("Error deleting tag: \(error)")
+            // Error deleting tag
         }
     }
 }
@@ -379,7 +378,7 @@ struct EditTagSheet: View {
             )
             dismiss()
         } catch {
-            print("Error updating tag: \(error)")
+            // Error updating tag
         }
     }
 }

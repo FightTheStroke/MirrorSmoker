@@ -31,7 +31,7 @@ struct AddCigaretteIntent: AppIntent {
     // MARK: - Database Access
     private func addCigaretteToSharedDatabase() async -> Bool {
         guard let container = AppGroupManager.sharedModelContainer else {
-            print("❌ Widget: Failed to get shared model container for adding cigarette")
+            // Widget: Failed to get shared model container for adding cigarette
             return false
         }
         
@@ -53,11 +53,11 @@ struct AddCigaretteIntent: AppIntent {
                 userDefaults.set("widget", forKey: "lastUpdateSource")
             }
             
-            print("✅ Widget successfully added cigarette to shared database")
+            // Widget successfully added cigarette to shared database
             return true
             
         } catch {
-            print("❌ Widget failed to add cigarette: \(error)")
+            // Widget failed to add cigarette
             return false
         }
     }

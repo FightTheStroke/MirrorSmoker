@@ -129,6 +129,7 @@ struct ContentView: View {
                 LazyVStack(spacing: DS.Space.lg) {
                     heroSection
                     quickStatsSection
+                    quickTagButtons
                     coachMessageSection
                     todayCigarettesSection
                     todaysInsightSection
@@ -475,6 +476,45 @@ struct ContentView: View {
         }
     }
     
+    private var quickTagButtons: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: DS.Space.sm) {
+                ForEach(allTags.prefix(5), id: \.id) { tag in
+                    Button(action: {
+                        addCigaretteWithQuickTag(tag)
+                    }) {
+                        HStack(spacing: DS.Space.xs) {
+                            Image(systemName: "plus.circle.fill")
+                                .font(.footnote)
+                            Text(tag.name)
+                                .font(DS.Text.caption)
+                        }
+                        .padding(.horizontal, DS.Space.md)
+                        .padding(.vertical, DS.Space.xs)
+                        .background(Color(hex: tag.colorHex).opacity(0.2))
+                        .foregroundColor(Color(hex: tag.colorHex))
+                        .cornerRadius(20)
+                    }
+                }
+                
+                Button(action: { showingTagSelection = true }) {
+                    HStack(spacing: DS.Space.xs) {
+                        Image(systemName: "plus")
+                            .font(.footnote)
+                        Text("add.with.tags".local())
+                            .font(DS.Text.caption)
+                    }
+                    .padding(.horizontal, DS.Space.md)
+                    .padding(.vertical, DS.Space.xs)
+                    .background(DS.Colors.primary.opacity(0.1))
+                    .foregroundColor(DS.Colors.primary)
+                    .cornerRadius(20)
+                }
+            }
+            .padding(.horizontal, DS.Space.lg)
+        }
+    }
+    
     private var todayCigarettesSection: some View {
         TodayCigarettesList(
             todayCigarettes: todaysCigarettes,
@@ -523,6 +563,10 @@ struct ContentView: View {
     
     private func addCigaretteWithTags(_ tags: [Tag]) {
         addCigarette(tags: tags.isEmpty ? nil : tags, tagCount: tags.count)
+    }
+    
+    private func addCigaretteWithQuickTag(_ tag: Tag) {
+        addCigarette(tags: [tag], tagCount: 1)
     }
     
     private func deleteCigarette(_ cigarette: Cigarette) {

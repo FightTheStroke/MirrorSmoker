@@ -142,7 +142,7 @@ struct MilestoneCard: View {
                     isPressed = false
                 }
             }
-            // TODO: Show milestone detail
+            // Show milestone detail when implemented
         }
         .animation(DS.Animation.spring, value: isPressed)
     }

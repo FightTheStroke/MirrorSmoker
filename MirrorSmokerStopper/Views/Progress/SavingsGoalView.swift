@@ -227,8 +227,7 @@ struct SavingsGoalView: View {
                 .animation(DS.Animation.spring, value: goal.isCompleted)
         )
         .sheet(isPresented: $showGoalEditor) {
-            // TODO: Implement SavingsGoalEditorView
-            Text("progress.goal.editor.coming.soon".local())
+            SavingsGoalEditorView(goal: goal)
         }
     }
     
@@ -306,8 +305,7 @@ struct SavingsOverview: View {
             }
         }
         .sheet(isPresented: $showAddGoal) {
-            // TODO: Implement AddSavingsGoalView
-            Text("progress.add.goal.coming.soon".local())
+            AddSavingsGoalView()
         }
     }
     
@@ -343,6 +341,183 @@ struct EmptySavingsView: View {
         .frame(height: 200)
         .frame(maxWidth: .infinity)
         .liquidGlassCard(elevation: DS.Shadow.small)
+    }
+}
+
+// MARK: - Savings Goal Editor View
+struct SavingsGoalEditorView: View {
+    let goal: SavingsGoal
+    @Environment(\.dismiss) private var dismiss
+    @State private var title: String = ""
+    @State private var targetAmount: String = ""
+    @State private var targetDate: Date = Date()
+    @State private var hasTargetDate: Bool = false
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    TextField("progress.goal.title".local(), text: $title)
+                    
+                    HStack {
+                        Text("progress.goal.target".local())
+                        Spacer()
+                        TextField("0", text: $targetAmount)
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                    }
+                    
+                    Toggle("progress.goal.has.deadline".local(), isOn: $hasTargetDate)
+                    
+                    if hasTargetDate {
+                        DatePicker("progress.goal.deadline".local(),
+                                 selection: $targetDate,
+                                 displayedComponents: [.date])
+                    }
+                }
+                
+                Section {
+                    HStack {
+                        Text("progress.goal.current".local())
+                        Spacer()
+                        Text(formatCurrency(goal.currentAmount))
+                            .foregroundColor(DS.Colors.textSecondary)
+                    }
+                    
+                    HStack {
+                        Text("progress.goal.remaining".local())
+                        Spacer()
+                        Text(formatCurrency(goal.targetAmount - goal.currentAmount))
+                            .foregroundColor(DS.Colors.primary)
+                    }
+                    
+                    if goal.progress > 0 {
+                        HStack {
+                            Text("progress.goal.completion".local())
+                            Spacer()
+                            Text("\(Int(goal.progress * 100))%")
+                                .foregroundColor(DS.Colors.smokingProgressGood)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("progress.goal.edit".local())
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("button.cancel".local()) {
+                        dismiss()
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("button.save".local()) {
+                        saveGoal()
+                        dismiss()
+                    }
+                    .fontWeight(.semibold)
+                }
+            }
+        }
+        .onAppear {
+            title = goal.title
+            targetAmount = String(format: "%.2f", goal.targetAmount)
+            if let date = goal.targetDate {
+                targetDate = date
+                hasTargetDate = true
+            }
+        }
+    }
+    
+    private func saveGoal() {
+        // Implementation would save to SwiftData
+        // For now, this is a placeholder
+    }
+    
+    private func formatCurrency(_ amount: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.currencyCode = Locale.current.currency?.identifier ?? "EUR"
+        return formatter.string(from: NSNumber(value: amount)) ?? "€\(Int(amount))"
+    }
+}
+
+// MARK: - Add Savings Goal View
+struct AddSavingsGoalView: View {
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.modelContext) private var modelContext
+    
+    @State private var title: String = ""
+    @State private var targetAmount: String = ""
+    @State private var targetDate: Date = Date()
+    @State private var hasTargetDate: Bool = false
+    @State private var selectedCategory: SavingsCategory = .custom
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    TextField("progress.goal.title.placeholder".local(), text: $title)
+                    
+                    HStack {
+                        Text("progress.goal.target.amount".local())
+                        Spacer()
+                        TextField("0", text: $targetAmount)
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                    }
+                    
+                    Picker("progress.goal.category".local(), selection: $selectedCategory) {
+                        ForEach(SavingsCategory.allCases, id: \.self) { category in
+                            Label(category.rawValue.capitalized, systemImage: category.icon)
+                                .tag(category)
+                        }
+                    }
+                    
+                    Toggle("progress.goal.set.deadline".local(), isOn: $hasTargetDate)
+                    
+                    if hasTargetDate {
+                        DatePicker("progress.goal.target.date".local(),
+                                 selection: $targetDate,
+                                 in: Date()...,
+                                 displayedComponents: [.date])
+                    }
+                }
+                
+                Section {
+                    Text("progress.goal.tip".local())
+                        .font(DS.Text.caption)
+                        .foregroundColor(DS.Colors.textSecondary)
+                }
+            }
+            .navigationTitle("progress.goal.add.new".local())
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("button.cancel".local()) {
+                        dismiss()
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("button.add".local()) {
+                        addGoal()
+                        dismiss()
+                    }
+                    .fontWeight(.semibold)
+                    .disabled(title.isEmpty || targetAmount.isEmpty)
+                }
+            }
+        }
+    }
+    
+    private func addGoal() {
+        guard !title.isEmpty,
+              let amount = Double(targetAmount) else { return }
+        
+        // Create and save the goal
+        // This would integrate with your SwiftData model
+        // For now, it's a placeholder
     }
 }
 

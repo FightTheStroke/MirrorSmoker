@@ -1,0 +1,29 @@
+# Match configuration for code signing
+
+git_url("https://github.com/FightTheStroke/MirrorSmoker.git")
+git_branch("certificates")
+
+storage_mode("git")
+
+type("appstore") # Default type, can be: appstore, adhoc, enterprise or development
+
+# app_identifier(["com.mirror-labs.MirrorSmokerStopper", 
+#                 "com.mirror-labs.MirrorSmokerStopper.watchkitapp",
+#                 "com.mirror-labs.MirrorSmokerStopper.HomeWidget"])
+
+username(ENV["APPLE_ID"] || "roberdan@microsoft.com")
+
+# For non-CI builds, we can use readonly mode
+readonly(false)
+
+# Generate profiles if they don't exist
+generate_apple_certs(true)
+
+# Platform
+platform("ios")
+
+# Additional settings
+verbose(true)
+force(false)
+shallow_clone(true)
+clone_branch_directly(false)

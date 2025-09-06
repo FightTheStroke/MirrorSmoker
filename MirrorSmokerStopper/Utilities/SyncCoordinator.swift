@@ -69,6 +69,50 @@ class SyncCoordinator: ObservableObject {
     
     // MARK: - Sync Operations
     
+    func tagAdded(from source: SyncSource, tag: Tag? = nil) {
+        logger.info("Tag added from \(source.rawValue)")
+        
+        switch source {
+        case .app:
+            // Update Widget (tags affect quick actions)
+            WidgetCenter.shared.reloadAllTimelines()
+            
+            // Update Watch via WatchConnectivity
+            WatchConnectivityManager.shared.sendDataSync()
+            
+            // Update shared UserDefaults
+            updateSharedUserDefaults()
+            
+        case .widget:
+            // Not applicable - widgets don't create tags
+            break
+            
+        case .watch:
+            // Not applicable - watch doesn't create tags
+            break
+        }
+        
+        lastSyncTime = Date()
+    }
+    
+    func tagUpdated(from source: SyncSource, tag: Tag? = nil) {
+        logger.info("Tag updated from \(source.rawValue)")
+        
+        switch source {
+        case .app:
+            // Update Widget and Watch
+            WidgetCenter.shared.reloadAllTimelines()
+            WatchConnectivityManager.shared.sendDataSync()
+            updateSharedUserDefaults()
+            
+        case .widget, .watch:
+            // Not applicable
+            break
+        }
+        
+        lastSyncTime = Date()
+    }
+    
     func cigaretteAdded(from source: SyncSource, cigarette: Cigarette? = nil) {
         logger.info("Cigarette added from \(source.rawValue)")
         

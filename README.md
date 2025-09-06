@@ -228,6 +228,52 @@ Select UI test target and run
 ```
 
 ### Deployment
+### 🔄 Automated Release & Beta Pipeline (Fastlane)
+
+The project includes a fully automated App Store pipeline:
+
+Release lane (`fastlane release`) performs:
+1. Git clean + branch check (master)
+2. Match (certificates for app, watch, widget)
+3. Version bump (NEW_VERSION or BUMP_TYPE=patch|minor|major, default patch)
+4. Build number bump (timestamp if USE_TIMESTAMP_BUILD=1)
+5. Optional tests (skip with FASTLANE_SKIP_TESTS=1)
+6. Screenshot pipeline (skip with SKIP_SCREENSHOTS=1)
+7. Precheck (if APP_STORE_CONNECT_API_KEY_PATH set)
+8. Build IPA (app-store export)
+9. Deliver: metadata + screenshots + binary + submit_for_review (manual release)
+10. Commit, tag (v<version>), push
+
+Beta lane (`fastlane beta`) performs:
+- Git clean check
+- Build number only bump (timestamp optional)
+- Build + upload to TestFlight
+- Commit version bump
+
+Environment variables:
+- NEW_VERSION=1.2.0 (explicit marketing version)
+- BUMP_TYPE=minor (overrides default patch when NEW_VERSION absent)
+- USE_TIMESTAMP_BUILD=1 (use YYYYMMDDHHMM as build)
+- FASTLANE_SKIP_TESTS=1 (skip scan tests)
+- SKIP_SCREENSHOTS=1 (skip screenshots generation in release)
+- DRY_RUN=1 (skip deliver/upload + git push/tag)
+- APP_STORE_CONNECT_API_KEY_PATH=fastlane/AuthKey_XXXX.p8 (enables precheck)
+
+Example dry run:
+```bash
+BUNDLER_VERSION=2.7.1 bundle _2.7.1_ exec fastlane release DRY_RUN=1 FASTLANE_SKIP_TESTS=1 SKIP_SCREENSHOTS=1
+```
+
+Normal release:
+```bash
+bundle exec fastlane release
+```
+
+TestFlight beta:
+```bash
+bundle exec fastlane beta
+```
+
 ```bash
 # Install fastlane dependencies
 bundle install

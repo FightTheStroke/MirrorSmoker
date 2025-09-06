@@ -1,21 +1,26 @@
-# Snapfile for MirrorSmokerStopper - iPhone & Apple Watch App with iOS 26
+# Snapfile for MirrorSmokerStopper - iOS 26 Screenshot Set
+# Nota: la lane in Fastfile rileva dinamicamente i simulatori iOS 26.
+# Qui manteniamo un fallback esplicito SOLO con device iOS 26 (serie iPhone 16) se disponibili.
 devices([
-  "iPhone 16 Pro Max",  # 6.9" display - Required for iOS 26 features
-  "iPhone 16 Pro",      # 6.3" display - Required  
-  "iPhone 16",          # Standard size - Good coverage
-  "Apple Watch Series 10 (46mm)"  # Apple Watch screenshots
+  # Uso forzato del simulatore rinominato
+  "RoberdanTests26"
 ])
 
 languages([
-  "en-US",  # English first
-  "es-ES", 
+  "en-US",
+  "es-ES",
   "fr-FR",
   "de-DE",
-  "it"
+  "it-IT"
 ])
 
 scheme("MirrorSmokerStopper")
 test_target_name("MirrorSmokerStopperUITests")
+only_testing([
+  "MirrorSmokerStopperUITests/BasicScreenshotTests/testAppScreenshots",
+  "MirrorSmokerStopperUITests/AICoachScreenshotTests/testAICoachScreenshots",
+  "MirrorSmokerStopperUITests/WidgetScreenshotTests/testWidgetScreenshots"
+])
 project("./MirrorSmokerStopper.xcodeproj")
 output_directory("./fastlane/screenshots")
 clear_previous_screenshots(true)

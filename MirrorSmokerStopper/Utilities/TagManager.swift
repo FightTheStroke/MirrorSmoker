@@ -79,6 +79,9 @@ class TagManager: ObservableObject {
         context.insert(newTag)
         try context.save()
         
+        // Sync with widget and watch
+        SyncCoordinator.shared.tagAdded(from: .app, tag: newTag)
+        
         Self.logger.info("Added new tag: \(name)")
     }
     
@@ -92,6 +95,10 @@ class TagManager: ObservableObject {
         }
         
         try context.save()
+        
+        // Sync with widget and watch
+        SyncCoordinator.shared.tagUpdated(from: .app, tag: tag)
+        
         Self.logger.info("Updated tag: \(tag.name)")
     }
     

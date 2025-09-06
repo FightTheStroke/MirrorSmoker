@@ -47,7 +47,7 @@ struct AppGroupManager {
     }
 }
 
-// Import models from WidgetModels.swift
+// Using shared models from main app
 
 // MARK: - Widget Today Stats
 struct WidgetTodayStats {

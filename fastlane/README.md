@@ -21,7 +21,39 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane ios screenshots
 ```
 
-Generate screenshots for all device types and languages
+Generate screenshots for iPhone and Apple Watch with iOS 26 features
+
+### ios screenshots_marketing
+
+```sh
+[bundle exec] fastlane ios screenshots_marketing
+```
+
+Genera screenshots + frame con titoli marketing
+
+### ios screenshots_marketing_ai
+
+```sh
+[bundle exec] fastlane ios screenshots_marketing_ai
+```
+
+Screenshots + frame + badge AI Powered
+
+### ios store_assets_full
+
+```sh
+[bundle exec] fastlane ios store_assets_full
+```
+
+Pipeline completa: screenshots (iPhone+Watch), normalizza, frame, badge, validazione
+
+### ios fix_screenshot_sizes
+
+```sh
+[bundle exec] fastlane ios fix_screenshot_sizes
+```
+
+Solo normalizza dimensioni screenshot (senza rigenerarli)
 
 ### ios screenshots_quick
 
@@ -46,6 +78,22 @@ Generate screenshots and upload to App Store Connect
 ```
 
 Upload metadata and screenshots to App Store Connect
+
+### ios upload_ready_for_submission
+
+```sh
+[bundle exec] fastlane ios upload_ready_for_submission
+```
+
+Upload app binary and metadata without screenshots - ready for manual submission
+
+### ios upload_to_app_store
+
+```sh
+[bundle exec] fastlane ios upload_to_app_store
+```
+
+Upload built app and metadata to App Store Connect (ready for manual submission)
 
 ### ios submit_for_review
 

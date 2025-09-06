@@ -1,0 +1,102 @@
+{
+  "default": {
+    "use_platform": "IOS",
+    "default_title": {
+      "font": "HelveticaNeue-Bold",
+      "font_size": 64,
+      "color": "#FFFFFF"
+    },
+    "title": {
+      "font": "HelveticaNeue-Bold",
+      "font_size": 64,
+      "color": "#FFFFFF"
+    },
+    "padding": 0,
+    "background_color": "#0E1117",
+    "keyword": {
+      "font": "HelveticaNeue-Medium",
+      "font_size": 42,
+      "color": "#FFD479"
+    },
+    "connection": {
+      "font": "HelveticaNeue-Light",
+      "font_size": 38,
+      "color": "#E6E6E6"
+    }
+  },
+  "en-US": [
+    {"filter": "01_MainDashboard", "title": {"text": "Track Less. Live More."}},
+    {"filter": "02_AICoach", "title": {"text": "Personal AI Coach"}},
+    {"filter": "03_Statistics", "title": {"text": "Understand Your Triggers"}},
+    {"filter": "04_Settings", "title": {"text": "Personalize Your Journey"}},
+    {"filter": "05_AddCigarette", "title": {"text": "Log Quickly & Tag Context"}},
+    {"filter": "06-AICoachDashboard", "title": {"text": "Predict Cravings Early"}},
+    {"filter": "07-HeartRate", "title": {"text": "Heart Rate Awareness"}},
+    {"filter": "08-Predictive", "title": {"text": "Smart Predictive Insights"}},
+    {"filter": "09-AIInsights", "title": {"text": "Actionable Guidance"}},
+    {"filter": "10-Widget", "title": {"text": "Glanceable Progress"}},
+    {"filter": "11-WidgetSmall", "title": {"text": "Always Visible"}},
+    {"filter": "01_WatchMain", "title": {"text": "Quick Wrist Logging"}},
+    {"filter": "03_WatchProgress", "title": {"text": "Daily Wrist Stats"}}
+  ],
+  "it-IT": [
+    {"filter": "01_MainDashboard", "title": {"text": "Monitora Meno. Vivi di Più."}},
+    {"filter": "02_AICoach", "title": {"text": "Coach AI Personale"}},
+    {"filter": "03_Statistics", "title": {"text": "Capisci i Trigger"}},
+    {"filter": "04_Settings", "title": {"text": "Personalizza il Percorso"}},
+    {"filter": "05_AddCigarette", "title": {"text": "Registra e Tagga Subito"}},
+    {"filter": "06-AICoachDashboard", "title": {"text": "Prevedi le Voglie"}},
+    {"filter": "07-HeartRate", "title": {"text": "Frequenza Cardiaca"}},
+    {"filter": "08-Predictive", "title": {"text": "Analisi Predittiva"}},
+    {"filter": "09-AIInsights", "title": {"text": "Suggerimenti Attuabili"}},
+    {"filter": "10-Widget", "title": {"text": "Progressi a Colpo d'Occhio"}},
+    {"filter": "11-WidgetSmall", "title": {"text": "Sempre Visibile"}},
+    {"filter": "01_WatchMain", "title": {"text": "Registro Rapido"}},
+    {"filter": "03_WatchProgress", "title": {"text": "Statistiche Giorno"}}
+  ],
+  "es-ES": [
+    {"filter": "01_MainDashboard", "title": {"text": "Registra Menos. Vive Más."}},
+    {"filter": "02_AICoach", "title": {"text": "Coach IA Personal"}},
+    {"filter": "03_Statistics", "title": {"text": "Entiende tus Desencadenantes"}},
+    {"filter": "04_Settings", "title": {"text": "Personaliza tu Camino"}},
+    {"filter": "05_AddCigarette", "title": {"text": "Registra y Etiqueta Rápido"}},
+    {"filter": "06-AICoachDashboard", "title": {"text": "Predice los Anhelos"}},
+    {"filter": "07-HeartRate", "title": {"text": "Frecuencia Cardíaca"}},
+    {"filter": "08-Predictive", "title": {"text": "Análisis Predictivo"}},
+    {"filter": "09-AIInsights", "title": {"text": "Recomendaciones Útiles"}},
+    {"filter": "10-Widget", "title": {"text": "Progreso de un Vistazo"}},
+    {"filter": "11-WidgetSmall", "title": {"text": "Siempre Visible"}},
+    {"filter": "01_WatchMain", "title": {"text": "Registro Rápido"}},
+    {"filter": "03_WatchProgress", "title": {"text": "Estadísticas Diarias"}}
+  ],
+  "fr-FR": [
+    {"filter": "01_MainDashboard", "title": {"text": "Moins de Suivi. Plus de Vie."}},
+    {"filter": "02_AICoach", "title": {"text": "Coach IA Personnel"}},
+    {"filter": "03_Statistics", "title": {"text": "Comprenez vos Déclencheurs"}},
+    {"filter": "04_Settings", "title": {"text": "Personnalisez votre Parcours"}},
+    {"filter": "05_AddCigarette", "title": {"text": "Enregistrez & Étiquetez"}},
+    {"filter": "06-AICoachDashboard", "title": {"text": "Prévoyez les Envies"}},
+    {"filter": "07-HeartRate", "title": {"text": "Fréquence Cardiaque"}},
+    {"filter": "08-Predictive", "title": {"text": "Analyse Prédictive"}},
+    {"filter": "09-AIInsights", "title": {"text": "Conseils Actionnables"}},
+    {"filter": "10-Widget", "title": {"text": "Progression Instantanée"}},
+    {"filter": "11-WidgetSmall", "title": {"text": "Toujours Visible"}},
+    {"filter": "01_WatchMain", "title": {"text": "Saisie Rapide"}},
+    {"filter": "03_WatchProgress", "title": {"text": "Statistiques Quotidiennes"}}
+  ],
+  "de-DE": [
+    {"filter": "01_MainDashboard", "title": {"text": "Weniger Tracking. Mehr Leben."}},
+    {"filter": "02_AICoach", "title": {"text": "Persönlicher KI Coach"}},
+    {"filter": "03_Statistics", "title": {"text": "Verstehe Deine Auslöser"}},
+    {"filter": "04_Settings", "title": {"text": "Passe Deinen Weg an"}},
+    {"filter": "05_AddCigarette", "title": {"text": "Schnell Loggen & Markieren"}},
+    {"filter": "06-AICoachDashboard", "title": {"text": "Verlangen Vorhersagen"}},
+    {"filter": "07-HeartRate", "title": {"text": "Herzfrequenz"}},
+    {"filter": "08-Predictive", "title": {"text": "Prädiktive Analyse"}},
+    {"filter": "09-AIInsights", "title": {"text": "Umsetzbare Hinweise"}},
+    {"filter": "10-Widget", "title": {"text": "Fortschritt auf einen Blick"}},
+    {"filter": "11-WidgetSmall", "title": {"text": "Immer Sichtbar"}},
+    {"filter": "01_WatchMain", "title": {"text": "Schnelles Logging"}},
+    {"filter": "03_WatchProgress", "title": {"text": "Tägliche Statistik"}}
+  ]
+}

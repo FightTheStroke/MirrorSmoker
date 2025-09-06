@@ -9,3 +9,4 @@ scripts/
 /fastlane/test_output
 fastlane/report.xml
 /TestResults.xcresult
+fastlane/report.xml

@@ -24,4 +24,5 @@ output_directory("./fastlane/screenshots")
 clear_previous_screenshots(true)
 override_status_bar(true)
 localize_simulator(true)
-dark_mode(false)  # Will be handled in test for both modes
+dark_mode(false)
+headless(false)  # Make simulator visible

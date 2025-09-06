@@ -20,10 +20,10 @@
 	<string>1.0.1</string>
 	<key>CFBundleVersion</key>
 	<string>4</string>
-	<key>WKWatchKitApp</key>
+	<key>WKApplication</key>
 	<true/>
 	<key>WKCompanionAppBundleIdentifier</key>
-	<string>com.mirror-labs.mirrorsmoker</string>
+	<string>com.mirror-labs.MirrorSmokerStopper</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -40,10 +40,13 @@
 		<string>JetBrainsMonoNL-SemiBold.ttf</string>
 		<string>JetBrainsMonoNL-Bold.ttf</string>
 	</array>
-	<!-- Required HealthKit purpose strings (fix for App Store validation errors) -->
 	<key>NSHealthShareUsageDescription</key>
 	<string>The app reads your heart rate, activity, sleep and mindfulness data to anticipate smoking cravings and give you timely coaching directly on your Apple Watch.</string>
 	<key>NSHealthUpdateUsageDescription</key>
 	<string>The app can optionally log your smoking cessation milestones and mindful sessions to Health to keep all your wellness progress in one place.</string>
+	<key>NSUserNotificationsUsageDescription</key>
+	<string>The app sends smart notifications only when you're vulnerable to cravings, respecting your Focus Mode settings.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>The app uses motion data to detect when you're driving and avoid disturbing you with notifications.</string>
 </dict>
 </plist>

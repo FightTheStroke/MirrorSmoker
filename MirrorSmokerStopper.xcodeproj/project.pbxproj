@@ -884,7 +884,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = NO; // Use custom Info.plist we added to project
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "MirrorSmokerStopper Watch App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -912,7 +912,7 @@
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 93T3LG4NPG;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = NO; // Use custom Info.plist we added to project
+				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = "MirrorSmokerStopper Watch App/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

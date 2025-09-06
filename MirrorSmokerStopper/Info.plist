@@ -19,8 +19,8 @@
 	</array>
 	<key>BGTaskSchedulerPermittedIdentifiers</key>
 	<array>
-		<string>com.mirror-labs.mirrorsmoker.refresh</string>
-		<string>com.mirror-labs.mirrorsmoker.processing</string>
+		<string>com.mirror-labs.MirrorSmokerStopper.refresh</string>
+		<string>com.mirror-labs.MirrorSmokerStopper.processing</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>

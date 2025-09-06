@@ -5,6 +5,10 @@ default_platform(:ios)
 
 platform :ios do
   # Helper per rilevare dinamicamente i simulatori installati del runtime iOS richiesto
+  def git_is_clean?
+    `git status --porcelain`.strip.empty?
+  end
+
   def detect_ios_devices
     required_name = ENV['REQUIRED_IOS_SIM_NAME'] || 'RoberdanTests26'
     require 'json'
@@ -252,12 +256,16 @@ platform :ios do
   
   # Upload app binary and metadata to App Store Connect
   desc "Upload built app and metadata to App Store Connect (ready for manual submission)"
-  lane :upload_to_app_store do
-    # Ensure we're on the right branch and up to date
-    ensure_git_status_clean
+  lane :manual_upload_to_app_store do
+    # Ensure repo clean salvo override
+    if ENV['ALLOW_DIRTY'].to_s == '1'
+      UI.important('[beta] Skipping ensure_git_status_clean (ALLOW_DIRTY=1)')
+    else
+      ensure_git_status_clean
+    end
     ensure_git_branch(branch: "master")
     
-  # Usa firma automatica Xcode (nessun match)
+  # Firma automatica Xcode
     
     # Set explicit version number for App Store submission
     increment_version_number(
@@ -271,7 +279,7 @@ platform :ios do
       scheme: "MirrorSmokerStopper", 
       clean: true,
       export_method: "app-store",
-      # Let Match handle the code signing automatically
+  # Firma automatica
       skip_codesigning: false
     )
     
@@ -307,7 +315,7 @@ platform :ios do
     ensure_git_status_clean
     ensure_git_branch(branch: "master")
     
-  # Usa firma automatica Xcode (nessun match)
+  # Firma automatica Xcode
     
     # Set explicit version number for App Store submission
     increment_version_number(
@@ -321,7 +329,7 @@ platform :ios do
       scheme: "MirrorSmokerStopper", 
       clean: true,
       export_method: "app-store",
-      # Let Match handle the code signing automatically
+  # Firma automatica
       skip_codesigning: false
     )
     
@@ -430,15 +438,26 @@ platform :ios do
       SH
     end
 
-    unless ENV['ALLOW_DIRTY'] == '1'
-      ensure_git_status_clean
+    # Gestione repo: auto commit se sporco (no stop). Branch enforcement opzionale.
+    if git_is_clean?
+      UI.message('[release] Git clean')
     else
-      UI.important("[release] Skipping ensure_git_status_clean (ALLOW_DIRTY=1)")
+      if ENV['DRY_RUN'] == '1'
+        UI.important('[release] Repo dirty ma DRY_RUN=1: nessun auto-commit')
+      else
+        UI.important('[release] Repo dirty: eseguo auto-commit pre-release')
+        sh('git add -A')
+        sh("git commit -m 'chore: pre-release auto commit' || true")
+      end
     end
-    ensure_git_branch(branch: "master")
+    begin
+      ensure_git_branch(branch: "master")
+    rescue => e
+      UI.important("[release] Branch non master (#{e.message}). Continuo comunque.")
+    end
 
   # 1. Signing: usa direttamente configurazione Xcode (Automatic Signing)
-  UI.message('[release] Using Xcode Automatic Signing (no match)')
+  UI.message('[release] Using Xcode Automatic Signing')
 
     # 2. Versioning: se NEW_VERSION impostato lo usa, altrimenti incrementa patch
     if ENV['NEW_VERSION'] && !ENV['NEW_VERSION'].empty?

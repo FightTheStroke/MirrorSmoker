@@ -339,3 +339,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Disclaimer**: This app is designed to help track smoking habits and should not replace professional medical advice. Please consult healthcare professionals for smoking cessation guidance.
+
+*“We live in a twilight world, and there are no friends at dusk.”* - Tenet
+

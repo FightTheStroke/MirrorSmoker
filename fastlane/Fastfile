@@ -272,7 +272,7 @@ platform :ios do
       force: true,
       
       # Metadata
-      app_version: get_version_number(xcodeproj: project),
+      app_version: get_version_number(xcodeproj: project, target: "MirrorSmokerStopper"),
       copyright: "© 2025 FightTheStroke Foundation",
       primary_category: "HEALTH_AND_FITNESS",
       secondary_category: "MEDICAL"

@@ -45,7 +45,7 @@ class AICoachManager: ObservableObject {
         addToHistory(features)
         
         // Use advanced AI coach for iOS 26+
-        if #available(iOS 26, *), AIConfiguration.shared.isAIAvailable {
+        if AIConfiguration.shared.isAIAvailable {
             let context = CoachLLM.Context(features: features, language: getCurrentLanguage())
             currentTip = await CoachLLM.generateTip(context: context)
             logger.info("Generated AI tip using iOS 26 local intelligence")
@@ -62,7 +62,7 @@ class AICoachManager: ObservableObject {
     func generateMotivationalMessage(mood: CoachMood, modelContext: ModelContext, userProfile: UserProfile? = nil) async -> String {
         logger.info("Generating motivational message with mood: \(mood.rawValue)")
         
-        guard #available(iOS 26, *), AIConfiguration.shared.isAIAvailable else {
+        guard AIConfiguration.shared.isAIAvailable else {
             return getFallbackMotivationalMessage(mood: mood)
         }
         
@@ -73,7 +73,7 @@ class AICoachManager: ObservableObject {
     }
     
     func analyzePatterns(modelContext: ModelContext, userProfile: UserProfile? = nil) async {
-        guard #available(iOS 26, *), AIConfiguration.shared.isAIAvailable else {
+        guard AIConfiguration.shared.isAIAvailable else {
             logger.info("Pattern analysis requires iOS 26+")
             return
         }

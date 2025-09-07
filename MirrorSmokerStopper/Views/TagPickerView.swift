@@ -38,7 +38,7 @@ struct TagPickerView: View {
                                 Circle()
                                     .fill(tag.color)
                                     .frame(width: 12, height: 12)
-                                Text(tag.name)
+                                Text(TagManager.localizedName(for: tag))
                                     .font(DS.Text.caption)
                                     .fontWeight(.medium)
                                 Image(systemName: "xmark.circle.fill")
@@ -148,7 +148,7 @@ struct TagRowView: View {
                     .fill(tag.color)
                     .frame(width: 16, height: 16)
                 
-                Text(tag.name)
+                Text(TagManager.localizedName(for: tag))
                     .font(DS.Text.body)
                     .foregroundColor(DS.Colors.textPrimary)
                 
@@ -183,7 +183,7 @@ struct CreateTagView: View {
             VStack(spacing: DS.Space.lg) {
                 // Tag name input
                 VStack(alignment: .leading, spacing: DS.Space.sm) {
-                    Text(NSLocalizedString("tag.name.label", comment: ""))
+                    Text(NSLocalizedString("TagManager.localizedName(for: tag).label", comment: ""))
                         .font(DS.Text.body)
                         .fontWeight(.medium)
                     
@@ -228,7 +228,7 @@ struct CreateTagView: View {
                             .fill(tagColor)
                             .frame(width: 16, height: 16)
                         
-                        Text(tagName.isEmpty ? NSLocalizedString("tag.name.preview", comment: "") : tagName)
+                        Text(tagName.isEmpty ? NSLocalizedString("TagManager.localizedName(for: tag).preview", comment: "") : tagName)
                             .font(DS.Text.body)
                             .foregroundColor(DS.Colors.textPrimary)
                         

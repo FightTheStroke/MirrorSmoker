@@ -23,6 +23,7 @@ class SyncCoordinator: ObservableObject {
     private var userDefaults: UserDefaults?
     private var cancellables = Set<AnyCancellable>()
     private var lastSyncTime: Date = Date()
+    private var isUpdatingUserDefaults = false
     
     @Published var isSyncing = false
     
@@ -35,9 +36,9 @@ class SyncCoordinator: ObservableObject {
     // MARK: - Setup
     
     private func setupObservers() {
-        // Monitor UserDefaults changes (for Watch updates)
+        // Monitor UserDefaults changes (for Watch updates) - reduced debounce for faster sync
         NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
-            .debounce(for: .milliseconds(500), scheduler: RunLoop.main)
+            .debounce(for: .milliseconds(100), scheduler: RunLoop.main)
             .sink { [weak self] _ in
                 Task { @MainActor in
                     self?.checkForExternalChanges()
@@ -53,11 +54,28 @@ class SyncCoordinator: ObservableObject {
                 }
             }
             .store(in: &cancellables)
+        
+        // Monitor cigarette additions from any source
+        NotificationCenter.default.publisher(for: NSNotification.Name("CigaretteAddedFromWidget"))
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.handleCigaretteAddedFromWidget()
+                }
+            }
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: NSNotification.Name("CigaretteAddedFromWatch"))
+            .sink { [weak self] _ in
+                Task { @MainActor in
+                    self?.handleCigaretteAddedFromWatch()
+                }
+            }
+            .store(in: &cancellables)
     }
     
     private func startPeriodicSync() {
-        // Check for changes every 30 seconds when app is active
-        Timer.publish(every: 30, on: .main, in: .common)
+        // Check for changes every 10 seconds when app is active (reduced for faster sync)
+        Timer.publish(every: 10, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 Task { @MainActor in
@@ -67,23 +85,96 @@ class SyncCoordinator: ObservableObject {
             .store(in: &cancellables)
     }
     
+    // MARK: - Immediate Sync Handlers
+    
+    private func handleCigaretteAddedFromWidget() {
+        logger.info("Cigarette added from widget - performing immediate sync")
+        
+        // Update shared UserDefaults immediately
+        updateSharedUserDefaults(updateTimestamp: true)
+        
+        // Update Widget timelines
+        WidgetCenter.shared.reloadAllTimelines()
+        
+        // Update Watch via WatchConnectivity
+        WatchConnectivityManager.shared.sendDataSync()
+        
+        lastSyncTime = Date()
+    }
+    
+    private func handleCigaretteAddedFromWatch() {
+        logger.info("Cigarette added from watch - performing immediate sync")
+        
+        // Update shared UserDefaults immediately
+        updateSharedUserDefaults(updateTimestamp: true)
+        
+        // Update Widget timelines
+        WidgetCenter.shared.reloadAllTimelines()
+        
+        lastSyncTime = Date()
+    }
+    
     // MARK: - Sync Operations
     
-    func cigaretteAdded(from source: SyncSource, cigarette: Cigarette? = nil) {
-        logger.info("Cigarette added from \(source.rawValue)")
+    func tagAdded(from source: SyncSource, tag: Tag? = nil) {
+        logger.info("Tag added from \(source.rawValue)")
         
         switch source {
         case .app:
-            // Update Widget
+            // Update Widget (tags affect quick actions)
+            WidgetCenter.shared.reloadAllTimelines()
+            
+            // Update Watch via WatchConnectivity
+            WatchConnectivityManager.shared.sendDataSync()
+            
+            // Update shared UserDefaults
+            updateSharedUserDefaults(updateTimestamp: true)
+            
+        case .widget:
+            // Not applicable - widgets don't create tags
+            break
+            
+        case .watch:
+            // Not applicable - watch doesn't create tags
+            break
+        }
+        
+        lastSyncTime = Date()
+    }
+    
+    func tagUpdated(from source: SyncSource, tag: Tag? = nil) {
+        logger.info("Tag updated from \(source.rawValue)")
+        
+        switch source {
+        case .app:
+            // Update Widget and Watch
+            WidgetCenter.shared.reloadAllTimelines()
+            WatchConnectivityManager.shared.sendDataSync()
+            updateSharedUserDefaults(updateTimestamp: true)
+            
+        case .widget, .watch:
+            // Not applicable
+            break
+        }
+        
+        lastSyncTime = Date()
+    }
+    
+    func cigaretteAdded(from source: SyncSource, cigarette: Cigarette? = nil) {
+        logger.info("Cigarette added from \(source.rawValue) - performing immediate sync")
+        
+        // Always update shared UserDefaults first for consistency
+        updateSharedUserDefaults(updateTimestamp: true)
+        
+        switch source {
+        case .app:
+            // Update Widget immediately
             WidgetCenter.shared.reloadAllTimelines()
             
             // Update Watch via WatchConnectivity
             if let cigarette = cigarette {
                 WatchConnectivityManager.shared.sendCigaretteAdded(cigarette)
             }
-            
-            // Update shared UserDefaults for Watch fallback
-            updateSharedUserDefaults()
             
         case .widget:
             // Widget already saved to ModelContainer
@@ -93,17 +184,22 @@ class SyncCoordinator: ObservableObject {
                 object: nil
             )
             
+            // Update Widget timelines immediately
+            WidgetCenter.shared.reloadAllTimelines()
+            
             // Update Watch
             WatchConnectivityManager.shared.sendDataSync()
-            updateSharedUserDefaults()
             
         case .watch:
             // Watch already notified via WatchConnectivity
-            // Update Widget
-            WidgetCenter.shared.reloadAllTimelines()
+            // Notify app UI
+            NotificationCenter.default.post(
+                name: NSNotification.Name("CigaretteAddedFromWatch"),
+                object: cigarette
+            )
             
-            // Update shared UserDefaults
-            updateSharedUserDefaults()
+            // Update Widget immediately
+            WidgetCenter.shared.reloadAllTimelines()
         }
         
         lastSyncTime = Date()
@@ -111,6 +207,7 @@ class SyncCoordinator: ObservableObject {
     
     private func checkForExternalChanges() {
         guard let userDefaults = userDefaults else { return }
+        guard !isUpdatingUserDefaults else { return } // Skip if we're updating to avoid loop
         
         // Check if data was updated externally
         if let lastUpdated = userDefaults.object(forKey: "lastUpdated") as? Date,
@@ -118,8 +215,24 @@ class SyncCoordinator: ObservableObject {
             
             logger.info("External changes detected, syncing...")
             
-            // Reload widgets
+            // Check if cigarette was added from widget
+            if userDefaults.bool(forKey: "widget_cigarette_added") {
+                userDefaults.removeObject(forKey: "widget_cigarette_added")
+                logger.info("Cigarette added from widget detected")
+                
+                // Notify app UI immediately
+                NotificationCenter.default.post(
+                    name: NSNotification.Name("CigaretteAddedFromWidget"),
+                    object: nil
+                )
+            }
+            
+            // Process any pending widget actions first
+            PendingWidgetActionsManager.shared.processPendingIfAny()
+            
+            // Update external components only - UserDefaults already updated externally
             WidgetCenter.shared.reloadAllTimelines()
+            WatchConnectivityManager.shared.sendDataSync()
             
             // Notify app UI
             NotificationCenter.default.post(
@@ -138,8 +251,10 @@ class SyncCoordinator: ObservableObject {
         logger.info("Performing full sync...")
         
         Task {
+            // Process pending widget actions if any
+            PendingWidgetActionsManager.shared.processPendingIfAny()
             // Update all components
-            updateSharedUserDefaults()
+            updateSharedUserDefaults(updateTimestamp: true)
             WidgetCenter.shared.reloadAllTimelines()
             WatchConnectivityManager.shared.sendDataSync()
             
@@ -150,12 +265,15 @@ class SyncCoordinator: ObservableObject {
     
     // MARK: - Shared UserDefaults Management
     
-    private func updateSharedUserDefaults() {
+    private func updateSharedUserDefaults(updateTimestamp: Bool = false) {
         guard let userDefaults = userDefaults else { return }
         
         let container = PersistenceController.shared.container
         
         do {
+            // Prevent UserDefaults.didChange re-entry loops while we write
+            isUpdatingUserDefaults = true
+            defer { isUpdatingUserDefaults = false }
             // Get today's cigarettes
             let today = Calendar.current.startOfDay(for: Date())
             guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
@@ -172,9 +290,29 @@ class SyncCoordinator: ObservableObject {
             let context = ModelContext(container)
             let cigarettes = try context.fetch(descriptor)
             
-            // Save count for quick access
+            // Save count for quick access (using consistent key)
             userDefaults.set(cigarettes.count, forKey: "todayCount")
-            userDefaults.set(Date(), forKey: "lastUpdated")
+            
+            // Only update timestamp if explicitly requested (for external changes)
+            if updateTimestamp {
+                userDefaults.set(Date(), forKey: "lastUpdated")
+            }
+            
+            // Update last cigarette time
+            if let lastCigarette = cigarettes.first {
+                userDefaults.set(lastCigarette.timestamp, forKey: "lastCigaretteTime")
+            }
+            
+            // Calculate and update daily average
+            let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
+            let recentDescriptor = FetchDescriptor<Cigarette>(
+                predicate: #Predicate<Cigarette> { cigarette in
+                    cigarette.timestamp >= thirtyDaysAgo
+                }
+            )
+            let recentCigarettes = try context.fetch(recentDescriptor)
+            let dailyAverage = recentCigarettes.isEmpty ? 0.0 : Double(recentCigarettes.count) / 30.0
+            userDefaults.set(dailyAverage, forKey: "dailyAverage")
             
             // Save cigarettes data for Watch
             let cigarettesData = cigarettes.map { cigarette in

@@ -13,18 +13,27 @@ struct CigaretteSavedNotification: View {
     
     @State private var offset: CGFloat = -100
     @State private var opacity: Double = 0
+    @State private var scale: CGFloat = 0.8
+    @State private var iconScale: CGFloat = 0.5
     
     var body: some View {
         HStack(spacing: DS.Space.md) {
-            // Success icon
+            // Success icon with enhanced animation
             ZStack {
                 Circle()
                     .fill(DS.Colors.success)
                     .frame(width: 32, height: 32)
+                    .overlay(
+                        Circle()
+                            .stroke(DS.Colors.success.opacity(0.3), lineWidth: 2)
+                            .scaleEffect(iconScale > 0.9 ? 1.2 : 1.0)
+                            .opacity(iconScale > 0.9 ? 0.5 : 0)
+                    )
                 
                 Image(systemName: "checkmark")
                     .font(.system(size: 16, weight: .bold))
                     .foregroundColor(.white)
+                    .scaleEffect(iconScale)
             }
             
             // Message
@@ -70,6 +79,7 @@ struct CigaretteSavedNotification: View {
         )
         .offset(y: offset)
         .opacity(opacity)
+        .scaleEffect(scale)
         .onChange(of: isShowing) { _, newValue in
             if newValue {
                 showNotification()
@@ -80,9 +90,26 @@ struct CigaretteSavedNotification: View {
     }
     
     private func showNotification() {
-        withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+        // Staggered animations for more polish
+        withAnimation(.spring(response: 0.5, dampingFraction: 0.8)) {
             offset = 0
             opacity = 1
+            scale = 1.0
+        }
+        
+        // Delayed icon animation
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.6).delay(0.1)) {
+            iconScale = 1.0
+        }
+        
+        // Bounce effect after delay
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.4).delay(0.3)) {
+            iconScale = 1.1
+        }
+        
+        // Return to normal
+        withAnimation(.spring(response: 0.2, dampingFraction: 0.8).delay(0.5)) {
+            iconScale = 1.0
         }
         
         // Auto-dismiss after 3 seconds
@@ -97,6 +124,8 @@ struct CigaretteSavedNotification: View {
         withAnimation(.easeOut(duration: 0.3)) {
             offset = -100
             opacity = 0
+            scale = 0.8
+            iconScale = 0.5
         }
     }
     

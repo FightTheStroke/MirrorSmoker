@@ -26,7 +26,10 @@ struct SettingsView: View {
     @State private var dailyAverageInput = ""
     @State private var preferredCurrency = "EUR"
     
-    // Removed quit plan functionality as requested
+    // Quit Plan Settings
+    @State private var quitDate: Date = Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date()
+    @State private var enableGradualReduction = true
+    @State private var dailyReductionRate = 1.0
     
     // UI state
     @State private var hasUnsavedChanges = false
@@ -97,7 +100,7 @@ struct SettingsView: View {
     }
     
     private var canSave: Bool {
-        isNameValid && isWeightValid && isAgeValid && isDailyAverageValid && !isLoading
+        isNameValid && isWeightValid && isAgeValid && isDailyAverageValid && !isLoading && hasUnsavedChanges
     }
     
     private var currentAge: Int {
@@ -131,6 +134,7 @@ struct SettingsView: View {
                             personalProfileSection
                             premiumStatusSection
                             smokingHabitsSection
+                            quitPlanSection
                             financialPreferencesSection
                             if shouldShowHealthInfo {
                                 healthInsightsSection
@@ -257,7 +261,7 @@ struct SettingsView: View {
                         .textFieldStyle(DSTextFieldStyle())
                         .textInputAutocapitalization(.words)
                         .autocorrectionDisabled()
-                        .onChange(of: name) { _, _ in
+                        .onChange(of: name) {
                             hasUnsavedChanges = true
                         }
                         
@@ -282,7 +286,7 @@ struct SettingsView: View {
                         )
                         .datePickerStyle(.compact)
                         .labelsHidden()
-                        .onChange(of: birthDate) { _, _ in
+                        .onChange(of: birthDate) {
                             hasUnsavedChanges = true
                         }
                         
@@ -305,7 +309,7 @@ struct SettingsView: View {
                         )
                         .textFieldStyle(DSTextFieldStyle())
                         .keyboardType(.decimalPad)
-                        .onChange(of: weight) { _, _ in
+                        .onChange(of: weight) {
                             hasUnsavedChanges = true
                         }
                         
@@ -344,7 +348,7 @@ struct SettingsView: View {
                             }
                         }
 //                        .pickerStyle(.default)
-                        .onChange(of: smokingType) { _, _ in
+                        .onChange(of: smokingType) {
                             hasUnsavedChanges = true
                         }
                     }
@@ -366,7 +370,7 @@ struct SettingsView: View {
                                     .font(DS.Text.body)
                                     .foregroundColor(DS.Colors.textPrimary)
                             }
-                            .onChange(of: startedSmokingAge) { _, _ in
+                            .onChange(of: startedSmokingAge) {
                                 hasUnsavedChanges = true
                             }
                         }
@@ -394,7 +398,7 @@ struct SettingsView: View {
                         )
                         .textFieldStyle(DSTextFieldStyle())
                         .keyboardType(.decimalPad)
-                        .onChange(of: dailyAverageInput) { _, _ in
+                        .onChange(of: dailyAverageInput) {
                             hasUnsavedChanges = true
                         }
                         
@@ -411,7 +415,112 @@ struct SettingsView: View {
         }
     }
     
-    // Quit plan section removed as requested
+    // MARK: - Quit Plan Section
+    private var quitPlanSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader(
+                    "settings.quit.plan.section".local(),
+                    subtitle: "settings.quit.plan.footer".local()
+                )
+                
+                VStack(alignment: .leading, spacing: DS.Space.md) {
+                    // Quit Date Picker
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "settings.quit.date.label".local(),
+                            icon: "calendar",
+                            isRequired: false
+                        )
+                        
+                        DatePicker(
+                            "settings.quit.date.placeholder".local(),
+                            selection: $quitDate,
+                            in: Date()...,
+                            displayedComponents: [.date]
+                        )
+                        .datePickerStyle(.compact)
+                        .onChange(of: quitDate) {
+                            hasUnsavedChanges = true
+                        }
+                    }
+                    
+                    // Gradual Reduction Toggle  
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: "quit.plan.gradual.reduction".local(),
+                            icon: "chart.line.downtrend.xyaxis",
+                            isRequired: false
+                        )
+                        
+                        Toggle("quit.plan.gradual.description".local(), isOn: $enableGradualReduction)
+                            .toggleStyle(SwitchToggleStyle(tint: DS.Colors.primary))
+                            .onChange(of: enableGradualReduction) { oldValue, newValue in
+                                hasUnsavedChanges = true
+                            }
+                    }
+                    
+                    // Quit Plan Preview
+                    if enableGradualReduction {
+                        quitPlanPreview
+                    }
+                }
+            }
+        }
+    }
+    
+    // Quit Plan Preview
+    private var quitPlanPreview: some View {
+        VStack(alignment: .leading, spacing: DS.Space.sm) {
+            DSFormLabel(
+                text: "Plan Preview",
+                icon: "eye.fill",
+                isRequired: false
+            )
+            
+            let daysUntilQuit = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
+            let currentAverage = calculatedDailyAverage
+            
+            if daysUntilQuit > 0 {
+                VStack(alignment: .leading, spacing: DS.Space.xs) {
+                    HStack {
+                        Text(String(format: "settings.days.until.quit".local(), daysUntilQuit))
+                            .font(DS.Text.body)
+                            .fontWeight(.medium)
+                            .foregroundColor(DS.Colors.textPrimary)
+                        Spacer()
+                    }
+                    
+                    HStack {
+                        Text("Current average:")
+                        Spacer()
+                        Text("\(String(format: "%.1f", currentAverage)) per day")
+                            .fontWeight(.medium)
+                    }
+                    .font(DS.Text.caption)
+                    .foregroundColor(DS.Colors.textSecondary)
+                    
+                    HStack {
+                        Text("Target today:")
+                        Spacer()
+                        if let profile = profile {
+                            Text("\(profile.todayTarget(dailyAverage: currentAverage)) per day")
+                                .fontWeight(.medium)
+                                .foregroundColor(DS.Colors.primary)
+                        } else {
+                            Text("\(Int(currentAverage)) per day")
+                                .fontWeight(.medium)
+                        }
+                    }
+                    .font(DS.Text.caption)
+                    .foregroundColor(DS.Colors.textSecondary)
+                }
+                .padding(DS.Space.sm)
+                .background(DS.Colors.primary.opacity(0.1))
+                .cornerRadius(DS.Size.cardRadiusSmall)
+            }
+        }
+    }
     
     private var shouldShowHealthInfo: Bool {
         currentAge > 0 || (!weight.isEmpty && isWeightValid)
@@ -623,6 +732,10 @@ struct SettingsView: View {
             dailyAverageInput = String(format: "%.1f", profile.dailyAverage)
         }
         
+        // Load quit plan settings
+        quitDate = profile.quitDate ?? Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date()
+        enableGradualReduction = profile.enableGradualReduction
+        
         hasUnsavedChanges = false
     }
     
@@ -650,7 +763,9 @@ struct SettingsView: View {
             profileToSave.smokingType = smokingType
             profileToSave.startedSmokingAge = startedSmokingAge
             
-            // Quit plan fields removed as requested
+            // Save quit plan settings
+            profileToSave.quitDate = quitDate
+            profileToSave.enableGradualReduction = enableGradualReduction
             
             // Save daily average
             if let dailyAvg = Double(dailyAverageInput), dailyAvg > 0 {

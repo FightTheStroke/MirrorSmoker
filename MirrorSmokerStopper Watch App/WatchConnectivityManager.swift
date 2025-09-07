@@ -41,6 +41,17 @@ class WatchConnectivityManager: NSObject, ObservableObject {
         setupWatchConnectivity()
     }
     
+    // MARK: - Helper Functions
+    
+    private func logWatchConnectivityError(_ error: Error, operation: String) {
+        let nsError = error as NSError
+        if nsError.domain == WCErrorDomain && nsError.code == WCError.notReachable.rawValue {
+            logger.debug("iPhone not reachable for \(operation) - this is normal when iPhone is not connected")
+        } else {
+            logger.error("Failed to \(operation): \(error)")
+        }
+    }
+    
     // MARK: - Setup
     
     private func setupWatchConnectivity() {
@@ -59,42 +70,59 @@ class WatchConnectivityManager: NSObject, ObservableObject {
     // MARK: - Send Messages to iPhone
     
     func addCigarette(note: String = "") {
-        let cigarette = WatchCigarette(note: note)
-        
-        // Add to local state immediately for responsiveness
-        todayCigarettes.append(cigarette)
-        todayCount = todayCigarettes.count
-        weekCount += 1
-        
-        // Send to iPhone if available
-        if WCSession.default.isReachable {
-            let message: [String: Any] = [
-                "action": "addCigarette",
-                "timestamp": cigarette.timestamp.timeIntervalSince1970,
-                "note": cigarette.note
-            ]
-            
-            WCSession.default.sendMessage(message, replyHandler: { reply in
-                Task { @MainActor in
-                    if let success = reply["success"] as? Bool, success {
-                        self.logger.info("Cigarette synced successfully with iPhone")
-                    }
-                }
-            }, errorHandler: { error in
-                Task { @MainActor in
-                    self.logger.error("Failed to sync cigarette with iPhone: \(error)")
-                    // Keep local data, will sync when iPhone becomes available
-                }
-            })
-        } else {
-            logger.info("iPhone not reachable, cigarette will sync when available")
-            // Save to App Group for later sync when implemented
+        // Send to iPhone as central source of truth
+        guard WCSession.default.isReachable else {
+            logger.info("iPhone not reachable, cannot add cigarette")
+            // Add locally as fallback when iPhone is not reachable
+            addCigaretteLocally(note: note)
+            return
         }
+        
+        let message: [String: Any] = [
+            "action": "addCigarette",
+            "timestamp": Date().timeIntervalSince1970,
+            "note": note
+        ]
+        
+        WCSession.default.sendMessage(message, replyHandler: { reply in
+            Task { @MainActor in
+                if let success = reply["success"] as? Bool, success {
+                    self.logger.info("Cigarette added successfully via iPhone")
+                    // iPhone will send updated data back via handleCigaretteAddedFromiPhone
+                    // Also update local SharedDataManager immediately
+                    self.requestStats()
+                } else {
+                    self.logger.error("iPhone rejected cigarette addition")
+                    // Add locally as fallback
+                    self.addCigaretteLocally(note: note)
+                }
+            }
+        }, errorHandler: { error in
+            Task { @MainActor in
+                self.logWatchConnectivityError(error, operation: "add cigarette via iPhone")
+                // Add locally as fallback when communication fails
+                self.addCigaretteLocally(note: note)
+            }
+        })
+    }
+    
+    private func addCigaretteLocally(note: String) {
+        let cigarette = WatchCigarette(timestamp: Date(), note: note)
+        todayCigarettes.append(cigarette)
+        todayCigarettes.sort { $0.timestamp > $1.timestamp }
+        todayCount = todayCigarettes.count
+        
+        // Update SharedDataManager for local persistence
+        SharedDataManager.shared.syncFromiPhone(cigarettes: todayCigarettes)
+        
+        logger.info("Cigarette added locally as fallback: \(cigarette.id)")
     }
     
     func requestSync() {
         guard WCSession.default.isReachable else {
             logger.info("iPhone not reachable for sync")
+            // Load from local storage as fallback
+            SharedDataManager.shared.loadSharedData()
             return
         }
         
@@ -106,7 +134,9 @@ class WatchConnectivityManager: NSObject, ObservableObject {
             }
         }, errorHandler: { error in
             Task { @MainActor in
-                self.logger.error("Sync request failed: \(error)")
+                self.logger.warning("Sync request failed: \(error.localizedDescription)")
+                // Load from local storage as fallback
+                SharedDataManager.shared.loadSharedData()
             }
         })
     }
@@ -114,6 +144,8 @@ class WatchConnectivityManager: NSObject, ObservableObject {
     func requestStats() {
         guard WCSession.default.isReachable else {
             logger.info("iPhone not reachable for stats")
+            // Load from local storage as fallback
+            SharedDataManager.shared.loadSharedData()
             return
         }
         
@@ -125,7 +157,9 @@ class WatchConnectivityManager: NSObject, ObservableObject {
             }
         }, errorHandler: { error in
             Task { @MainActor in
-                self.logger.error("Stats request failed: \(error)")
+                self.logger.warning("Stats request failed: \(error.localizedDescription)")
+                // Load from local storage as fallback
+                SharedDataManager.shared.loadSharedData()
             }
         })
     }
@@ -186,7 +220,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
 
 // MARK: - WCSessionDelegate
 
-extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
+extension WatchConnectivityManager: WCSessionDelegate {
     
     nonisolated func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         DispatchQueue.main.async {
@@ -217,23 +251,7 @@ extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
         }
     }
     
-#if os(iOS)
-    // These delegate methods are only required on iOS, not watchOS
-    nonisolated func sessionDidBecomeInactive(_ session: WCSession) {
-        DispatchQueue.main.async {
-            self.logger.info("Watch session became inactive")
-        }
-    }
-    
-    nonisolated func sessionDidDeactivate(_ session: WCSession) {
-        DispatchQueue.main.async {
-            self.logger.info("Watch session deactivated")
-        }
-        
-        // Reactivate the session for the Apple Watch
-        session.activate()
-    }
-#endif
+    // Note: watchOS doesn't need sessionDidBecomeInactive and sessionDidDeactivate
     
     // MARK: - Receive Messages from iPhone
     
@@ -261,6 +279,33 @@ extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
             }
         }
     }
+
+    // Handle messages that expect a reply to avoid WCErrorCodeDeliveryFailed when iPhone uses sendMessage(replyHandler:errorHandler:)
+    nonisolated func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        guard let action = message["action"] as? String else {
+            replyHandler(["success": false, "error": "Invalid message format"]) 
+            return
+        }
+        
+        logger.info("Received message with reply from iPhone: \(action)")
+        
+        DispatchQueue.main.async {
+            switch action {
+            case "cigaretteAdded":
+                self.handleCigaretteAddedFromiPhone(message: message)
+                replyHandler(["success": true])
+            case "fullSync":
+                self.handleFullSyncFromiPhone(message: message)
+                replyHandler(["success": true])
+            case "purchaseAdded":
+                self.handlePurchaseAddedFromiPhone(message: message)
+                replyHandler(["success": true])
+            default:
+                self.logger.warning("Unknown action from iPhone: \(action)")
+                replyHandler(["success": false, "error": "Unknown action"]) 
+            }
+        }
+    }
     
     private func handleCigaretteAddedFromiPhone(message: [String: Any]) {
         guard let idString = message["cigaretteId"] as? String,
@@ -279,13 +324,23 @@ extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
         
         // Check if we already have this cigarette to avoid duplicates
         if !todayCigarettes.contains(where: { $0.id == cigarette.id }) {
-            todayCigarettes.append(cigarette)
-            todayCigarettes.sort { $0.timestamp > $1.timestamp } // Most recent first
-            todayCount = todayCigarettes.count
-            weekCount += 1
-            
-            logger.info("Cigarette added from iPhone: \(cigarette.id)")
+            // Check if this is today's cigarette
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: Date())
+            if cigarette.timestamp >= today {
+                todayCigarettes.append(cigarette)
+                todayCigarettes.sort { $0.timestamp > $1.timestamp } // Most recent first
+                todayCount = todayCigarettes.count
+                
+                logger.info("Cigarette added from iPhone: \(cigarette.id)")
+                
+                // Update SharedDataManager immediately
+                SharedDataManager.shared.syncFromiPhone(cigarettes: self.todayCigarettes)
+            }
         }
+        
+        // Always request fresh stats to ensure accuracy
+        requestStats()
     }
     
     private func handleFullSyncFromiPhone(message: [String: Any]) {
@@ -312,7 +367,10 @@ extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
         todayCigarettes = cigarettes.sorted { $0.timestamp > $1.timestamp }
         todayCount = todayCigarettes.count
         
-        logger.info("Full sync completed from iPhone: \(self.todayCount) cigarettes")
+        // Persist to shared storage for fallback coherence
+        SharedDataManager.shared.syncFromiPhone(cigarettes: todayCigarettes)
+        
+        logger.info("Full sync completed from iPhone: \(self.todayCount) cigarettes and persisted locally")
     }
     
     private func handlePurchaseAddedFromiPhone(message: [String: Any]) {
@@ -321,4 +379,6 @@ extension WatchConnectivityManager: @preconcurrency WCSessionDelegate {
             logger.info("Purchase added from iPhone: \(productName)")
         }
     }
+    
+    // Note: Watch doesn't need to handle messages with reply handlers from iPhone
 }

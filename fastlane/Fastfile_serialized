@@ -1,0 +1,111 @@
+# Fastfile serializzato per screenshots per lingua
+# Automated Screenshot Generation - Serialized by Language
+
+default_platform(:ios)
+
+platform :ios do
+  # Helper per rilevare dinamicamente i simulatori installati
+  def detect_ios_devices
+    required_name = ENV['REQUIRED_IOS_SIM_NAME'] || 'RoberdanTests26'
+    required_udid = ENV['REQUIRED_IOS_SIM_UDID'] || '2911099D-669D-4DB6-8FB9-6DAD0DC0D945'
+    require 'json'
+    data = JSON.parse(`xcrun simctl list devices -j 2>/dev/null`)
+    found_device = nil
+    data['devices'].each_value do |arr|
+      arr.each do |dev|
+        next unless dev['isAvailable']
+        if dev['name'] == required_name || dev['udid'] == required_udid
+          found_device = dev
+          break
+        end
+      end
+      break if found_device
+    end
+    if found_device.nil?
+      UI.user_error!("Simulator '#{required_name}' (#{required_udid}) non trovato o non disponibile. Crealo con Xcode e riprova.")
+    end
+    UI.message("[screenshots] Uso device: #{found_device['name']} (#{found_device['udid']})")
+    [found_device['name']]
+  rescue => e
+    UI.user_error!("Errore individuazione simulatori richiesti: #{e}")
+  end
+  
+  # Screenshot serializzati per lingua
+  desc "Generate screenshots for a single language"
+  lane :screenshots_single_lang do |options|
+    lang = options[:language] || "en-US"
+    UI.message("🌍 Generando screenshots per: #{lang}")
+    
+    dynamic_devices = detect_ios_devices
+    
+    # Shutdown and boot simulator fresh for each language
+    UI.message("🔄 Riavvio simulatore per #{lang}")
+    sh("xcrun simctl shutdown 'RoberdanTests26' 2>/dev/null || true")
+    sleep(2)
+    sh("xcrun simctl boot 'RoberdanTests26'")
+    sleep(5)
+    
+    capture_screenshots(
+      project: "MirrorSmokerStopper.xcodeproj",
+      scheme: "MirrorSmokerStopper",
+      configuration: "Release",
+      test_target_name: "MirrorSmokerStopperUITests",
+      output_directory: "./fastlane/screenshots",
+      clear_previous_screenshots: false,  # Non cancelliamo gli altri linguaggi
+      override_status_bar: true,
+      concurrent_simulators: false,
+      devices: dynamic_devices,
+      languages: [lang],
+      only_testing: [
+        "MirrorSmokerStopperUITests/BasicScreenshotTests/testAppScreenshots"
+      ],
+      launch_arguments: [
+        "-FASTLANE_SNAPSHOT YES",
+        "-ui_testing",
+        "SCREENSHOT_MODE"
+      ],
+      skip_open_summary: true,
+      headless: false
+    )
+    
+    UI.success("✅ Screenshots completati per #{lang}")
+  end
+  
+  # Screenshot serializzati per tutte le lingue
+  desc "Generate screenshots for all languages serially"
+  lane :screenshots_all_serial do
+    languages = ["en-US", "es-ES", "fr-FR", "de-DE", "it-IT"]
+    
+    UI.message("🎯 Iniziando generazione serializzata screenshot per #{languages.count} lingue")
+    
+    # Clean screenshots directory first
+    UI.message("🧹 Pulizia directory screenshots")
+    sh("rm -rf ./fastlane/screenshots/*")
+    
+    languages.each_with_index do |lang, index|
+      UI.message("📱 [#{index + 1}/#{languages.count}] Processando #{lang}...")
+      
+      begin
+        screenshots_single_lang(language: lang)
+        UI.success("✅ [#{index + 1}/#{languages.count}] #{lang} completato")
+        
+        # Pausa tra lingue per stabilità
+        unless index == languages.count - 1
+          UI.message("⏸️  Pausa 5 secondi prima della prossima lingua...")
+          sleep(5)
+        end
+        
+      rescue => e
+        UI.error("❌ [#{index + 1}/#{languages.count}] Errore con #{lang}: #{e}")
+        # Continua con la prossima lingua invece di fermarsi
+        next
+      end
+    end
+    
+    UI.success("🎉 Completata generazione serializzata per tutte le lingue")
+    
+    # Lista finale screenshot generati
+    UI.message("📋 Screenshot generati:")
+    sh("find ./fastlane/screenshots -name '*.png' | sort")
+  end
+end

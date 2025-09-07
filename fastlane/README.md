@@ -15,29 +15,29 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios screenshots
+### ios update_metadata
 
 ```sh
-[bundle exec] fastlane ios screenshots
+[bundle exec] fastlane ios update_metadata
 ```
 
-Generate new localized screenshots
+📝 Update App Store metadata and descriptions
 
-### ios test
+### ios upload_screenshots
 
 ```sh
-[bundle exec] fastlane ios test
+[bundle exec] fastlane ios upload_screenshots
 ```
 
-Run tests
+📱 Upload screenshots to App Store Connect
 
-### ios sync_signing
+### ios build
 
 ```sh
-[bundle exec] fastlane ios sync_signing
+[bundle exec] fastlane ios build
 ```
 
-Setup automatic code signing (Xcode managed)
+🔨 Build app for release
 
 ### ios beta
 
@@ -45,7 +45,7 @@ Setup automatic code signing (Xcode managed)
 [bundle exec] fastlane ios beta
 ```
 
-Build and upload to TestFlight
+🚀 Submit to TestFlight
 
 ### ios release
 
@@ -53,39 +53,31 @@ Build and upload to TestFlight
 [bundle exec] fastlane ios release
 ```
 
-Deploy to App Store
+🏪 Submit to App Store
 
-### ios create_app
-
-```sh
-[bundle exec] fastlane ios create_app
-```
-
-Create App Store Connect app
-
-### ios download_metadata
+### ios clean
 
 ```sh
-[bundle exec] fastlane ios download_metadata
+[bundle exec] fastlane ios clean
 ```
 
-Download metadata from App Store Connect
+🧹 Clean up build artifacts
 
-### ios upload_metadata
+### ios info
 
 ```sh
-[bundle exec] fastlane ios upload_metadata
+[bundle exec] fastlane ios info
 ```
 
-Upload only metadata to App Store Connect
+📊 Generate app info report
 
-### ios validate
+### ios deploy
 
 ```sh
-[bundle exec] fastlane ios validate
+[bundle exec] fastlane ios deploy
 ```
 
-Validate app before submission
+🔄 Complete deployment workflow
 
 ----
 

@@ -1,0 +1,52 @@
+{
+  "bundleId": "com.mirror-labs.MirrorSmokerStopper",
+  "deeplinkScheme": "mirrorsmoker",
+  "locales": ["en_US", "es_ES", "fr_FR", "de_DE", "it_IT"],
+  "appearances": ["light", "dark"],
+  "devices": [
+    "RoberdanTests26"
+  ],
+  "watchDevices": [
+    "RoberdanWatch26"
+  ],
+  "screens": [
+    {
+      "name": "dashboard",
+      "deeplink": "mirrorsmoker://marketing?screen=dashboard",
+      "fallback": "-marketingScreen dashboard"
+    },
+    {
+      "name": "aicoach", 
+      "deeplink": "mirrorsmoker://marketing?screen=aicoach",
+      "fallback": "-marketingScreen aicoach"
+    },
+    {
+      "name": "statistics",
+      "deeplink": "mirrorsmoker://marketing?screen=statistics", 
+      "fallback": "-marketingScreen statistics"
+    },
+    {
+      "name": "settings",
+      "deeplink": "mirrorsmoker://marketing?screen=settings",
+      "fallback": "-marketingScreen settings"
+    },
+    {
+      "name": "addcigarette",
+      "deeplink": "mirrorsmoker://marketing?screen=addcigarette",
+      "fallback": "-marketingScreen addcigarette"
+    }
+  ],
+  "statusBar": {
+    "time": "9:41",
+    "batteryLevel": 100,
+    "wifiBars": 3,
+    "cellularBars": 4,
+    "operatorName": ""
+  },
+  "outputDir": "shots",
+  "waitTime": 3,
+  "buildFirst": false,
+  "project": "MirrorSmokerStopper.xcodeproj",
+  "scheme": "MirrorSmokerStopper",
+  "configuration": "Release"
+}

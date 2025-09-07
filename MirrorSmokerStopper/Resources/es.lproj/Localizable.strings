@@ -789,6 +789,7 @@
 "preview.label" = "Vista previa";
 "tag.name.preview" = "Nombre de etiqueta";
 "new.tag.title" = "Nueva Etiqueta";
+"tag.title" = "Nueva Etiqueta"; // Alias para compatibilidad
 "cancel.button" = "Cancelar";
 "save.button" = "Guardar";
 "insight.pattern.format" = "Patrón: %@";
@@ -1294,6 +1295,13 @@
 "tag.name.example" = "ej., Estrés";
 "tag.color.field" = "Color de Etiqueta";
 "select.tags.title" = "Seleccionar Etiquetas";
+"tag.add.new" = "Añadir nueva etiqueta";
+"tags.title" = "Etiquetas";
+"tag.name" = "Nombre";
+"tag.name.placeholder" = "Nombre de etiqueta";
+"tag.color" = "Color";
+"tag.edit" = "Editar etiqueta";
+"tag.selector.already.tagged" = "%d cigarrillos ya etiquetados";
 
 // Additional hardcoded strings found
 "available.ios26" = "Disponible en iOS 26+";
@@ -1641,3 +1649,21 @@
 "health.timeframe.1_month" = "1 mes";
 "health.timeframe.3_months" = "3 meses";
 "health.timeframe.1_year" = "1 año";
+
+// QUIT PLAN SETTINGS STRINGS
+"settings.quit.plan.footer" = "Establece tu fecha para dejar y te ayudaremos a crear un plan personalizado";
+"settings.quit.date.label" = "Fecha Objetivo para Dejar";
+"settings.quit.date.placeholder" = "Seleccionar fecha para dejar";
+"settings.gradual.reduction.label" = "Activar Reducción Gradual";
+"settings.gradual.reduction.subtitle" = "Reducir gradualmente los cigarrillos hasta la fecha objetivo";
+"settings.reduction.rate.label" = "Tasa de Reducción Diaria";
+"settings.reduction.rate.subtitle" = "Qué tan agresivamente reducir (1.0 = moderado)";
+"settings.quit.progress.label" = "Progreso hacia la Fecha Objetivo";
+"settings.days.until.quit" = "%d días hasta la fecha para dejar";
+
+"tag.driving" = "Conduciendo";
+"tag.morning" = "Mañana";
+"tag.evening" = "Tarde";
+"tag.boredom" = "Aburrimiento";
+"tag.anxiety" = "Ansiedad";
+"tag.celebration" = "Celebración";

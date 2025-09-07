@@ -2,7 +2,7 @@
 //  AddCigaretteIntent.swift
 //  HomeWidget
 //
-//  Created by Claude on 02/09/25.
+//  Created by Claude on 07/09/25.
 //
 
 import AppIntents
@@ -19,7 +19,7 @@ struct AddCigaretteIntent: AppIntent {
         let success = await addCigaretteToSharedDatabase()
         
         if success {
-            // Refresh all widget timelines
+            // Refresh all widget timelines immediately
             WidgetCenter.shared.reloadAllTimelines()
             
             return .result(dialog: IntentDialog("widget.intent.success"))
@@ -30,36 +30,30 @@ struct AddCigaretteIntent: AppIntent {
     
     // MARK: - Database Access
     private func addCigaretteToSharedDatabase() async -> Bool {
-        guard let container = AppGroupManager.sharedModelContainer else {
-            // Widget: Failed to get shared model container for adding cigarette
+        // For widget, we'll use a simpler approach with UserDefaults
+        // The main app will process this when it becomes active
+        guard let userDefaults = UserDefaults(suiteName: "group.fightthestroke.mirrorsmoker") else {
             return false
         }
         
-        let context = ModelContext(container)
+        // Add timestamp to pending queue
+        let timestamp = Date().timeIntervalSince1970
+        var pendingCigarettes = userDefaults.array(forKey: "widget_pending_cigarettes") as? [Double] ?? []
+        pendingCigarettes.append(timestamp)
+        userDefaults.set(pendingCigarettes, forKey: "widget_pending_cigarettes")
         
-        do {
-            // Create and save cigarette using the real Cigarette model
-            let cigarette = Cigarette(
-                timestamp: Date(),
-                note: NSLocalizedString("added.from.widget", comment: "Added from widget")
-            )
-            
-            context.insert(cigarette)
-            try context.save()
-            
-            // Notify app via UserDefaults timestamp
-            if let userDefaults = UserDefaults(suiteName: "group.fightthestroke.mirrorsmoker") {
-                userDefaults.set(Date(), forKey: "lastUpdated")
-                userDefaults.set("widget", forKey: "lastUpdateSource")
-            }
-            
-            // Widget successfully added cigarette to shared database
-            return true
-            
-        } catch {
-            // Widget failed to add cigarette
-            return false
-        }
+        // Update sync indicators
+        userDefaults.set(Date(), forKey: "lastUpdated")
+        userDefaults.set("widget", forKey: "lastUpdateSource")
+        
+        // Increment today's count immediately for UI feedback
+        let currentCount = userDefaults.integer(forKey: "todayCount")
+        userDefaults.set(currentCount + 1, forKey: "todayCount")
+        
+        // Notify the main app that a cigarette was added from widget
+        userDefaults.set(true, forKey: "widget_cigarette_added")
+        
+        return true
     }
 }
 

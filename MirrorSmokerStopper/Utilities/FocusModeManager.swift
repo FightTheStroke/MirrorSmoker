@@ -126,7 +126,7 @@ final class FocusModeManager: ObservableObject {
         switch authStatus {
         case .authorized:
             // When authorized, we can check if focus is enabled
-            let status = focusStatusCenter.focusStatus
+            let _ = focusStatusCenter.focusStatus
             // In iOS 15+, we only know if Focus is on, not the specific type
             // We'll treat any focus mode as Do Not Disturb for simplicity
             currentFocusState = .doNotDisturb
@@ -292,6 +292,8 @@ final class FocusModeManager: ObservableObject {
             Task {
                 await requestNotificationAuthorization()
             }
+        case .ephemeral:
+            logger.info("Notifications authorized (ephemeral)")
         @unknown default:
             break
         }

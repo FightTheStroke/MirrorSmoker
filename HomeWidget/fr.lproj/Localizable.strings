@@ -1,5 +1,5 @@
 // HomeWidget Localization - Français
-"widget.display.name" = "MirrorSmoker Tracker";
+"widget.display.name" = "Fight The Smoke";
 "widget.description" = "Suivez vos cigarettes et visualisez vos progrès quotidiens depuis l'écran d'accueil";
 "widget.today" = "Aujourd'hui";
 "widget.daily.avg" = "Moy. Jour.";

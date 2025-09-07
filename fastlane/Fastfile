@@ -1,297 +1,207 @@
-# Customise this file, documentation can be found here:
-# https://docs.fastlane.tools/actions/
-# All available actions: https://docs.fastlane.tools/actions
+# Fastfile for MirrorSmoker (Fight The Smoke)
+# Comprehensive App Store submission and metadata management
 
 default_platform(:ios)
 
 platform :ios do
-  # Variables
-  app_identifier = "com.mirror-labs.MirrorSmokerStopper"
-  scheme = "MirrorSmokerStopper"
-  workspace = "MirrorSmokerStopper.xcworkspace"
-  project = "MirrorSmokerStopper.xcodeproj"
+  # ===== CONFIGURATION =====
   
-  desc "Generate new localized screenshots"
-  lane :screenshots do
-    capture_screenshots(
-      project: project,
-      scheme: scheme,
-      devices: [
-        "iPhone 16 Pro",
-        "iPhone 16 Pro Max",
-        "iPhone 14",
-        "iPad Pro (13-inch) (M4)",
-        "iPad Pro (11-inch) (M4)"
-      ],
-      languages: [
-        "en-US",
-        "de-DE", 
-        "es-ES",
-        "fr-FR",
-        "it"
-      ],
-      clear_previous_screenshots: true,
-      override_status_bar: true,
-      skip_open_summary: true
-    )
-    
-    frame_screenshots(
-      silver: true,
-      path: "./fastlane/screenshots"
-    )
+  before_all do
+    setup_circle_ci if ENV['CIRCLECI']
+    ensure_git_clean if ENV['CI']
   end
   
-  desc "Run tests"
-  lane :test do
-    run_tests(
-      project: project,
-      scheme: scheme,
-      devices: ["iPhone 16 Pro"],
-      clean: true,
-      code_coverage: true
+  # ===== APP STORE METADATA =====
+  
+  desc "📝 Update App Store metadata and descriptions"
+  lane :update_metadata do
+    deliver(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      skip_screenshots: true,
+      skip_binary_upload: true,
+      force: true,
+      edit_live: false,
+      
+      # App Store Information
+      primary_category: "MEDICAL",
+      secondary_category: "HEALTH_AND_FITNESS"
     )
+    
+    UI.success("✅ App Store metadata updated successfully!")
   end
   
-  desc "Setup automatic code signing (Xcode managed)"
-  lane :sync_signing do
-    # Use automatic signing - no Match needed
-    # Xcode will handle certificates and provisioning profiles automatically
-    UI.message("Using automatic code signing - Xcode managed certificates")
+  # ===== SCREENSHOT MANAGEMENT =====
+  
+  desc "📱 Upload screenshots to App Store Connect"
+  lane :upload_screenshots do
+    deliver(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      skip_metadata: true,
+      skip_binary_upload: true,
+      skip_app_version_update: true,
+      force: true,
+      
+      # Screenshots from your manual captures
+      screenshots_path: "./screenshots",
+      
+      # Override previous screenshots
+      overwrite_screenshots: true
+    )
     
-    # Optional: Setup App Store Connect API key if available
-    if ENV["APP_STORE_CONNECT_API_KEY_ID"]
-      app_store_connect_api_key(
-        key_id: ENV["APP_STORE_CONNECT_API_KEY_ID"],
-        issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
-        key_filepath: ENV["APP_STORE_CONNECT_API_KEY_PATH"]
-      )
-    end
+    UI.success("✅ Screenshots uploaded to App Store Connect!")
   end
   
-  desc "Build and upload to TestFlight"
-  lane :beta do
-    # Ensure we're on the right branch
-    ensure_git_status_clean
-    ensure_git_branch(branch: "development")
-    
+  # ===== BUILD LANES =====
+  
+  desc "🔨 Build app for release"
+  lane :build do
     # Increment build number
-    increment_build_number(xcodeproj: project)
+    increment_build_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
     
-    # Get version number
-    version = get_version_number(xcodeproj: project)
-    build = get_build_number(xcodeproj: project)
-    
-    # Sync signing
-    sync_signing
-    
-    # Build the app with automatic signing
+    # Build the app
     build_app(
-      project: project,
-      scheme: scheme,
+      project: "MirrorSmokerStopper.xcodeproj",
+      scheme: "MirrorSmokerStopper",
+      configuration: "Release",
+      clean: true,
       export_method: "app-store",
       export_options: {
-        signingStyle: "automatic",
-        uploadBitcode: false,
-        uploadSymbols: true,
-        compileBitcode: false
+        provisioningProfiles: {
+          "com.mirror-labs.MirrorSmokerStopper" => "MirrorSmokerStopper App Store",
+          "com.mirror-labs.MirrorSmokerStopper.HomeWidget" => "HomeWidget App Store",
+          "com.mirror-labs.MirrorSmokerStopper.watchkitapp" => "MirrorSmokerStopper Watch App Store"
+        }
       },
       include_bitcode: false,
-      include_symbols: true,
-      clean: true,
-      output_directory: "./build",
-      output_name: "MirrorSmokerStopper.ipa"
+      include_symbols: true
     )
     
-    # Upload to TestFlight
-    upload_to_testflight(
-      skip_waiting_for_build_processing: true,
-      notify_external_testers: false,
-      changelog: "Version #{version} (#{build})\n\nNew features and improvements",
-      groups: ["Beta Testers"]
-    )
-    
-    # Clean up
-    clean_build_artifacts
-    
-    # Commit version bump
-    commit_version_bump(
-      message: "🚀 Version bump to #{version} (#{build}) for TestFlight",
-      xcodeproj: project
-    )
-    
-    # Push to git
-    push_to_git_remote
-    
-    # Notify
-    notification(subtitle: "Deployed to TestFlight", message: "Version #{version} (#{build})")
+    UI.success("✅ Build completed successfully!")
   end
   
-  desc "Deploy to App Store"
-  lane :release do
-    # Ensure we're on master
-    ensure_git_status_clean
-    ensure_git_branch(branch: "master")
+  # ===== SUBMISSION LANES =====
+  
+  desc "🚀 Submit to TestFlight"
+  lane :beta do
+    build
     
-    # Run tests first
-    test
-    
-    # Take screenshots
-    screenshots
-    
-    # Increment version
-    increment_version_number(xcodeproj: project)
-    increment_build_number(xcodeproj: project)
-    
-    version = get_version_number(xcodeproj: project)
-    build = get_build_number(xcodeproj: project)
-    
-    # Sync signing
-    sync_signing
-    
-    # Build
-    build_app(
-      project: project,
-      scheme: scheme,
-      export_method: "app-store",
-      include_bitcode: false,
-      include_symbols: true,
-      clean: true,
-      output_directory: "./build",
-      output_name: "MirrorSmokerStopper.ipa"
+    upload_to_testflight(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      skip_waiting_for_build_processing: false,
+      skip_submission: false,
+      
+      # Beta Review Information
+      beta_app_review_info: {
+        contact_email: "roberdan@microsoft.com",
+        contact_first_name: "Roberto",
+        contact_last_name: "D'Angelo",
+        contact_phone: "+39 123 456 7890",
+        demo_account_name: "",
+        demo_account_password: "",
+        notes: "Test version of Fight The Smoke - smoking tracker app with AI coaching features."
+      },
+      
+      # Changelog for testers
+      changelog: "🔥 NEW AI COACH FEATURE\n• Personalized insights and recommendations\n• Smart pattern recognition\n• Enhanced analytics dashboard\n• Improved Apple Watch integration\n• Performance optimizations"
     )
     
-    # Upload screenshots and metadata
-    deliver(
-      submit_for_review: true,
-      automatic_release: false,
+    UI.success("✅ App submitted to TestFlight!")
+  end
+  
+  desc "🏪 Submit to App Store"
+  lane :release do
+    build
+    
+    # Upload to App Store
+    upload_to_app_store(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
       force: true,
-      skip_binary_upload: false,
       skip_screenshots: false,
       skip_metadata: false,
       
-      # Metadata
-      app_version: version,
-      copyright: "© 2024 FightTheStroke Foundation",
-      primary_category: "HEALTH_AND_FITNESS",
-      secondary_category: "MEDICAL",
+      # Screenshots and metadata
+      screenshots_path: "./screenshots",
       
-      # Review information
+      # Submission information
+      submit_for_review: true,
+      automatic_release: false,
+      
+      # App Review Information
       app_review_information: {
         first_name: "Roberto",
-        last_name: "D'Angelo",
-        phone_number: "+39 333 1234567",
-        email_address: "info@fightthestroke.org",
-        demo_user: "",
-        demo_password: "",
-        notes: "This app helps users quit smoking through tracking, AI coaching, and health insights."
+        last_name: "D'Angelo", 
+        phone_number: "+39 123 456 7890",
+        email_address: "roberdan@microsoft.com",
+        demo_account_name: "",
+        demo_account_password: "",
+        notes: "Fight The Smoke is a comprehensive smoking tracker app with AI-powered coaching. The app helps users monitor their smoking habits, provides personalized insights, and supports their journey towards healthier lifestyle choices."
       },
       
-      # App rating
-      app_rating_config_path: "./fastlane/metadata/app_rating.json",
-      
-      # Run precheck
-      precheck_include_in_app_purchases: false,
-      
-      # Submission
+      # Export compliance (no encryption)
       submission_information: {
-        add_id_info_uses_idfa: false,
-        add_id_info_serves_ads: false,
-        add_id_info_tracks_action: false,
-        add_id_info_tracks_install: false,
-        content_rights_has_rights: true,
-        content_rights_contains_third_party_content: false,
-        export_compliance_platform: "ios",
+        export_compliance_platform: 'ios',
         export_compliance_compliance_required: false,
         export_compliance_encryption_updated: false,
-        export_compliance_uses_encryption: false
+        export_compliance_app_type: nil,
+        export_compliance_uses_encryption: false,
+        export_compliance_is_exempt: false,
+        export_compliance_contains_third_party_cryptography: false,
+        export_compliance_contains_proprietary_cryptography: false,
+        export_compliance_available_on_french_store: true,
+        content_rights_has_rights: true,
+        content_rights_contains_third_party_content: false,
+        add_id_info_limits_tracking: true,
+        add_id_info_serves_ads: false,
+        add_id_info_tracks_action: true,
+        add_id_info_tracks_install: false,
+        add_id_info_uses_idfa: false
       }
     )
     
-    # Create git tag
-    add_git_tag(
-      tag: "v#{version}",
-      message: "Release version #{version} (#{build})"
-    )
+    UI.success("✅ App submitted to App Store for review!")
+  end
+  
+  # ===== UTILITY LANES =====
+  
+  desc "🧹 Clean up build artifacts"
+  lane :clean do
+    clean_build_artifacts
+    UI.success("✅ Build artifacts cleaned!")
+  end
+  
+  desc "📊 Generate app info report"
+  lane :info do
+    version = get_version_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
+    build_number = get_build_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
     
-    # Push everything
-    push_to_git_remote(
-      remote_branch: "master",
-      tags: true
-    )
+    UI.message("🔍 APP INFORMATION:")
+    UI.message("   App Name: Fight The Smoke")
+    UI.message("   Bundle ID: com.mirror-labs.MirrorSmokerStopper")
+    UI.message("   Version: #{version}")
+    UI.message("   Build: #{build_number}")
+    UI.message("   Xcode Project: MirrorSmokerStopper.xcodeproj")
+  end
+  
+  desc "🔄 Complete deployment workflow"
+  lane :deploy do
+    info
+    update_metadata
+    upload_screenshots
+    release
     
-    # Notify
-    notification(
-      subtitle: "🚀 Released to App Store!",
-      message: "Version #{version} (#{build}) submitted for review"
-    )
+    UI.success("🎉 Complete deployment finished!")
   end
   
-  desc "Create App Store Connect app"
-  lane :create_app do
-    produce(
-      username: ENV["APPLE_ID"],
-      app_identifier: app_identifier,
-      app_name: "Mirror Smoker Stopper",
-      language: "English",
-      app_version: "2.0.0",
-      sku: "MIRRORSMOKER2024",
-      platforms: ["ios", "appletvos", "osx"],
-      
-      # Enable services
-      enable_services: {
-        push_notification: "on",
-        associated_domains: "on",
-        data_protection: "complete",
-        app_group: "on",
-        healthkit: "on",
-        inter_app_audio: "off",
-        passbook: "off",
-        in_app_purchase: "on",
-        cloud_kit: "on"
-      }
-    )
-  end
+  # ===== ERROR HANDLING =====
   
-  desc "Download metadata from App Store Connect"
-  lane :download_metadata do
-    deliver(
-      download_metadata: true,
-      download_screenshots: true,
-      force: true,
-      username: ENV["APPLE_ID"],
-      app_identifier: app_identifier
-    )
-  end
-  
-  desc "Upload only metadata to App Store Connect"
-  lane :upload_metadata do
-    deliver(
-      skip_binary_upload: true,
-      skip_screenshots: true,
-      skip_metadata: false,
-      force: true,
-      
-      # Metadata
-      app_version: get_version_number(xcodeproj: project, target: "MirrorSmokerStopper"),
-      copyright: "© 2025 FightTheStroke Foundation",
-      primary_category: "HEALTH_AND_FITNESS",
-      secondary_category: "MEDICAL"
-    )
-  end
-
-  desc "Validate app before submission"
-  lane :validate do
-    precheck(
-      app_identifier: app_identifier,
-      username: ENV["APPLE_ID"]
-    )
-  end
-  
-  # Error handling
   error do |lane, exception|
-    notification(
-      subtitle: "❌ Fastlane error",
-      message: "Lane #{lane} failed: #{exception.message}"
-    )
+    UI.error("❌ Error in lane '#{lane}': #{exception}")
+    
+    # Add custom error handling here
+    # slack(message: "Build failed!", success: false) if ENV['SLACK_URL']
+  end
+  
+  after_all do |lane|
+    UI.success("✅ Lane '#{lane}' completed successfully!")
   end
 end

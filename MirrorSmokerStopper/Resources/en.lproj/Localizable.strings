@@ -477,7 +477,7 @@
 "settings.daily.cigarettes.invalid" = "Daily cigarettes must be between 0 and 100";
 
 // Widget localization
-"widget.display.name" = "MirrorSmoker Tracker";
+"widget.display.name" = "Fight The Smoke";
 "widget.description" = "Track cigarettes and view daily progress from your home screen";
 "widget.today" = "Today";
 "widget.daily.avg" = "Daily Avg";
@@ -788,6 +788,7 @@
 "preview.label" = "Preview";
 "tag.name.preview" = "Tag name";
 "new.tag.title" = "New Tag";
+"tag.title" = "New Tag"; // Alias for backward compatibility
 "cancel.button" = "Cancel";
 "save.button" = "Save";
 "insight.pattern.format" = "Pattern: %@";
@@ -1287,6 +1288,13 @@
 "tag.name.example" = "e.g., Stress";
 "tag.color.field" = "Tag Color";
 "select.tags.title" = "Select Tags";
+"tag.add.new" = "Add new tag";
+"tags.title" = "Tags";
+"tag.name" = "Name";
+"tag.name.placeholder" = "Tag name";
+"tag.color" = "Color";
+"tag.edit" = "Edit tag";
+"tag.selector.already.tagged" = "%d cigarettes already tagged";
 
 // Additional hardcoded strings found
 "available.ios26" = "Available on iOS 26+";
@@ -1618,3 +1626,21 @@
 
 // MISSING DYNAMIC HEALTH KEYS - These are already defined above in the file
 // Keeping the existing definitions to avoid duplicates
+
+// QUIT PLAN SETTINGS STRINGS
+"settings.quit.plan.footer" = "Set your quit date and we'll help you create a personalized plan";
+"settings.quit.date.label" = "Target Quit Date";
+"settings.quit.date.placeholder" = "Select quit date";
+"settings.gradual.reduction.label" = "Enable Gradual Reduction";
+"settings.gradual.reduction.subtitle" = "Gradually reduce cigarettes until quit date";
+"settings.reduction.rate.label" = "Daily Reduction Rate";
+"settings.reduction.rate.subtitle" = "How aggressively to reduce (1.0 = moderate)";
+"settings.quit.progress.label" = "Progress to Quit Date";
+"settings.days.until.quit" = "%d days until quit date";
+
+"tag.driving" = "Driving";
+"tag.morning" = "Morning";
+"tag.evening" = "Evening";
+"tag.boredom" = "Boredom";
+"tag.anxiety" = "Anxiety";
+"tag.celebration" = "Celebration";

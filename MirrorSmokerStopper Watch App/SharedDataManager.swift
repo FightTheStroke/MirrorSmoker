@@ -24,22 +24,27 @@ class SharedDataManager: ObservableObject {
         loadSharedData()
     }
     
-    // MARK: - Add Cigarette (from Watch)
+    // MARK: - Add Cigarette (from Watch - delegates to iOS app)
     func addCigarette(note: String = "") {
-        let cigarette = WatchCigarette(note: note.isEmpty ? "Added from Watch" : note)
+        // Send to iOS app as central source of truth
+        WatchConnectivityManager.shared.addCigarette(note: note.isEmpty ? "Added from Watch" : note)
         
-        // Add to local state
-        todayCigarettes.append(cigarette)
-        todayCount = todayCigarettes.count
-        
-        // Save to shared UserDefaults for synchronization
+        // Don't add locally - wait for confirmation from iOS app
+        // iOS app will send back the updated data via WatchConnectivity
+    }
+    
+    // MARK: - Add Cigarette Locally (fallback when iPhone is not reachable)
+    func addCigaretteLocally(note: String = "") {
+        let cigarette = WatchCigarette(timestamp: Date(), note: note)
         saveCigaretteToSharedStorage(cigarette)
+        
+        // Update local state
+        todayCigarettes.append(cigarette)
+        todayCigarettes.sort { $0.timestamp > $1.timestamp }
+        todayCount = todayCigarettes.count
         
         // Update widgets
         WidgetCenter.shared.reloadAllTimelines()
-        
-        // Also try to send via WatchConnectivity if available
-        WatchConnectivityManager.shared.addCigarette(note: note)
     }
     
     // MARK: - Shared Storage Management
@@ -63,8 +68,8 @@ class SharedDataManager: ObservableObject {
         }
     }
     
-    private func loadSharedData() {
-        guard let userDefaults = userDefaults else { return }
+    func loadSharedData() {
+        guard userDefaults != nil else { return }
         
         // Load today's cigarettes
         let todayKey = dateKey(for: Date())

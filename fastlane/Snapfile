@@ -1,0 +1,28 @@
+# Snapfile for MirrorSmokerStopper - iOS 26 Screenshot Set
+# Nota: la lane in Fastfile rileva dinamicamente i simulatori iOS 26.
+# Qui manteniamo un fallback esplicito SOLO con device iOS 26 (serie iPhone 16) se disponibili.
+devices([
+  # Uso forzato del simulatore rinominato
+  "RoberdanTests26"
+])
+
+languages([
+  "en-US",
+  "es-ES",
+  "fr-FR",
+  "de-DE",
+  "it-IT"
+])
+
+scheme("MirrorSmokerStopper")
+test_target_name("MirrorSmokerStopperUITests")
+only_testing([
+  "MirrorSmokerStopperUITests/BasicScreenshotTests/testAppScreenshots"
+])
+project("./MirrorSmokerStopper.xcodeproj")
+output_directory("./fastlane/screenshots")
+clear_previous_screenshots(true)
+override_status_bar(true)
+localize_simulator(true)
+dark_mode(false)
+headless(false)  # Make simulator visible

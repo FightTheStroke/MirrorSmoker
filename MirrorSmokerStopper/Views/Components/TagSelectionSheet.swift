@@ -197,7 +197,7 @@ struct TagSelectionSheet: View {
                     )
                 
                 // Tag name
-                Text(tag.name)
+                Text(TagManager.localizedName(for: tag))
                     .font(DS.Text.body)
                     .foregroundColor(DS.Colors.textPrimary)
                 
@@ -233,7 +233,7 @@ struct TagSelectionSheet: View {
                 Circle()
                     .fill(tag.color)
                     .frame(width: 12, height: 12)
-                Text(tag.name)
+                Text(TagManager.localizedName(for: tag))
                     .font(DS.Text.caption)
                     .fontWeight(.medium)
                 if isSelected {

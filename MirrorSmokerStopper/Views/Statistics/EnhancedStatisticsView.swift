@@ -318,7 +318,7 @@ struct EnhancedStatisticsView: View {
                                             .fill(Color(hex: stat.tag.colorHex) ?? DS.Colors.primary)
                                             .frame(width: 10, height: 10)
                                         
-                                        Text(stat.tag.name)
+                                        Text(TagManager.localizedName(for: stat.tag))
                                             .font(DS.Text.body)
                                             .fontWeight(.medium)
                                     }
@@ -389,7 +389,7 @@ struct EnhancedStatisticsView: View {
     }
     
     private func getInsightForTag(_ stat: (tag: Tag, count: Int, percentage: Double)) -> String? {
-        let tagName = stat.tag.name.lowercased()
+        let tagName = TagManager.localizedName(for: stat.tag).lowercased()
         
         // Provide localized insights based on tag patterns
         if stat.percentage > 30 {

@@ -34,8 +34,9 @@ final class CigaretteTests: XCTestCase {
     func testCigaretteInitialization() {
         // Test default initialization
         let cigarette1 = Cigarette()
+        modelContext.insert(cigarette1)
         
-        XCTAssertNotEqual(cigarette1.id, UUID())
+        XCTAssertNotNil(cigarette1.id)
         XCTAssertLessThanOrEqual(Date().timeIntervalSince(cigarette1.timestamp), 1.0)
         XCTAssertEqual(cigarette1.note, "")
         XCTAssertNil(cigarette1.tags)
@@ -51,6 +52,7 @@ final class CigaretteTests: XCTestCase {
             note: customNote,
             tags: nil
         )
+        modelContext.insert(cigarette2)
         
         XCTAssertEqual(cigarette2.id, customID)
         XCTAssertEqual(cigarette2.timestamp, customDate)

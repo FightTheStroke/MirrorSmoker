@@ -404,7 +404,7 @@ struct MilestoneRow: View {
                     
                     Spacer()
                     
-                    Text(String(format: NSLocalizedString("milestone.target.format", comment: ""), milestone.target))
+                    Text(String(format: NSLocalizedString("milestone.target.format", comment: ""), "\(milestone.target)"))
                         .font(.caption2)
                         .padding(.horizontal, 6)
                         .padding(.vertical, 2)
@@ -601,7 +601,7 @@ struct MilestoneDetailRow: View {
                 
                 Spacer()
                 
-                Text(String(format: NSLocalizedString("milestone.target.label", comment: "Milestone target label"), milestone.target))
+                Text(String(format: NSLocalizedString("milestone.target.format", comment: ""), "\(milestone.target)"))
                     .font(.caption2)
                     .padding(.horizontal, 6)
                     .padding(.vertical, 2)

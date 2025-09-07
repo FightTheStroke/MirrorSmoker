@@ -182,6 +182,9 @@ struct StatisticsView: View {
                 // Today's Overview Section (moved to top)
                 todayOverviewSection
                 
+                // Action Insights Section (new)
+                actionInsightsSection
+                
                 // Statistics Section (renamed from Quick Stats)
                 statisticsSection
                 
@@ -284,6 +287,88 @@ struct StatisticsView: View {
                     .foregroundColor(DS.Colors.danger)
             }
         }
+    }
+    
+    // MARK: - Action Insights Section
+    private var actionInsightsSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.md) {
+                DSSectionHeader(
+                    NSLocalizedString("statistics.insights.title", comment: ""),
+                    subtitle: NSLocalizedString("statistics.insights.subtitle", comment: "")
+                )
+                
+                VStack(spacing: DS.Space.sm) {
+                    insightCard(
+                        icon: "arrow.down.circle.fill",
+                        color: weeklyTrend >= 0 ? DS.Colors.danger : DS.Colors.success,
+                        title: weeklyTrend >= 0 ? 
+                            NSLocalizedString("statistics.insight.trend.up", comment: "") :
+                            NSLocalizedString("statistics.insight.trend.down", comment: ""),
+                        subtitle: String(format: NSLocalizedString("statistics.insight.change.format", comment: ""), 
+                                       abs(weeklyTrend), weeklyTrend >= 0 ? "↗️" : "↘️")
+                    )
+                    
+                    if let bestDay = groupedCigarettesByDay.min(by: { $0.count < $1.count }) {
+                        insightCard(
+                            icon: "star.circle.fill",
+                            color: DS.Colors.success,
+                            title: NSLocalizedString("statistics.insight.best.day", comment: ""),
+                            subtitle: String(format: NSLocalizedString("statistics.insight.best.day.detail", comment: ""),
+                                           bestDay.date.formatted(.dateTime.weekday(.abbreviated)),
+                                           bestDay.count)
+                        )
+                    }
+                    
+                    insightCard(
+                        icon: "target",
+                        color: todayCount <= todayTarget ? DS.Colors.success : DS.Colors.warning,
+                        title: todayCount <= todayTarget ?
+                            NSLocalizedString("statistics.insight.on.track", comment: "") :
+                            NSLocalizedString("statistics.insight.over.target", comment: ""),
+                        subtitle: String(format: NSLocalizedString("statistics.insight.target.detail", comment: ""),
+                                       todayCount, todayTarget)
+                    )
+                }
+            }
+        }
+    }
+    
+    private var weeklyTrend: Double {
+        let calendar = Calendar.current
+        let now = Date()
+        let weekAgo = calendar.date(byAdding: .day, value: -7, to: now) ?? now
+        let twoWeeksAgo = calendar.date(byAdding: .day, value: -14, to: now) ?? now
+        
+        let thisWeek = allCigarettes.filter { $0.timestamp >= weekAgo }.count
+        let lastWeek = allCigarettes.filter { $0.timestamp >= twoWeeksAgo && $0.timestamp < weekAgo }.count
+        
+        return Double(thisWeek - lastWeek)
+    }
+    
+    private func insightCard(icon: String, color: Color, title: String, subtitle: String) -> some View {
+        HStack(spacing: DS.Space.sm) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundColor(color)
+                .frame(width: 24, height: 24)
+            
+            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                Text(title)
+                    .font(DS.Text.body)
+                    .fontWeight(.medium)
+                    .foregroundColor(DS.Colors.textPrimary)
+                
+                Text(subtitle)
+                    .font(DS.Text.caption)
+                    .foregroundColor(DS.Colors.textSecondary)
+            }
+            
+            Spacer()
+        }
+        .padding(DS.Space.sm)
+        .liquidGlassBackground(backgroundColor: DS.Colors.glassSecondary)
+        .cornerRadius(DS.Size.cardRadiusSmall)
     }
     
     // MARK: - Statistics Section (renamed from Quick Stats)

@@ -298,10 +298,12 @@ final class JITAIPlanner: ObservableObject {
         
         do {
             let container = try ModelContainer(for: schema, configurations: [configuration])
+            logger.info("Successfully created ModelContainer for JITAI")
             return ModelContext(container)
         } catch {
-            logger.error("Failed to create model context: \(error.localizedDescription)")
+            logger.warning("Failed to create model context: \(error.localizedDescription)")
             // Return fallback in-memory context
+            logger.info("Using fallback in-memory ModelContainer for JITAI")
             let fallbackConfig = ModelConfiguration(isStoredInMemoryOnly: true)
             let fallbackContainer = try! ModelContainer(for: schema, configurations: [fallbackConfig])
             return ModelContext(fallbackContainer)

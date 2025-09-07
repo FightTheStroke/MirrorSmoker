@@ -171,7 +171,7 @@ struct EnhancedCigaretteRowView: View {
     }
     
     private func tagChip(tag: Tag) -> some View {
-        Text(tag.name)
+        Text(TagManager.localizedName(for: tag))
             .font(DS.Text.caption2)
             .fontWeight(.medium)
             .padding(.horizontal, DS.Space.xs)
@@ -334,7 +334,7 @@ struct TagSelectionInterface: View {
                     .fill(tag.color)
                     .frame(width: 20, height: 20)
                 
-                Text(tag.name)
+                Text(TagManager.localizedName(for: tag))
                     .font(DS.Text.body)
                     .foregroundColor(DS.Colors.textPrimary)
                 

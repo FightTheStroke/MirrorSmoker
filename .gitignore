@@ -1,8 +1,14 @@
-/build
+build/
+backup_l10n/
+scripts/
+fastlane/test_output/
+fastlane/report.*
+fastlane/screenshots/
+TestResults.xcresult/
+# Temporary notes (ensure not committed)
 TODO.md
 AiPoweredToDo.md
 REFACTOR_PLAN.md
-Gemfile
+
+# Ruby dependency lock can be regenerated; comment out if you want it tracked
 Gemfile.lock
-backup_l10n/
-scripts/

@@ -368,7 +368,7 @@ struct ContentView: View {
                     quickStatCard(
                         title: "stats.this.month".local(),
                         value: "\(monthlyCount)",
-                        subtitle: String(format: "stats.per.day.format".local(), String(format: "%.1f", Double(monthlyCount) / 30.0)),
+                        subtitle: String(format: "stats.per.day.format".local(), Double(monthlyCount) / 30.0),
                         color: DS.Colors.warning
                     )
                     quickStatCard(
@@ -481,35 +481,62 @@ struct ContentView: View {
             HStack(spacing: DS.Space.sm) {
                 ForEach(allTags.prefix(5), id: \.id) { tag in
                     Button(action: {
-                        addCigaretteWithQuickTag(tag)
+                        // Haptic feedback
+                        let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                        impactFeedback.impactOccurred()
+                        
+                        withAnimation(.easeInOut(duration: 0.1)) {
+                            addCigaretteWithQuickTag(tag)
+                        }
                     }) {
                         HStack(spacing: DS.Space.xs) {
                             Image(systemName: "plus.circle.fill")
                                 .font(.footnote)
-                            Text(tag.name)
+                            Text(TagManager.localizedName(for: tag))
                                 .font(DS.Text.caption)
+                                .fontWeight(.medium)
                         }
                         .padding(.horizontal, DS.Space.md)
-                        .padding(.vertical, DS.Space.xs)
-                        .background(Color(hex: tag.colorHex).opacity(0.2))
-                        .foregroundColor(Color(hex: tag.colorHex))
-                        .cornerRadius(20)
+                        .padding(.vertical, DS.Space.sm)
+                        .background(
+                            RoundedRectangle(cornerRadius: 20)
+                                .fill((Color(hex: tag.colorHex) ?? DS.Colors.primary).opacity(0.15))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 20)
+                                        .stroke((Color(hex: tag.colorHex) ?? DS.Colors.primary).opacity(0.3), lineWidth: 1)
+                                )
+                        )
+                        .foregroundColor(Color(hex: tag.colorHex) ?? DS.Colors.primary)
+                        .scaleEffect(1.0)
                     }
+                    .buttonStyle(QuickTagButtonStyle())
                 }
                 
-                Button(action: { showingTagSelection = true }) {
+                Button(action: { 
+                    let impactFeedback = UIImpactFeedbackGenerator(style: .light)
+                    impactFeedback.impactOccurred()
+                    showingTagSelection = true 
+                }) {
                     HStack(spacing: DS.Space.xs) {
                         Image(systemName: "plus")
                             .font(.footnote)
                         Text("add.with.tags".local())
                             .font(DS.Text.caption)
+                            .fontWeight(.medium)
                     }
                     .padding(.horizontal, DS.Space.md)
-                    .padding(.vertical, DS.Space.xs)
-                    .background(DS.Colors.primary.opacity(0.1))
+                    .padding(.vertical, DS.Space.sm)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(DS.Colors.primary.opacity(0.1))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .stroke(DS.Colors.primary.opacity(0.3), lineWidth: 1)
+                            )
+                    )
                     .foregroundColor(DS.Colors.primary)
-                    .cornerRadius(20)
                 }
+                .buttonStyle(QuickTagButtonStyle())
             }
             .padding(.horizontal, DS.Space.lg)
         }
@@ -566,7 +593,13 @@ struct ContentView: View {
     }
     
     private func addCigaretteWithQuickTag(_ tag: Tag) {
-        addCigarette(tags: [tag], tagCount: 1)
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.8)) {
+            addCigarette(tags: [tag], tagCount: 1)
+        }
+        
+        // Success haptic feedback
+        let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
+        impactFeedback.impactOccurred()
     }
     
     private func deleteCigarette(_ cigarette: Cigarette) {
@@ -619,6 +652,16 @@ struct ContentView: View {
                 }
             }
         }
+    }
+}
+
+// MARK: - Quick Tag Button Style
+struct QuickTagButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.95 : 1.0)
+            .opacity(configuration.isPressed ? 0.8 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
     }
 }
 

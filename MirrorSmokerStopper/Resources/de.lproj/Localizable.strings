@@ -478,7 +478,7 @@
 "settings.daily.cigarettes.invalid" = "Tägliche Zigaretten müssen zwischen 0 und 100 liegen";
 
 // Widget localization
-"widget.display.name" = "MirrorSmoker Tracker";
+"widget.display.name" = "Fight The Smoke";
 "widget.description" = "Verfolgen Sie Zigaretten und sehen Sie den täglichen Fortschritt vom Startbildschirm";
 "widget.today" = "Heute";
 "widget.daily.avg" = "Tagesdurchschnitt";
@@ -789,6 +789,7 @@
 "preview.label" = "Vorschau";
 "tag.name.preview" = "Tag-Name";
 "new.tag.title" = "Neuer Tag";
+"tag.title" = "Neuer Tag"; // Alias für Rückwärtskompatibilität
 "cancel.button" = "Abbrechen";
 "save.button" = "Speichern";
 "insight.pattern.format" = "Muster: %@";
@@ -1286,6 +1287,13 @@
 "tag.name.example" = "z.B., Stress";
 "tag.color.field" = "Tag-Farbe";
 "select.tags.title" = "Tags auswählen";
+"tag.add.new" = "Neuen Tag hinzufügen";
+"tags.title" = "Tags";
+"tag.name" = "Name";
+"tag.name.placeholder" = "Tag-Name";
+"tag.color" = "Farbe";
+"tag.edit" = "Tag bearbeiten";
+"tag.selector.already.tagged" = "%d Zigaretten bereits getaggt";
 
 // Additional hardcoded strings found
 "available.ios26" = "Verfügbar ab iOS 26+";
@@ -1633,3 +1641,21 @@
 "health.timeframe.1_month" = "1 Monat";
 "health.timeframe.3_months" = "3 Monate";
 "health.timeframe.1_year" = "1 Jahr";
+
+// QUIT PLAN SETTINGS STRINGS
+"settings.quit.plan.footer" = "Setzen Sie Ihr Aufhör-Datum und wir helfen Ihnen, einen personalisierten Plan zu erstellen";
+"settings.quit.date.label" = "Ziel-Aufhörd­atum";
+"settings.quit.date.placeholder" = "Aufhör-Datum auswählen";
+"settings.gradual.reduction.label" = "Schrittweise Reduzierung aktivieren";
+"settings.gradual.reduction.subtitle" = "Zigaretten schrittweise bis zum Zieldatum reduzieren";
+"settings.reduction.rate.label" = "Tägliche Reduktionsrate";
+"settings.reduction.rate.subtitle" = "Wie aggressiv reduzieren (1.0 = moderat)";
+"settings.quit.progress.label" = "Fortschritt zum Aufhör-Datum";
+"settings.days.until.quit" = "%d Tage bis zum Aufhör-Datum";
+
+"tag.driving" = "Fahren";
+"tag.morning" = "Morgen";
+"tag.evening" = "Abend";
+"tag.boredom" = "Langeweile";
+"tag.anxiety" = "Angst";
+"tag.celebration" = "Feier";

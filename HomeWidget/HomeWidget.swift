@@ -47,7 +47,7 @@ struct AppGroupManager {
     }
 }
 
-// Import models from WidgetModels.swift
+// Using shared models from main app
 
 // MARK: - Widget Today Stats
 struct WidgetTodayStats {
@@ -172,6 +172,23 @@ struct CigaretteProvider: TimelineProvider {
     
     // MARK: - Data Access
     private func getTodayStats() -> WidgetTodayStats {
+        // Try to get data from UserDefaults first (more reliable for widget)
+        if let userDefaults = UserDefaults(suiteName: "group.fightthestroke.mirrorsmoker") {
+            let todayCount = userDefaults.integer(forKey: "todayCount")
+            let dailyAverage = userDefaults.double(forKey: "dailyAverage")
+            let lastCigaretteTime = userDefaults.object(forKey: "lastCigaretteTime") as? Date
+            
+            // If we have data in UserDefaults, use it
+            if todayCount > 0 || dailyAverage > 0 {
+                return WidgetTodayStats(
+                    todayCount: todayCount,
+                    dailyAverage: dailyAverage,
+                    lastCigaretteTime: lastCigaretteTime
+                )
+            }
+        }
+        
+        // Fallback to SwiftData if UserDefaults doesn't have data
         guard let container = AppGroupManager.sharedModelContainer else {
             // Widget: Failed to get shared model container
             return WidgetTodayStats.fallback
@@ -231,22 +248,19 @@ struct SmallCigaretteWidgetView: View {
     let entry: CigaretteEntry
     
     var body: some View {
-        ZStack {
-            // Background gradient - adaptive for light/dark mode
-            LinearGradient(
-                colors: [
-                    Color(UIColor.systemBackground),
-                    Color(UIColor.secondarySystemBackground)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+        VStack(spacing: 8) {
+            // App icon/title
+            HStack {
+                Image(systemName: "lungs.fill")
+                    .foregroundColor(.red)
+                    .font(.caption)
+                Spacer()
+            }
             
-            VStack(spacing: 8) {
-                // Today count with accessibility
-                VStack(spacing: 2) {
-                    Text(NSLocalizedString("widget.add.cigarette", comment: "").capitalized)
-                        .foregroundColor(.primary)
+            // Today count with accessibility
+            VStack(spacing: 2) {
+                Text(NSLocalizedString("widget.add.cigarette", comment: "").capitalized)
+                    .foregroundColor(.primary)
                     Text("\(entry.todayStats.todayCount)")
                         .font(Font.custom("JetBrains Mono NL Bold", size: 32, relativeTo: .largeTitle))
                         .foregroundColor(Color(entry.todayStats.statusColor))
@@ -276,19 +290,8 @@ struct SmallCigaretteWidgetView: View {
                 .buttonStyle(PlainButtonStyle())
                 .accessibilityLabel(NSLocalizedString("widget.a11y.add.cigarette", comment: ""))
                 .accessibilityHint(NSLocalizedString("widget.a11y.add.cigarette.hint", comment: ""))
-            }
-            .padding(16)
         }
-        .containerBackground(for: .widget) {
-            LinearGradient(
-                colors: [
-                    Color(UIColor.systemBackground),
-                    Color(UIColor.secondarySystemBackground)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-        }
+        .padding(16)
     }
 }
 
@@ -297,20 +300,16 @@ struct MediumCigaretteWidgetView: View {
     let entry: CigaretteEntry
     
     var body: some View {
-        ZStack {
-            // Background - adaptive for light/dark mode
-            LinearGradient(
-                colors: [
-                    Color(UIColor.systemBackground),
-                    Color(UIColor.secondarySystemBackground)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            VStack {
+        VStack {
+            HStack {
+                Image(systemName: "lungs.fill")
+                    .foregroundColor(.red)
+                    .font(.title2)
                 Text(NSLocalizedString("widget.display.name", comment: ""))
                     .font(.title)
                     .foregroundColor(.primary)
+                Spacer()
+            }
                 HStack(spacing: 16) {
                     // Left side - Main stats
                     VStack(alignment: .leading, spacing: 8) {
@@ -384,20 +383,8 @@ struct MediumCigaretteWidgetView: View {
                     }
                 }
             }
-            
-        }
-        .containerBackground(for: .widget) {
-            LinearGradient(
-                colors: [
-                    Color(UIColor.systemBackground),
-                    Color(UIColor.secondarySystemBackground)
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
         }
     }
-}
 
 // MARK: - Widget Configuration
 struct CigaretteWidget: Widget {

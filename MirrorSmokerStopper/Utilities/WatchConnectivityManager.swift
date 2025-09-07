@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import WatchConnectivity
+@preconcurrency import WatchConnectivity
 import SwiftData
 import os.log
 
@@ -27,6 +27,17 @@ class WatchConnectivityManager: NSObject, ObservableObject {
     
     func setModelContext(_ context: ModelContext) {
         self.modelContext = context
+    }
+    
+    // MARK: - Helper Functions
+    
+    private func logWatchConnectivityError(_ error: Error, operation: String) {
+        let nsError = error as NSError
+        if nsError.domain == WCErrorDomain && nsError.code == WCError.notReachable.rawValue {
+            logger.debug("Watch not reachable for \(operation) - this is normal when Watch is not connected")
+        } else {
+            logger.error("Failed to \(operation): \(error)")
+        }
     }
     
     // MARK: - Setup
@@ -65,7 +76,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
             }
         }, errorHandler: { error in
             Task { @MainActor in
-                self.logger.error("Failed to send cigarette to Watch: \(error)")
+                self.logWatchConnectivityError(error, operation: "send cigarette to Watch")
             }
         })
     }
@@ -116,7 +127,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
                 }
             }, errorHandler: { error in
                 Task { @MainActor in
-                    self.logger.error("Full sync failed: \(error)")
+                    self.logWatchConnectivityError(error, operation: "full sync with Watch")
                 }
             })
             
@@ -143,7 +154,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
         
         WCSession.default.sendMessage(message, replyHandler: nil, errorHandler: { error in
             Task { @MainActor in
-                self.logger.error("Failed to send purchase to Watch: \(error)")
+                self.logWatchConnectivityError(error, operation: "send purchase to Watch")
             }
         })
     }
@@ -249,14 +260,8 @@ extension WatchConnectivityManager: WCSessionDelegate {
             try context.save()
             logger.info("Cigarette added from Watch successfully")
             
-            // Notify main app UI to refresh
-            NotificationCenter.default.post(
-                name: NSNotification.Name("CigaretteAddedFromWatch"),
-                object: cigarette
-            )
-            
-            // Also update widget data via App Group
-            WidgetManager.shared.updateWidgetData()
+            // Update shared state and widgets/watch via SyncCoordinator immediately
+            SyncCoordinator.shared.cigaretteAdded(from: .watch, cigarette: cigarette)
             
             replyHandler([
                 "success": true,

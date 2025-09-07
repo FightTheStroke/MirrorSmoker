@@ -1,4 +1,4 @@
-# Mirror Smoker 🚭
+# FIGHT THE SMOKE 🚭
 
 A privacy-first, open-source cigarette tracking app for iOS and watchOS designed to help users monitor their smoking habits and work towards reducing consumption. Built with SwiftUI, SwiftData, and CloudKit for seamless synchronization across all devices.
 
@@ -94,13 +94,19 @@ The app includes home screen widgets that allow quick cigarette logging:
 
 - **Small Widget**: Shows today's cigarette count with color-coded status and quick add button
 - **Medium Widget**: Displays today's count, last cigarette time, daily average, and add button
+
+Sync architecture for Widgets, App, and Watch is unified:
+- Widgets and the app both read/write from the same SwiftData store located in the App Group (`group.fightthestroke.mirrorsmoker`).
+- For fast loading, the app publishes a shared snapshot to App Group UserDefaults: `todayCount` and a day-scoped JSON (`cigarettes_yyyy-MM-dd`). Widgets use this when appropriate.
+- Adding from the widget uses App Intents and writes directly into the App Group SwiftData store; the app updates the shared snapshot and reloads widget timelines.
+- The watch app syncs via WatchConnectivity and the same App Group snapshot to keep the count aligned everywhere.
 - **Real-time Sync**: Changes in the app appear in widgets instantly and vice versa
 - **Localized**: Widget text adapts to your device language automatically
 
 To add widgets:
 1. Long press on your home screen
 2. Tap the "+" button
-3. Search for "MirrorSmoker Tracker"
+3. Search for ""widget.display.name" = "Fight The Smoke";"
 4. Choose your preferred size and add to home screen
 
 ## 🏗️ Architecture
@@ -228,6 +234,52 @@ Select UI test target and run
 ```
 
 ### Deployment
+### 🔄 Automated Release & Beta Pipeline (Fastlane)
+
+The project includes a fully automated App Store pipeline:
+
+Release lane (`fastlane release`) performs:
+1. Git clean + branch check (master)
+2. Match (certificates for app, watch, widget)
+3. Version bump (NEW_VERSION or BUMP_TYPE=patch|minor|major, default patch)
+4. Build number bump (timestamp if USE_TIMESTAMP_BUILD=1)
+5. Optional tests (skip with FASTLANE_SKIP_TESTS=1)
+6. Screenshot pipeline (skip with SKIP_SCREENSHOTS=1)
+7. Precheck (if APP_STORE_CONNECT_API_KEY_PATH set)
+8. Build IPA (app-store export)
+9. Deliver: metadata + screenshots + binary + submit_for_review (manual release)
+10. Commit, tag (v<version>), push
+
+Beta lane (`fastlane beta`) performs:
+- Git clean check
+- Build number only bump (timestamp optional)
+- Build + upload to TestFlight
+- Commit version bump
+
+Environment variables:
+- NEW_VERSION=1.2.0 (explicit marketing version)
+- BUMP_TYPE=minor (overrides default patch when NEW_VERSION absent)
+- USE_TIMESTAMP_BUILD=1 (use YYYYMMDDHHMM as build)
+- FASTLANE_SKIP_TESTS=1 (skip scan tests)
+- SKIP_SCREENSHOTS=1 (skip screenshots generation in release)
+- DRY_RUN=1 (skip deliver/upload + git push/tag)
+- APP_STORE_CONNECT_API_KEY_PATH=fastlane/AuthKey_XXXX.p8 (enables precheck)
+
+Example dry run:
+```bash
+BUNDLER_VERSION=2.7.1 bundle _2.7.1_ exec fastlane release DRY_RUN=1 FASTLANE_SKIP_TESTS=1 SKIP_SCREENSHOTS=1
+```
+
+Normal release:
+```bash
+bundle exec fastlane release
+```
+
+TestFlight beta:
+```bash
+bundle exec fastlane beta
+```
+
 ```bash
 # Install fastlane dependencies
 bundle install
@@ -339,3 +391,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 **Disclaimer**: This app is designed to help track smoking habits and should not replace professional medical advice. Please consult healthcare professionals for smoking cessation guidance.
+
+*“We live in a twilight world, and there are no friends at dusk.”* - Tenet

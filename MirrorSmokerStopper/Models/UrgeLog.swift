@@ -42,7 +42,7 @@ enum ResistanceOutcome: String, CaseIterable, Codable {
 }
 
 @Model
-final class UrgeLog: Sendable {
+final class UrgeLog {
     var id: UUID = UUID()
     var timestamp: Date = Date()
     var intensity: Int = 5 // Scale of 1-10

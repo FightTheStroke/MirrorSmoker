@@ -84,7 +84,7 @@ struct SimpleCigaretteRowView: View {
                 if let tags = cigarette.tags, !tags.isEmpty {
                     HStack(spacing: 4) {
                         ForEach(Array(tags.prefix(3)), id: \.id) { tag in
-                            Text(tag.name)
+                            Text(TagManager.localizedName(for: tag))
                                 .font(DS.Text.micro)
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 2)

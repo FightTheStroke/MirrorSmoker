@@ -44,7 +44,7 @@ class TagManager: ObservableObject {
                 // Create default tags
                 for tagInfo in Self.defaultTags {
                     let tag = Tag(
-                        name: NSLocalizedString(tagInfo.nameKey, comment: ""),
+                        name: tagInfo.nameKey, // Store the key instead of localized string
                         colorHex: tagInfo.color
                     )
                     context.insert(tag)
@@ -55,9 +55,50 @@ class TagManager: ObservableObject {
                 Self.logger.info("Created \(Self.defaultTags.count) default tags")
             } else {
                 Self.logger.info("Found \(existingTags.count) existing tags")
+                // Migrate existing localized tags to use keys
+                await migrateExistingTagsToKeys(existingTags, in: context)
             }
         } catch {
             Self.logger.error("Failed to initialize tags: \(error)")
+        }
+    }
+    
+    private func migrateExistingTagsToKeys(_ tags: [Tag], in context: ModelContext) async {
+        var migratedCount = 0
+        
+        for tag in tags {
+            // Check if this tag matches any of our default localized names
+            for tagInfo in Self.defaultTags {
+                let localizedName = NSLocalizedString(tagInfo.nameKey, comment: "")
+                if tag.name == localizedName && !tag.name.hasPrefix("tag.") {
+                    // This tag needs migration - update to use the key
+                    tag.name = tagInfo.nameKey
+                    migratedCount += 1
+                    Self.logger.info("Migrated tag '\(localizedName)' to key '\(tagInfo.nameKey)'")
+                    break
+                }
+            }
+        }
+        
+        if migratedCount > 0 {
+            do {
+                try context.save()
+                Self.logger.info("Migrated \(migratedCount) tags to use localization keys")
+            } catch {
+                Self.logger.error("Failed to save migrated tags: \(error)")
+            }
+        }
+    }
+    
+    // MARK: - Localization Helper
+    
+    static func localizedName(for tag: Tag) -> String {
+        // Check if this is a default tag (starts with "tag.")
+        if tag.name.hasPrefix("tag.") {
+            return NSLocalizedString(tag.name, comment: "")
+        } else {
+            // Custom tag - return name as is
+            return tag.name
         }
     }
     

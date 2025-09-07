@@ -368,7 +368,7 @@ struct ContentView: View {
                     quickStatCard(
                         title: "stats.this.month".local(),
                         value: "\(monthlyCount)",
-                        subtitle: String(format: "stats.per.day.format".local(), String(format: "%.1f", Double(monthlyCount) / 30.0)),
+                        subtitle: String(format: "stats.per.day.format".local(), Double(monthlyCount) / 30.0),
                         color: DS.Colors.warning
                     )
                     quickStatCard(
@@ -492,7 +492,7 @@ struct ContentView: View {
                         HStack(spacing: DS.Space.xs) {
                             Image(systemName: "plus.circle.fill")
                                 .font(.footnote)
-                            Text(tag.name)
+                            Text(TagManager.localizedName(for: tag))
                                 .font(DS.Text.caption)
                                 .fontWeight(.medium)
                         }

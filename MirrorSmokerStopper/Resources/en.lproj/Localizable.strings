@@ -1619,3 +1619,14 @@
 
 // MISSING DYNAMIC HEALTH KEYS - These are already defined above in the file
 // Keeping the existing definitions to avoid duplicates
+
+// QUIT PLAN SETTINGS STRINGS
+"settings.quit.plan.footer" = "Set your quit date and we'll help you create a personalized plan";
+"settings.quit.date.label" = "Target Quit Date";
+"settings.quit.date.placeholder" = "Select quit date";
+"settings.gradual.reduction.label" = "Enable Gradual Reduction";
+"settings.gradual.reduction.subtitle" = "Gradually reduce cigarettes until quit date";
+"settings.reduction.rate.label" = "Daily Reduction Rate";
+"settings.reduction.rate.subtitle" = "How aggressively to reduce (1.0 = moderate)";
+"settings.quit.progress.label" = "Progress to Quit Date";
+"settings.days.until.quit" = "%d days until quit date";

@@ -62,6 +62,8 @@ class WatchConnectivityManager: NSObject, ObservableObject {
         // Send to iPhone as central source of truth
         guard WCSession.default.isReachable else {
             logger.info("iPhone not reachable, cannot add cigarette")
+            // Add locally as fallback when iPhone is not reachable
+            addCigaretteLocally(note: note)
             return
         }
         
@@ -80,18 +82,36 @@ class WatchConnectivityManager: NSObject, ObservableObject {
                     self.requestStats()
                 } else {
                     self.logger.error("iPhone rejected cigarette addition")
+                    // Add locally as fallback
+                    self.addCigaretteLocally(note: note)
                 }
             }
         }, errorHandler: { error in
             Task { @MainActor in
-                self.logger.error("Failed to add cigarette via iPhone: \(error)")
+                self.logger.warning("Failed to add cigarette via iPhone: \(error.localizedDescription)")
+                // Add locally as fallback when communication fails
+                self.addCigaretteLocally(note: note)
             }
         })
+    }
+    
+    private func addCigaretteLocally(note: String) {
+        let cigarette = WatchCigarette(timestamp: Date(), note: note)
+        todayCigarettes.append(cigarette)
+        todayCigarettes.sort { $0.timestamp > $1.timestamp }
+        todayCount = todayCigarettes.count
+        
+        // Update SharedDataManager for local persistence
+        SharedDataManager.shared.syncFromiPhone(cigarettes: todayCigarettes)
+        
+        logger.info("Cigarette added locally as fallback: \(cigarette.id)")
     }
     
     func requestSync() {
         guard WCSession.default.isReachable else {
             logger.info("iPhone not reachable for sync")
+            // Load from local storage as fallback
+            SharedDataManager.shared.loadSharedData()
             return
         }
         
@@ -103,7 +123,9 @@ class WatchConnectivityManager: NSObject, ObservableObject {
             }
         }, errorHandler: { error in
             Task { @MainActor in
-                self.logger.error("Sync request failed: \(error)")
+                self.logger.warning("Sync request failed: \(error.localizedDescription)")
+                // Load from local storage as fallback
+                SharedDataManager.shared.loadSharedData()
             }
         })
     }
@@ -111,6 +133,8 @@ class WatchConnectivityManager: NSObject, ObservableObject {
     func requestStats() {
         guard WCSession.default.isReachable else {
             logger.info("iPhone not reachable for stats")
+            // Load from local storage as fallback
+            SharedDataManager.shared.loadSharedData()
             return
         }
         
@@ -122,7 +146,9 @@ class WatchConnectivityManager: NSObject, ObservableObject {
             }
         }, errorHandler: { error in
             Task { @MainActor in
-                self.logger.error("Stats request failed: \(error)")
+                self.logger.warning("Stats request failed: \(error.localizedDescription)")
+                // Load from local storage as fallback
+                SharedDataManager.shared.loadSharedData()
             }
         })
     }

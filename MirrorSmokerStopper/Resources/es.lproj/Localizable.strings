@@ -1642,3 +1642,14 @@
 "health.timeframe.1_month" = "1 mes";
 "health.timeframe.3_months" = "3 meses";
 "health.timeframe.1_year" = "1 año";
+
+// QUIT PLAN SETTINGS STRINGS
+"settings.quit.plan.footer" = "Establece tu fecha para dejar y te ayudaremos a crear un plan personalizado";
+"settings.quit.date.label" = "Fecha Objetivo para Dejar";
+"settings.quit.date.placeholder" = "Seleccionar fecha para dejar";
+"settings.gradual.reduction.label" = "Activar Reducción Gradual";
+"settings.gradual.reduction.subtitle" = "Reducir gradualmente los cigarrillos hasta la fecha objetivo";
+"settings.reduction.rate.label" = "Tasa de Reducción Diaria";
+"settings.reduction.rate.subtitle" = "Qué tan agresivamente reducir (1.0 = moderado)";
+"settings.quit.progress.label" = "Progreso hacia la Fecha Objetivo";
+"settings.days.until.quit" = "%d días hasta la fecha para dejar";

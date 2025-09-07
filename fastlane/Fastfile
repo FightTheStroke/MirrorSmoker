@@ -1,111 +1,285 @@
-# Fastfile serializzato per screenshots per lingua
-# Automated Screenshot Generation - Serialized by Language
+# Fastfile for MirrorSmoker (Fight The Smoke)
+# Comprehensive App Store submission and metadata management
 
 default_platform(:ios)
 
 platform :ios do
-  # Helper per rilevare dinamicamente i simulatori installati
-  def detect_ios_devices
-    required_name = ENV['REQUIRED_IOS_SIM_NAME'] || 'RoberdanTests26'
-    required_udid = ENV['REQUIRED_IOS_SIM_UDID'] || '2911099D-669D-4DB6-8FB9-6DAD0DC0D945'
-    require 'json'
-    data = JSON.parse(`xcrun simctl list devices -j 2>/dev/null`)
-    found_device = nil
-    data['devices'].each_value do |arr|
-      arr.each do |dev|
-        next unless dev['isAvailable']
-        if dev['name'] == required_name || dev['udid'] == required_udid
-          found_device = dev
-          break
-        end
-      end
-      break if found_device
-    end
-    if found_device.nil?
-      UI.user_error!("Simulator '#{required_name}' (#{required_udid}) non trovato o non disponibile. Crealo con Xcode e riprova.")
-    end
-    UI.message("[screenshots] Uso device: #{found_device['name']} (#{found_device['udid']})")
-    [found_device['name']]
-  rescue => e
-    UI.user_error!("Errore individuazione simulatori richiesti: #{e}")
+  # ===== CONFIGURATION =====
+  
+  before_all do
+    setup_circle_ci if ENV['CIRCLECI']
+    ensure_git_clean if ENV['CI']
   end
   
-  # Screenshot serializzati per lingua
-  desc "Generate screenshots for a single language"
-  lane :screenshots_single_lang do |options|
-    lang = options[:language] || "en-US"
-    UI.message("🌍 Generando screenshots per: #{lang}")
+  # ===== APP STORE METADATA =====
+  
+  desc "📝 Update App Store metadata and descriptions"
+  lane :update_metadata do
+    deliver(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      skip_screenshots: true,
+      skip_binary_upload: true,
+      skip_app_version_update: true,
+      force: true,
+      
+      # App Information
+      name: {
+        'en-US' => 'Fight The Smoke',
+        'es-ES' => 'Fight The Smoke',
+        'fr-FR' => 'Fight The Smoke', 
+        'de-DE' => 'Fight The Smoke',
+        'it-IT' => 'Fight The Smoke'
+      },
+      
+      subtitle: {
+        'en-US' => 'Smart Smoking Tracker',
+        'es-ES' => 'Seguimiento Inteligente',
+        'fr-FR' => 'Suivi Intelligent',
+        'de-DE' => 'Intelligente Verfolgung',
+        'it-IT' => 'Tracker Intelligente'
+      },
+      
+      description: {
+        'en-US' => 'Track your smoking habits with AI-powered insights. Fight The Smoke helps you understand your patterns, set goals, and work towards a healthier lifestyle with personalized coaching and detailed analytics.',
+        'es-ES' => 'Rastrea tus hábitos de fumar con insights impulsados por IA. Fight The Smoke te ayuda a entender tus patrones, establecer objetivos y trabajar hacia un estilo de vida más saludable.',
+        'fr-FR' => 'Suivez vos habitudes de tabagisme avec des insights alimentés par IA. Fight The Smoke vous aide à comprendre vos habitudes et à travailler vers un mode de vie plus sain.',
+        'de-DE' => 'Verfolgen Sie Ihre Rauchgewohnheiten mit KI-gestützten Erkenntnissen. Fight The Smoke hilft Ihnen, Ihre Muster zu verstehen und an einem gesünderen Lebensstil zu arbeiten.',
+        'it-IT' => 'Traccia le tue abitudini di fumo con insights alimentati da IA. Fight The Smoke ti aiuta a capire i tuoi pattern e lavorare verso uno stile di vita più sano.'
+      },
+      
+      keywords: {
+        'en-US' => 'smoking,tracker,health,quit,habits,AI,coach,analytics,wellness,lifestyle',
+        'es-ES' => 'fumar,rastreador,salud,dejar,hábitos,IA,entrenador,analítica,bienestar',
+        'fr-FR' => 'fumer,suivi,santé,arrêter,habitudes,IA,coach,analyse,bien-être',
+        'de-DE' => 'rauchen,verfolgen,gesundheit,aufhören,gewohnheiten,KI,coach,analyse',
+        'it-IT' => 'fumare,tracciare,salute,smettere,abitudini,IA,coach,analisi,benessere'
+      },
+      
+      marketing_url: {
+        'en-US' => 'https://www.fightthestroke.org/mirror-labs',
+        'es-ES' => 'https://www.fightthestroke.org/mirror-labs',
+        'fr-FR' => 'https://www.fightthestroke.org/mirror-labs',
+        'de-DE' => 'https://www.fightthestroke.org/mirror-labs',
+        'it-IT' => 'https://www.fightthestroke.org/mirror-labs'
+      },
+      
+      support_url: {
+        'en-US' => 'https://www.fightthestroke.org/mirror-labs/support',
+        'es-ES' => 'https://www.fightthestroke.org/mirror-labs/support',
+        'fr-FR' => 'https://www.fightthestroke.org/mirror-labs/support',
+        'de-DE' => 'https://www.fightthestroke.org/mirror-labs/support',
+        'it-IT' => 'https://www.fightthestroke.org/mirror-labs/support'
+      },
+      
+      privacy_url: {
+        'en-US' => 'https://www.fightthestroke.org/mirror-labs/privacy',
+        'es-ES' => 'https://www.fightthestroke.org/mirror-labs/privacy',
+        'fr-FR' => 'https://www.fightthestroke.org/mirror-labs/privacy',
+        'de-DE' => 'https://www.fightthestroke.org/mirror-labs/privacy',
+        'it-IT' => 'https://www.fightthestroke.org/mirror-labs/privacy'
+      },
+      
+      # Promotional Text
+      promotional_text: {
+        'en-US' => '🔥 New AI Coach feature! Get personalized insights and smart recommendations to help you achieve your goals.',
+        'es-ES' => '🔥 ¡Nueva función de Entrenador IA! Obtén insights personalizados y recomendaciones inteligentes.',
+        'fr-FR' => '🔥 Nouvelle fonctionnalité Coach IA ! Obtenez des insights personnalisés et des recommandations intelligentes.',
+        'de-DE' => '🔥 Neue KI-Coach Funktion! Erhalten Sie personalisierte Erkenntnisse und intelligente Empfehlungen.',
+        'it-IT' => '🔥 Nuova funzione Coach IA! Ottieni insights personalizzati e raccomandazioni intelligenti.'
+      },
+      
+      # Release Notes
+      release_notes: {
+        'en-US' => "🔥 NEW AI COACH FEATURE\n• Personalized insights and recommendations\n• Smart pattern recognition\n• Enhanced analytics dashboard\n• Improved Apple Watch integration\n• Performance optimizations",
+        'es-ES' => "🔥 NUEVA FUNCIÓN ENTRENADOR IA\n• Insights y recomendaciones personalizadas\n• Reconocimiento inteligente de patrones\n• Panel de análisis mejorado\n• Mejor integración con Apple Watch\n• Optimizaciones de rendimiento",
+        'fr-FR' => "🔥 NOUVELLE FONCTION COACH IA\n• Insights et recommandations personnalisés\n• Reconnaissance intelligente des motifs\n• Tableau de bord d'analyse amélioré\n• Intégration Apple Watch améliorée\n• Optimisations de performance",
+        'de-DE' => "🔥 NEUE KI-COACH FUNKTION\n• Personalisierte Erkenntnisse und Empfehlungen\n• Intelligente Mustererkennung\n• Verbessertes Analyse-Dashboard\n• Verbesserte Apple Watch Integration\n• Performance-Optimierungen",
+        'it-IT' => "🔥 NUOVA FUNZIONE COACH IA\n• Insights e raccomandazioni personalizzati\n• Riconoscimento intelligente dei pattern\n• Dashboard di analisi migliorata\n• Integrazione Apple Watch migliorata\n• Ottimizzazioni delle performance"
+      },
+      
+      # App Store Information
+      primary_category: "MedicalCategory",
+      secondary_category: "HealthAndFitnessCategory",
+      
+      # Age Rating
+      app_rating_config_path: "./fastlane/metadata/app_rating_config.json"
+    )
     
-    dynamic_devices = detect_ios_devices
+    UI.success("✅ App Store metadata updated successfully!")
+  end
+  
+  # ===== SCREENSHOT MANAGEMENT =====
+  
+  desc "📱 Upload screenshots to App Store Connect"
+  lane :upload_screenshots do
+    deliver(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      skip_metadata: true,
+      skip_binary_upload: true,
+      skip_app_version_update: true,
+      force: true,
+      
+      # Screenshots from your manual captures
+      screenshots_path: "./screenshots",
+      
+      # Override previous screenshots
+      overwrite_screenshots: true
+    )
     
-    # Shutdown and boot simulator fresh for each language
-    UI.message("🔄 Riavvio simulatore per #{lang}")
-    sh("xcrun simctl shutdown 'RoberdanTests26' 2>/dev/null || true")
-    sleep(2)
-    sh("xcrun simctl boot 'RoberdanTests26'")
-    sleep(5)
+    UI.success("✅ Screenshots uploaded to App Store Connect!")
+  end
+  
+  # ===== BUILD LANES =====
+  
+  desc "🔨 Build app for release"
+  lane :build do
+    # Increment build number
+    increment_build_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
     
-    capture_screenshots(
+    # Build the app
+    build_app(
       project: "MirrorSmokerStopper.xcodeproj",
       scheme: "MirrorSmokerStopper",
       configuration: "Release",
-      test_target_name: "MirrorSmokerStopperUITests",
-      output_directory: "./fastlane/screenshots",
-      clear_previous_screenshots: false,  # Non cancelliamo gli altri linguaggi
-      override_status_bar: true,
-      concurrent_simulators: false,
-      devices: dynamic_devices,
-      languages: [lang],
-      only_testing: [
-        "MirrorSmokerStopperUITests/BasicScreenshotTests/testAppScreenshots"
-      ],
-      launch_arguments: [
-        "-FASTLANE_SNAPSHOT YES",
-        "-ui_testing",
-        "SCREENSHOT_MODE"
-      ],
-      skip_open_summary: true,
-      headless: false
+      clean: true,
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: {
+          "com.mirror-labs.MirrorSmokerStopper" => "MirrorSmokerStopper App Store",
+          "com.mirror-labs.MirrorSmokerStopper.HomeWidget" => "HomeWidget App Store",
+          "com.mirror-labs.MirrorSmokerStopper.watchkitapp" => "MirrorSmokerStopper Watch App Store"
+        }
+      },
+      include_bitcode: false,
+      include_symbols: true
     )
     
-    UI.success("✅ Screenshots completati per #{lang}")
+    UI.success("✅ Build completed successfully!")
   end
   
-  # Screenshot serializzati per tutte le lingue
-  desc "Generate screenshots for all languages serially"
-  lane :screenshots_all_serial do
-    languages = ["en-US", "es-ES", "fr-FR", "de-DE", "it-IT"]
+  # ===== SUBMISSION LANES =====
+  
+  desc "🚀 Submit to TestFlight"
+  lane :beta do
+    build
     
-    UI.message("🎯 Iniziando generazione serializzata screenshot per #{languages.count} lingue")
-    
-    # Clean screenshots directory first
-    UI.message("🧹 Pulizia directory screenshots")
-    sh("rm -rf ./fastlane/screenshots/*")
-    
-    languages.each_with_index do |lang, index|
-      UI.message("📱 [#{index + 1}/#{languages.count}] Processando #{lang}...")
+    upload_to_testflight(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      skip_waiting_for_build_processing: false,
+      skip_submission: false,
       
-      begin
-        screenshots_single_lang(language: lang)
-        UI.success("✅ [#{index + 1}/#{languages.count}] #{lang} completato")
-        
-        # Pausa tra lingue per stabilità
-        unless index == languages.count - 1
-          UI.message("⏸️  Pausa 5 secondi prima della prossima lingua...")
-          sleep(5)
-        end
-        
-      rescue => e
-        UI.error("❌ [#{index + 1}/#{languages.count}] Errore con #{lang}: #{e}")
-        # Continua con la prossima lingua invece di fermarsi
-        next
-      end
-    end
+      # Beta Review Information
+      beta_app_review_info: {
+        contact_email: "roberdan@microsoft.com",
+        contact_first_name: "Roberto",
+        contact_last_name: "D'Angelo",
+        contact_phone: "+39 123 456 7890",
+        demo_account_name: "",
+        demo_account_password: "",
+        notes: "Test version of Fight The Smoke - smoking tracker app with AI coaching features."
+      },
+      
+      # Changelog for testers
+      changelog: "🔥 NEW AI COACH FEATURE\n• Personalized insights and recommendations\n• Smart pattern recognition\n• Enhanced analytics dashboard\n• Improved Apple Watch integration\n• Performance optimizations"
+    )
     
-    UI.success("🎉 Completata generazione serializzata per tutte le lingue")
+    UI.success("✅ App submitted to TestFlight!")
+  end
+  
+  desc "🏪 Submit to App Store"
+  lane :release do
+    build
     
-    # Lista finale screenshot generati
-    UI.message("📋 Screenshot generati:")
-    sh("find ./fastlane/screenshots -name '*.png' | sort")
+    # Upload to App Store
+    upload_to_app_store(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      force: true,
+      skip_screenshots: false,
+      skip_metadata: false,
+      
+      # Screenshots and metadata
+      screenshots_path: "./screenshots",
+      
+      # Submission information
+      submit_for_review: true,
+      automatic_release: false,
+      
+      # App Review Information
+      app_review_information: {
+        first_name: "Roberto",
+        last_name: "D'Angelo", 
+        phone_number: "+39 123 456 7890",
+        email_address: "roberdan@microsoft.com",
+        demo_account_name: "",
+        demo_account_password: "",
+        notes: "Fight The Smoke is a comprehensive smoking tracker app with AI-powered coaching. The app helps users monitor their smoking habits, provides personalized insights, and supports their journey towards healthier lifestyle choices."
+      },
+      
+      # Export compliance (no encryption)
+      submission_information: {
+        export_compliance_platform: 'ios',
+        export_compliance_compliance_required: false,
+        export_compliance_encryption_updated: false,
+        export_compliance_app_type: nil,
+        export_compliance_uses_encryption: false,
+        export_compliance_is_exempt: false,
+        export_compliance_contains_third_party_cryptography: false,
+        export_compliance_contains_proprietary_cryptography: false,
+        export_compliance_available_on_french_store: true,
+        content_rights_has_rights: true,
+        content_rights_contains_third_party_content: false,
+        add_id_info_limits_tracking: true,
+        add_id_info_serves_ads: false,
+        add_id_info_tracks_action: true,
+        add_id_info_tracks_install: false,
+        add_id_info_uses_idfa: false
+      }
+    )
+    
+    UI.success("✅ App submitted to App Store for review!")
+  end
+  
+  # ===== UTILITY LANES =====
+  
+  desc "🧹 Clean up build artifacts"
+  lane :clean do
+    clean_build_artifacts
+    UI.success("✅ Build artifacts cleaned!")
+  end
+  
+  desc "📊 Generate app info report"
+  lane :info do
+    version = get_version_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
+    build_number = get_build_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
+    
+    UI.message("🔍 APP INFORMATION:")
+    UI.message("   App Name: Fight The Smoke")
+    UI.message("   Bundle ID: com.mirror-labs.MirrorSmokerStopper")
+    UI.message("   Version: #{version}")
+    UI.message("   Build: #{build_number}")
+    UI.message("   Xcode Project: MirrorSmokerStopper.xcodeproj")
+  end
+  
+  desc "🔄 Complete deployment workflow"
+  lane :deploy do
+    info
+    update_metadata
+    upload_screenshots
+    release
+    
+    UI.success("🎉 Complete deployment finished!")
+  end
+  
+  # ===== ERROR HANDLING =====
+  
+  error do |lane, exception|
+    UI.error("❌ Error in lane '#{lane}': #{exception}")
+    
+    # Add custom error handling here
+    # slack(message: "Build failed!", success: false) if ENV['SLACK_URL']
+  end
+  
+  after_all do |lane|
+    UI.success("✅ Lane '#{lane}' completed successfully!")
   end
 end

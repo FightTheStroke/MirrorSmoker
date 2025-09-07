@@ -1638,3 +1638,14 @@
 "health.timeframe.1_month" = "1 mese";
 "health.timeframe.3_months" = "3 mesi";
 "health.timeframe.1_year" = "1 anno";
+
+// QUIT PLAN SETTINGS STRINGS  
+"settings.quit.plan.footer" = "Imposta la tua data per smettere e ti aiuteremo a creare un piano personalizzato";
+"settings.quit.date.label" = "Data Obiettivo per Smettere";
+"settings.quit.date.placeholder" = "Seleziona data per smettere";
+"settings.gradual.reduction.label" = "Attiva Riduzione Graduale";
+"settings.gradual.reduction.subtitle" = "Riduci gradualmente le sigarette fino alla data obiettivo";
+"settings.reduction.rate.label" = "Tasso di Riduzione Giornaliera";
+"settings.reduction.rate.subtitle" = "Quanto aggressivamente ridurre (1.0 = moderato)";
+"settings.quit.progress.label" = "Progresso verso la Data Obiettivo";
+"settings.days.until.quit" = "%d giorni fino alla data per smettere";

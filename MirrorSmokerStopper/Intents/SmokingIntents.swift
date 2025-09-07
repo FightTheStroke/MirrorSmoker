@@ -39,17 +39,20 @@ extension AppIntent {
                     url: storeURL,
                     cloudKitDatabase: .automatic
                 )
-                return try ModelContainer(for: schema, configurations: [configuration])
+                let container = try ModelContainer(for: schema, configurations: [configuration])
+                logger.info("Successfully created AppGroup ModelContainer in Intent")
+                return container
             } catch {
-                logger.critical("Failed AppGroup ModelContainer in Intent: \(error)")
+                logger.warning("Failed AppGroup ModelContainer in Intent: \(error.localizedDescription)")
+                // Continue to fallback
             }
         }
         // Fallback to in-memory to avoid crashes; not persisted
+        logger.info("Using fallback in-memory ModelContainer for Intent")
         let fallbackConfig = ModelConfiguration(
             "MirrorSmokerModel_v2_memory",
             schema: schema,
-            isStoredInMemoryOnly: true,
-            cloudKitDatabase: .automatic
+            isStoredInMemoryOnly: true
         )
         return try! ModelContainer(for: schema, configurations: [fallbackConfig])
     }

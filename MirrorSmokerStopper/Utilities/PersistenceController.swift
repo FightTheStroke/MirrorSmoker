@@ -65,6 +65,8 @@ struct PersistenceController {
             
             Self.logger.info("Successfully created ModelContainer with versioned configuration")
             
+            // CloudKit integration status logged during container creation
+            
         } catch {
             Self.logger.critical("Failed to create ModelContainer: \(error)")
             fatalError("Could not create ModelContainer: \(error)")

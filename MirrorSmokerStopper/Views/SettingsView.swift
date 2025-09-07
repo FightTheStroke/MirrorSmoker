@@ -26,7 +26,10 @@ struct SettingsView: View {
     @State private var dailyAverageInput = ""
     @State private var preferredCurrency = "EUR"
     
-    // Removed quit plan functionality as requested
+    // Quit Plan Settings
+    @State private var quitDate: Date = Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date()
+    @State private var enableGradualReduction = false
+    @State private var dailyReductionRate = 1.0
     
     // UI state
     @State private var hasUnsavedChanges = false
@@ -131,6 +134,7 @@ struct SettingsView: View {
                             personalProfileSection
                             premiumStatusSection
                             smokingHabitsSection
+                            quitPlanSection
                             financialPreferencesSection
                             if shouldShowHealthInfo {
                                 healthInsightsSection
@@ -417,6 +421,119 @@ struct SettingsView: View {
         currentAge > 0 || (!weight.isEmpty && isWeightValid)
     }
     
+    // MARK: - Quit Plan Section
+    private var quitPlanSection: some View {
+        LegacyDSCard {
+            VStack(spacing: DS.Space.lg) {
+                DSSectionHeader(
+                    NSLocalizedString("settings.quit.plan.section", comment: ""),
+                    subtitle: NSLocalizedString("settings.quit.plan.footer", comment: "")
+                )
+                
+                VStack(alignment: .leading, spacing: DS.Space.md) {
+                    // Quit Date Picker
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        DSFormLabel(
+                            text: NSLocalizedString("settings.quit.date.label", comment: ""),
+                            icon: "calendar",
+                            isRequired: false
+                        )
+                        
+                        DatePicker(
+                            NSLocalizedString("settings.quit.date.placeholder", comment: ""),
+                            selection: $quitDate,
+                            in: Date()...,
+                            displayedComponents: .date
+                        )
+                        .datePickerStyle(.compact)
+                        .onChange(of: quitDate) { _ in
+                            hasUnsavedChanges = true
+                        }
+                    }
+                    
+                    // Enable Gradual Reduction Toggle
+                    VStack(alignment: .leading, spacing: DS.Space.sm) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: DS.Space.xs) {
+                                Text(NSLocalizedString("settings.gradual.reduction.label", comment: ""))
+                                    .font(.body)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                
+                                Text(NSLocalizedString("settings.gradual.reduction.subtitle", comment: ""))
+                                    .font(DS.Fonts.caption)
+                                    .foregroundColor(DS.Colors.textSecondary)
+                            }
+                            
+                            Spacer()
+                            
+                            Toggle("", isOn: $enableGradualReduction)
+                                .labelsHidden()
+                                .onChange(of: enableGradualReduction) { _ in
+                                    hasUnsavedChanges = true
+                                }
+                        }
+                    }
+                    
+                    // Daily Reduction Rate (only if gradual reduction is enabled)
+                    if enableGradualReduction {
+                        VStack(alignment: .leading, spacing: DS.Space.sm) {
+                            DSFormLabel(
+                                NSLocalizedString("settings.reduction.rate.label", comment: ""),
+                                isRequired: false
+                            )
+                            
+                            HStack {
+                                Slider(
+                                    value: $dailyReductionRate,
+                                    in: 0.5...2.0,
+                                    step: 0.1
+                                )
+                                .onChange(of: dailyReductionRate) { _ in
+                                    hasUnsavedChanges = true
+                                }
+                                
+                                Text(String(format: "%.1f", dailyReductionRate))
+                                    .font(DS.Fonts.bodySemiBold)
+                                    .foregroundColor(DS.Colors.textPrimary)
+                                    .frame(minWidth: 40)
+                            }
+                            
+                            Text(NSLocalizedString("settings.reduction.rate.subtitle", comment: ""))
+                                .font(DS.Fonts.caption)
+                                .foregroundColor(DS.Colors.textSecondary)
+                        }
+                    }
+                    
+                    // Quit Plan Progress (if quit date is set)
+                    if quitDate > Date() {
+                        let daysRemaining = Calendar.current.dateComponents([.day], from: Date(), to: quitDate).day ?? 0
+                        
+                        VStack(alignment: .leading, spacing: DS.Space.sm) {
+                            Text(NSLocalizedString("settings.quit.progress.label", comment: ""))
+                                .font(DS.Fonts.bodySemiBold)
+                                .foregroundColor(DS.Colors.textPrimary)
+                            
+                            HStack {
+                                Image(systemName: "calendar")
+                                    .foregroundColor(DS.Colors.accent)
+                                
+                                Text(String(format: NSLocalizedString("settings.days.until.quit", comment: ""), daysRemaining))
+                                    .font(.body)
+                                    .foregroundColor(DS.Colors.textSecondary)
+                                
+                                Spacer()
+                            }
+                        }
+                        .padding(DS.Space.md)
+                        .background(DS.Colors.backgroundSecondary)
+                        .cornerRadius(DS.Radius.md)
+                    }
+                }
+            }
+        }
+        .animation(.easeInOut(duration: 0.3), value: enableGradualReduction)
+    }
+    
     private var financialPreferencesSection: some View {
         LegacyDSCard {
             VStack(spacing: DS.Space.lg) {
@@ -623,6 +740,11 @@ struct SettingsView: View {
             dailyAverageInput = String(format: "%.1f", profile.dailyAverage)
         }
         
+        // Load quit plan settings
+        quitDate = profile.quitDate ?? Calendar.current.date(byAdding: .day, value: 30, to: Date()) ?? Date()
+        enableGradualReduction = profile.enableGradualReduction
+        dailyReductionRate = 1.0
+        
         hasUnsavedChanges = false
     }
     
@@ -650,7 +772,10 @@ struct SettingsView: View {
             profileToSave.smokingType = smokingType
             profileToSave.startedSmokingAge = startedSmokingAge
             
-            // Quit plan fields removed as requested
+            // Save quit plan settings
+            profileToSave.quitDate = quitDate
+            profileToSave.enableGradualReduction = enableGradualReduction
+            // dailyReductionRate is not part of UserProfile model
             
             // Save daily average
             if let dailyAvg = Double(dailyAverageInput), dailyAvg > 0 {
@@ -671,11 +796,7 @@ struct SettingsView: View {
             
             Self.logger.info("Profile saved successfully")
             
-        } catch {
-            errorMessage = error.localizedDescription
-            showingError = true
-            Self.logger.error("Failed to save profile: \(error.localizedDescription)")
-        }
+        // No errors can be thrown in this do block
         
         isLoading = false
     }

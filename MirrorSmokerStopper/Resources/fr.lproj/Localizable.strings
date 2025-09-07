@@ -1693,3 +1693,14 @@
 "health.timeframe.1_month" = "1 mois";
 "health.timeframe.3_months" = "3 mois";
 "health.timeframe.1_year" = "1 an";
+
+// QUIT PLAN SETTINGS STRINGS
+"settings.quit.plan.footer" = "Définissez votre date d'arrêt et nous vous aiderons à créer un plan personnalisé";
+"settings.quit.date.label" = "Date d'Arrêt Cible";
+"settings.quit.date.placeholder" = "Sélectionner la date d'arrêt";
+"settings.gradual.reduction.label" = "Activer la Réduction Graduelle";
+"settings.gradual.reduction.subtitle" = "Réduire graduellement les cigarettes jusqu'à la date cible";
+"settings.reduction.rate.label" = "Taux de Réduction Quotidien";
+"settings.reduction.rate.subtitle" = "Agressivité de la réduction (1.0 = modéré)";
+"settings.quit.progress.label" = "Progrès vers la Date d'Arrêt";
+"settings.days.until.quit" = "%d jours jusqu'à la date d'arrêt";

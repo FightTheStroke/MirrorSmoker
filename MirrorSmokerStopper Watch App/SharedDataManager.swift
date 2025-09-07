@@ -33,6 +33,20 @@ class SharedDataManager: ObservableObject {
         // iOS app will send back the updated data via WatchConnectivity
     }
     
+    // MARK: - Add Cigarette Locally (fallback when iPhone is not reachable)
+    func addCigaretteLocally(note: String = "") {
+        let cigarette = WatchCigarette(timestamp: Date(), note: note)
+        saveCigaretteToSharedStorage(cigarette)
+        
+        // Update local state
+        todayCigarettes.append(cigarette)
+        todayCigarettes.sort { $0.timestamp > $1.timestamp }
+        todayCount = todayCigarettes.count
+        
+        // Update widgets
+        WidgetCenter.shared.reloadAllTimelines()
+    }
+    
     // MARK: - Shared Storage Management
     private func saveCigaretteToSharedStorage(_ cigarette: WatchCigarette) {
         guard let userDefaults = userDefaults else { return }

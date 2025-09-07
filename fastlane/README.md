@@ -15,21 +15,69 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios screenshots_single_lang
+### ios update_metadata
 
 ```sh
-[bundle exec] fastlane ios screenshots_single_lang
+[bundle exec] fastlane ios update_metadata
 ```
 
-Generate screenshots for a single language
+📝 Update App Store metadata and descriptions
 
-### ios screenshots_all_serial
+### ios upload_screenshots
 
 ```sh
-[bundle exec] fastlane ios screenshots_all_serial
+[bundle exec] fastlane ios upload_screenshots
 ```
 
-Generate screenshots for all languages serially
+📱 Upload screenshots to App Store Connect
+
+### ios build
+
+```sh
+[bundle exec] fastlane ios build
+```
+
+🔨 Build app for release
+
+### ios beta
+
+```sh
+[bundle exec] fastlane ios beta
+```
+
+🚀 Submit to TestFlight
+
+### ios release
+
+```sh
+[bundle exec] fastlane ios release
+```
+
+🏪 Submit to App Store
+
+### ios clean
+
+```sh
+[bundle exec] fastlane ios clean
+```
+
+🧹 Clean up build artifacts
+
+### ios info
+
+```sh
+[bundle exec] fastlane ios info
+```
+
+📊 Generate app info report
+
+### ios deploy
+
+```sh
+[bundle exec] fastlane ios deploy
+```
+
+🔄 Complete deployment workflow
 
 ----
 

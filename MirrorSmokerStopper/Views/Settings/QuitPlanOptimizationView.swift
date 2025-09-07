@@ -319,10 +319,34 @@ struct QuitPlanOptimizationView: View {
     }
     
     private func applyRecommendation(_ recommendation: QuitPlanOptimizer.OptimizationRecommendation, to profile: UserProfile) {
+        // Update the quit plan
         profile.quitDate = recommendation.recommendedQuitDate
         profile.reductionCurve = recommendation.recommendedCurve
+        profile.enableGradualReduction = true // Ensure gradual reduction is enabled when applying AI plan
         
-        try? modelContext.save()
+        // Clear targets cache since plan has changed
+        profile.clearTargetsCache()
+        
+        // Update lastUpdated to trigger any dependent UI refreshes
+        profile.lastUpdated = Date()
+        
+        do {
+            try modelContext.save()
+            
+            // Post notification to refresh dependent views
+            NotificationCenter.default.post(
+                name: NSNotification.Name("QuitPlanUpdated"),
+                object: nil,
+                userInfo: [
+                    "quitDate": recommendation.recommendedQuitDate,
+                    "reductionCurve": recommendation.recommendedCurve.rawValue,
+                    "updatedAt": Date()
+                ]
+            )
+            
+        } catch {
+            print("Error saving updated quit plan: \(error)")
+        }
     }
 }
 

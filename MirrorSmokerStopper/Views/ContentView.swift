@@ -150,6 +150,24 @@ struct ContentView: View {
                 // External data change detected
                 Self.logger.info("External data change detected, UI will refresh")
             }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("QuitPlanUpdated"))) { notification in
+                // Quit plan has been updated - UI will auto-refresh due to @Query
+                Self.logger.info("Quit plan updated, refreshing dependent values")
+                
+                // Trigger widget reload since targets may have changed
+                WidgetCenter.shared.reloadAllTimelines()
+                
+                // The UI will automatically update due to SwiftData @Query observing UserProfile changes
+                // but we log this for debugging
+                if let userInfo = notification.userInfo {
+                    if let quitDate = userInfo["quitDate"] as? Date {
+                        Self.logger.debug("New quit date: \(quitDate)")
+                    }
+                    if let dailyAverage = userInfo["dailyAverage"] as? Double {
+                        Self.logger.debug("Updated daily average: \(dailyAverage)")
+                    }
+                }
+            }
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
             }

@@ -767,6 +767,9 @@ struct SettingsView: View {
             profileToSave.quitDate = quitDate
             profileToSave.enableGradualReduction = enableGradualReduction
             
+            // Clear targets cache since plan settings may have changed
+            profileToSave.clearTargetsCache()
+            
             // Save daily average
             if let dailyAvg = Double(dailyAverageInput), dailyAvg > 0 {
                 profileToSave.dailyAverage = dailyAvg
@@ -780,6 +783,18 @@ struct SettingsView: View {
             profileToSave.lastUpdated = Date()
             
             try modelContext.save()
+            
+            // Post notification to refresh dependent views when quit plan changes
+            NotificationCenter.default.post(
+                name: NSNotification.Name("QuitPlanUpdated"),
+                object: nil,
+                userInfo: [
+                    "quitDate": profileToSave.quitDate as Any,
+                    "enableGradualReduction": profileToSave.enableGradualReduction,
+                    "dailyAverage": profileToSave.dailyAverage,
+                    "updatedAt": Date()
+                ]
+            )
             
             hasUnsavedChanges = false
             showingSaveAlert = true

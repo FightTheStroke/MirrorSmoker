@@ -36,51 +36,124 @@ final class BasicScreenshotTests: XCTestCase {
     }
 
     func testAppScreenshots() throws {
-        // Screenshot 1: Main Dashboard - always take this first
-        snapshot("01_MainDashboard")
-        sleep(5)
+        print("🎯 Starting ACTUAL app screenshots with proper navigation...")
         
-        // Screenshot 2: Try to find tabs and navigate
+        // Screenshot 1: Main Dashboard (ContentView - today's cigarette count, AI coach)
+        snapshot("01_MainDashboard")
+        sleep(2)
+        
+        // Navigate through tabs using tab bar
         let tabBar = app.tabBars.firstMatch
-        if tabBar.exists && tabBar.buttons.count > 1 {
-            tabBar.buttons.element(boundBy: 1).tap()
-            sleep(3)
-            snapshot("02_SecondTab")
+        XCTAssertTrue(tabBar.waitForExistence(timeout: 10), "Tab bar should exist")
+        
+        let tabButtons = tabBar.buttons.allElementsBoundByIndex
+        print("📱 Found \(tabButtons.count) tab buttons")
+        
+        // Print all tab button details for debugging
+        for (index, button) in tabButtons.enumerated() {
+            print("📋 Tab \(index): label='\(button.label)', identifier='\(button.identifier)', exists=\(button.exists), hittable=\(button.isHittable)")
+        }
+        
+        // Screenshot 2: Statistics View (EnhancedStatisticsView)
+        if tabButtons.count > 1 {
+            print("🧭 Tapping Statistics tab (button 1)...")
+            let statsButton = tabButtons[1]
+            if statsButton.exists && statsButton.isHittable {
+                statsButton.tap()
+                sleep(3) // Wait for data to load
+                print("📊 Statistics tab tapped successfully")
+            } else {
+                print("⚠️ Statistics tab button not hittable")
+            }
+            snapshot("02_Statistics")
         } else {
-            // If no tabs, just take another screenshot
+            print("⚠️ No Statistics tab found")
             snapshot("02_MainView")
         }
         
-        // Screenshot 3: Try third tab or just take current view
-        if tabBar.exists && tabBar.buttons.count > 2 {
-            tabBar.buttons.element(boundBy: 2).tap()
-            sleep(3)
-            snapshot("03_ThirdTab")
+        // Screenshot 3: Settings View
+        if tabButtons.count > 2 {
+            print("🧭 Tapping Settings tab (button 2)...")
+            let settingsButton = tabButtons[2]
+            if settingsButton.exists && settingsButton.isHittable {
+                settingsButton.tap()
+                sleep(2) // Less time for settings
+                print("⚙️ Settings tab tapped successfully")
+            } else {
+                print("⚠️ Settings tab button not hittable")
+            }
+            snapshot("03_Settings")
         } else {
-            snapshot("03_CurrentView")
+            print("⚠️ No Settings tab found")
+            snapshot("03_MainView2")
         }
         
-        // Screenshot 4: Try fourth tab or settings
-        if tabBar.exists && tabBar.buttons.count > 3 {
-            tabBar.buttons.element(boundBy: 3).tap()
-            sleep(3)
-            snapshot("04_FourthTab")
-        } else {
-            // Try to find any settings or menu
-            let buttons = app.buttons.allElementsBoundByIndex
-            if !buttons.isEmpty {
-                let lastButton = buttons[buttons.count - 1]
-                if lastButton.isHittable {
-                    lastButton.tap()
+        // Go back to main tab for Add Cigarette attempt
+        if tabButtons.count > 0 {
+            print("🧭 Back to main tab (button 0)...")
+            tabButtons[0].tap()
+            sleep(2)
+        }
+        
+        // Screenshot 4: Try to trigger Add Cigarette modal/sheet
+        var addTriggered = false
+        
+        // Look for floating action button or any add button
+        let allButtons = app.buttons.allElementsBoundByIndex
+        print("🔍 Checking \(allButtons.count) buttons for add functionality...")
+        
+        // Try to find buttons that might be the FAB or add button
+        for (index, button) in allButtons.enumerated() {
+            if button.isHittable && button.exists {
+                let label = button.label.lowercased()
+                let identifier = button.identifier.lowercased()
+                
+                // Look for buttons with add-related text or symbols
+                if label.contains("+") || label.contains("add") || label.contains("plus") ||
+                   identifier.contains("fab") || identifier.contains("add") || identifier.contains("floating") {
+                    print("🎯 Found potential add button [\(index)]: '\(label)' id: '\(identifier)'")
+                    button.tap()
                     sleep(2)
-                    snapshot("04_LastButton")
+                    addTriggered = true
+                    break
                 }
-            } else {
-                snapshot("04_NoButtons")
             }
         }
         
-        // Screenshot 5: Final screenshot
-        snapshot("05_FinalView")
+        // If no specific add button found, try the last visible button (often FAB)
+        if !addTriggered && !allButtons.isEmpty {
+            let lastButton = allButtons.last!
+            if lastButton.isHittable {
+                print("🎯 Trying last button as potential FAB...")
+                lastButton.tap()
+                sleep(2)
+                addTriggered = true
+            }
+        }
+        
+        snapshot("04_AddCigarette")
+        
+        // Try to dismiss any modal that opened
+        if addTriggered {
+            // Look for cancel/done/close buttons
+            let dismissButtons = app.buttons.matching(NSPredicate(format: "label CONTAINS[c] 'cancel' OR label CONTAINS[c] 'done' OR label CONTAINS[c] 'close'"))
+            if dismissButtons.count > 0 {
+                dismissButtons.firstMatch.tap()
+                sleep(1)
+            } else {
+                // Try swipe down to dismiss
+                app.swipeDown()
+                sleep(1)
+            }
+        }
+        
+        // Screenshot 5: Final clean main view (App Interface)
+        if tabButtons.count > 0 {
+            tabButtons[0].tap()
+            sleep(2)
+        }
+        snapshot("05_AppInterface")
+        
+        print("✅ Completed all app screenshots with proper navigation")
     }
 }

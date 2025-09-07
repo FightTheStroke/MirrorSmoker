@@ -45,7 +45,7 @@
   },
   "outputDir": "shots",
   "waitTime": 3,
-  "buildFirst": true,
+  "buildFirst": false,
   "project": "MirrorSmokerStopper.xcodeproj",
   "scheme": "MirrorSmokerStopper",
   "configuration": "Release"

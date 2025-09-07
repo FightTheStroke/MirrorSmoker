@@ -8,6 +8,8 @@
 #if os(iOS) && canImport(AppIntents)
 import AppIntents
 import SwiftData
+import WidgetKit
+import Foundation
 
 @available(iOS 16.0, *)
 struct AddCigaretteIntent: AppIntent {
@@ -28,22 +30,91 @@ struct AddCigaretteIntent: AppIntent {
     }
     
     func perform() async throws -> some IntentResult {
-        // Enqueue a pending cigarette in the shared App Group for the main app to process
-        let groupIdentifier = "group.fightthestroke.mirrorsmoker"
-        guard let ud = UserDefaults(suiteName: groupIdentifier) else {
-            return .result(value: "Shared group not available")
+        let success = await addCigaretteToSharedDatabase()
+        
+        if success {
+            // Refresh all widget timelines immediately
+            WidgetCenter.shared.reloadAllTimelines()
+            
+            return .result(dialog: IntentDialog("Cigarette added successfully"))
+        } else {
+            throw IntentError.addFailed
         }
-        var pending = ud.array(forKey: "widget_pending_cigarettes") as? [Double] ?? []
-        pending.append(Date().timeIntervalSince1970)
-        ud.set(pending, forKey: "widget_pending_cigarettes")
-        // Bump lastUpdated so the app's SyncCoordinator detects external changes
-        ud.set(Date(), forKey: "lastUpdated")
+    }
+    
+    // MARK: - Database Access
+    private func addCigaretteToSharedDatabase() async -> Bool {
+        guard let container = AppGroupManager.sharedModelContainer else {
+            return false
+        }
         
-        // Ask WidgetKit to refresh
-        WidgetKit.WidgetCenter.shared.reloadAllTimelines()
+        let context = ModelContext(container)
         
-        let ts = Date()
-        return .result(value: "Added at \(ts.formatted(date: .omitted, time: .shortened))")
+        do {
+            // Create and save cigarette using the real Cigarette model
+            let cigarette = Cigarette(
+                timestamp: Date(),
+                note: note ?? "Added from widget"
+            )
+            
+            context.insert(cigarette)
+            try context.save()
+            
+            // Update shared UserDefaults for synchronization
+            if let userDefaults = UserDefaults(suiteName: "group.fightthestroke.mirrorsmoker") {
+                // Update timestamp and source for sync detection
+                userDefaults.set(Date(), forKey: "lastUpdated")
+                userDefaults.set("widget", forKey: "lastUpdateSource")
+                
+                // Update today's count for quick access
+                let today = Calendar.current.startOfDay(for: Date())
+                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today)!
+                
+                let todayDescriptor = FetchDescriptor<Cigarette>(
+                    predicate: #Predicate<Cigarette> { c in
+                        c.timestamp >= today && c.timestamp < tomorrow
+                    }
+                )
+                
+                let todayCigarettes = try context.fetch(todayDescriptor)
+                userDefaults.set(todayCigarettes.count, forKey: "todayCount")
+                
+                // Save cigarette data for Watch sync
+                let cigarettesData = todayCigarettes.map { cig in
+                    [
+                        "id": cig.id.uuidString,
+                        "timestamp": cig.timestamp.timeIntervalSince1970,
+                        "note": cig.note
+                    ]
+                }
+                
+                if let encoded = try? JSONSerialization.data(withJSONObject: cigarettesData) {
+                    let formatter = DateFormatter()
+                    formatter.dateFormat = "yyyy-MM-dd"
+                    userDefaults.set(encoded, forKey: "cigarettes_\(formatter.string(from: Date()))")
+                }
+                
+                // Notify the main app that a cigarette was added from widget
+                userDefaults.set(true, forKey: "widget_cigarette_added")
+            }
+            
+            return true
+            
+        } catch {
+            return false
+        }
+    }
+}
+
+// MARK: - Intent Errors
+enum IntentError: Error, LocalizedError {
+    case addFailed
+    
+    var errorDescription: String? {
+        switch self {
+        case .addFailed:
+            return "Failed to add cigarette"
+        }
     }
 }
 

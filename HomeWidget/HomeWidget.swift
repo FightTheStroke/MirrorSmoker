@@ -172,6 +172,23 @@ struct CigaretteProvider: TimelineProvider {
     
     // MARK: - Data Access
     private func getTodayStats() -> WidgetTodayStats {
+        // Try to get data from UserDefaults first (more reliable for widget)
+        if let userDefaults = UserDefaults(suiteName: "group.fightthestroke.mirrorsmoker") {
+            let todayCount = userDefaults.integer(forKey: "todayCount")
+            let dailyAverage = userDefaults.double(forKey: "dailyAverage")
+            let lastCigaretteTime = userDefaults.object(forKey: "lastCigaretteTime") as? Date
+            
+            // If we have data in UserDefaults, use it
+            if todayCount > 0 || dailyAverage > 0 {
+                return WidgetTodayStats(
+                    todayCount: todayCount,
+                    dailyAverage: dailyAverage,
+                    lastCigaretteTime: lastCigaretteTime
+                )
+            }
+        }
+        
+        // Fallback to SwiftData if UserDefaults doesn't have data
         guard let container = AppGroupManager.sharedModelContainer else {
             // Widget: Failed to get shared model container
             return WidgetTodayStats.fallback

@@ -119,7 +119,8 @@ struct WatchMainContentView: View {
         }
         .tabViewStyle(.page) // Use .page instead of .verticalPage for watchOS
         .task {
-            refreshData()
+            // Request immediate sync on startup
+            await refreshDataComplete()
         }
     }
     
@@ -143,6 +144,17 @@ struct WatchMainContentView: View {
     private func refreshData() {
         // Request fresh data from iPhone
         watchConnectivity.requestStats()
+    }
+    
+    private func refreshDataComplete() async {
+        // Request full sync including all today's cigarettes
+        watchConnectivity.requestSync()
+        
+        // Also request stats for complete data
+        watchConnectivity.requestStats()
+        
+        // Load data from shared storage as fallback
+        sharedDataManager.loadSharedData()
     }
 }
 

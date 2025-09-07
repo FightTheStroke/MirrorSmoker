@@ -59,37 +59,34 @@ class WatchConnectivityManager: NSObject, ObservableObject {
     // MARK: - Send Messages to iPhone
     
     func addCigarette(note: String = "") {
-        let cigarette = WatchCigarette(note: note)
-        
-        // Add to local state immediately for responsiveness
-        todayCigarettes.append(cigarette)
-        todayCount = todayCigarettes.count
-        weekCount += 1
-        
-        // Send to iPhone if available
-        if WCSession.default.isReachable {
-            let message: [String: Any] = [
-                "action": "addCigarette",
-                "timestamp": cigarette.timestamp.timeIntervalSince1970,
-                "note": cigarette.note
-            ]
-            
-            WCSession.default.sendMessage(message, replyHandler: { reply in
-                Task { @MainActor in
-                    if let success = reply["success"] as? Bool, success {
-                        self.logger.info("Cigarette synced successfully with iPhone")
-                    }
-                }
-            }, errorHandler: { error in
-                Task { @MainActor in
-                    self.logger.error("Failed to sync cigarette with iPhone: \(error)")
-                    // Keep local data, will sync when iPhone becomes available
-                }
-            })
-        } else {
-            logger.info("iPhone not reachable, cigarette will sync when available")
-            // Save to App Group for later sync when implemented
+        // Send to iPhone as central source of truth
+        guard WCSession.default.isReachable else {
+            logger.info("iPhone not reachable, cannot add cigarette")
+            return
         }
+        
+        let message: [String: Any] = [
+            "action": "addCigarette",
+            "timestamp": Date().timeIntervalSince1970,
+            "note": note
+        ]
+        
+        WCSession.default.sendMessage(message, replyHandler: { reply in
+            Task { @MainActor in
+                if let success = reply["success"] as? Bool, success {
+                    self.logger.info("Cigarette added successfully via iPhone")
+                    // iPhone will send updated data back via handleCigaretteAddedFromiPhone
+                    // Also update local SharedDataManager immediately
+                    self.requestStats()
+                } else {
+                    self.logger.error("iPhone rejected cigarette addition")
+                }
+            }
+        }, errorHandler: { error in
+            Task { @MainActor in
+                self.logger.error("Failed to add cigarette via iPhone: \(error)")
+            }
+        })
     }
     
     func requestSync() {
@@ -279,13 +276,23 @@ extension WatchConnectivityManager: WCSessionDelegate {
         
         // Check if we already have this cigarette to avoid duplicates
         if !todayCigarettes.contains(where: { $0.id == cigarette.id }) {
-            todayCigarettes.append(cigarette)
-            todayCigarettes.sort { $0.timestamp > $1.timestamp } // Most recent first
-            todayCount = todayCigarettes.count
-            weekCount += 1
-            
-            logger.info("Cigarette added from iPhone: \(cigarette.id)")
+            // Check if this is today's cigarette
+            let calendar = Calendar.current
+            let today = calendar.startOfDay(for: Date())
+            if cigarette.timestamp >= today {
+                todayCigarettes.append(cigarette)
+                todayCigarettes.sort { $0.timestamp > $1.timestamp } // Most recent first
+                todayCount = todayCigarettes.count
+                
+                logger.info("Cigarette added from iPhone: \(cigarette.id)")
+                
+                // Update SharedDataManager immediately
+                SharedDataManager.shared.syncFromiPhone(cigarettes: self.todayCigarettes)
+            }
         }
+        
+        // Always request fresh stats to ensure accuracy
+        requestStats()
     }
     
     private func handleFullSyncFromiPhone(message: [String: Any]) {

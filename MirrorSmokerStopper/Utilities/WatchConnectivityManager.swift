@@ -249,14 +249,14 @@ extension WatchConnectivityManager: WCSessionDelegate {
             try context.save()
             logger.info("Cigarette added from Watch successfully")
             
+            // Update shared state and widgets/watch via SyncCoordinator immediately
+            SyncCoordinator.shared.cigaretteAdded(from: .watch, cigarette: cigarette)
+            
             // Notify main app UI to refresh
             NotificationCenter.default.post(
                 name: NSNotification.Name("CigaretteAddedFromWatch"),
                 object: cigarette
             )
-            
-            // Update shared state and widgets/watch via SyncCoordinator
-            SyncCoordinator.shared.cigaretteAdded(from: .watch, cigarette: cigarette)
             
             replyHandler([
                 "success": true,

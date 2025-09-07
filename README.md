@@ -1,4 +1,4 @@
-# Mirror Smoker 🚭
+# FIGHT THE SMOKE 🚭
 
 A privacy-first, open-source cigarette tracking app for iOS and watchOS designed to help users monitor their smoking habits and work towards reducing consumption. Built with SwiftUI, SwiftData, and CloudKit for seamless synchronization across all devices.
 

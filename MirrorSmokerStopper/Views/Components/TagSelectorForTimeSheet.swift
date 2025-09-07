@@ -29,7 +29,7 @@ struct TagSelectionRow: View {
                     .frame(width: 20, height: 20)
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(tag.name)
+                    Text(TagManager.localizedName(for: tag))
                         .font(.headline)
                         .foregroundColor(.primary)
                     

@@ -478,7 +478,7 @@
 "settings.daily.cigarettes.invalid" = "Tägliche Zigaretten müssen zwischen 0 und 100 liegen";
 
 // Widget localization
-"widget.display.name" = "MirrorSmoker Tracker";
+"widget.display.name" = "Fight The Smoke";
 "widget.description" = "Verfolgen Sie Zigaretten und sehen Sie den täglichen Fortschritt vom Startbildschirm";
 "widget.today" = "Heute";
 "widget.daily.avg" = "Tagesdurchschnitt";
@@ -1287,6 +1287,13 @@
 "tag.name.example" = "z.B., Stress";
 "tag.color.field" = "Tag-Farbe";
 "select.tags.title" = "Tags auswählen";
+"tag.add.new" = "Neuen Tag hinzufügen";
+"tags.title" = "Tags";
+"tag.name" = "Name";
+"tag.name.placeholder" = "Tag-Name";
+"tag.color" = "Farbe";
+"tag.edit" = "Tag bearbeiten";
+"tag.selector.already.tagged" = "%d Zigaretten bereits getaggt";
 
 // Additional hardcoded strings found
 "available.ios26" = "Verfügbar ab iOS 26+";
@@ -1645,3 +1652,10 @@
 "settings.reduction.rate.subtitle" = "Wie aggressiv reduzieren (1.0 = moderat)";
 "settings.quit.progress.label" = "Fortschritt zum Aufhör-Datum";
 "settings.days.until.quit" = "%d Tage bis zum Aufhör-Datum";
+
+"tag.driving" = "Fahren";
+"tag.morning" = "Morgen";
+"tag.evening" = "Abend";
+"tag.boredom" = "Langeweile";
+"tag.anxiety" = "Angst";
+"tag.celebration" = "Feier";

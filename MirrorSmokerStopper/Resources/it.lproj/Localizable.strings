@@ -477,7 +477,7 @@
 "settings.daily.cigarettes.invalid" = "Le sigarette giornaliere devono essere tra 0 e 100";
 
 // Widget localization
-"widget.display.name" = "MirrorSmoker Tracker";
+"widget.display.name" = "Fight The Smoke";
 "widget.description" = "Traccia sigarette e visualizza i progressi giornalieri dalla schermata principale";
 "widget.today" = "Oggi";
 "widget.daily.avg" = "Media Giorn.";
@@ -1288,6 +1288,20 @@
 "tag.name.example" = "es. Stress";
 "tag.color.field" = "Colore Tag";
 "select.tags.title" = "Seleziona Tag";
+"tag.add.new" = "Aggiungi nuovo tag";
+"tags.title" = "Tag";
+"tag.name" = "Nome";
+"tag.name.placeholder" = "Nome del tag";
+"tag.color" = "Colore";
+"tag.edit" = "Modifica tag";
+"tag.selector.already.tagged" = "%d sigarette già taggate";
+"tag.selector.enter.name" = "Inserisci nome del tag";
+"tag.selector.new.tag" = "Nuovo tag";
+"tag.selector.add.to.period" = "Aggiungi tag al periodo";
+"tag.selector.no.cigarettes" = "Nessuna sigaretta in questo periodo";
+"tag.selector.cigarettes.count" = "%d sigarett%@ in questo periodo";
+"tag.selector.no.tags" = "Nessun tag disponibile";
+"tag.selector.create.to.categorize" = "Crea tag per categorizzare le sigarette";
 
 // Additional hardcoded strings found
 "available.ios26" = "Disponibile su iOS 26+";
@@ -1649,3 +1663,10 @@
 "settings.reduction.rate.subtitle" = "Quanto aggressivamente ridurre (1.0 = moderato)";
 "settings.quit.progress.label" = "Progresso verso la Data Obiettivo";
 "settings.days.until.quit" = "%d giorni fino alla data per smettere";
+
+"tag.driving" = "Guidando";
+"tag.morning" = "Mattina";
+"tag.evening" = "Sera";
+"tag.boredom" = "Noia";
+"tag.anxiety" = "Ansia";
+"tag.celebration" = "Festeggiamenti";

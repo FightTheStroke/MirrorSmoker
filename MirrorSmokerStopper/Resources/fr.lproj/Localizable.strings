@@ -1287,6 +1287,13 @@
 "tag.name.example" = "ex., Stress";
 "tag.color.field" = "Couleur du Tag";
 "select.tags.title" = "Sélectionner les Tags";
+"tag.add.new" = "Ajouter un nouveau tag";
+"tags.title" = "Tags";
+"tag.name" = "Nom";
+"tag.name.placeholder" = "Nom du tag";
+"tag.color" = "Couleur";
+"tag.edit" = "Modifier le tag";
+"tag.selector.already.tagged" = "%d cigarettes déjà tagguées";
 
 // Additional hardcoded strings found
 "available.ios26" = "Disponible sur iOS 26+";
@@ -1704,3 +1711,10 @@
 "settings.reduction.rate.subtitle" = "Agressivité de la réduction (1.0 = modéré)";
 "settings.quit.progress.label" = "Progrès vers la Date d'Arrêt";
 "settings.days.until.quit" = "%d jours jusqu'à la date d'arrêt";
+
+"tag.driving" = "Conduite";
+"tag.morning" = "Matin";
+"tag.evening" = "Soir";
+"tag.boredom" = "Ennui";
+"tag.anxiety" = "Anxiété";
+"tag.celebration" = "Célébration";

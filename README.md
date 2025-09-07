@@ -106,7 +106,7 @@ Sync architecture for Widgets, App, and Watch is unified:
 To add widgets:
 1. Long press on your home screen
 2. Tap the "+" button
-3. Search for "MirrorSmoker Tracker"
+3. Search for ""widget.display.name" = "Fight The Smoke";"
 4. Choose your preferred size and add to home screen
 
 ## 🏗️ Architecture

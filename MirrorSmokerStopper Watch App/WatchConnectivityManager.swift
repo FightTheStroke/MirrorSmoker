@@ -41,6 +41,17 @@ class WatchConnectivityManager: NSObject, ObservableObject {
         setupWatchConnectivity()
     }
     
+    // MARK: - Helper Functions
+    
+    private func logWatchConnectivityError(_ error: Error, operation: String) {
+        let nsError = error as NSError
+        if nsError.domain == WCErrorDomain && nsError.code == WCError.notReachable.rawValue {
+            logger.debug("iPhone not reachable for \(operation) - this is normal when iPhone is not connected")
+        } else {
+            logger.error("Failed to \(operation): \(error)")
+        }
+    }
+    
     // MARK: - Setup
     
     private func setupWatchConnectivity() {
@@ -88,7 +99,7 @@ class WatchConnectivityManager: NSObject, ObservableObject {
             }
         }, errorHandler: { error in
             Task { @MainActor in
-                self.logger.warning("Failed to add cigarette via iPhone: \(error.localizedDescription)")
+                self.logWatchConnectivityError(error, operation: "add cigarette via iPhone")
                 // Add locally as fallback when communication fails
                 self.addCigaretteLocally(note: note)
             }
@@ -240,23 +251,7 @@ extension WatchConnectivityManager: WCSessionDelegate {
         }
     }
     
-#if os(iOS)
-    // These delegate methods are only required on iOS, not watchOS
-    nonisolated func sessionDidBecomeInactive(_ session: WCSession) {
-        DispatchQueue.main.async {
-            self.logger.info("Watch session became inactive")
-        }
-    }
-    
-    nonisolated func sessionDidDeactivate(_ session: WCSession) {
-        DispatchQueue.main.async {
-            self.logger.info("Watch session deactivated")
-        }
-        
-        // Reactivate the session for the Apple Watch
-        session.activate()
-    }
-#endif
+    // Note: watchOS doesn't need sessionDidBecomeInactive and sessionDidDeactivate
     
     // MARK: - Receive Messages from iPhone
     
@@ -281,6 +276,33 @@ extension WatchConnectivityManager: WCSessionDelegate {
                 
             default:
                 self.logger.warning("Unknown action from iPhone: \(action)")
+            }
+        }
+    }
+
+    // Handle messages that expect a reply to avoid WCErrorCodeDeliveryFailed when iPhone uses sendMessage(replyHandler:errorHandler:)
+    nonisolated func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        guard let action = message["action"] as? String else {
+            replyHandler(["success": false, "error": "Invalid message format"]) 
+            return
+        }
+        
+        logger.info("Received message with reply from iPhone: \(action)")
+        
+        DispatchQueue.main.async {
+            switch action {
+            case "cigaretteAdded":
+                self.handleCigaretteAddedFromiPhone(message: message)
+                replyHandler(["success": true])
+            case "fullSync":
+                self.handleFullSyncFromiPhone(message: message)
+                replyHandler(["success": true])
+            case "purchaseAdded":
+                self.handlePurchaseAddedFromiPhone(message: message)
+                replyHandler(["success": true])
+            default:
+                self.logger.warning("Unknown action from iPhone: \(action)")
+                replyHandler(["success": false, "error": "Unknown action"]) 
             }
         }
     }
@@ -345,7 +367,10 @@ extension WatchConnectivityManager: WCSessionDelegate {
         todayCigarettes = cigarettes.sorted { $0.timestamp > $1.timestamp }
         todayCount = todayCigarettes.count
         
-        logger.info("Full sync completed from iPhone: \(self.todayCount) cigarettes")
+        // Persist to shared storage for fallback coherence
+        SharedDataManager.shared.syncFromiPhone(cigarettes: todayCigarettes)
+        
+        logger.info("Full sync completed from iPhone: \(self.todayCount) cigarettes and persisted locally")
     }
     
     private func handlePurchaseAddedFromiPhone(message: [String: Any]) {
@@ -354,4 +379,6 @@ extension WatchConnectivityManager: WCSessionDelegate {
             logger.info("Purchase added from iPhone: \(productName)")
         }
     }
+    
+    // Note: Watch doesn't need to handle messages with reply handlers from iPhone
 }

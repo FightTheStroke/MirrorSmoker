@@ -19,90 +19,12 @@ platform :ios do
       app_identifier: "com.mirror-labs.MirrorSmokerStopper",
       skip_screenshots: true,
       skip_binary_upload: true,
-      skip_app_version_update: true,
       force: true,
-      
-      # App Information
-      name: {
-        'en-US' => 'Fight The Smoke',
-        'es-ES' => 'Fight The Smoke',
-        'fr-FR' => 'Fight The Smoke', 
-        'de-DE' => 'Fight The Smoke',
-        'it-IT' => 'Fight The Smoke'
-      },
-      
-      subtitle: {
-        'en-US' => 'Smart Smoking Tracker',
-        'es-ES' => 'Seguimiento Inteligente',
-        'fr-FR' => 'Suivi Intelligent',
-        'de-DE' => 'Intelligente Verfolgung',
-        'it-IT' => 'Tracker Intelligente'
-      },
-      
-      description: {
-        'en-US' => 'Track your smoking habits with AI-powered insights. Fight The Smoke helps you understand your patterns, set goals, and work towards a healthier lifestyle with personalized coaching and detailed analytics.',
-        'es-ES' => 'Rastrea tus hábitos de fumar con insights impulsados por IA. Fight The Smoke te ayuda a entender tus patrones, establecer objetivos y trabajar hacia un estilo de vida más saludable.',
-        'fr-FR' => 'Suivez vos habitudes de tabagisme avec des insights alimentés par IA. Fight The Smoke vous aide à comprendre vos habitudes et à travailler vers un mode de vie plus sain.',
-        'de-DE' => 'Verfolgen Sie Ihre Rauchgewohnheiten mit KI-gestützten Erkenntnissen. Fight The Smoke hilft Ihnen, Ihre Muster zu verstehen und an einem gesünderen Lebensstil zu arbeiten.',
-        'it-IT' => 'Traccia le tue abitudini di fumo con insights alimentati da IA. Fight The Smoke ti aiuta a capire i tuoi pattern e lavorare verso uno stile di vita più sano.'
-      },
-      
-      keywords: {
-        'en-US' => 'smoking,tracker,health,quit,habits,AI,coach,analytics,wellness,lifestyle',
-        'es-ES' => 'fumar,rastreador,salud,dejar,hábitos,IA,entrenador,analítica,bienestar',
-        'fr-FR' => 'fumer,suivi,santé,arrêter,habitudes,IA,coach,analyse,bien-être',
-        'de-DE' => 'rauchen,verfolgen,gesundheit,aufhören,gewohnheiten,KI,coach,analyse',
-        'it-IT' => 'fumare,tracciare,salute,smettere,abitudini,IA,coach,analisi,benessere'
-      },
-      
-      marketing_url: {
-        'en-US' => 'https://www.fightthestroke.org/mirror-labs',
-        'es-ES' => 'https://www.fightthestroke.org/mirror-labs',
-        'fr-FR' => 'https://www.fightthestroke.org/mirror-labs',
-        'de-DE' => 'https://www.fightthestroke.org/mirror-labs',
-        'it-IT' => 'https://www.fightthestroke.org/mirror-labs'
-      },
-      
-      support_url: {
-        'en-US' => 'https://www.fightthestroke.org/mirror-labs/support',
-        'es-ES' => 'https://www.fightthestroke.org/mirror-labs/support',
-        'fr-FR' => 'https://www.fightthestroke.org/mirror-labs/support',
-        'de-DE' => 'https://www.fightthestroke.org/mirror-labs/support',
-        'it-IT' => 'https://www.fightthestroke.org/mirror-labs/support'
-      },
-      
-      privacy_url: {
-        'en-US' => 'https://www.fightthestroke.org/mirror-labs/privacy',
-        'es-ES' => 'https://www.fightthestroke.org/mirror-labs/privacy',
-        'fr-FR' => 'https://www.fightthestroke.org/mirror-labs/privacy',
-        'de-DE' => 'https://www.fightthestroke.org/mirror-labs/privacy',
-        'it-IT' => 'https://www.fightthestroke.org/mirror-labs/privacy'
-      },
-      
-      # Promotional Text
-      promotional_text: {
-        'en-US' => '🔥 New AI Coach feature! Get personalized insights and smart recommendations to help you achieve your goals.',
-        'es-ES' => '🔥 ¡Nueva función de Entrenador IA! Obtén insights personalizados y recomendaciones inteligentes.',
-        'fr-FR' => '🔥 Nouvelle fonctionnalité Coach IA ! Obtenez des insights personnalisés et des recommandations intelligentes.',
-        'de-DE' => '🔥 Neue KI-Coach Funktion! Erhalten Sie personalisierte Erkenntnisse und intelligente Empfehlungen.',
-        'it-IT' => '🔥 Nuova funzione Coach IA! Ottieni insights personalizzati e raccomandazioni intelligenti.'
-      },
-      
-      # Release Notes
-      release_notes: {
-        'en-US' => "🔥 NEW AI COACH FEATURE\n• Personalized insights and recommendations\n• Smart pattern recognition\n• Enhanced analytics dashboard\n• Improved Apple Watch integration\n• Performance optimizations",
-        'es-ES' => "🔥 NUEVA FUNCIÓN ENTRENADOR IA\n• Insights y recomendaciones personalizadas\n• Reconocimiento inteligente de patrones\n• Panel de análisis mejorado\n• Mejor integración con Apple Watch\n• Optimizaciones de rendimiento",
-        'fr-FR' => "🔥 NOUVELLE FONCTION COACH IA\n• Insights et recommandations personnalisés\n• Reconnaissance intelligente des motifs\n• Tableau de bord d'analyse amélioré\n• Intégration Apple Watch améliorée\n• Optimisations de performance",
-        'de-DE' => "🔥 NEUE KI-COACH FUNKTION\n• Personalisierte Erkenntnisse und Empfehlungen\n• Intelligente Mustererkennung\n• Verbessertes Analyse-Dashboard\n• Verbesserte Apple Watch Integration\n• Performance-Optimierungen",
-        'it-IT' => "🔥 NUOVA FUNZIONE COACH IA\n• Insights e raccomandazioni personalizzati\n• Riconoscimento intelligente dei pattern\n• Dashboard di analisi migliorata\n• Integrazione Apple Watch migliorata\n• Ottimizzazioni delle performance"
-      },
+      edit_live: false,
       
       # App Store Information
-      primary_category: "MedicalCategory",
-      secondary_category: "HealthAndFitnessCategory",
-      
-      # Age Rating
-      app_rating_config_path: "./fastlane/metadata/app_rating_config.json"
+      primary_category: "MEDICAL",
+      secondary_category: "HEALTH_AND_FITNESS"
     )
     
     UI.success("✅ App Store metadata updated successfully!")

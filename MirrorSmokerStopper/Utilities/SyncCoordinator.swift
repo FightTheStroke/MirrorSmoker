@@ -23,6 +23,7 @@ class SyncCoordinator: ObservableObject {
     private var userDefaults: UserDefaults?
     private var cancellables = Set<AnyCancellable>()
     private var lastSyncTime: Date = Date()
+    private var isUpdatingUserDefaults = false
     
     @Published var isSyncing = false
     
@@ -90,7 +91,7 @@ class SyncCoordinator: ObservableObject {
         logger.info("Cigarette added from widget - performing immediate sync")
         
         // Update shared UserDefaults immediately
-        updateSharedUserDefaults()
+        updateSharedUserDefaults(updateTimestamp: true)
         
         // Update Widget timelines
         WidgetCenter.shared.reloadAllTimelines()
@@ -105,7 +106,7 @@ class SyncCoordinator: ObservableObject {
         logger.info("Cigarette added from watch - performing immediate sync")
         
         // Update shared UserDefaults immediately
-        updateSharedUserDefaults()
+        updateSharedUserDefaults(updateTimestamp: true)
         
         // Update Widget timelines
         WidgetCenter.shared.reloadAllTimelines()
@@ -127,7 +128,7 @@ class SyncCoordinator: ObservableObject {
             WatchConnectivityManager.shared.sendDataSync()
             
             // Update shared UserDefaults
-            updateSharedUserDefaults()
+            updateSharedUserDefaults(updateTimestamp: true)
             
         case .widget:
             // Not applicable - widgets don't create tags
@@ -149,7 +150,7 @@ class SyncCoordinator: ObservableObject {
             // Update Widget and Watch
             WidgetCenter.shared.reloadAllTimelines()
             WatchConnectivityManager.shared.sendDataSync()
-            updateSharedUserDefaults()
+            updateSharedUserDefaults(updateTimestamp: true)
             
         case .widget, .watch:
             // Not applicable
@@ -163,7 +164,7 @@ class SyncCoordinator: ObservableObject {
         logger.info("Cigarette added from \(source.rawValue) - performing immediate sync")
         
         // Always update shared UserDefaults first for consistency
-        updateSharedUserDefaults()
+        updateSharedUserDefaults(updateTimestamp: true)
         
         switch source {
         case .app:
@@ -206,6 +207,7 @@ class SyncCoordinator: ObservableObject {
     
     private func checkForExternalChanges() {
         guard let userDefaults = userDefaults else { return }
+        guard !isUpdatingUserDefaults else { return } // Skip if we're updating to avoid loop
         
         // Check if data was updated externally
         if let lastUpdated = userDefaults.object(forKey: "lastUpdated") as? Date,
@@ -228,10 +230,9 @@ class SyncCoordinator: ObservableObject {
             // Process any pending widget actions first
             PendingWidgetActionsManager.shared.processPendingIfAny()
             
-            // Update all external components
+            // Update external components only - UserDefaults already updated externally
             WidgetCenter.shared.reloadAllTimelines()
             WatchConnectivityManager.shared.sendDataSync()
-            updateSharedUserDefaults()
             
             // Notify app UI
             NotificationCenter.default.post(
@@ -253,7 +254,7 @@ class SyncCoordinator: ObservableObject {
             // Process pending widget actions if any
             PendingWidgetActionsManager.shared.processPendingIfAny()
             // Update all components
-            updateSharedUserDefaults()
+            updateSharedUserDefaults(updateTimestamp: true)
             WidgetCenter.shared.reloadAllTimelines()
             WatchConnectivityManager.shared.sendDataSync()
             
@@ -264,12 +265,15 @@ class SyncCoordinator: ObservableObject {
     
     // MARK: - Shared UserDefaults Management
     
-    private func updateSharedUserDefaults() {
+    private func updateSharedUserDefaults(updateTimestamp: Bool = false) {
         guard let userDefaults = userDefaults else { return }
         
         let container = PersistenceController.shared.container
         
         do {
+            // Prevent UserDefaults.didChange re-entry loops while we write
+            isUpdatingUserDefaults = true
+            defer { isUpdatingUserDefaults = false }
             // Get today's cigarettes
             let today = Calendar.current.startOfDay(for: Date())
             guard let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: today) else {
@@ -288,7 +292,11 @@ class SyncCoordinator: ObservableObject {
             
             // Save count for quick access (using consistent key)
             userDefaults.set(cigarettes.count, forKey: "todayCount")
-            userDefaults.set(Date(), forKey: "lastUpdated")
+            
+            // Only update timestamp if explicitly requested (for external changes)
+            if updateTimestamp {
+                userDefaults.set(Date(), forKey: "lastUpdated")
+            }
             
             // Update last cigarette time
             if let lastCigarette = cigarettes.first {

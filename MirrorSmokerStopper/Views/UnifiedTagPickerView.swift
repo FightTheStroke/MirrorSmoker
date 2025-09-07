@@ -185,7 +185,7 @@ struct TagChip: View {
                     .fill(tag.color)
                     .frame(width: 10, height: 10)
                 
-                Text(tag.name)
+                Text(TagManager.localizedName(for: tag))
                     .font(DS.Text.caption)
                     .fontWeight(.medium)
                     .lineLimit(1)
@@ -234,7 +234,7 @@ struct AddTagSheet: View {
                         .foregroundColor(DS.Colors.textSecondary)
                     
                     TextField(NSLocalizedString("tag.name.placeholder", comment: ""), text: $tagName)
-                        .textFieldStyle(DSTextFieldStyle())
+                        .textFieldStyle(.roundedBorder)
                 }
                 
                 // Color picker
@@ -313,7 +313,7 @@ struct EditTagSheet: View {
                         .foregroundColor(DS.Colors.textSecondary)
                     
                     TextField(NSLocalizedString("tag.name.placeholder", comment: ""), text: $tagName)
-                        .textFieldStyle(DSTextFieldStyle())
+                        .textFieldStyle(.roundedBorder)
                 }
                 
                 // Color picker
@@ -363,7 +363,7 @@ struct EditTagSheet: View {
             }
         }
         .onAppear {
-            tagName = tag.name
+            tagName = TagManager.localizedName(for: tag)
             selectedColor = tag.colorHex
         }
     }

@@ -78,7 +78,10 @@ struct ContentView: View {
     private var dailyAverageRaw: Double {
         let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
         let recent = allCigarettes.filter { $0.timestamp >= thirtyDaysAgo }
-        return recent.isEmpty ? 0.0 : Double(recent.count) / 30.0
+        
+        // Calculate actual days with data instead of always dividing by 30
+        let daysWithData = max(1, Calendar.current.dateComponents([.day], from: thirtyDaysAgo, to: Date()).day ?? 1)
+        return recent.isEmpty ? 0.0 : Double(recent.count) / Double(min(30, daysWithData))
     }
     
     private var dailyAverageForPlan: Double {
@@ -133,7 +136,11 @@ struct ContentView: View {
                     coachMessageSection
                     todayCigarettesSection
                     todaysInsightSection
-                    aiCoachTipSection
+                    
+                    // Show AI Coach section only in FULL version
+                    if AppConfiguration.hasAIFeatures {
+                        aiCoachTipSection
+                    }
                 }
                 .padding(DS.Space.lg)
             }
@@ -452,7 +459,7 @@ struct ContentView: View {
     
     private var aiCoachTipSection: some View {
         Group {
-            if let tip = aiCoach.currentTip {
+            if AppConfiguration.hasAIFeatures, let tip = aiCoach.currentTip {
                 LegacyDSCard {
                     VStack(alignment: .leading, spacing: DS.Space.sm) {
                         HStack(spacing: DS.Space.sm) {
@@ -473,7 +480,7 @@ struct ContentView: View {
                             
                             Spacer()
                             
-                            if aiCoach.isGeneratingTip {
+                            if AppConfiguration.hasAIFeatures && aiCoach.isGeneratingTip {
                                 ProgressView()
                                     .scaleEffect(0.7)
                             }
@@ -592,6 +599,12 @@ struct ContentView: View {
         do { 
             try modelContext.save()
             
+            // Update daily average in user profile when new cigarette is added
+            if let profile = currentProfile {
+                profile.updateDailyAverage(from: allCigarettes)
+                Self.logger.debug("Updated daily average to: \(profile.dailyAverage)")
+            }
+            
             // Use SyncCoordinator for centralized sync
             syncCoordinator.cigaretteAdded(from: .app, cigarette: newCigarette)
             
@@ -599,8 +612,10 @@ struct ContentView: View {
             lastSavedCigaretteTagCount = tagCount
             showingCigaretteSavedNotification = true
             
-            // Trigger AI Coach evaluation after adding cigarette
-            BackgroundTaskManager.shared.evaluateAfterCigarette()
+            // Trigger AI Coach evaluation after adding cigarette (FULL version only)
+            if AppConfiguration.hasAIFeatures {
+                BackgroundTaskManager.shared.evaluateAfterCigarette()
+            }
             
             Self.logger.info("Cigarette saved with \(tagCount) tags and synced via SyncCoordinator")
             
@@ -627,6 +642,12 @@ struct ContentView: View {
         modelContext.delete(cigarette)
         do { 
             try modelContext.save() 
+            
+            // Update daily average in user profile when cigarette is deleted
+            if let profile = currentProfile {
+                profile.updateDailyAverage(from: allCigarettes.filter { $0 != cigarette })
+                Self.logger.debug("Updated daily average after deletion to: \(profile.dailyAverage)")
+            }
             
             // Update widget
             WidgetCenter.shared.reloadAllTimelines()

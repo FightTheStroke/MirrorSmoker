@@ -231,15 +231,17 @@ final class JITAIPlanner: ObservableObject {
         quietHoursStart: Int,
         quietHoursEnd: Int
     ) {
-        self.isEnabled = enabled
-        self.maxNotificationsPerDay = max(1, min(10, maxNotificationsPerDay))
-        self.quietHoursStart = quietHoursStart
-        self.quietHoursEnd = quietHoursEnd
-        
-        // Update coach engine quiet hours too
-        coachEngine.updateQuietHours(start: quietHoursStart, end: quietHoursEnd)
-        
-        logger.info("JITAI configuration updated")
+        DispatchQueue.main.async {
+            self.isEnabled = enabled
+            self.maxNotificationsPerDay = max(1, min(10, maxNotificationsPerDay))
+            self.quietHoursStart = quietHoursStart
+            self.quietHoursEnd = quietHoursEnd
+            
+            // Update coach engine quiet hours too
+            self.coachEngine.updateQuietHours(start: quietHoursStart, end: quietHoursEnd)
+            
+            self.logger.info("JITAI configuration updated")
+        }
     }
     
     // Backward compatibility method

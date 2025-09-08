@@ -621,7 +621,8 @@ struct SettingsView: View {
     
     private var aiSettingsSection: some View {
         VStack(spacing: DS.Space.md) {
-            NavigationLink(destination: AISettingsView()) {
+            if AppConfiguration.hasAIFeatures {
+                NavigationLink(destination: AISettingsView()) {
                 LegacyDSCard {
                     VStack(spacing: DS.Space.md) {
                         DSSectionHeader(NSLocalizedString("settings.ai.coach.title", comment: ""))
@@ -651,9 +652,11 @@ struct SettingsView: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
+            }
             
-            // Notification Settings
-            NavigationLink(destination: NotificationSettingsView()) {
+            // Notification Settings - Only in FULL version
+            if AppConfiguration.hasAIFeatures {
+                NavigationLink(destination: NotificationSettingsView()) {
                 LegacyDSCard {
                     HStack {
                         Image(systemName: "bell.badge")
@@ -679,6 +682,7 @@ struct SettingsView: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
+            }
         }
     }
     

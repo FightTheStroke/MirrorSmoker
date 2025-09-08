@@ -1667,3 +1667,47 @@
 "tag.boredom" = "Aburrimiento";
 "tag.anxiety" = "Ansiedad";
 "tag.celebration" = "Celebración";
+
+// Notification Settings
+"notifications.permission.label" = "Permiso de Notificación";
+"notifications.permission.subtitle" = "Permitir que la app envíe notificaciones";
+"notifications.ai.coach.toggle" = "Notificaciones del Coach IA";
+"notifications.ai.coach.subtitle" = "Recibe apoyo personalizado por IA";
+"notifications.timing.label" = "Horario de Notificaciones";
+"notifications.timing.subtitle" = "¿Cuándo quieres recibir notificaciones?";
+"notifications.smart.timing" = "Horario Inteligente";
+"notifications.smart.timing.subtitle" = "La IA elige los mejores momentos basados en tus patrones";
+"notifications.scheduled.timing" = "Horario Programado";
+"notifications.scheduled.timing.subtitle" = "Establecer horarios fijos para notificaciones";
+"notifications.frequency.label" = "Frecuencia";
+"notifications.frequency.subtitle" = "¿Con qué frecuencia quieres recibir notificaciones?";
+"notifications.frequency.low" = "Baja (1-2 por día)";
+"notifications.frequency.medium" = "Media (3-5 por día)";
+"notifications.frequency.high" = "Alta (6+ por día)";
+"notifications.craving.toggle" = "Notificaciones de Antojos";
+"notifications.craving.subtitle" = "Ayuda durante momentos de antojo intenso";
+"notifications.progress.toggle" = "Notificaciones de Progreso";
+"notifications.progress.subtitle" = "Celebra tus éxitos";
+"notifications.reminder.toggle" = "Notificaciones de Recordatorio";
+"notifications.reminder.subtitle" = "Mantente en el buen camino con recordatorios suaves";
+"notifications.test.button" = "Enviar Notificación de Prueba";
+"notifications.test.success" = "¡Notificación de prueba enviada!";
+"notifications.disabled.title" = "Notificaciones Deshabilitadas";
+"notifications.disabled.message" = "Por favor habilita las notificaciones en configuración";
+"notifications.disabled.settings" = "Ir a Configuración";
+"notifications.permission.denied.title" = "Notificaciones Denegadas";
+"notifications.permission.denied.message" = "Por favor permite notificaciones para usar esta función";
+"notifications.setup.title" = "Configurar Notificaciones";
+"notifications.setup.subtitle" = "Personaliza tu configuración de notificaciones";
+"notifications.quiet.hours.label" = "Horas Silenciosas";
+"notifications.quiet.hours.subtitle" = "Sin notificaciones durante estas horas";
+"notifications.quiet.start" = "Inicio del Silencio";
+"notifications.quiet.end" = "Fin del Silencio";
+"notifications.focus.mode.label" = "Integración Modo Concentración";
+"notifications.focus.mode.subtitle" = "Respeta tu configuración de modo concentración";
+"notifications.driving.detection" = "Detección de Conducción";
+"notifications.driving.detection.subtitle" = "Evita interrupciones mientras conduces";
+
+// Open Source Settings
+"settings.opensource.title" = "Open Source";
+"settings.opensource.subtitle" = "Ver código fuente en GitHub";

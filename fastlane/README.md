@@ -79,6 +79,30 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 🔄 Complete deployment workflow
 
+### ios deploy_simple
+
+```sh
+[bundle exec] fastlane ios deploy_simple
+```
+
+📝 Deploy SIMPLE version metadata
+
+### ios deploy_full
+
+```sh
+[bundle exec] fastlane ios deploy_full
+```
+
+📝 Deploy FULL version metadata
+
+### ios show_config
+
+```sh
+[bundle exec] fastlane ios show_config
+```
+
+🔍 Show configuration for version
+
 ----
 
 This README.md is auto-generated and will be re-generated every time [_fastlane_](https://fastlane.tools) is run.

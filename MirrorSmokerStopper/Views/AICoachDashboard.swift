@@ -20,10 +20,12 @@ struct AICoachDashboard: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-                    // AI Coach Status Card
-                    aiCoachStatusCard
-                    
-                    if aiConfig.isAICoachingEnabled {
+                    // Show AI features only in FULL version
+                    if AppConfiguration.hasAIFeatures {
+                        // AI Coach Status Card
+                        aiCoachStatusCard
+                        
+                        if aiConfig.isAICoachingEnabled {
                         // Cardiovascular Wellness Card
                         if heartRateEngine.isMonitoring {
                             cardiovascularWellnessCard
@@ -45,14 +47,18 @@ struct AICoachDashboard: View {
                         
                         // Legal Disclaimer
                         legalDisclaimerCard
+                        } else {
+                            // Enable AI Coach prompt
+                            enableAICoachCard
+                        }
                     } else {
-                        // Enable AI Coach prompt
-                        enableAICoachCard
+                        // SIMPLE version - Basic tracking without AI
+                        simpleVersionContent
                     }
                 }
                 .padding()
             }
-            .navigationTitle("AI Coach")
+            .navigationTitle(AppConfiguration.hasAIFeatures ? "AI Coach" : "Progress")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -775,6 +781,90 @@ struct PermissionRow: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
+        }
+    }
+    
+    // MARK: - Simple Version Content
+    
+    private var simpleVersionContent: some View {
+        VStack(spacing: 20) {
+            // Basic Progress Card
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                        .foregroundColor(.blue)
+                        .font(.title2)
+                    
+                    Text("Your Progress")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                }
+                
+                Text("Track your smoking cessation journey with essential statistics and motivation.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .padding()
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            
+            // Basic Statistics Card
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "number")
+                        .foregroundColor(.green)
+                        .font(.title2)
+                    
+                    Text("Essential Stats")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                }
+                
+                Text("View your days smoke-free, money saved, and health improvements.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .padding()
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            
+            // Upgrade Prompt
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "sparkles")
+                        .foregroundColor(.purple)
+                        .font(.title2)
+                    
+                    Text("Want AI Coaching?")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                }
+                
+                Text("Upgrade to Mirror Smoker Pro for personalized AI coaching, advanced analytics, and more features.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Button(action: {
+                    // TODO: Handle upgrade action
+                }) {
+                    Text("Learn More")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.purple)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+            .padding()
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 

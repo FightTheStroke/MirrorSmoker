@@ -1698,3 +1698,42 @@
 "tag.boredom" = "Noia";
 "tag.anxiety" = "Ansia";
 "tag.celebration" = "Festeggiamenti";
+
+// === STRINGHE NOTIFICHE ===
+"notifications.permission.label" = "Autorizzazione Notifiche";
+"notifications.enable.button" = "Abilita Notifiche";
+"notifications.permissions.header" = "AUTORIZZAZIONI";
+"notifications.ai.coach.toggle" = "Notifiche AI Coach";
+"notifications.daily.limit" = "Limite Giornaliero";
+"notifications.quiet.hours" = "Ore di Silenzio";
+"notifications.quiet.from" = "Dalle";
+"notifications.quiet.to" = "Alle";
+"notifications.ai.coach.header" = "AI COACH";
+"notifications.ai.coach.footer" = "AI Coach invierà notifiche intelligenti quando sei più vulnerabile alle voglie";
+"notifications.type.motivational.title" = "Consigli Motivazionali";
+"notifications.type.motivational.subtitle" = "Incoraggiamento personalizzato";
+"notifications.type.risk.title" = "Avvisi di Rischio";
+"notifications.type.risk.subtitle" = "Avvisi orari ad alto rischio";
+"notifications.type.breathing.title" = "Promemoria Respirazione";
+"notifications.type.breathing.subtitle" = "Esercizi di gestione dello stress";
+"notifications.type.progress.title" = "Aggiornamenti Progresso";
+"notifications.type.progress.subtitle" = "Celebra i tuoi successi";
+"notifications.types.header" = "TIPI DI NOTIFICHE";
+"notifications.test.button" = "Invia Notifica di Test";
+"notifications.test.footer" = "Testa che le notifiche funzionino correttamente";
+"notifications.title" = "Notifiche";
+"notifications.alert.title" = "Abilita Notifiche";
+"notifications.alert.settings" = "Impostazioni";
+"notifications.alert.message" = "Abilita le notifiche nelle Impostazioni per ricevere la guida dell'AI Coach";
+"notifications.status.enabled" = "Abilitate";
+"notifications.status.disabled" = "Disabilitate";
+"notifications.status.notset" = "Non Impostato";
+"coaching.frequency" = "Frequenza Coaching";
+"coaching.behavior" = "Comportamento Coaching";
+"coaching.behavior.description" = "Personalizza come il tuo AI coach interagisce con te";
+"notification.schedule" = "Programma Notifiche";
+"notification.schedule.description" = "Quando ricevere le notifiche di coaching";
+
+// Open Source Settings
+"settings.opensource.title" = "Open Source";
+"settings.opensource.subtitle" = "Visualizza codice sorgente su GitHub";

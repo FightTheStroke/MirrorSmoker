@@ -1,652 +1,207 @@
-# Fastfile for MirrorSmokerStopper
-# Automated Screenshot Generation and App Store Deployment
+# Fastfile for MirrorSmoker (Fight The Smoke)
+# Comprehensive App Store submission and metadata management
 
 default_platform(:ios)
 
 platform :ios do
-  # Helper per rilevare dinamicamente i simulatori installati del runtime iOS richiesto
-  def git_is_clean?
-    `git status --porcelain`.strip.empty?
-  end
-
-  def detect_ios_devices
-    required_name = ENV['REQUIRED_IOS_SIM_NAME'] || 'RoberdanTests26'
-    required_udid = ENV['REQUIRED_IOS_SIM_UDID'] || '2911099D-669D-4DB6-8FB9-6DAD0DC0D945'
-    require 'json'
-    data = JSON.parse(`xcrun simctl list devices -j 2>/dev/null`)
-    found_device = nil
-    data['devices'].each_value do |arr|
-      arr.each do |dev|
-        next unless dev['isAvailable']
-        if dev['name'] == required_name || dev['udid'] == required_udid
-          found_device = dev
-          break
-        end
-      end
-      break if found_device
-    end
-    if found_device.nil?
-      UI.user_error!("Simulator '#{required_name}' (#{required_udid}) non trovato o non disponibile. Crealo con Xcode e riprova.")
-    end
-    UI.message("[screenshots] Uso device: #{found_device['name']} (#{found_device['udid']})")
-    [found_device['name']]
-  rescue => e
-    UI.user_error!("Errore individuazione simulatori richiesti: #{e}")
+  # ===== CONFIGURATION =====
+  
+  before_all do
+    setup_circle_ci if ENV['CIRCLECI']
+    ensure_git_clean if ENV['CI']
   end
   
-  # Automated Screenshot Generation - iOS 26 Features
-  desc "Generate screenshots for iPhone and Apple Watch with iOS 26 features"
-  lane :screenshots do
-    # NOTE: La parte Apple Watch è stata temporaneamente rimossa perché il parametro test_plan
-    # puntava a un file inesistente (AppleWatchScreenshotTests.xctestplan) causando il fallimento
-    # della lane prima che venissero salvati gli screenshot iPhone.
-    # Quando sarà pronto un test plan watchOS corretto si potrà re‑introdurre.
-
-    # iPhone Screenshots (solo il test che genera le schermate, per evitare duplicati)
-    dynamic_devices = detect_ios_devices
-    capture_screenshots(
-      project: "MirrorSmokerStopper.xcodeproj",
-      scheme: "MirrorSmokerStopper",
-      configuration: "Debug",
-      test_target_name: "MirrorSmokerStopperUITests",
-      output_directory: "./fastlane/screenshots",
-      clear_previous_screenshots: true,
-      override_status_bar: true,
-      concurrent_simulators: false,
-      devices: dynamic_devices,
-      languages: [
-        "en-US",
-        "es-ES",
-        "fr-FR",
-        "de-DE",
-        "it-IT"
-      ],
-      only_testing: [
-        "MirrorSmokerStopperUITests/BasicScreenshotTests/testAppScreenshots"
-      ],
-      launch_arguments: [
-        "-FASTLANE_SNAPSHOT YES",
-        "-ui_testing",
-        "SCREENSHOT_MODE"
-      ],
-      skip_open_summary: true
-    )
-
-  # Apple Watch Screenshots (se presenti simulatori watchOS)
-    begin
-  watch_devices = detect_watch_devices
-      if watch_devices.any?
-        capture_screenshots(
-          project: "MirrorSmokerStopper.xcodeproj",
-          scheme: "MirrorSmokerStopper Watch App",
-          configuration: "Release",
-          test_target_name: "MirrorSmokerStopperUITests",
-          output_directory: "./fastlane/screenshots",
-          clear_previous_screenshots: false,
-          override_status_bar: true,
-          devices: watch_devices,
-          languages: ["en-US"],
-          only_testing: [
-            "MirrorSmokerStopperUITests/AppleWatchScreenshotTests/testWatchAppScreenshots"
-          ],
-          launch_arguments: [
-            "-FASTLANE_SNAPSHOT YES",
-            "-ui_testing",
-            "SCREENSHOT_MODE"
-          ],
-          skip_open_summary: true
-        )
-      else
-        UI.important("Nessun simulatore watchOS disponibile: salto screenshot Apple Watch.")
-      end
-    rescue => e
-      UI.important("Errore durante screenshot watch: #{e}")
-    end
-  end
-
-  desc "Genera screenshots + frame con titoli marketing"
-  lane :screenshots_marketing do
-    screenshots
-  fix_screenshot_sizes
-    frameit(
-      screenshots_path: "./fastlane/screenshots",
-      silver: true,
-      use_platform: "IOS",
-      force_device_type: nil,
-      debug: false
-    )
-  end
-
-  desc "Screenshots + frame + badge AI Powered"
-  lane :screenshots_marketing_ai do
-    screenshots_marketing
-    # Applica overlay badge "AI Powered" sulle immagini incorniciate
-    sh("bash fastlane/scripts/apply_ai_badge.sh")
-  end
-
-  desc "Pipeline completa: screenshots (iPhone+Watch), normalizza, frame, badge, validazione"
-  lane :store_assets_full do |options|
-    # 1. Genera screenshots (usa simulatori forzati RoberdanTests26 / RoberdanWatch26)
-    screenshots
-
-    # 2. Normalizza dimensioni prima del frame
-    fix_screenshot_sizes
-
-    # 3. Frame (iPhone) + eventuali watch (frameit per watch non sempre necessario, ma lascia per coerenza)
-    frameit(
-      screenshots_path: "./fastlane/screenshots",
-      silver: true,
-      use_platform: "IOS",
-      debug: false
-    )
-
-    # 4. Badge AI
-    sh("bash fastlane/scripts/apply_ai_badge.sh")
-
-    # 5. Validazione dimensioni post-frame (solo raw utili upload, ignora framed se non richiesto)
-    sh("bash fastlane/scripts/validate_screenshot_sizes.sh")
-
-    UI.success("Store assets pronti in fastlane/screenshots/**. Usa la lane deliver se vuoi caricarli.")
-
-    if options && options[:upload]
-      deliver(
-        screenshots_path: "./fastlane/screenshots",
-        skip_metadata: true,
-        skip_binary_upload: true,
-        force: true
-      )
-    end
-  end
-
-  desc "Solo normalizza dimensioni screenshot (senza rigenerarli)"
-  lane :fix_screenshot_sizes do
-    sh("bash fastlane/scripts/normalize_screenshot_sizes.sh")
-  end
-
-  # Rileva simulatori Apple Watch (priorità serie più recente, 2 taglie)
-  def detect_watch_devices
-    required_watch = ENV['REQUIRED_WATCH_SIM_NAME'] || 'RoberdanWatch26'
-    required_watch_udid = ENV['REQUIRED_WATCH_SIM_UDID'] || 'C8EDC314-2FBD-43F9-A516-22FE58163E35'
-    require 'json'
-    data = JSON.parse(`xcrun simctl list devices -j 2>/dev/null`)
-    found_device = nil
-    data['devices'].each_value do |arr|
-      arr.each do |dev|
-        next unless dev['isAvailable']
-        if dev['name'] == required_watch || dev['udid'] == required_watch_udid
-          found_device = dev
-          break
-        end
-      end
-      break if found_device
-    end
-    if found_device.nil?
-      UI.important("Simulator watch '#{required_watch}' (#{required_watch_udid}) non trovato: salto screenshots watch.")
-      return []
-    end
-    UI.message("[screenshots] Uso Apple Watch: #{found_device['name']} (#{found_device['udid']})")
-    [found_device['name']]
-  rescue => e
-    UI.important("Errore individuazione watch richiesto: #{e}")
-    []
-  end
+  # ===== APP STORE METADATA =====
   
-  # Quick Screenshots (English only, iPhone 15 Pro Max)
-  desc "Generate screenshots quickly for development"
-  lane :screenshots_quick do
-    capture_screenshots(
-      project: "MirrorSmokerStopper.xcodeproj", 
-      scheme: "MirrorSmokerStopper",
-  configuration: "Release",
-      test_target_name: "MirrorSmokerStopperUITests",
-      output_directory: "./fastlane/screenshots",
-      clear_previous_screenshots: true,
-      override_status_bar: true,
-      devices: [
-        "RoberdanTests26"
-      ],
-      languages: [
-        "en-US",
-        "es-ES", 
-        "fr-FR",
-        "de-DE",
-        "it-IT"
-      ],
-      launch_arguments: [
-        "-FASTLANE_SNAPSHOT YES", 
-        "-ui_testing",
-        "SCREENSHOT_MODE"
-      ]
+  desc "📝 Update App Store metadata and descriptions"
+  lane :update_metadata do
+    deliver(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      skip_screenshots: true,
+      skip_binary_upload: true,
+      force: true,
+      edit_live: false,
+      
+      # App Store Information
+      primary_category: "MEDICAL",
+      secondary_category: "HEALTH_AND_FITNESS"
     )
-  end
-  
-  # Generate Apple Watch Screenshots
-  desc "Generate Apple Watch screenshots using UI tests"
-  lane :watch_screenshots do
-    UI.message("📱 Generating Apple Watch screenshots...")
     
-    capture_screenshots(
+    UI.success("✅ App Store metadata updated successfully!")
+  end
+  
+  # ===== SCREENSHOT MANAGEMENT =====
+  
+  desc "📱 Upload screenshots to App Store Connect"
+  lane :upload_screenshots do
+    deliver(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      skip_metadata: true,
+      skip_binary_upload: true,
+      skip_app_version_update: true,
+      force: true,
+      
+      # Screenshots from your manual captures
+      screenshots_path: "./screenshots",
+      
+      # Override previous screenshots
+      overwrite_screenshots: true
+    )
+    
+    UI.success("✅ Screenshots uploaded to App Store Connect!")
+  end
+  
+  # ===== BUILD LANES =====
+  
+  desc "🔨 Build app for release"
+  lane :build do
+    # Increment build number
+    increment_build_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
+    
+    # Build the app
+    build_app(
       project: "MirrorSmokerStopper.xcodeproj",
-      scheme: "MirrorSmokerStopper Watch App",
+      scheme: "MirrorSmokerStopper",
       configuration: "Release",
-      test_target_name: "MirrorSmokerStopper Watch AppUITests",
-      output_directory: "./fastlane/screenshots/watch",
-      clear_previous_screenshots: true,
-      override_status_bar: true,
-      devices: [
-        "RoberdanWatch26"
-      ],
-      languages: [
-        "en-US",
-        "es-ES",
-        "fr-FR", 
-        "de-DE",
-        "it-IT"
-      ],
-      launch_arguments: [
-        "-FASTLANE_SNAPSHOT YES",
-        "-ui_testing",
-        "SCREENSHOT_MODE"
-      ]
-    )
-  end
-  
-  # Generate both iPhone and Watch Screenshots
-  desc "Generate screenshots for both iPhone and Apple Watch"
-  lane :all_screenshots do
-    UI.message("📱 Generating screenshots for iPhone and Apple Watch...")
-    screenshots
-    watch_screenshots
-  end
-  
-  # Generate Screenshots and Deliver to App Store Connect
-  desc "Generate screenshots and upload to App Store Connect"
-  lane :screenshots_and_upload do
-    screenshots
-    
-    deliver(
-      screenshots_path: "./fastlane/screenshots",
-      skip_binary_upload: true,
-      skip_metadata: true,
-      force: true
-    )
-  end
-  
-  # Upload App Store Metadata Only
-  desc "Upload metadata and screenshots to App Store Connect"
-  lane :upload_metadata do
-    deliver(
-      skip_binary_upload: true,
-      skip_screenshots: true,
-      force: true
-    )
-  end
-  
-  # Upload without screenshots - Ready for submission
-  desc "Upload app binary and metadata without screenshots - ready for manual submission"
-  lane :upload_ready_for_submission do
-    deliver(
-      ipa: "MirrorSmokerStopper.ipa",
-      skip_screenshots: true,  # Skip problematic screenshots
-      skip_metadata: false,
-      force: true,
-      submit_for_review: false,
-      automatic_release: false
-    )
-  end
-  
-  # Upload app binary and metadata to App Store Connect
-  desc "Upload built app and metadata to App Store Connect (ready for manual submission)"
-  lane :manual_upload_to_app_store do
-    # Ensure repo clean salvo override
-    if ENV['ALLOW_DIRTY'].to_s == '1'
-      UI.important('[beta] Skipping ensure_git_status_clean (ALLOW_DIRTY=1)')
-    else
-      ensure_git_status_clean
-    end
-    ensure_git_branch(branch: "master")
-    
-  # Firma automatica Xcode
-    
-    # Set explicit version number for App Store submission
-    
-  # Build (firma automatica)
-    build_app(
-      project: "MirrorSmokerStopper.xcodeproj",
-      scheme: "MirrorSmokerStopper", 
       clean: true,
       export_method: "app-store",
-  # Firma automatica
-      skip_codesigning: false
+      export_options: {
+        provisioningProfiles: {
+          "com.mirror-labs.MirrorSmokerStopper" => "MirrorSmokerStopper App Store",
+          "com.mirror-labs.MirrorSmokerStopper.HomeWidget" => "HomeWidget App Store",
+          "com.mirror-labs.MirrorSmokerStopper.watchkitapp" => "MirrorSmokerStopper Watch App Store"
+        }
+      },
+      include_bitcode: false,
+      include_symbols: true
     )
     
-    # Upload binary to App Store Connect
-    deliver(
-      force: true,
-      skip_metadata: false,
-      skip_screenshots: true,  # Skip for now - dimensions need fixing
-      submit_for_review: false,
-      automatic_release: false,
-      skip_app_version_update: false
-    )
-    
-    # Commit version bump
-    
-    # Tag the release
-    add_git_tag(
-      tag: "v1.0.1"
-    )
-    
-    # Push changes
-    push_to_git_remote
+    UI.success("✅ Build completed successfully!")
   end
-
-  # Complete App Store submission without screenshots
-  desc "Complete App Store submission ready for review - builds, uploads binary and metadata"
-  lane :submit_for_review do
-    # Ensure we're on the right branch and up to date
-    ensure_git_status_clean
-    ensure_git_branch(branch: "master")
+  
+  # ===== SUBMISSION LANES =====
+  
+  desc "🚀 Submit to TestFlight"
+  lane :beta do
+    build
     
-  # Firma automatica Xcode
-    
-    # Set explicit version number for App Store submission
-    
-  # Build (firma automatica)
-    build_app(
-      project: "MirrorSmokerStopper.xcodeproj",
-      scheme: "MirrorSmokerStopper", 
-      clean: true,
-      export_method: "app-store",
-  # Firma automatica
-      skip_codesigning: false
+    upload_to_testflight(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      skip_waiting_for_build_processing: false,
+      skip_submission: false,
+      
+      # Beta Review Information
+      beta_app_review_info: {
+        contact_email: "roberdan@microsoft.com",
+        contact_first_name: "Roberto",
+        contact_last_name: "D'Angelo",
+        contact_phone: "+39 123 456 7890",
+        demo_account_name: "",
+        demo_account_password: "",
+        notes: "Test version of Fight The Smoke - smoking tracker app with AI coaching features."
+      },
+      
+      # Changelog for testers
+      changelog: "🔥 NEW AI COACH FEATURE\n• Personalized insights and recommendations\n• Smart pattern recognition\n• Enhanced analytics dashboard\n• Improved Apple Watch integration\n• Performance optimizations"
     )
     
-    # Upload metadata first
-    deliver(
-      skip_binary_upload: true,
-      skip_screenshots: true,
-      submit_for_review: false,
-      force: true
-    )
+    UI.success("✅ App submitted to TestFlight!")
+  end
+  
+  desc "🏪 Submit to App Store"
+  lane :release do
+    build
     
-    # Upload binary
-    deliver(
-      skip_metadata: true,
-      skip_screenshots: true,
+    # Upload to App Store
+    upload_to_app_store(
+      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
+      force: true,
+      skip_screenshots: false,
+      skip_metadata: false,
+      
+      # Screenshots and metadata
+      screenshots_path: "./screenshots",
+      
+      # Submission information
       submit_for_review: true,
       automatic_release: false,
-      force: true
+      
+      # App Review Information
+      app_review_information: {
+        first_name: "Roberto",
+        last_name: "D'Angelo", 
+        phone_number: "+39 123 456 7890",
+        email_address: "roberdan@microsoft.com",
+        demo_account_name: "",
+        demo_account_password: "",
+        notes: "Fight The Smoke is a comprehensive smoking tracker app with AI-powered coaching. The app helps users monitor their smoking habits, provides personalized insights, and supports their journey towards healthier lifestyle choices."
+      },
+      
+      # Export compliance (no encryption)
+      submission_information: {
+        export_compliance_platform: 'ios',
+        export_compliance_compliance_required: false,
+        export_compliance_encryption_updated: false,
+        export_compliance_app_type: nil,
+        export_compliance_uses_encryption: false,
+        export_compliance_is_exempt: false,
+        export_compliance_contains_third_party_cryptography: false,
+        export_compliance_contains_proprietary_cryptography: false,
+        export_compliance_available_on_french_store: true,
+        content_rights_has_rights: true,
+        content_rights_contains_third_party_content: false,
+        add_id_info_limits_tracking: true,
+        add_id_info_serves_ads: false,
+        add_id_info_tracks_action: true,
+        add_id_info_tracks_install: false,
+        add_id_info_uses_idfa: false
+      }
     )
     
-    # Commit version bump
-    
-    # Tag the release
-    add_git_tag(
-      tag: "v1.0.1"
-    )
-    
-    # Push changes
-    push_to_git_remote
+    UI.success("✅ App submitted to App Store for review!")
   end
   
-  # Build and Test (useful for CI/CD)
-  desc "Run tests and build the app"
-  lane :test do
-    scan(
-      project: "MirrorSmokerStopper.xcodeproj",
-      scheme: "MirrorSmokerStopper",
-      device: "RoberdanTests26",
-      clean: true
-    )
-  end
+  # ===== UTILITY LANES =====
   
-  # Beta deployment to TestFlight
-  desc "Build and upload to TestFlight"
-  lane :beta do
-    # Ensure we're on the right branch and up to date
-    ensure_git_status_clean
-    
-    # Increment build number
-  # Build number handled in release lane only; beta usa agvtool manuale? -> no: skip
-    
-    UI.message('[beta] Using Xcode Automatic Signing (project settings)')
-    build_app(
-      project: "MirrorSmokerStopper.xcodeproj",
-      scheme: "MirrorSmokerStopper",
-      clean: true,
-      export_method: "app-store",
-      skip_codesigning: false
-    )
-    
-    # Upload to TestFlight
-    upload_to_testflight(
-      skip_waiting_for_build_processing: true
-    )
-    
-    # Commit version bump
-  # Nessun commit_version_bump: gestione manuale nella release
-  end
-  
-  # Full App Store Release
-  desc "Build and release to App Store"
-  lane :release do
-    # 0. Safety checks + debug
-    if ENV['DEBUG_RELEASE'] == '1'
-      sh <<~'SH'
-        echo '--- FASTLANE RELEASE DEBUG ---'
-        echo "PWD: $(pwd)"
-        echo -n 'TOPLEVEL: '; git rev-parse --show-toplevel || true
-        echo -n 'IGNORECASE: '; git config --get core.ignorecase || echo '(unset)'
-        echo 'First 40 entries:'
-        ls -1 | head -n 40 || true
-        echo 'Git porcelain (first 80 lines):'
-        git status --porcelain | head -n 80 || true
-        echo 'Git diff --name-status (first 40):'
-        git diff --name-status | head -n 40 || true
-        echo 'File count (depth1):'
-        find . -maxdepth 1 -mindepth 1 | wc -l | tr -d ' '
-        echo '--- END DEBUG ---'
-      SH
-    end
-
-    # Gestione repo: auto commit se sporco (no stop). Branch enforcement opzionale.
-    if git_is_clean?
-      UI.message('[release] Git clean')
-    else
-      if ENV['DRY_RUN'] == '1'
-        UI.important('[release] Repo dirty ma DRY_RUN=1: nessun auto-commit')
-      else
-        UI.important('[release] Repo dirty: eseguo auto-commit pre-release')
-        sh('git add -A')
-        sh("git commit -m 'chore: pre-release auto commit' || true")
-      end
-    end
-    begin
-      ensure_git_branch(branch: "master")
-    rescue => e
-      UI.important("[release] Branch non master (#{e.message}). Continuo comunque.")
-    end
-
-  # 1. Signing: usa direttamente configurazione Xcode (Automatic Signing)
-  UI.message('[release] Using Xcode Automatic Signing')
-
-    # 2. Versioning manuale (niente agvtool / increment_* Fastlane)
-    plist_path = "MirrorSmokerStopper/Info.plist"
-    unless File.exist?(plist_path)
-      UI.important("[release] #{plist_path} mancante: lo creo minimale")
-      File.write(plist_path, <<~PL)
-        <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-        <plist version="1.0"><dict></dict></plist>
-      PL
-    end
-    # Leggi versione corrente dal plist (fallback 1.0.0 se mancante)
-    current_v = ` /usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' '#{plist_path}' 2>/dev/null || echo ''`.strip
-    current_v = "1.0.0" if current_v.empty? || current_v =~ /File Doesn't Exist/i
-    if ENV['NEW_VERSION'] && !ENV['NEW_VERSION'].empty?
-      new_version = ENV['NEW_VERSION']
-    else
-      bump = (ENV['BUMP_TYPE'] || 'patch').downcase
-      parts = current_v.split('.')
-      parts << '0' while parts.length < 3
-      case bump
-      when 'patch'
-        parts[2] = (parts[2].to_i + 1).to_s
-      when 'minor'
-        parts[1] = (parts[1].to_i + 1).to_s
-        parts[2] = '0'
-      when 'major'
-        parts[0] = (parts[0].to_i + 1).to_s
-        parts[1] = '0'
-        parts[2] = '0'
-      else
-        UI.user_error!("BUMP_TYPE deve essere patch|minor|major")
-      end
-      new_version = parts.join('.')
-    end
-    UI.message("[release] Marketing version: #{current_v} -> #{new_version}")
-
-    # Scrivi nuova marketing version nel plist (add se non esiste)
-    sh(%Q{/usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString #{new_version}" "#{plist_path}" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleShortVersionString string #{new_version}" "#{plist_path}"})
-
-    # Aggiorna anche project.pbxproj (MARKETING_VERSION) per coerenza con Xcode build settings
-    pbxproj = "MirrorSmokerStopper.xcodeproj/project.pbxproj"
-    if File.exist?(pbxproj)
-      # Usa Ruby inline edit evitando duplicare se già uguale
-      ruby_cmd = <<~RUBY
-        path = '#{pbxproj}'
-        txt = File.read(path)
-        new_txt = txt.gsub(/MARKETING_VERSION = [0-9.]+;/, "MARKETING_VERSION = #{new_version};")
-        if txt != new_txt
-          File.open(path, 'w'){|f| f.write(new_txt)}
-        end
-      RUBY
-      sh("ruby -e \"#{ruby_cmd.gsub("\n", ';')}\"")
-    end
-
-    # 3. Build number manuale
-  current_build = `/usr/libexec/PlistBuddy -c 'Print :CFBundleVersion' '#{plist_path}' 2>/dev/null || echo ''`.strip
-    if ENV['USE_TIMESTAMP_BUILD'] == '1'
-      new_build = Time.now.strftime('%Y%m%d%H%M')
-    else
-      numeric = current_build.to_i.to_s == current_build
-      new_build = numeric ? (current_build.to_i + 1).to_s : '1'
-    end
-    UI.message("[release] Build number: #{current_build.empty? ? '(nil)' : current_build} -> #{new_build}")
-    sh(%Q{/usr/libexec/PlistBuddy -c "Set :CFBundleVersion #{new_build}" "#{plist_path}" 2>/dev/null || /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string #{new_build}" "#{plist_path}"})
-
-    # Aggiorna CURRENT_PROJECT_VERSION nel project.pbxproj
-    if File.exist?(pbxproj)
-      ruby_cmd2 = <<~RUBY
-        path = '#{pbxproj}'
-        txt = File.read(path)
-        new_txt = txt.gsub(/CURRENT_PROJECT_VERSION = [0-9A-Za-z_.-]+;/, "CURRENT_PROJECT_VERSION = #{new_build};")
-        if txt != new_txt
-          File.open(path, 'w'){|f| f.write(new_txt)}
-        end
-      RUBY
-      sh("ruby -e \"#{ruby_cmd2.gsub("\n", ';')}\"")
-    end
-
-    # Esponi variabili in ambiente lane
-    ENV['EFFECTIVE_MARKETING_VERSION'] = new_version
-    ENV['EFFECTIVE_BUILD_NUMBER'] = new_build
-
-
-    # 4. Test rapidi (opzionale: si può abilitare var FASTLANE_SKIP_TESTS)
-    unless ENV['FASTLANE_SKIP_TESTS'] == '1'
-      scan(
-        project: "MirrorSmokerStopper.xcodeproj",
-        scheme: "MirrorSmokerStopper",
-        device: "RoberdanTests26",
-        clean: true
-      )
-    end
-
-    # 5. Genera assets store (screenshots + frame + badge + validazione)
-    # 5 bis. Screenshots completi (iPhone + Watch) salvo skip esplicito
-    unless ENV['SKIP_SCREENSHOTS'] == '1'
-      store_assets_full
-      # Copia anche eventuali widget specific preview se presenti altrove
-      if Dir.exist?('HomeWidget')
-        UI.message('[release] Raccolgo asset widget')
-        # Placeholder: se in futuro generazione ad-hoc
-      end
-    end
-
-    # 6. Precheck metadata (App Store guideline issues)
-    precheck(api_key_path: ENV['APP_STORE_CONNECT_API_KEY_PATH']) if File.exist?(ENV['APP_STORE_CONNECT_API_KEY_PATH'].to_s)
-
-    # 7. Build Release firmata
-    build_app(
-      project: "MirrorSmokerStopper.xcodeproj",
-      scheme: "MirrorSmokerStopper",
-      clean: true,
-      export_method: "app-store",
-      output_directory: "build",
-  output_name: "MirrorSmokerStopper_#{ENV['EFFECTIVE_MARKETING_VERSION']}.ipa",
-      skip_codesigning: false
-    )
-
-  # 8. Genera report info release
-  sh('bash fastlane/scripts/generate_release_info.sh')
-
-  # 9. Upload + metadata + screenshots + submit for review (no auto release)
-    submission_info = {
-      add_id_info_uses_idfa: false,
-      add_id_info_serves_ads: false,
-      add_id_info_limits_tracking: false,
-      add_id_info_tracks_install: false,
-      add_id_info_tracks_action: false,
-      content_rights_has_rights: true,
-      content_rights_contains_third_party_content: false,
-      export_compliance_uses_encryption: false,
-      export_compliance_is_exempt: true
-    }
-
-    unless ENV['DRY_RUN'] == '1'
-      deliver(
-        force: true,
-  ipa: "build/MirrorSmokerStopper_#{ENV['EFFECTIVE_MARKETING_VERSION']}.ipa",
-        screenshots_path: "./fastlane/screenshots",
-        submit_for_review: true,
-        automatic_release: false,
-        skip_app_version_update: true,
-        submission_information: submission_info,
-        overwrite_screenshots: true
-      )
-    else
-      UI.important("[release] DRY_RUN=1: salto deliver/upload.")
-    end
-
-  # 10. Commit version + build bump + release info json
-  sh("git add -A && git commit -m 'release: #{ENV['EFFECTIVE_MARKETING_VERSION']}' || true")
-
-  # 11. Tag + push
-  add_git_tag(tag: "v#{ENV['EFFECTIVE_MARKETING_VERSION']}") unless ENV['DRY_RUN'] == '1'
-  push_to_git_remote unless ENV['DRY_RUN'] == '1'
-
-  UI.success("Release #{ENV['EFFECTIVE_MARKETING_VERSION']} (#{ENV['EFFECTIVE_BUILD_NUMBER']}) inviata per review su App Store Connect.")
-  end
-  
-  # Clean up old screenshots and builds
-  desc "Clean up build artifacts and old screenshots"
-  lane :cleanup do
+  desc "🧹 Clean up build artifacts"
+  lane :clean do
     clean_build_artifacts
-    
-    # Remove old screenshots (keep last 3 sets)
-    Dir.glob("./fastlane/screenshots/*/").sort_by { |f| File.mtime(f) }.reverse[3..-1]&.each do |dir|
-      FileUtils.rm_rf(dir)
-    end
+    UI.success("✅ Build artifacts cleaned!")
   end
   
-  # Error handling
+  desc "📊 Generate app info report"
+  lane :info do
+    version = get_version_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
+    build_number = get_build_number(xcodeproj: "MirrorSmokerStopper.xcodeproj")
+    
+    UI.message("🔍 APP INFORMATION:")
+    UI.message("   App Name: Fight The Smoke")
+    UI.message("   Bundle ID: com.mirror-labs.MirrorSmokerStopper")
+    UI.message("   Version: #{version}")
+    UI.message("   Build: #{build_number}")
+    UI.message("   Xcode Project: MirrorSmokerStopper.xcodeproj")
+  end
+  
+  desc "🔄 Complete deployment workflow"
+  lane :deploy do
+    info
+    update_metadata
+    upload_screenshots
+    release
+    
+    UI.success("🎉 Complete deployment finished!")
+  end
+  
+  # ===== ERROR HANDLING =====
+  
   error do |lane, exception|
-    slack(
-      message: "❌ Fastlane failed in lane: #{lane}",
-      payload: { "Error" => exception.to_s },
-      default_payloads: [:git_branch, :git_author]
-    ) if ENV["SLACK_URL"]
+    UI.error("❌ Error in lane '#{lane}': #{exception}")
+    
+    # Add custom error handling here
+    # slack(message: "Build failed!", success: false) if ENV['SLACK_URL']
+  end
+  
+  after_all do |lane|
+    UI.success("✅ Lane '#{lane}' completed successfully!")
   end
 end

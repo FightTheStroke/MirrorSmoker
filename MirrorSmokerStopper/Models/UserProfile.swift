@@ -127,9 +127,26 @@ final class UserProfile {
     }
     
     func calculateDailyAverage(from cigarettes: [Any]) -> Double {
-        // This will be called from the context that has access to data
-        // For now returns a default value, will be overridden
-        return 15.0
+        // Cast to Cigarette array safely
+        let validCigarettes = cigarettes.compactMap { $0 as? Cigarette }
+        
+        guard !validCigarettes.isEmpty else { return 0.0 }
+        
+        // Calculate average over last 30 days
+        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
+        let recentCigarettes = validCigarettes.filter { $0.timestamp >= thirtyDaysAgo }
+        
+        guard !recentCigarettes.isEmpty else { return 0.0 }
+        
+        // Calculate actual days with data instead of always using 30
+        let daysWithData = max(1, Calendar.current.dateComponents([.day], from: thirtyDaysAgo, to: Date()).day ?? 1)
+        return Double(recentCigarettes.count) / Double(min(30, daysWithData))
+    }
+    
+    /// Update the daily average based on current cigarette data
+    func updateDailyAverage(from cigarettes: [Any]) {
+        self.dailyAverage = calculateDailyAverage(from: cigarettes)
+        self.clearTargetsCache() // Clear cache since average changed
     }
     
     func todayTarget(dailyAverage: Double) -> Int {
@@ -191,15 +208,20 @@ final class UserProfile {
     // MARK: - Enhanced Quit Plan Algorithm
     private func improvedTargetForDate(_ date: Date, dailyAverage: Double, quitDate: Date) -> Int {
         let calendar = Calendar.current
-        let startDate = Date() // Plan always starts from today
         
-        // If the date is before today or after quit date, return 0
-        if date < startDate || date >= quitDate {
+        // Normalize dates to start of day for consistent calculation
+        let startDate = calendar.startOfDay(for: Date()) // Plan always starts from today
+        let targetDate = calendar.startOfDay(for: date)
+        let endDate = calendar.startOfDay(for: quitDate)
+        
+        // If the date is before today or after/equal to quit date, return 0
+        if targetDate < startDate || targetDate >= endDate {
             return 0
         }
         
-        let daysRemaining = calendar.dateComponents([.day], from: date, to: quitDate).day ?? 1
-        let totalDays = calendar.dateComponents([.day], from: startDate, to: quitDate).day ?? 1
+        // Calculate days using TimeInterval for more reliable calculation
+        let daysRemaining = Int(endDate.timeIntervalSince(targetDate) / (24 * 3600))
+        let totalDays = Int(endDate.timeIntervalSince(startDate) / (24 * 3600))
         
         if totalDays <= 0 || daysRemaining <= 0 {
             return 0

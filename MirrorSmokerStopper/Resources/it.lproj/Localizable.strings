@@ -16,6 +16,34 @@
 "button.add" = "Aggiungi";
 "button.cancel" = "Annulla";
 
+// Tabs
+"tab.today" = "Oggi";
+"tab.stats" = "Statistiche";
+"tab.ai_coach" = "AI Coach";
+"tab.settings" = "Impostazioni";
+
+// Standard Trigger Tags
+"tag.work" = "Lavoro";
+"tag.meeting" = "Riunione";
+"tag.deadline" = "Scadenza";
+"tag.coding" = "Programmazione";
+"tag.stress" = "Stress";
+"tag.anxiety" = "Ansia";
+"tag.boredom" = "Noia";
+"tag.anger" = "Rabbia";
+"tag.social" = "Sociale";
+"tag.party" = "Festa";
+"tag.friends" = "Amici";
+"tag.alone" = "Solo";
+"tag.coffee" = "Caffè";
+"tag.alcohol" = "Alcol";
+"tag.driving" = "Guidando";
+"tag.meal" = "Dopo mangiato";
+"tag.morning" = "Mattina";
+"tag.afternoon" = "Pomeriggio";
+"tag.evening" = "Sera";
+"tag.night" = "Notte";
+
 // Settings
 "settings.ai.coach.title" = "Impostazioni AI Coach";
 "settings.ai.coach.configure" = "Configura AI Coach";

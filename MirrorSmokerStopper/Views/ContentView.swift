@@ -599,6 +599,9 @@ struct ContentView: View {
             lastSavedCigaretteTagCount = tagCount
             showingCigaretteSavedNotification = true
             
+            // Trigger AI Coach evaluation after adding cigarette
+            BackgroundTaskManager.shared.evaluateAfterCigarette()
+            
             Self.logger.info("Cigarette saved with \(tagCount) tags and synced via SyncCoordinator")
             
         } catch { 

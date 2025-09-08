@@ -16,6 +16,34 @@
 "button.add" = "Add";
 "button.cancel" = "Cancel";
 
+// Tabs
+"tab.today" = "Today";
+"tab.stats" = "Stats";
+"tab.ai_coach" = "AI Coach";
+"tab.settings" = "Settings";
+
+// Standard Trigger Tags
+"tag.work" = "Work";
+"tag.meeting" = "Meeting";
+"tag.deadline" = "Deadline";
+"tag.coding" = "Coding";
+"tag.stress" = "Stress";
+"tag.anxiety" = "Anxiety";
+"tag.boredom" = "Boredom";
+"tag.anger" = "Anger";
+"tag.social" = "Social";
+"tag.party" = "Party";
+"tag.friends" = "Friends";
+"tag.alone" = "Alone";
+"tag.coffee" = "Coffee";
+"tag.alcohol" = "Alcohol";
+"tag.driving" = "Driving";
+"tag.meal" = "After Meal";
+"tag.morning" = "Morning";
+"tag.afternoon" = "Afternoon";
+"tag.evening" = "Evening";
+"tag.night" = "Night";
+
 // Settings
 "settings.ai.coach.title" = "AI Coach Settings";
 "settings.ai.coach.configure" = "Configure AI Coach";

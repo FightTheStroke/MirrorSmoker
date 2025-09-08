@@ -37,6 +37,9 @@ struct AICoachDashboard: View {
                         // Personalized Actions
                         personalizedActionsCard
                         
+                        // Chat with AI Coach (iOS 26 only)
+                        chatSection
+                        
                         // Quick Settings
                         quickSettingsCard
                         
@@ -731,6 +734,49 @@ struct PermissionRow: View {
         }
     }
 }
+
+    // MARK: - Chat Section (iOS 26 only)
+    
+    @ViewBuilder
+    private var chatSection: some View {
+        if #available(iOS 26.0, *) {
+            NavigationLink(destination: ChatbotView()) {
+                Card {
+                    HStack {
+                        Image(systemName: "message.fill")
+                            .foregroundColor(.blue)
+                            .font(.title2)
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Chat with AI Coach")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            
+                            Text("Ask questions, get personalized advice")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.secondary)
+                            .font(.caption)
+                        
+                        Text("iOS 26")
+                            .font(.caption2)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(.blue.opacity(0.1))
+                            .foregroundColor(.blue)
+                            .clipShape(Capsule())
+                    }
+                    .padding()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
 
 #Preview {
     AICoachDashboard()

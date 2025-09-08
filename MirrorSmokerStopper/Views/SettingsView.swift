@@ -651,6 +651,34 @@ struct SettingsView: View {
                 }
             }
             .buttonStyle(PlainButtonStyle())
+            
+            // Notification Settings
+            NavigationLink(destination: NotificationSettingsView()) {
+                LegacyDSCard {
+                    HStack {
+                        Image(systemName: "bell.badge")
+                            .font(.title2)
+                            .foregroundColor(DS.Colors.warning)
+                        
+                        VStack(alignment: .leading, spacing: DS.Space.xs) {
+                            Text(NSLocalizedString("settings.notifications.title", comment: "Smart Notifications"))
+                                .font(DS.Text.body)
+                                .foregroundColor(DS.Colors.textPrimary)
+                            Text(NSLocalizedString("settings.notifications.subtitle", comment: "AI-powered intervention timing"))
+                                .font(DS.Text.caption)
+                                .foregroundColor(DS.Colors.textSecondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundColor(DS.Colors.textSecondary)
+                    }
+                    .padding(DS.Space.lg)
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
         }
     }
     
@@ -668,6 +696,36 @@ struct SettingsView: View {
                         .font(DS.Text.body)
                         .foregroundColor(DS.Colors.textSecondary)
                 }
+                
+                // GitHub Open Source Link
+                Button(action: {
+                    if let url = URL(string: "https://github.com/FightTheStroke/MirrorSmoker") {
+                        UIApplication.shared.open(url)
+                    }
+                }) {
+                    HStack {
+                        Image(systemName: "chevron.left.forwardslash.chevron.right")
+                            .foregroundColor(DS.Colors.primary)
+                            .frame(width: 24)
+                        
+                        VStack(alignment: .leading, spacing: DS.Space.xs) {
+                            Text(NSLocalizedString("settings.opensource.title", comment: "Open Source"))
+                                .font(DS.Text.body)
+                                .foregroundColor(DS.Colors.textPrimary)
+                            Text(NSLocalizedString("settings.opensource.subtitle", comment: "View source code on GitHub"))
+                                .font(DS.Text.caption)
+                                .foregroundColor(DS.Colors.textSecondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "arrow.up.right")
+                            .foregroundColor(DS.Colors.textSecondary)
+                            .font(.caption)
+                    }
+                    .padding(.vertical, DS.Space.sm)
+                }
+                .buttonStyle(PlainButtonStyle())
             }
         }
     }

@@ -21,6 +21,8 @@
 	<array>
 		<string>com.mirror-labs.MirrorSmokerStopper.refresh</string>
 		<string>com.mirror-labs.MirrorSmokerStopper.processing</string>
+		<string>com.fightthestroke.MirrorSmokerStopper.jitai-evaluation</string>
+		<string>com.fightthestroke.MirrorSmokerStopper.app-refresh</string>
 	</array>
 	<key>UILaunchScreen</key>
 	<dict/>

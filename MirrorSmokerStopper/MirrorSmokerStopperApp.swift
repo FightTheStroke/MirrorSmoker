@@ -26,6 +26,15 @@ struct MirrorSmokerStopperApp: App {
                         didSeedDemoData = true
                     }
                 }
+                .onAppear {
+                    // Setup AI Coach notifications
+                    JITAIPlanner.setupNotificationCategories()
+                    
+                    // Setup background tasks for periodic evaluations
+                    BackgroundTaskManager.shared.setupBackgroundTasks()
+                    BackgroundTaskManager.shared.scheduleJITAIEvaluation()
+                    BackgroundTaskManager.shared.scheduleAppRefresh()
+                }
             
             // MARK: - Onboarding disabled (commented out)
             /*

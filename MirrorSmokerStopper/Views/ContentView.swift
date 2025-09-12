@@ -78,7 +78,10 @@ struct ContentView: View {
     private var dailyAverageRaw: Double {
         let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
         let recent = allCigarettes.filter { $0.timestamp >= thirtyDaysAgo }
-        return recent.isEmpty ? 0.0 : Double(recent.count) / 30.0
+        
+        // Calculate actual days with data instead of always dividing by 30
+        let daysWithData = max(1, Calendar.current.dateComponents([.day], from: thirtyDaysAgo, to: Date()).day ?? 1)
+        return recent.isEmpty ? 0.0 : Double(recent.count) / Double(min(30, daysWithData))
     }
     
     private var dailyAverageForPlan: Double {
@@ -133,7 +136,11 @@ struct ContentView: View {
                     coachMessageSection
                     todayCigarettesSection
                     todaysInsightSection
-                    aiCoachTipSection
+                    
+                    // Show AI Coach section only in FULL version
+                    if AppConfiguration.hasAIFeatures {
+                        aiCoachTipSection
+                    }
                 }
                 .padding(DS.Space.lg)
             }
@@ -149,6 +156,24 @@ struct ContentView: View {
             .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("ExternalDataChanged"))) { _ in
                 // External data change detected
                 Self.logger.info("External data change detected, UI will refresh")
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("QuitPlanUpdated"))) { notification in
+                // Quit plan has been updated - UI will auto-refresh due to @Query
+                Self.logger.info("Quit plan updated, refreshing dependent values")
+                
+                // Trigger widget reload since targets may have changed
+                WidgetCenter.shared.reloadAllTimelines()
+                
+                // The UI will automatically update due to SwiftData @Query observing UserProfile changes
+                // but we log this for debugging
+                if let userInfo = notification.userInfo {
+                    if let quitDate = userInfo["quitDate"] as? Date {
+                        Self.logger.debug("New quit date: \(quitDate)")
+                    }
+                    if let dailyAverage = userInfo["dailyAverage"] as? Double {
+                        Self.logger.debug("Updated daily average: \(dailyAverage)")
+                    }
+                }
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
@@ -434,7 +459,7 @@ struct ContentView: View {
     
     private var aiCoachTipSection: some View {
         Group {
-            if let tip = aiCoach.currentTip {
+            if AppConfiguration.hasAIFeatures, let tip = aiCoach.currentTip {
                 LegacyDSCard {
                     VStack(alignment: .leading, spacing: DS.Space.sm) {
                         HStack(spacing: DS.Space.sm) {
@@ -455,7 +480,7 @@ struct ContentView: View {
                             
                             Spacer()
                             
-                            if aiCoach.isGeneratingTip {
+                            if AppConfiguration.hasAIFeatures && aiCoach.isGeneratingTip {
                                 ProgressView()
                                     .scaleEffect(0.7)
                             }
@@ -574,12 +599,23 @@ struct ContentView: View {
         do { 
             try modelContext.save()
             
+            // Update daily average in user profile when new cigarette is added
+            if let profile = currentProfile {
+                profile.updateDailyAverage(from: allCigarettes)
+                Self.logger.debug("Updated daily average to: \(profile.dailyAverage)")
+            }
+            
             // Use SyncCoordinator for centralized sync
             syncCoordinator.cigaretteAdded(from: .app, cigarette: newCigarette)
             
             // Show success notification
             lastSavedCigaretteTagCount = tagCount
             showingCigaretteSavedNotification = true
+            
+            // Trigger AI Coach evaluation after adding cigarette (FULL version only)
+            if AppConfiguration.hasAIFeatures {
+                BackgroundTaskManager.shared.evaluateAfterCigarette()
+            }
             
             Self.logger.info("Cigarette saved with \(tagCount) tags and synced via SyncCoordinator")
             
@@ -606,6 +642,12 @@ struct ContentView: View {
         modelContext.delete(cigarette)
         do { 
             try modelContext.save() 
+            
+            // Update daily average in user profile when cigarette is deleted
+            if let profile = currentProfile {
+                profile.updateDailyAverage(from: allCigarettes.filter { $0 != cigarette })
+                Self.logger.debug("Updated daily average after deletion to: \(profile.dailyAverage)")
+            }
             
             // Update widget
             WidgetCenter.shared.reloadAllTimelines()

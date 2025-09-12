@@ -65,13 +65,14 @@ platform :ios do
       configuration: "Release",
       clean: true,
       export_method: "app-store",
-      export_options: {
-        provisioningProfiles: {
-          "com.mirror-labs.MirrorSmokerStopper" => "MirrorSmokerStopper App Store",
-          "com.mirror-labs.MirrorSmokerStopper.HomeWidget" => "HomeWidget App Store",
-          "com.mirror-labs.MirrorSmokerStopper.watchkitapp" => "MirrorSmokerStopper Watch App Store"
-        }
-      },
+      # Let Xcode automatically select provisioning profiles
+      # export_options: {
+      #   provisioningProfiles: {
+      #     "com.mirror-labs.MirrorSmokerStopper" => "match AppStore com.mirror-labs.MirrorSmokerStopper",
+      #     "com.mirror-labs.MirrorSmokerStopper.HomeWidget" => "match AppStore com.mirror-labs.MirrorSmokerStopper.HomeWidget",
+      #     "com.mirror-labs.MirrorSmokerStopper.watchkitapp" => "match AppStore com.mirror-labs.MirrorSmokerStopper.watchkitapp"
+      #   }
+      # },
       include_bitcode: false,
       include_symbols: true
     )
@@ -85,25 +86,9 @@ platform :ios do
   lane :beta do
     build
     
-    upload_to_testflight(
-      app_identifier: "com.mirror-labs.MirrorSmokerStopper",
-      skip_waiting_for_build_processing: false,
-      skip_submission: false,
-      
-      # Beta Review Information
-      beta_app_review_info: {
-        contact_email: "roberdan@microsoft.com",
-        contact_first_name: "Roberto",
-        contact_last_name: "D'Angelo",
-        contact_phone: "+39 123 456 7890",
-        demo_account_name: "",
-        demo_account_password: "",
-        notes: "Test version of Fight The Smoke - smoking tracker app with AI coaching features."
-      },
-      
-      # Changelog for testers
-      changelog: "🔥 NEW AI COACH FEATURE\n• Personalized insights and recommendations\n• Smart pattern recognition\n• Enhanced analytics dashboard\n• Improved Apple Watch integration\n• Performance optimizations"
-    )
+    # Upload directly with altool using API key
+    ipa_path = lane_context[SharedValues::IPA_OUTPUT_PATH]
+    sh("xcrun altool --upload-app -f '#{ipa_path}' --type ios --apiKey 77B7LGG654 --apiIssuer 69a6de81-894f-47e3-e053-5b8c7c11a4d1")
     
     UI.success("✅ App submitted to TestFlight!")
   end
@@ -114,6 +99,11 @@ platform :ios do
     
     # Upload to App Store
     upload_to_app_store(
+      api_key: {
+        key_id: "77B7LGG654",
+        issuer_id: "69a6de81-894f-47e3-e053-5b8c7c11a4d1",
+        key_filepath: "/Users/roberdan/.private_keys/AuthKey_77B7LGG654.p8"
+      },
       app_identifier: "com.mirror-labs.MirrorSmokerStopper",
       force: true,
       skip_screenshots: false,
@@ -190,6 +180,60 @@ platform :ios do
     release
     
     UI.success("🎉 Complete deployment finished!")
+  end
+  
+  # ===== VERSION-SPECIFIC LANES =====
+  
+  desc "📝 Deploy SIMPLE version metadata"
+  lane :deploy_simple do |options|
+    require_relative 'AppConfiguration'
+    config = AppConfiguration.config_for('simple')
+    
+    deliver(
+      app_identifier: config[:app_identifier],
+      metadata_path: config[:metadata_path],
+      skip_screenshots: true,
+      skip_binary_upload: true,
+      force: true,
+      edit_live: false,
+      
+      primary_category: config[:primary_category],
+      secondary_category: config[:secondary_category]
+    )
+    
+    UI.success("✅ SIMPLE version metadata updated successfully!")
+  end
+  
+  desc "📝 Deploy FULL version metadata"
+  lane :deploy_full do |options|
+    require_relative 'AppConfiguration'
+    config = AppConfiguration.config_for('full')
+    
+    deliver(
+      app_identifier: config[:app_identifier],
+      metadata_path: config[:metadata_path],
+      skip_screenshots: true,
+      skip_binary_upload: true,
+      force: true,
+      edit_live: false,
+      
+      primary_category: config[:primary_category],
+      secondary_category: config[:secondary_category]
+    )
+    
+    UI.success("✅ FULL version metadata updated successfully!")
+  end
+  
+  desc "🔍 Show configuration for version"
+  lane :show_config do |options|
+    require_relative 'AppConfiguration'
+    version = options[:version] || 'simple'
+    config = AppConfiguration.config_for(version)
+    
+    UI.header("Configuration for #{version.upcase} version:")
+    config.each do |key, value|
+      UI.message("#{key}: #{value}")
+    end
   end
   
   # ===== ERROR HANDLING =====

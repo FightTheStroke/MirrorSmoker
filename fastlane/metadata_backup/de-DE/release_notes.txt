@@ -1,0 +1,27 @@
+Neu in dieser Version:
+
+✨ KI-Coach vollständig implementiert
+• Erweiterte Herzfrequenzüberwachung für Verlangen-Vorhersage
+• Intelligente Benachrichtigungen respektieren Fokus-Modus
+• Personalisiertes Coaching basierend auf Verhaltensmustern
+
+📊 Erweiterte Analysen
+• Verbesserte Fortschrittsverfolgung und Einblicke
+• Bessere Visualisierung von Gesundheitserholungs-Meilensteinen
+• Detailliertere Berechnungen finanzieller Einsparungen
+
+⌚ Apple Watch Verbesserungen
+• Schnellere Synchronisation zwischen Geräten
+• Erweiterte Widget-Performance
+• Bessere Akku-Optimierung
+
+🌍 Mehrsprachige Updates
+• Verbesserte Übersetzungen in allen 5 Sprachen
+• Kulturelle Anpassungen für Coaching-Nachrichten
+
+🔧 Fehlerbehebungen & Performance
+• Kompilierungsprobleme behoben
+• Verbesserte App-Stabilität und Reaktionsfähigkeit
+• Erweiterte Datensynchronisation
+
+Vielen Dank, dass Sie MirrorSmokerStopper auf Ihrem Weg zu besserer Gesundheit nutzen!

@@ -381,4 +381,17 @@ extension WatchConnectivityManager: WCSessionDelegate {
     }
     
     // Note: Watch doesn't need to handle messages with reply handlers from iPhone
+    
+    #if os(iOS)
+    // These methods are required for iOS but not for watchOS
+    nonisolated func sessionDidBecomeInactive(_ session: WCSession) {
+        // Handle session becoming inactive
+    }
+    
+    nonisolated func sessionDidDeactivate(_ session: WCSession) {
+        // Handle session deactivation
+        // Reactivate the session
+        session.activate()
+    }
+    #endif
 }

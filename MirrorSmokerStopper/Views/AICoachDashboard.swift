@@ -20,10 +20,12 @@ struct AICoachDashboard: View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 20) {
-                    // AI Coach Status Card
-                    aiCoachStatusCard
-                    
-                    if aiConfig.isAICoachingEnabled {
+                    // Show AI features only in FULL version
+                    if AppConfiguration.hasAIFeatures {
+                        // AI Coach Status Card
+                        aiCoachStatusCard
+                        
+                        if aiConfig.isAICoachingEnabled {
                         // Cardiovascular Wellness Card
                         if heartRateEngine.isMonitoring {
                             cardiovascularWellnessCard
@@ -37,19 +39,26 @@ struct AICoachDashboard: View {
                         // Personalized Actions
                         personalizedActionsCard
                         
+                        // Chat with AI Coach (iOS 26 only)
+                        chatSection
+                        
                         // Quick Settings
                         quickSettingsCard
                         
                         // Legal Disclaimer
                         legalDisclaimerCard
+                        } else {
+                            // Enable AI Coach prompt
+                            enableAICoachCard
+                        }
                     } else {
-                        // Enable AI Coach prompt
-                        enableAICoachCard
+                        // SIMPLE version - Basic tracking without AI
+                        simpleVersionContent
                     }
                 }
                 .padding()
             }
-            .navigationTitle("AI Coach")
+            .navigationTitle(AppConfiguration.hasAIFeatures ? "AI Coach" : "Progress")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
@@ -133,9 +142,20 @@ struct AICoachDashboard: View {
     private var cardiovascularWellnessCard: some View {
         Card {
             VStack(alignment: .leading, spacing: 16) {
-                Label("CARDIOVASCULAR WELLNESS", systemImage: "heart.fill")
-                    .font(.headline)
-                    .foregroundColor(.red)
+                VStack(alignment: .leading, spacing: 4) {
+                    Label("CARDIOVASCULAR WELLNESS", systemImage: "heart.fill")
+                        .font(.headline)
+                        .foregroundColor(.red)
+                    
+                    HStack(spacing: 4) {
+                        Image(systemName: "heart.text.square.fill")
+                            .font(.caption2)
+                            .foregroundColor(.pink)
+                        Text("Powered by Apple HealthKit")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                }
                 
                 // Current Heart Rate
                 HStack {
@@ -235,6 +255,15 @@ struct AICoachDashboard: View {
                 Text("Enable Heart Rate Monitoring")
                     .font(.headline)
                 
+                HStack(spacing: 4) {
+                    Image(systemName: "heart.text.square.fill")
+                        .font(.caption)
+                        .foregroundColor(.pink)
+                    Text("Using Apple HealthKit")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                
                 Text("Track your heart rate for predictive coaching and wellness insights")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -264,9 +293,20 @@ struct AICoachDashboard: View {
     private var patternAnalysisCard: some View {
         Card {
             VStack(alignment: .leading, spacing: 12) {
-                Label("PATTERN ANALYSIS", systemImage: "chart.xyaxis.line")
-                    .font(.headline)
-                    .foregroundColor(.blue)
+                VStack(alignment: .leading, spacing: 4) {
+                    Label("PATTERN ANALYSIS", systemImage: "chart.xyaxis.line")
+                        .font(.headline)
+                        .foregroundColor(.blue)
+                    
+                    HStack(spacing: 4) {
+                        Image(systemName: "heart.text.square.fill")
+                            .font(.caption2)
+                            .foregroundColor(.pink)
+                        Text("Includes Apple HealthKit Data")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                }
                 
                 if let patterns = getSmokingPatterns() {
                     ForEach(patterns, id: \.id) { pattern in
@@ -731,6 +771,133 @@ struct PermissionRow: View {
         }
     }
 }
+
+    // MARK: - Chat Section (iOS 26 only)
+    
+    @ViewBuilder
+    private var chatSection: some View {
+        if #available(iOS 26.0, *) {
+            NavigationLink(destination: ChatbotView()) {
+                Card {
+                    HStack {
+                        Image(systemName: "message.fill")
+                            .foregroundColor(.blue)
+                            .font(.title2)
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Chat with AI Coach")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            
+                            Text("Ask questions, get personalized advice")
+                                .font(.subheadline)
+                                .foregroundColor(.secondary)
+                        }
+                        
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(.secondary)
+                            .font(.caption)
+                        
+                        Text("iOS 26")
+                            .font(.caption2)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(.blue.opacity(0.1))
+                            .foregroundColor(.blue)
+                            .clipShape(Capsule())
+                    }
+                    .padding()
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+        }
+    }
+    
+    // MARK: - Simple Version Content
+    
+    private var simpleVersionContent: some View {
+        VStack(spacing: 20) {
+            // Basic Progress Card
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                        .foregroundColor(.blue)
+                        .font(.title2)
+                    
+                    Text("Your Progress")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                }
+                
+                Text("Track your smoking cessation journey with essential statistics and motivation.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .padding()
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            
+            // Basic Statistics Card
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "number")
+                        .foregroundColor(.green)
+                        .font(.title2)
+                    
+                    Text("Essential Stats")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                }
+                
+                Text("View your days smoke-free, money saved, and health improvements.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .padding()
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            
+            // Upgrade Prompt
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Image(systemName: "sparkles")
+                        .foregroundColor(.purple)
+                        .font(.title2)
+                    
+                    Text("Want AI Coaching?")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                    
+                    Spacer()
+                }
+                
+                Text("Upgrade to Mirror Smoker Pro for personalized AI coaching, advanced analytics, and more features.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                
+                Button(action: {
+                    // TODO: Handle upgrade action
+                }) {
+                    Text("Learn More")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(.purple)
+                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+            .padding()
+            .background(.regularMaterial)
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+    }
 
 #Preview {
     AICoachDashboard()

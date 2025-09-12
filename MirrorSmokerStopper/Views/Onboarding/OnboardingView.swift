@@ -210,6 +210,15 @@ struct OnboardingView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, DS.Space.xl)
             
+            HStack(spacing: 4) {
+                Image(systemName: "heart.text.square.fill")
+                    .font(.caption)
+                    .foregroundColor(.pink)
+                Text("Powered by Apple HealthKit")
+                    .font(.caption)
+                    .foregroundColor(DS.Colors.textSecondary)
+            }
+            
             Toggle(isOn: $enableAICoach) {
                 HStack {
                     Image(systemName: "sparkles")
@@ -439,6 +448,11 @@ struct OnboardingHealthKitPermissionView: View {
             Text("onboarding.healthkit.title".local())
                 .font(DS.Text.title)
                 .multilineTextAlignment(.center)
+            
+            Text("Apple HealthKit Access")
+                .font(DS.Text.callout)
+                .fontWeight(.semibold)
+                .foregroundColor(DS.Colors.primary)
             
             Text("onboarding.healthkit.description".local())
                 .font(DS.Text.body)

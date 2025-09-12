@@ -1188,7 +1188,9 @@
 "ai.coaching" = "KI-Coaching";
 "behavioral.analysis" = "Verhaltensanalyse";
 "quit.plan.optimization" = "Aufhör-Plan-Optimierung";
-"healthkit.integration" = "HealthKit-Integration";
+"healthkit.integration" = "Apple HealthKit-Integration";
+"auto.enabled" = "Automatisch aktiviert";
+"off" = "Aus";
 "ai.features" = "KI-Funktionen";
 "ai.coaching.description" = "KI-Coaching bietet personalisierte Tipps und Interventionen basierend auf Ihren Rauchmustern. Alle Verarbeitung erfolgt auf dem Gerät.";
 "coaching.frequency" = "Coaching-Häufigkeit";
@@ -1659,3 +1661,47 @@
 "tag.boredom" = "Langeweile";
 "tag.anxiety" = "Angst";
 "tag.celebration" = "Feier";
+
+// Notification Settings
+"notifications.permission.label" = "Benachrichtigungsberechtigung";
+"notifications.permission.subtitle" = "Ermöglichen Sie der App, Benachrichtigungen zu senden";
+"notifications.ai.coach.toggle" = "KI-Coach-Benachrichtigungen";
+"notifications.ai.coach.subtitle" = "Erhalten Sie personalisierte Unterstützung durch KI";
+"notifications.timing.label" = "Benachrichtigungs-Timing";
+"notifications.timing.subtitle" = "Wann möchten Sie Benachrichtigungen erhalten?";
+"notifications.smart.timing" = "Intelligentes Timing";
+"notifications.smart.timing.subtitle" = "KI wählt die besten Zeiten basierend auf Ihren Mustern";
+"notifications.scheduled.timing" = "Geplantes Timing";
+"notifications.scheduled.timing.subtitle" = "Feste Zeiten für Benachrichtigungen festlegen";
+"notifications.frequency.label" = "Häufigkeit";
+"notifications.frequency.subtitle" = "Wie oft möchten Sie Benachrichtigungen erhalten?";
+"notifications.frequency.low" = "Niedrig (1-2 pro Tag)";
+"notifications.frequency.medium" = "Mittel (3-5 pro Tag)";
+"notifications.frequency.high" = "Hoch (6+ pro Tag)";
+"notifications.craving.toggle" = "Verlangen-Benachrichtigungen";
+"notifications.craving.subtitle" = "Hilfe bei Momenten mit starkem Verlangen";
+"notifications.progress.toggle" = "Fortschritts-Benachrichtigungen";
+"notifications.progress.subtitle" = "Feiern Sie Ihre Erfolge";
+"notifications.reminder.toggle" = "Erinnerungs-Benachrichtigungen";
+"notifications.reminder.subtitle" = "Bleiben Sie auf Kurs mit sanften Erinnerungen";
+"notifications.test.button" = "Test-Benachrichtigung senden";
+"notifications.test.success" = "Test-Benachrichtigung gesendet!";
+"notifications.disabled.title" = "Benachrichtigungen deaktiviert";
+"notifications.disabled.message" = "Bitte aktivieren Sie Benachrichtigungen in den Einstellungen";
+"notifications.disabled.settings" = "Zu Einstellungen gehen";
+"notifications.permission.denied.title" = "Benachrichtigungen verweigert";
+"notifications.permission.denied.message" = "Bitte erlauben Sie Benachrichtigungen, um diese Funktion zu nutzen";
+"notifications.setup.title" = "Benachrichtigungen einrichten";
+"notifications.setup.subtitle" = "Personalisieren Sie Ihre Benachrichtigungseinstellungen";
+"notifications.quiet.hours.label" = "Ruhezeiten";
+"notifications.quiet.hours.subtitle" = "Keine Benachrichtigungen während dieser Stunden";
+"notifications.quiet.start" = "Ruhe beginnt";
+"notifications.quiet.end" = "Ruhe endet";
+"notifications.focus.mode.label" = "Fokus-Modus-Integration";
+"notifications.focus.mode.subtitle" = "Respektiert Ihre Fokus-Modus-Einstellungen";
+"notifications.driving.detection" = "Fahrerkennung";
+"notifications.driving.detection.subtitle" = "Vermeidet Störungen beim Fahren";
+
+// Open Source Settings
+"settings.opensource.title" = "Open Source";
+"settings.opensource.subtitle" = "Quellcode auf GitHub anzeigen";

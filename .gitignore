@@ -12,3 +12,6 @@ REFACTOR_PLAN.md
 
 # Ruby dependency lock can be regenerated; comment out if you want it tracked
 Gemfile.lock
+MirrorSmokerStopper.app.dSYM.zip
+MirrorSmokerStopper.ipa
+MirrorSmokerStopper.app.dSYM.zip

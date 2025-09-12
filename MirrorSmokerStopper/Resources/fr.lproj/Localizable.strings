@@ -1188,7 +1188,9 @@
 "ai.coaching" = "Coaching IA";
 "behavioral.analysis" = "Analyse Comportementale";
 "quit.plan.optimization" = "Optimisation du Plan d'Arrêt";
-"healthkit.integration" = "Intégration HealthKit";
+"healthkit.integration" = "Intégration Apple HealthKit";
+"auto.enabled" = "Activé automatiquement";
+"off" = "Désactivé";
 "ai.features" = "Fonctionnalités IA";
 "ai.coaching.description" = "Le coaching IA fournit des conseils personnalisés et des interventions basés sur vos habitudes de tabagisme. Tout le traitement se fait sur l'appareil.";
 "coaching.frequency" = "Fréquence du Coaching";
@@ -1718,3 +1720,47 @@
 "tag.boredom" = "Ennui";
 "tag.anxiety" = "Anxiété";
 "tag.celebration" = "Célébration";
+
+// Notification Settings
+"notifications.permission.label" = "Permission de Notification";
+"notifications.permission.subtitle" = "Permettre à l'app d'envoyer des notifications";
+"notifications.ai.coach.toggle" = "Notifications du Coach IA";
+"notifications.ai.coach.subtitle" = "Recevez un support personnalisé par IA";
+"notifications.timing.label" = "Timing des Notifications";
+"notifications.timing.subtitle" = "Quand souhaitez-vous recevoir des notifications?";
+"notifications.smart.timing" = "Timing Intelligent";
+"notifications.smart.timing.subtitle" = "L'IA choisit les meilleurs moments basés sur vos habitudes";
+"notifications.scheduled.timing" = "Timing Programmé";
+"notifications.scheduled.timing.subtitle" = "Définir des heures fixes pour les notifications";
+"notifications.frequency.label" = "Fréquence";
+"notifications.frequency.subtitle" = "À quelle fréquence souhaitez-vous recevoir des notifications?";
+"notifications.frequency.low" = "Faible (1-2 par jour)";
+"notifications.frequency.medium" = "Moyen (3-5 par jour)";
+"notifications.frequency.high" = "Élevé (6+ par jour)";
+"notifications.craving.toggle" = "Notifications d'Envie";
+"notifications.craving.subtitle" = "Aide durant les moments d'envie intense";
+"notifications.progress.toggle" = "Notifications de Progrès";
+"notifications.progress.subtitle" = "Célébrez vos succès";
+"notifications.reminder.toggle" = "Notifications de Rappel";
+"notifications.reminder.subtitle" = "Restez sur la bonne voie avec des rappels doux";
+"notifications.test.button" = "Envoyer une Notification Test";
+"notifications.test.success" = "Notification test envoyée!";
+"notifications.disabled.title" = "Notifications Désactivées";
+"notifications.disabled.message" = "Veuillez activer les notifications dans les paramètres";
+"notifications.disabled.settings" = "Aller aux Paramètres";
+"notifications.permission.denied.title" = "Notifications Refusées";
+"notifications.permission.denied.message" = "Veuillez autoriser les notifications pour utiliser cette fonctionnalité";
+"notifications.setup.title" = "Configurer les Notifications";
+"notifications.setup.subtitle" = "Personnalisez vos paramètres de notification";
+"notifications.quiet.hours.label" = "Heures Silencieuses";
+"notifications.quiet.hours.subtitle" = "Pas de notifications durant ces heures";
+"notifications.quiet.start" = "Début du Silence";
+"notifications.quiet.end" = "Fin du Silence";
+"notifications.focus.mode.label" = "Intégration Mode Focus";
+"notifications.focus.mode.subtitle" = "Respecte vos paramètres de mode focus";
+"notifications.driving.detection" = "Détection de Conduite";
+"notifications.driving.detection.subtitle" = "Évite les perturbations en conduisant";
+
+// Open Source Settings
+"settings.opensource.title" = "Open Source";
+"settings.opensource.subtitle" = "Voir le code source sur GitHub";

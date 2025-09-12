@@ -8,8 +8,8 @@
 import Foundation
 import SwiftData
 
+// Define DependencyLevel only for watchOS since iOS has it in SmokingInsight.swift
 #if os(watchOS)
-// Define DependencyLevel for watchOS since it doesn't have access to SmokingInsight.swift
 enum DependencyLevel: String, CaseIterable, Codable {
     case low = "low"
     case moderate = "moderate"
@@ -78,6 +78,12 @@ final class UserProfile {
     var dailyAverage: Double = 0.0 // NEW: Custom daily average
     var preferredCurrency: String = "EUR" // NEW: User's preferred currency
     
+    // Daily targets cache (to avoid recalculating every time)
+    // Format: "YYYY-MM-DD" -> target value
+    // This gets cleared when quit plan changes
+    // Note: Using @Transient requires iOS 17+, but it's not stored in the database
+    private var dailyTargetsCache: [String: Int] = [:]
+    
     // Computed properties for enum access
     var reductionCurve: ReductionCurve {
         get {
@@ -121,9 +127,26 @@ final class UserProfile {
     }
     
     func calculateDailyAverage(from cigarettes: [Any]) -> Double {
-        // This will be called from the context that has access to data
-        // For now returns a default value, will be overridden
-        return 15.0
+        // Cast to Cigarette array safely
+        let validCigarettes = cigarettes.compactMap { $0 as? Cigarette }
+        
+        guard !validCigarettes.isEmpty else { return 0.0 }
+        
+        // Calculate average over last 30 days
+        let thirtyDaysAgo = Calendar.current.date(byAdding: .day, value: -30, to: Date()) ?? Date()
+        let recentCigarettes = validCigarettes.filter { $0.timestamp >= thirtyDaysAgo }
+        
+        guard !recentCigarettes.isEmpty else { return 0.0 }
+        
+        // Calculate actual days with data instead of always using 30
+        let daysWithData = max(1, Calendar.current.dateComponents([.day], from: thirtyDaysAgo, to: Date()).day ?? 1)
+        return Double(recentCigarettes.count) / Double(min(30, daysWithData))
+    }
+    
+    /// Update the daily average based on current cigarette data
+    func updateDailyAverage(from cigarettes: [Any]) {
+        self.dailyAverage = calculateDailyAverage(from: cigarettes)
+        self.clearTargetsCache() // Clear cache since average changed
     }
     
     func todayTarget(dailyAverage: Double) -> Int {
@@ -131,21 +154,74 @@ final class UserProfile {
             return Int(dailyAverage) // If there's no plan, use current average
         }
         
-        return improvedTodayTarget(dailyAverage: dailyAverage, quitDate: quitDate)
+        return cachedTargetForDate(Date(), dailyAverage: dailyAverage, quitDate: quitDate)
+    }
+    
+    // Get target for any specific date (useful for historical analysis or future planning)
+    func targetForDate(_ date: Date, dailyAverage: Double) -> Int {
+        guard enableGradualReduction, let quitDate = quitDate else {
+            return Int(dailyAverage)
+        }
+        
+        return cachedTargetForDate(date, dailyAverage: dailyAverage, quitDate: quitDate)
+    }
+    
+    // Clear cache when quit plan changes
+    func clearTargetsCache() {
+        dailyTargetsCache.removeAll()
+    }
+    
+    // Generate targets for the entire quit plan (for visualization)
+    func generateAllPlanTargets(dailyAverage: Double) -> [(Date, Int)] {
+        guard enableGradualReduction, let quitDate = quitDate else {
+            return []
+        }
+        
+        let calendar = Calendar.current
+        let startDate = Date()
+        var results: [(Date, Int)] = []
+        var currentDate = startDate
+        
+        while currentDate <= quitDate {
+            let target = cachedTargetForDate(currentDate, dailyAverage: dailyAverage, quitDate: quitDate)
+            results.append((currentDate, target))
+            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? quitDate
+        }
+        
+        return results
+    }
+    
+    private func cachedTargetForDate(_ date: Date, dailyAverage: Double, quitDate: Date) -> Int {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let dateKey = dateFormatter.string(from: date)
+        
+        if let cachedTarget = dailyTargetsCache[dateKey] {
+            return cachedTarget
+        }
+        
+        let target = improvedTargetForDate(date, dailyAverage: dailyAverage, quitDate: quitDate)
+        dailyTargetsCache[dateKey] = target
+        return target
     }
     
     // MARK: - Enhanced Quit Plan Algorithm
-    private func improvedTodayTarget(dailyAverage: Double, quitDate: Date) -> Int {
+    private func improvedTargetForDate(_ date: Date, dailyAverage: Double, quitDate: Date) -> Int {
         let calendar = Calendar.current
-        let today = Date()
         
-        // If we've already passed the target date, target is 0
-        if today >= quitDate {
+        // Normalize dates to start of day for consistent calculation
+        let startDate = calendar.startOfDay(for: Date()) // Plan always starts from today
+        let targetDate = calendar.startOfDay(for: date)
+        let endDate = calendar.startOfDay(for: quitDate)
+        
+        // If the date is before today or after/equal to quit date, return 0
+        if targetDate < startDate || targetDate >= endDate {
             return 0
         }
         
-        let daysRemaining = calendar.dateComponents([.day], from: today, to: quitDate).day ?? 1
-        let totalDays = calendar.dateComponents([.day], from: Date(), to: quitDate).day ?? 1
+        // Calculate days using TimeInterval for more reliable calculation
+        let daysRemaining = Int(endDate.timeIntervalSince(targetDate) / (24 * 3600))
+        let totalDays = Int(endDate.timeIntervalSince(startDate) / (24 * 3600))
         
         if totalDays <= 0 || daysRemaining <= 0 {
             return 0
@@ -158,14 +234,14 @@ final class UserProfile {
         let reductionCurve = selectReductionCurve(dependencyLevel: dependencyLevel, totalDays: totalDays)
         
         // Calculate personalized target
-        let targetToday = calculatePersonalizedTarget(
+        let targetForDate = calculatePersonalizedTarget(
             dailyAverage: dailyAverage,
             daysRemaining: daysRemaining,
             totalDays: totalDays,
             curve: reductionCurve
         )
         
-        return max(0, Int(ceil(targetToday)))
+        return max(0, Int(ceil(targetForDate)))
     }
     
     private func calculateDependencyLevel(dailyAverage: Double) -> DependencyLevel {

@@ -124,9 +124,10 @@ struct AISettingsView: View {
             
             // HealthKit is automatically enabled with AI Coach
             HStack {
-                Text(NSLocalizedString("healthkit.integration", comment: ""))
+                Label(NSLocalizedString("healthkit.integration", comment: ""), systemImage: "heart.text.square.fill")
+                    .foregroundColor(.pink)
                 Spacer()
-                Text(aiConfig.isAICoachingEnabled ? "Auto-enabled" : "Off")
+                Text(aiConfig.isAICoachingEnabled ? NSLocalizedString("auto.enabled", comment: "") : NSLocalizedString("off", comment: ""))
                     .foregroundColor(aiConfig.isAICoachingEnabled ? .green : .gray)
             }
         } header: {

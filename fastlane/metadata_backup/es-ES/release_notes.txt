@@ -1,0 +1,27 @@
+Novedades en Esta Versión:
+
+✨ Implementación Completa del Coach IA
+• Monitoreo avanzado de frecuencia cardíaca para predicción de antojos
+• Notificaciones inteligentes que respetan el Modo Concentración
+• Coaching personalizado basado en patrones comportamentales
+
+📊 Analíticas Mejoradas
+• Seguimiento de progreso e insights mejorados
+• Mejor visualización de hitos de recuperación de salud
+• Cálculos más detallados de ahorros financieros
+
+⌚ Mejoras de Apple Watch
+• Sincronización más rápida entre dispositivos
+• Rendimiento mejorado de widgets
+• Mejor optimización de batería
+
+🌍 Actualizaciones Multilingües
+• Traducciones mejoradas en los 5 idiomas
+• Adaptaciones culturales para mensajes de coaching
+
+🔧 Correcciones y Rendimiento
+• Problemas de compilación resueltos
+• Estabilidad y capacidad de respuesta mejoradas
+• Sincronización de datos mejorada
+
+¡Gracias por usar MirrorSmokerStopper en tu viaje hacia mejor salud!

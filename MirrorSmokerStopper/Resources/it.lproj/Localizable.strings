@@ -1217,7 +1217,9 @@
 "ai.coaching" = "AI Coaching";
 "behavioral.analysis" = "Analisi Comportamentale";
 "quit.plan.optimization" = "Ottimizzazione Piano per Smettere";
-"healthkit.integration" = "Integrazione HealthKit";
+"healthkit.integration" = "Integrazione Apple HealthKit";
+"auto.enabled" = "Attivato automaticamente";
+"off" = "Disattivato";
 "ai.features" = "Funzionalità AI";
 "ai.coaching.description" = "Il coaching AI fornisce consigli e interventi personalizzati basati sui tuoi schemi di fumo. Tutta l'elaborazione avviene sul dispositivo.";
 "coaching.frequency" = "Frequenza Coaching";

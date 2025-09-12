@@ -8,8 +8,8 @@
 import Foundation
 import SwiftData
 
+// Define DependencyLevel only for watchOS since iOS has it in SmokingInsight.swift
 #if os(watchOS)
-// Define DependencyLevel for watchOS since it doesn't have access to SmokingInsight.swift
 enum DependencyLevel: String, CaseIterable, Codable {
     case low = "low"
     case moderate = "moderate"

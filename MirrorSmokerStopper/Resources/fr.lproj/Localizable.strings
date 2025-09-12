@@ -1188,7 +1188,9 @@
 "ai.coaching" = "Coaching IA";
 "behavioral.analysis" = "Analyse Comportementale";
 "quit.plan.optimization" = "Optimisation du Plan d'Arrêt";
-"healthkit.integration" = "Intégration HealthKit";
+"healthkit.integration" = "Intégration Apple HealthKit";
+"auto.enabled" = "Activé automatiquement";
+"off" = "Désactivé";
 "ai.features" = "Fonctionnalités IA";
 "ai.coaching.description" = "Le coaching IA fournit des conseils personnalisés et des interventions basés sur vos habitudes de tabagisme. Tout le traitement se fait sur l'appareil.";
 "coaching.frequency" = "Fréquence du Coaching";

@@ -636,9 +636,15 @@ struct SettingsView: View {
                                 Text(NSLocalizedString("settings.ai.coach.configure", comment: ""))
                                     .font(DS.Text.body)
                                     .foregroundColor(DS.Colors.textPrimary)
-                                Text(NSLocalizedString("settings.ai.coach.personalize", comment: ""))
-                                    .font(DS.Text.caption)
-                                    .foregroundColor(DS.Colors.textSecondary)
+                                
+                                HStack(spacing: 4) {
+                                    Image(systemName: "heart.text.square.fill")
+                                        .font(.caption2)
+                                        .foregroundColor(.pink)
+                                    Text("Powered by Apple HealthKit")
+                                        .font(.caption2)
+                                        .foregroundColor(DS.Colors.textSecondary)
+                                }
                             }
                             
                             Spacer()

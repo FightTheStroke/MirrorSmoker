@@ -1217,7 +1217,9 @@
 "ai.coaching" = "AI Coaching";
 "behavioral.analysis" = "Behavioral Analysis";
 "quit.plan.optimization" = "Quit Plan Optimization";
-"healthkit.integration" = "HealthKit Integration";
+"healthkit.integration" = "Apple HealthKit Integration";
+"auto.enabled" = "Auto-enabled";
+"off" = "Off";
 "ai.features" = "AI Features";
 "ai.coaching.description" = "AI coaching provides personalized tips and interventions based on your smoking patterns. All processing happens on-device.";
 "coaching.frequency" = "Coaching Frequency";

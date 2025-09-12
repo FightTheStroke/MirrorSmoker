@@ -142,9 +142,20 @@ struct AICoachDashboard: View {
     private var cardiovascularWellnessCard: some View {
         Card {
             VStack(alignment: .leading, spacing: 16) {
-                Label("CARDIOVASCULAR WELLNESS", systemImage: "heart.fill")
-                    .font(.headline)
-                    .foregroundColor(.red)
+                VStack(alignment: .leading, spacing: 4) {
+                    Label("CARDIOVASCULAR WELLNESS", systemImage: "heart.fill")
+                        .font(.headline)
+                        .foregroundColor(.red)
+                    
+                    HStack(spacing: 4) {
+                        Image(systemName: "heart.text.square.fill")
+                            .font(.caption2)
+                            .foregroundColor(.pink)
+                        Text("Powered by Apple HealthKit")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                }
                 
                 // Current Heart Rate
                 HStack {
@@ -244,6 +255,15 @@ struct AICoachDashboard: View {
                 Text("Enable Heart Rate Monitoring")
                     .font(.headline)
                 
+                HStack(spacing: 4) {
+                    Image(systemName: "heart.text.square.fill")
+                        .font(.caption)
+                        .foregroundColor(.pink)
+                    Text("Using Apple HealthKit")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+                
                 Text("Track your heart rate for predictive coaching and wellness insights")
                     .font(.caption)
                     .foregroundColor(.secondary)
@@ -273,9 +293,20 @@ struct AICoachDashboard: View {
     private var patternAnalysisCard: some View {
         Card {
             VStack(alignment: .leading, spacing: 12) {
-                Label("PATTERN ANALYSIS", systemImage: "chart.xyaxis.line")
-                    .font(.headline)
-                    .foregroundColor(.blue)
+                VStack(alignment: .leading, spacing: 4) {
+                    Label("PATTERN ANALYSIS", systemImage: "chart.xyaxis.line")
+                        .font(.headline)
+                        .foregroundColor(.blue)
+                    
+                    HStack(spacing: 4) {
+                        Image(systemName: "heart.text.square.fill")
+                            .font(.caption2)
+                            .foregroundColor(.pink)
+                        Text("Includes Apple HealthKit Data")
+                            .font(.caption2)
+                            .foregroundColor(.secondary)
+                    }
+                }
                 
                 if let patterns = getSmokingPatterns() {
                     ForEach(patterns, id: \.id) { pattern in

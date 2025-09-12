@@ -1196,7 +1196,9 @@
 "ai.coaching" = "Coaching de IA";
 "behavioral.analysis" = "Análisis Conductual";
 "quit.plan.optimization" = "Optimización del Plan para Dejar";
-"healthkit.integration" = "Integración HealthKit";
+"healthkit.integration" = "Integración Apple HealthKit";
+"auto.enabled" = "Activado automáticamente";
+"off" = "Desactivado";
 "ai.features" = "Características de IA";
 "ai.coaching.description" = "El coaching de IA proporciona consejos personalizados e intervenciones basadas en tus patrones de fumar. Todo el procesamiento ocurre en el dispositivo.";
 "coaching.frequency" = "Frecuencia de Coaching";

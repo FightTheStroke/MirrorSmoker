@@ -1188,7 +1188,9 @@
 "ai.coaching" = "KI-Coaching";
 "behavioral.analysis" = "Verhaltensanalyse";
 "quit.plan.optimization" = "Aufhör-Plan-Optimierung";
-"healthkit.integration" = "HealthKit-Integration";
+"healthkit.integration" = "Apple HealthKit-Integration";
+"auto.enabled" = "Automatisch aktiviert";
+"off" = "Aus";
 "ai.features" = "KI-Funktionen";
 "ai.coaching.description" = "KI-Coaching bietet personalisierte Tipps und Interventionen basierend auf Ihren Rauchmustern. Alle Verarbeitung erfolgt auf dem Gerät.";
 "coaching.frequency" = "Coaching-Häufigkeit";

@@ -16,6 +16,34 @@
 "button.add" = "Add";
 "button.cancel" = "Cancel";
 
+// Tabs
+"tab.today" = "Today";
+"tab.stats" = "Stats";
+"tab.ai_coach" = "AI Coach";
+"tab.settings" = "Settings";
+
+// Standard Trigger Tags
+"tag.work" = "Work";
+"tag.meeting" = "Meeting";
+"tag.deadline" = "Deadline";
+"tag.coding" = "Coding";
+"tag.stress" = "Stress";
+"tag.anxiety" = "Anxiety";
+"tag.boredom" = "Boredom";
+"tag.anger" = "Anger";
+"tag.social" = "Social";
+"tag.party" = "Party";
+"tag.friends" = "Friends";
+"tag.alone" = "Alone";
+"tag.coffee" = "Coffee";
+"tag.alcohol" = "Alcohol";
+"tag.driving" = "Driving";
+"tag.meal" = "After Meal";
+"tag.morning" = "Morning";
+"tag.afternoon" = "Afternoon";
+"tag.evening" = "Evening";
+"tag.night" = "Night";
+
 // Settings
 "settings.ai.coach.title" = "AI Coach Settings";
 "settings.ai.coach.configure" = "Configure AI Coach";
@@ -1189,7 +1217,9 @@
 "ai.coaching" = "AI Coaching";
 "behavioral.analysis" = "Behavioral Analysis";
 "quit.plan.optimization" = "Quit Plan Optimization";
-"healthkit.integration" = "HealthKit Integration";
+"healthkit.integration" = "Apple HealthKit Integration";
+"auto.enabled" = "Auto-enabled";
+"off" = "Off";
 "ai.features" = "AI Features";
 "ai.coaching.description" = "AI coaching provides personalized tips and interventions based on your smoking patterns. All processing happens on-device.";
 "coaching.frequency" = "Coaching Frequency";
@@ -1644,3 +1674,42 @@
 "tag.boredom" = "Boredom";
 "tag.anxiety" = "Anxiety";
 "tag.celebration" = "Celebration";
+
+// === NOTIFICATION STRINGS ===
+"notifications.permission.label" = "Notification Permission";
+"notifications.enable.button" = "Enable Notifications";
+"notifications.permissions.header" = "PERMISSIONS";
+"notifications.ai.coach.toggle" = "AI Coach Notifications";
+"notifications.daily.limit" = "Daily Limit";
+"notifications.quiet.hours" = "Quiet Hours";
+"notifications.quiet.from" = "From";
+"notifications.quiet.to" = "To";
+"notifications.ai.coach.header" = "AI COACH";
+"notifications.ai.coach.footer" = "AI Coach will send smart notifications when you're most vulnerable to cravings";
+"notifications.type.motivational.title" = "Motivational Tips";
+"notifications.type.motivational.subtitle" = "Personalized encouragement";
+"notifications.type.risk.title" = "Risk Alerts";
+"notifications.type.risk.subtitle" = "High-risk time warnings";
+"notifications.type.breathing.title" = "Breathing Reminders";
+"notifications.type.breathing.subtitle" = "Stress management exercises";
+"notifications.type.progress.title" = "Progress Updates";
+"notifications.type.progress.subtitle" = "Celebrate your achievements";
+"notifications.types.header" = "NOTIFICATION TYPES";
+"notifications.test.button" = "Send Test Notification";
+"notifications.test.footer" = "Test that notifications are working correctly";
+"notifications.title" = "Notifications";
+"notifications.alert.title" = "Enable Notifications";
+"notifications.alert.settings" = "Settings";
+"notifications.alert.message" = "Please enable notifications in Settings to receive AI Coach guidance";
+"notifications.status.enabled" = "Enabled";
+"notifications.status.disabled" = "Disabled";
+"notifications.status.notset" = "Not Set";
+"coaching.frequency" = "Coaching Frequency";
+"coaching.behavior" = "Coaching Behavior";
+"coaching.behavior.description" = "Personalize how your AI coach interacts with you";
+"notification.schedule" = "Notification Schedule";
+"notification.schedule.description" = "When to receive coaching notifications";
+
+// Open Source Settings
+"settings.opensource.title" = "Open Source";
+"settings.opensource.subtitle" = "View source code on GitHub";
